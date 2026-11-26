@@ -30,8 +30,9 @@ def _chunk(tag, data):
     return c + struct.pack(">I", zlib.crc32(tag + data) & 0xFFFFFFFF)
 
 
-def write_png(path, width, height, rows, bit_depth=8, palette=None, rgb=False):
-    """rows: list of lists of pixel values (indices, or (r, g, b) if rgb)."""
+def write_png(path, width, height, rows, bit_depth=8, palette=None, rgb=False, transparent=None):
+    """rows: list of lists of pixel values (indices, or (r, g, b) if rgb).
+    transparent: palette index to mark fully transparent (tRNS)."""
     raw = bytearray()
     for row in rows:
         raw.append(0)  # filter: none
@@ -54,6 +55,8 @@ def write_png(path, width, height, rows, bit_depth=8, palette=None, rgb=False):
         n = 1 << bit_depth
         pal = (pal + [(0, 0, 0)] * n)[:n]
         out += _chunk(b"PLTE", b"".join(bytes(c) for c in pal))
+        if transparent is not None:
+            out += _chunk(b"tRNS", bytes(255 if i != transparent else 0 for i in range(transparent + 1)))
     out += _chunk(b"IDAT", zlib.compress(bytes(raw), 9)) + _chunk(b"IEND", b"")
     with open(path, "wb") as f:
         f.write(out)

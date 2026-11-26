@@ -4,6 +4,8 @@
     python3 tools/export_preview.py baserom.gba maps/symbols.txt OUTDIR
 
 Writes OUTDIR/
+  All images are indexed PNGs carrying the game's own palette (sprites: colour 0
+  transparent), with the same palette as a JASC .pal file next to them.
   frontend_sprites/<name>/<name>_NN.png   title/menu sprite frames, composed from their OAM pieces
   ingame_sprites/<name>/<level>.png        every frame of every in-game sprite, side by side
   backgrounds/<name>.png                   menu/title backgrounds composed from their tilemaps
@@ -95,31 +97,40 @@ def tile_pixels(data, off, bpp):
 
 
 class Canvas:
-    """Sparse RGBA canvas; index 0 is transparent for sprites."""
+    """Sparse canvas of palette indices. Saved as an indexed PNG carrying the
+    game's palette; for sprites index 0 is transparent, as on the GBA."""
 
     def __init__(self):
         self.px = {}
 
-    def tile(self, x0, y0, pix, pal, transparent=True, hflip=False, vflip=False, bank=0):
+    def tile(self, x0, y0, pix, pal=None, transparent=True, hflip=False, vflip=False, bank=0):
         for y in range(8):
             for x in range(8):
                 v = pix[7 - y if vflip else y][7 - x if hflip else x]
                 if transparent and v == 0:
                     continue
-                c = pal[(bank * 16 + v) % len(pal)] if pal else GREY[v % 16]
-                self.px[(x0 + x, y0 + y)] = c
+                self.px[(x0 + x, y0 + y)] = (bank * 16 + v) & 0xFF
 
-    def save(self, path, bg=(255, 0, 255), pad=1):
+    def save(self, path, pal, pad=1, transparent=True):
         if not self.px:
             return False
         xs = [p[0] for p in self.px]
         ys = [p[1] for p in self.px]
         x0, y0 = min(xs) - pad, min(ys) - pad
         w, h = max(xs) - x0 + 1 + pad, max(ys) - y0 + 1 + pad
-        rows = [[self.px.get((x + x0, y + y0), bg) for x in range(w)] for y in range(h)]
+        rows = [[self.px.get((x + x0, y + y0), 0) for x in range(w)] for y in range(h)]
         os.makedirs(os.path.dirname(path), exist_ok=True)
-        gfx.write_png(path, w, h, rows, rgb=True)
+        gfx.write_png(path, w, h, rows, bit_depth=8, palette=pal or GREY,
+                      transparent=0 if transparent else None)
         return True
+
+
+def save_pal(path, pal):
+    """The palette next to the images, as a JASC .pal (GIMP, Aseprite, Usenti...)."""
+    if pal and not os.path.exists(path):
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        with open(path, "w", newline="\r\n") as f:
+            f.write(f"JASC-PAL\n0100\n{len(pal)}\n" + "".join(f"{r} {g} {b}\n" for r, g, b in pal))
 
 
 def hstack(canvases, gap=4):
@@ -158,6 +169,21 @@ def rle_tiles(rom, block):
     return bytes(out), ntiles
 
 
+def sprite_palettes(rom):
+    """__spr_X -> palette symbol, from the game's own tables: each tab_sprites
+    entry is {sprite, u16, u16 flags<<8 | tab_palettes index}."""
+    ts, tp = rom.sym["tab_sprites"], rom.sym["tab_palettes"]
+    out = {}
+    for i in range(1, 512):
+        spr = rom.u32(ts + 8 * i)
+        if spr not in rom.addr:
+            break
+        pal = rom.u32(tp + 4 * (rom.u16(ts + 8 * i + 6) & 0xFF))
+        if pal in rom.addr:
+            out.setdefault(rom.addr[spr], rom.addr[pal])
+    return out
+
+
 def pick_palette(rom, name):
     pals = [n[6:] for n in rom.sym if n.startswith("__pal_")]
     base = re.sub(r"_0[12]$", "", name)
@@ -173,6 +199,7 @@ def pick_palette(rom, name):
 
 def ingame_sprites(rom, out):
     n = 0
+    table = sprite_palettes(rom)
     for name in sorted(s for s in rom.sym if s.startswith("__spr_")):
         L = rom.sym[name]
         try:
@@ -181,7 +208,9 @@ def ingame_sprites(rom, out):
             nframes = (first - 14) // 2
             if not 0 < nframes <= 256:
                 continue
-            pal = pick_palette(rom, name[6:])
+            base_sym = "__spr_" + re.sub(r"_0[12]$", "", name[6:])  # smaller versions share it
+            palname = table.get(name) or table.get(base_sym)
+            pal = rom.palette(palname) if palname else pick_palette(rom, name[6:])
             frames = []
             for f in range(nframes):
                 pt = L + rom.u16(L + 14 + 2 * f)
@@ -203,7 +232,8 @@ def ingame_sprites(rom, out):
                             c.tile(x + dx * 8, y + dy * 8, tile_pixels(tiles, idx * 32, 4), pal, hflip=hf, vflip=vf)
                 frames.append(c)
             base = re.sub(r"_0[12]$", "", name[6:])
-            if hstack(frames).save(os.path.join(out, "ingame_sprites", base, name[6:] + ".png")):
+            if hstack(frames).save(os.path.join(out, "ingame_sprites", base, name[6:] + ".png"), pal):
+                save_pal(os.path.join(out, "ingame_sprites", base, (palname or base).lstrip("_") + ".pal"), pal)
                 n += 1
         except (IndexError, KeyError, struct.error):
             continue
@@ -224,7 +254,18 @@ def frontend_sprites(rom, out):
         seen.add((c, i))
         cname = rom.addr[c]
         base = re.sub(r"_char(_\d+)?$", "", cname)
-        pal = rom.palette(base + "_plt") or rom.palette("__pal_" + base)
+        # The palette belongs to the sprite that owns this frame table (e.g.
+        # krool_front_frames -> krool_front_plt); colour/number variants share
+        # their base's (krool_podium_red -> krool_podium_plt).
+        import bisect
+        j = bisect.bisect_right(rom.sorted, a) - 1
+        owner = re.sub(r"_frames$", "", rom.addr[rom.sorted[j]]) if j >= 0 else base
+        stripped = [re.sub(r"(_(red|green|blue|yellow)|_?\d+)$", "", x) for x in (owner, base)]
+        pal = palname = None
+        for cand in [owner + "_plt", base + "_plt", "__pal_" + base, "__pal_" + owner] + [x + "_plt" for x in stripped]:
+            if cand in rom.sym:
+                pal, palname = rom.palette(cand), cand
+                break
         data = rom.b(c, rom.size(cname))
         canvas = Canvas()
         x = y = tile = 0
@@ -245,7 +286,8 @@ def frontend_sprites(rom, out):
             tile += rom.u16(q + 6)
         m = re.search(r"_char_(\d+)$", cname)
         idx = int(m.group(1)) if m else 0
-        if canvas.save(os.path.join(out, "frontend_sprites", base, f"{base}_{idx:02d}.png")):
+        if canvas.save(os.path.join(out, "frontend_sprites", base, f"{base}_{idx:02d}.png"), pal):
+            save_pal(os.path.join(out, "frontend_sprites", base, (palname or base).lstrip("_") + ".pal"), pal)
             n += 1
     return n
 
@@ -263,6 +305,10 @@ def backgrounds(rom, out):
         bpp = 8 if count and len(chars) // max(count, 1) >= 64 else 4
         pal = (rom.palette(base + "_plt") or rom.palette("__pal_" + base)
                or rom.palette(re.sub(r"\d+$", "", base) + "_plt"))
+        if base.startswith("diddytitle"):
+            # fe_title.s loads __pal_beach_scene into colours 0-191 and
+            # diddytitle_plt into 192-255; the plane uses the latter.
+            pal = (rom.palette("__pal_beach_scene") or [(0, 0, 0)] * 192)[:192] + rom.palette("diddytitle_plt")
         affine = base + "_map_size_x" not in rom.sym and rom.size(base + "_map") == 4096 and bpp == 8
         if affine:  # rotation/scaling background: 64x64 map of 1-byte tile numbers
             ma = rom.sym[base + "_map"]
@@ -271,7 +317,8 @@ def backgrounds(rom, out):
                 for tx in range(64):
                     t = rom.u8(ma + ty * 64 + tx)
                     c.tile(tx * 8, ty * 8, tile_pixels(chars, t * 64, 8), pal, transparent=True)
-            if c.save(os.path.join(out, "backgrounds", base + ".png"), pad=0):
+            if c.save(os.path.join(out, "backgrounds", base + ".png"), pal, pad=0):
+                save_pal(os.path.join(out, "backgrounds", base + ".pal"), pal)
                 n += 1
             continue
         if base + "_map_size_x" in rom.sym:
@@ -288,7 +335,8 @@ def backgrounds(rom, out):
                 t = e & 0x3FF
                 c.tile(tx * 8, ty * 8, tile_pixels(chars, t * 8 * bpp, bpp), pal, transparent=False,
                        hflip=bool(e & 0x400), vflip=bool(e & 0x800), bank=0 if bpp == 8 else e >> 12)
-        if c.save(os.path.join(out, "backgrounds", base + ".png"), pad=0):
+        if c.save(os.path.join(out, "backgrounds", base + ".png"), pal, pad=0, transparent=False):
+            save_pal(os.path.join(out, "backgrounds", base + ".pal"), pal)
             n += 1
     for name in sorted(rom.sym):
         if name.endswith("_image") and rom.size(name) == 240 * 160 * 2:
@@ -312,7 +360,7 @@ def level_map(rom, map_addr, frs, tiles, pal):
     w, h = rom.u16(map_addr), rom.u16(map_addr + 2)
     if not (0 < w <= 64 and 0 < h <= 64):
         return None
-    rows = [[(0, 0, 0)] * (w * 32) for _ in range(h * 32)]
+    rows = [[0] * (w * 32) for _ in range(h * 32)]
     cache = {}
     for my in range(h):
         for mx in range(w):
@@ -326,7 +374,7 @@ def level_map(rom, map_addr, frs, tiles, pal):
                     for y in range(8):
                         row = rows[my * 32 + ty * 8 + y]
                         for x in range(8):
-                            row[mx * 32 + tx * 8 + x] = pal[px[y][x]] if pal else GREY[px[y][x] % 16]
+                            row[mx * 32 + tx * 8 + x] = px[y][x]
     return rows
 
 
@@ -349,7 +397,8 @@ def levels(rom, out):
             rows = level_map(rom, map_addr, frs, level_tiles(rom, chr_addr, rom.sym["__chr_dkp"]), pal)
             if rows:
                 os.makedirs(os.path.dirname(path), exist_ok=True)
-                gfx.write_png(path, len(rows[0]), len(rows), rows, rgb=True)
+                gfx.write_png(path, len(rows[0]), len(rows), rows, bit_depth=8, palette=pal)
+                save_pal(os.path.join(out, "levels", rom.addr[pal_lvl].lstrip("_") + ".pal"), pal)
                 n += 1
     return n
 
