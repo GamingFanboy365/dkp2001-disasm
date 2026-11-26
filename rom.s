@@ -149,3 +149,7 @@
 	.include "data/data.s"
 
 	.include "data/bss.s"
+
+	.ifdef FIXES
+	.include "asm/fixes.s"
+	.endif

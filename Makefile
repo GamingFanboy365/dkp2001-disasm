@@ -41,6 +41,9 @@ fixed:
 
 patch: build/dkp.gba fixed
 	python3 tools/make_ips.py create build/dkp.gba build_fixed/dkp.gba build_fixed/dkp2001_fixes.ips
+	@mkdir -p patches
+	cp build_fixed/dkp2001_fixes.ips patches/dkp2001_fixes.ips
+	@sha1sum build_fixed/dkp.gba | sed 's|build_fixed/dkp.gba|dkp2001_fixed.gba|' > patches/dkp2001_fixed.sha1
 
 shifted:
 	@$(MAKE) --no-print-directory BUILD=build_shift_c$(SHIFT_CODE)_d$(SHIFT_DATA) build_shift_c$(SHIFT_CODE)_d$(SHIFT_DATA)/dkp.gba

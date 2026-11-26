@@ -6,6 +6,28 @@ A disassembly of the 2001 Rare build of *Diddy Kong Pilot* for the Game Boy Adva
 This repo contains **no ROM, no ELF and no game assets** (graphics, sound, level data). Bring your
 own copy of the ELF; the tools extract everything else from it.
 
+## Patching your game
+
+`patches/dkp2001_fixes.ips` fixes the hangs and crashes found so far and adds the unused course
+music to the races (list in [FIXES.md](FIXES.md)). It contains only the changed bytes, so you need
+your own copy of the 2001 ELF:
+
+1. Make a ROM from the ELF (Python 3, nothing else needed):
+
+   ```bash
+   python3 tools/elf2gba.py Diddy_Kong_Pilot_2001.elf dkp2001.gba
+   ```
+
+   Its sha1 should be `6a76def610829ac1502afb58740e38b5e6926b3d`.
+2. Apply `patches/dkp2001_fixes.ips` with any IPS patcher (Floating IPS, Lunar IPS, the Rom
+   Patcher JS website), or with:
+
+   ```bash
+   python3 tools/make_ips.py apply dkp2001.gba patches/dkp2001_fixes.ips dkp2001_fixed.gba
+   ```
+
+   The result's sha1 is in `patches/dkp2001_fixed.sha1`.
+
 ## What the ELF gives us
 
 The ELF is a debug build with nearly everything a disassembly needs:
@@ -236,6 +258,8 @@ the patch (see [FIXES.md](FIXES.md)):
 - **Grip grab weapon reads through null pointers** once its target or parent is gone.
 - **Computer players read past the AI network** on the 29 courses whose network has one route.
   On Jungle 03 they steered by a text-pointer table.
+- **The races are silent**, though the ROM has six course themes and final-lap speed-up code.
+  The fixed build plays each world's theme.
 
 Not fixed (no data to fix them with):
 
@@ -261,5 +285,6 @@ Not fixed (no data to fix them with):
 - [ ] Editable format for in-game sprites (needs an encoder that reproduces the original RLE)
 - [ ] Matching decompilation of the C modules. The compiler is the same GCC 2.9 lineage
       `agbcc` derives from, and line tables give the source line for every instruction.
-- [x] Bug-fix build (`make fixed`) and IPS patch (`make patch`): 4 fixes so far, see FIXES.md
+- [x] Bug-fix build (`make fixed`) and IPS patch (`patches/`, `make patch`): 5 fixes so far,
+      including music in the races; see FIXES.md
 - [ ] More fixes: AI networks for the tracks that have none

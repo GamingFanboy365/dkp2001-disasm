@@ -8,12 +8,14 @@
  * KEY is one of A B SELECT START RIGHT LEFT UP DOWN R L. HOLD defaults to 6
  * frames. With --ppm, each checkpoint is also written to PREFIX_<frame>.ppm.
  * With RAM_OUT=path in the environment, EWRAM (256 KiB) then IWRAM (32 KiB)
- * are written there after the last frame.
+ * are written there after the last frame. With AUDIO_OUT=path.wav the sound
+ * output is recorded (from frame AUDIO_FROM, default 1) as a stereo WAV.
  * Build: see tools/romtest/README.md.
  */
 #include <mgba/flags.h>
 #include <mgba/core/core.h>
 #include <mgba/core/log.h>
+#include <mgba-util/audio-buffer.h>
 #include <mgba-util/image.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -121,6 +123,17 @@ int main(int argc, char** argv) {
 	}
 	core->reset(core);
 
+	FILE* wav = NULL;
+	unsigned audio_from = getenv("AUDIO_FROM") ? strtoul(getenv("AUDIO_FROM"), NULL, 0) : 1;
+	uint32_t wav_bytes = 0;
+	if (getenv("AUDIO_OUT")) {
+		wav = fopen(getenv("AUDIO_OUT"), "wb");
+		if (wav) {
+			static const char hdr[44] = { 0 };
+			fwrite(hdr, 1, 44, wav); /* filled in at the end */
+		}
+	}
+
 	for (unsigned frame = 1; frame <= frames; ++frame) {
 		uint32_t keys = 0;
 		for (int i = 0; i < npress; ++i) {
@@ -131,6 +144,17 @@ int main(int argc, char** argv) {
 		core->setKeys(core, keys);
 		cur_frame = frame;
 		core->runFrame(core);
+		if (wav) {
+			struct mAudioBuffer* ab = core->getAudioBuffer(core);
+			int16_t samples[2 * 2048];
+			size_t n;
+			while ((n = mAudioBufferRead(ab, samples, 2048)) > 0) {
+				if (frame >= audio_from) {
+					fwrite(samples, 4, n, wav);
+					wav_bytes += n * 4;
+				}
+			}
+		}
 		if (every && frame % every == 0) {
 			uint64_t hash = 1469598103934665603ull;
 			for (unsigned p = 0; p < w * h; ++p) {
@@ -153,6 +177,25 @@ int main(int argc, char** argv) {
 				}
 			}
 		}
+	}
+	if (wav) {
+		uint32_t rate = core->audioSampleRate(core);
+		uint8_t h[44];
+		memcpy(h, "RIFF", 4);
+		uint32_t v = 36 + wav_bytes; memcpy(h + 4, &v, 4);
+		memcpy(h + 8, "WAVEfmt ", 8);
+		v = 16; memcpy(h + 16, &v, 4);
+		uint16_t w = 1; memcpy(h + 20, &w, 2);
+		w = 2; memcpy(h + 22, &w, 2);
+		memcpy(h + 24, &rate, 4);
+		v = rate * 4; memcpy(h + 28, &v, 4);
+		w = 4; memcpy(h + 32, &w, 2);
+		w = 16; memcpy(h + 34, &w, 2);
+		memcpy(h + 36, "data", 4);
+		memcpy(h + 40, &wav_bytes, 4);
+		fseek(wav, 0, SEEK_SET);
+		fwrite(h, 1, 44, wav);
+		fclose(wav);
 	}
 	printf("stores-to-rom %u\n", rom_stores);
 	for (int i = 0; i < nproblems; ++i) {

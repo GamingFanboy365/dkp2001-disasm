@@ -20,6 +20,7 @@ SECTIONS
     .text ALIGN(__text32_lma_end, 4) : AT(ALIGN(__text32_lma_end, 4)) { *(.text) }
     .rodata ALIGN(16) : { *(.rodata) }
     .data ALIGN(4) : { *(.data) }
+    .fixes ALIGN(4) : { *(.fixes) }   /* bug-fix build only: new code at the end of the ROM */
 
     .bss 0x02000000 (NOLOAD) : { *(.bss) }
 

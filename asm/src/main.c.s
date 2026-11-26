@@ -539,6 +539,11 @@ L_080063e2:
 	.ifdef FIXES
 fix_assert_L_080063fe:
 	b	L_080063fe	@ FIX "asserts": skip the failed-assert print and trap, carry on
+fix_race_music:	@ FIX "race-music": called from game_init; jumps to the code at the end of the ROM
+	ldr	r0, 1f
+	bx	r0
+	.balign 4
+1:	.word	fix_race_music_far+1
 	.fill 20 - (. - fix_assert_L_080063fe), 1, 0	@ same size as the original block
 	.else
 	ldr	r0, _08006458	@ =D_0806f104

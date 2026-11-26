@@ -49,7 +49,11 @@ game_init:  @ 080064e8
 @ src/game.c:71
 	bl AGBPrintFlush
 @ src/game.c:73
+	.ifdef FIXES
+	bl	fix_race_music	@ FIX "race-music": start the course's theme instead of silence
+	.else
 	bl audio_halt_tune
+	.endif
 @ src/game.c:74
 	bl audio_halt_all_fx
 @ src/game.c:76
