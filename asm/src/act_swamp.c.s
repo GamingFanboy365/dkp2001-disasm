@@ -10,6 +10,11 @@ init_swamp_frogpoint:  @ 08011824
 @ src/act_swamp.c:27
 	cmp	r4, #0
 	bne L_0801183e
+	.ifdef FIXES
+fix_assert_L_0801183e:
+	b	L_0801183e	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0801183e), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08011878	@ =D_08070404
 	ldr	r1, _0801187c	@ =D_08070434
 	ldr	r3, _08011880	@ =D_08070444
@@ -17,6 +22,7 @@ init_swamp_frogpoint:  @ 08011824
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0801183e:
 	movs	r0, #1
 @ src/act_swamp.c:29
@@ -73,6 +79,11 @@ react_swamp_frogpoint:  @ 0801188c
 @ src/act_swamp.c:45
 	cmp	r0, #0
 	bne L_080118a6
+	.ifdef FIXES
+fix_assert_L_080118a6:
+	b	L_080118a6	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_080118a6), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _080118c4	@ =D_08070404
 	ldr	r1, _080118c8	@ =D_08070434
 	ldr	r3, _080118cc	@ =D_08070444
@@ -80,10 +91,16 @@ react_swamp_frogpoint:  @ 0801188c
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_080118a6:
 	cmp	r4, #0
 @ src/act_swamp.c:46
 	bne L_080118bc
+	.ifdef FIXES
+fix_assert_L_080118bc:
+	b	L_080118bc	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_080118bc), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _080118c4	@ =D_08070404
 	ldr	r1, _080118c8	@ =D_08070434
 	ldr	r3, _080118d0	@ =D_08070450
@@ -91,6 +108,7 @@ L_080118a6:
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_080118bc:
 	pop	{r4}
 @ src/act_swamp.c:47
@@ -114,6 +132,11 @@ init_swamp_targetbeast:  @ 080118d4
 @ src/act_swamp.c:51
 	cmp	r4, #0
 	bne L_080118ee
+	.ifdef FIXES
+fix_assert_L_080118ee:
+	b	L_080118ee	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_080118ee), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08011928	@ =D_08070404
 	ldr	r1, _0801192c	@ =D_08070434
 	ldr	r3, _08011930	@ =D_08070444
@@ -121,6 +144,7 @@ init_swamp_targetbeast:  @ 080118d4
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_080118ee:
 	movs	r0, #1
 @ src/act_swamp.c:53
@@ -171,6 +195,11 @@ act_swamp_targetbeast:  @ 08011938
 @ src/act_swamp.c:65
 	cmp	r0, #0
 	bne L_08011950
+	.ifdef FIXES
+fix_assert_L_08011950:
+	b	L_08011950	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_08011950), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08011954	@ =D_08070404
 	ldr	r1, _08011958	@ =D_08070434
 	ldr	r3, _0801195c	@ =D_08070444
@@ -178,6 +207,7 @@ act_swamp_targetbeast:  @ 08011938
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_08011950:
 	pop	{r0}
 @ src/act_swamp.c:66
@@ -197,6 +227,11 @@ react_swamp_targetbeast:  @ 08011960
 @ src/act_swamp.c:70
 	cmp	r0, #0
 	bne L_0801197a
+	.ifdef FIXES
+fix_assert_L_0801197a:
+	b	L_0801197a	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0801197a), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08011998	@ =D_08070404
 	ldr	r1, _0801199c	@ =D_08070434
 	ldr	r3, _080119a0	@ =D_08070444
@@ -204,10 +239,16 @@ react_swamp_targetbeast:  @ 08011960
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0801197a:
 	cmp	r4, #0
 @ src/act_swamp.c:71
 	bne L_08011990
+	.ifdef FIXES
+fix_assert_L_08011990:
+	b	L_08011990	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_08011990), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08011998	@ =D_08070404
 	ldr	r1, _0801199c	@ =D_08070434
 	ldr	r3, _080119a4	@ =D_08070450
@@ -215,6 +256,7 @@ L_0801197a:
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_08011990:
 	pop	{r4}
 @ src/act_swamp.c:72
@@ -238,6 +280,11 @@ init_swamp_lilliepad:  @ 080119a8
 @ src/act_swamp.c:76
 	cmp	r4, #0
 	bne L_080119c2
+	.ifdef FIXES
+fix_assert_L_080119c2:
+	b	L_080119c2	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_080119c2), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _080119cc	@ =D_08070404
 	ldr	r1, _080119d0	@ =D_08070434
 	ldr	r3, _080119d4	@ =D_08070444
@@ -245,6 +292,7 @@ init_swamp_lilliepad:  @ 080119a8
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_080119c2:
 	movs	r0, #1
 @ src/act_swamp.c:78
@@ -273,6 +321,11 @@ react_swamp_lilliepad:  @ 080119dc
 @ src/act_swamp.c:88
 	cmp	r0, #0
 	bne L_080119f6
+	.ifdef FIXES
+fix_assert_L_080119f6:
+	b	L_080119f6	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_080119f6), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08011a14	@ =D_08070404
 	ldr	r1, _08011a18	@ =D_08070434
 	ldr	r3, _08011a1c	@ =D_08070444
@@ -280,10 +333,16 @@ react_swamp_lilliepad:  @ 080119dc
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_080119f6:
 	cmp	r4, #0
 @ src/act_swamp.c:89
 	bne L_08011a0c
+	.ifdef FIXES
+fix_assert_L_08011a0c:
+	b	L_08011a0c	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_08011a0c), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08011a14	@ =D_08070404
 	ldr	r1, _08011a18	@ =D_08070434
 	ldr	r3, _08011a20	@ =D_08070450
@@ -291,6 +350,7 @@ L_080119f6:
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_08011a0c:
 	pop	{r4}
 @ src/act_swamp.c:90
@@ -314,6 +374,11 @@ init_swamp_gun:  @ 08011a24
 @ src/act_swamp.c:94
 	cmp	r4, #0
 	bne L_08011a3e
+	.ifdef FIXES
+fix_assert_L_08011a3e:
+	b	L_08011a3e	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_08011a3e), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08011a78	@ =D_08070404
 	ldr	r1, _08011a7c	@ =D_08070434
 	ldr	r3, _08011a80	@ =D_08070444
@@ -321,6 +386,7 @@ init_swamp_gun:  @ 08011a24
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_08011a3e:
 	movs	r0, #1
 @ src/act_swamp.c:96
@@ -371,6 +437,11 @@ act_swamp_gun:  @ 08011a88
 @ src/act_swamp.c:108
 	cmp	r0, #0
 	bne L_08011aa0
+	.ifdef FIXES
+fix_assert_L_08011aa0:
+	b	L_08011aa0	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_08011aa0), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08011aa4	@ =D_08070404
 	ldr	r1, _08011aa8	@ =D_08070434
 	ldr	r3, _08011aac	@ =D_08070444
@@ -378,6 +449,7 @@ act_swamp_gun:  @ 08011a88
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_08011aa0:
 	pop	{r0}
 @ src/act_swamp.c:109
@@ -397,6 +469,11 @@ react_swamp_gun:  @ 08011ab0
 @ src/act_swamp.c:113
 	cmp	r0, #0
 	bne L_08011aca
+	.ifdef FIXES
+fix_assert_L_08011aca:
+	b	L_08011aca	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_08011aca), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08011ae8	@ =D_08070404
 	ldr	r1, _08011aec	@ =D_08070434
 	ldr	r3, _08011af0	@ =D_08070444
@@ -404,10 +481,16 @@ react_swamp_gun:  @ 08011ab0
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_08011aca:
 	cmp	r4, #0
 @ src/act_swamp.c:114
 	bne L_08011ae0
+	.ifdef FIXES
+fix_assert_L_08011ae0:
+	b	L_08011ae0	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_08011ae0), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08011ae8	@ =D_08070404
 	ldr	r1, _08011aec	@ =D_08070434
 	ldr	r3, _08011af4	@ =D_08070450
@@ -415,6 +498,7 @@ L_08011aca:
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_08011ae0:
 	pop	{r4}
 @ src/act_swamp.c:115

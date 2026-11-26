@@ -778,6 +778,11 @@ init_camera:  @ 08009af8
 @ src/act_camera.c:263
 	cmp	r4, #0
 	bne L_08009b12
+	.ifdef FIXES
+fix_assert_L_08009b12:
+	b	L_08009b12	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_08009b12), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08009b78	@ =D_0806f8d8
 	ldr	r1, _08009b7c	@ =D_0806f908
 	ldr	r2, _08009b80	@ =0x00000107
@@ -785,6 +790,7 @@ init_camera:  @ 08009af8
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_08009b12:
 	movs	r2, #0
 @ src/act_camera.c:265
@@ -896,6 +902,11 @@ camera_race_start:  @ 08009bb0
 @ src/act_camera.c:380
 	cmp	r7, #0
 	bne L_08009bd6
+	.ifdef FIXES
+fix_assert_L_08009bd6:
+	b	L_08009bd6	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 20 - (. - fix_assert_L_08009bd6), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08009d00	@ =D_0806f8d8
 	ldr	r1, _08009d04	@ =D_0806f908
 	movs	r2, #190
@@ -904,11 +915,17 @@ camera_race_start:  @ 08009bb0
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_08009bd6:
 	ldrh	r0, [r7, #2]
 @ src/act_camera.c:381
 	cmp	r0, #3
 	beq L_08009bee
+	.ifdef FIXES
+fix_assert_L_08009bee:
+	b	L_08009bee	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_08009bee), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08009d00	@ =D_0806f8d8
 	ldr	r1, _08009d04	@ =D_0806f908
 	ldr	r2, _08009d0c	@ =0x0000017d
@@ -916,6 +933,7 @@ L_08009bd6:
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_08009bee:
 	movs	r1, #0
 @ src/act_camera.c:383
@@ -1098,6 +1116,11 @@ act_camera:  @ 08009d28
 @ src/act_camera.c:298
 	cmp	r4, #0
 	bne L_08009d44
+	.ifdef FIXES
+fix_assert_L_08009d44:
+	b	L_08009d44	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 20 - (. - fix_assert_L_08009d44), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08009d60	@ =D_0806f8d8
 	ldr	r1, _08009d64	@ =D_0806f908
 	movs	r2, #149
@@ -1106,6 +1129,7 @@ act_camera:  @ 08009d28
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_08009d44:
 	ldr	r0, [r4, #88]
 @ src/act_camera.c:300
@@ -1159,6 +1183,11 @@ _08009d90:
 	.word players
 @ src/act_camera.c:313
 L_08009d94:
+	.ifdef FIXES
+fix_assert_L_08009da6:
+	b	L_08009da6	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_08009da6), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08009dac	@ =D_0806f8d8
 	ldr	r1, _08009db0	@ =D_0806f908
 	ldr	r2, _08009db4	@ =0x00000139
@@ -1166,6 +1195,7 @@ L_08009d94:
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_08009da6:
 	pop	{r4}
 @ src/act_camera.c:317

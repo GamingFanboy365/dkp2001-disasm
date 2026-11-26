@@ -10,6 +10,19 @@ init_comp_player:  @ 08008d74
 @ src/act_comp_player.c:34
 	cmp	r7, #0
 	bne L_08008d8e
+	.ifdef FIXES
+fix_assert_L_08008d8e:
+	b	L_08008d8e	@ FIX "asserts": skip the failed-assert print and trap, carry on
+fix_ai_route:	@ FIX "ai-routes": r0 = route, r2 = ai_network -> r0 = network + 2*route,
+	ldrh	r3, [r2, #0]	@ using route 0 if the network has fewer routes (uses r3)
+	cmp	r0, r3
+	blt	1f
+	movs	r0, #0	@ unfinished tracks have one route: everyone follows route 0
+1:	lsls	r0, r0, #1
+	adds	r0, r0, r2
+	bx	lr
+	.fill 18 - (. - fix_assert_L_08008d8e), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08008e10	@ =D_0806f840
 	ldr	r1, _08008e14	@ =D_0806f870
 	ldr	r3, _08008e18	@ =D_0806f888
@@ -17,6 +30,7 @@ init_comp_player:  @ 08008d74
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_08008d8e:
 	movs	r5, #0
 @ src/act_comp_player.c:36
@@ -145,8 +159,15 @@ ai_steer:  @ 08008e28
 	ldr	r0, [r0, #0]
 	ldr	r3, _08008f4c	@ =ai_network
 	ldr	r2, [r3, #0]
+	.ifdef FIXES
+	@ FIX "ai-routes": each computer player follows the route numbered after it
+	@ (o+156/o+160 = player number), but unfinished tracks have one route, so
+	@ players 1-3 read past the network (Jungle 03 steered by text pointers).
+	bl	fix_ai_route
+	.else
 	lsls	r0, r0, #1
 	adds	r0, r0, r2
+	.endif
 	ldrh	r0, [r0, #2]
 	adds	r0, r0, r2
 @ src/act_comp_player.c:111
@@ -168,8 +189,12 @@ ai_steer:  @ 08008e28
 	adds	r0, r5, #0
 	adds	r0, #160
 	ldr	r0, [r0, #0]
+	.ifdef FIXES
+	bl	fix_ai_route	@ FIX "ai-routes"
+	.else
 	lsls	r0, r0, #1
 	adds	r0, r0, r2
+	.endif
 	ldrh	r0, [r0, #2]
 	adds	r2, r2, r0
 	mov	r9, r2

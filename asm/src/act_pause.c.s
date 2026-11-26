@@ -10,6 +10,11 @@ act_pause:  @ 0800fdb0
 @ src/act_pause.c:35
 	cmp	r5, #0
 	bne L_0800fdca
+	.ifdef FIXES
+fix_assert_L_0800fdca:
+	b	L_0800fdca	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800fdca), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800fe10	@ =D_080702c8
 	ldr	r1, _0800fe14	@ =D_080702f8
 	ldr	r3, _0800fe18	@ =D_08070308
@@ -17,6 +22,7 @@ act_pause:  @ 0800fdb0
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800fdca:
 	ldr	r6, _0800fe1c	@ =op_mask
 @ src/act_pause.c:39
@@ -203,6 +209,11 @@ init_pause:  @ 0800feec
 @ src/act_pause.c:26
 	cmp	r4, #0
 	bne L_0800ff06
+	.ifdef FIXES
+fix_assert_L_0800ff06:
+	b	L_0800ff06	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800ff06), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800ff1c	@ =D_080702c8
 	ldr	r1, _0800ff20	@ =D_080702f8
 	ldr	r3, _0800ff24	@ =D_08070308
@@ -210,6 +221,7 @@ init_pause:  @ 0800feec
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800ff06:
 	movs	r0, #5
 @ src/act_pause.c:28

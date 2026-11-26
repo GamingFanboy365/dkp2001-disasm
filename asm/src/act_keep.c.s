@@ -10,6 +10,11 @@ init_keep_mine:  @ 0800ace0
 @ src/act_keep.c:20
 	cmp	r6, #0
 	bne L_0800acfa
+	.ifdef FIXES
+fix_assert_L_0800acfa:
+	b	L_0800acfa	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800acfa), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800ad54	@ =D_0806fa3c
 	ldr	r1, _0800ad58	@ =D_0806fa6c
 	ldr	r3, _0800ad5c	@ =D_0806fa7c
@@ -17,6 +22,7 @@ init_keep_mine:  @ 0800ace0
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800acfa:
 	movs	r5, #0
 @ src/act_keep.c:22
@@ -87,6 +93,11 @@ act_keep_mine:  @ 0800ad64
 @ src/act_keep.c:39
 	cmp	r4, #0
 	bne L_0800ad7e
+	.ifdef FIXES
+fix_assert_L_0800ad7e:
+	b	L_0800ad7e	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800ad7e), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800ad94	@ =D_0806fa3c
 	ldr	r1, _0800ad98	@ =D_0806fa6c
 	ldr	r3, _0800ad9c	@ =D_0806fa7c
@@ -94,6 +105,7 @@ act_keep_mine:  @ 0800ad64
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800ad7e:
 	adds	r2, r4, #0
 @ src/act_keep.c:41
@@ -178,6 +190,11 @@ react_keep_mine:  @ 0800ade4
 @ src/act_keep.c:69
 	cmp	r0, #0
 	bne L_0800adfe
+	.ifdef FIXES
+fix_assert_L_0800adfe:
+	b	L_0800adfe	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800adfe), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800ae1c	@ =D_0806fa3c
 	ldr	r1, _0800ae20	@ =D_0806fa6c
 	ldr	r3, _0800ae24	@ =D_0806fa7c
@@ -185,10 +202,16 @@ react_keep_mine:  @ 0800ade4
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800adfe:
 	cmp	r4, #0
 @ src/act_keep.c:70
 	bne L_0800ae14
+	.ifdef FIXES
+fix_assert_L_0800ae14:
+	b	L_0800ae14	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800ae14), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800ae1c	@ =D_0806fa3c
 	ldr	r1, _0800ae20	@ =D_0806fa6c
 	ldr	r3, _0800ae28	@ =D_0806fa88
@@ -196,6 +219,7 @@ L_0800adfe:
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800ae14:
 	pop	{r4}
 @ src/act_keep.c:81

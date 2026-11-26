@@ -10,6 +10,11 @@ init_hud_weapon:  @ 08010000
 @ src/act_weapon.c:81
 	cmp	r5, #0
 	bne L_0801001a
+	.ifdef FIXES
+fix_assert_L_0801001a:
+	b	L_0801001a	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0801001a), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08010070	@ =D_0807036c
 	ldr	r1, _08010074	@ =D_0807039c
 	ldr	r3, _08010078	@ =D_080703b0
@@ -17,6 +22,7 @@ init_hud_weapon:  @ 08010000
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0801001a:
 	movs	r1, #0
 @ src/act_weapon.c:83
@@ -98,6 +104,11 @@ act_hud_weapon:  @ 08010088
 @ src/act_weapon.c:107
 	cmp	r4, #0
 	bne L_080100a6
+	.ifdef FIXES
+fix_assert_L_080100a6:
+	b	L_080100a6	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_080100a6), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _080100bc	@ =D_0807036c
 	ldr	r1, _080100c0	@ =D_0807039c
 	ldr	r3, _080100c4	@ =D_080703b0
@@ -105,6 +116,7 @@ act_hud_weapon:  @ 08010088
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_080100a6:
 	adds	r2, r4, #0
 @ src/act_weapon.c:111
@@ -347,6 +359,11 @@ destroy_melon:  @ 08010208
 @ src/act_weapon.c:175
 	cmp	r4, #0
 	bne L_08010222
+	.ifdef FIXES
+fix_assert_L_08010222:
+	b	L_08010222	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_08010222), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08010270	@ =D_0807036c
 	ldr	r1, _08010274	@ =D_0807039c
 	ldr	r3, _08010278	@ =D_080703b0
@@ -354,6 +371,7 @@ destroy_melon:  @ 08010208
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_08010222:
 	movs	r0, #4
 @ src/act_weapon.c:176
@@ -417,6 +435,11 @@ init_weapon_melon:  @ 08010280
 @ src/act_weapon.c:196
 	cmp	r6, #0
 	bne L_0801029a
+	.ifdef FIXES
+fix_assert_L_0801029a:
+	b	L_0801029a	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0801029a), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _080102ec	@ =D_0807036c
 	ldr	r1, _080102f0	@ =D_0807039c
 	ldr	r3, _080102f4	@ =D_080703b0
@@ -424,6 +447,7 @@ init_weapon_melon:  @ 08010280
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0801029a:
 	movs	r5, #0
 @ src/act_weapon.c:198
@@ -489,6 +513,11 @@ act_weapon_melon:  @ 080102fc
 @ src/act_weapon.c:215
 	cmp	r4, #0
 	bne L_08010316
+	.ifdef FIXES
+fix_assert_L_08010316:
+	b	L_08010316	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_08010316), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08010344	@ =D_0807036c
 	ldr	r1, _08010348	@ =D_0807039c
 	ldr	r3, _0801034c	@ =D_080703b0
@@ -496,6 +525,7 @@ act_weapon_melon:  @ 080102fc
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_08010316:
 	ldr	r2, _08010350	@ =spr_info
 @ src/act_weapon.c:217
@@ -691,6 +721,11 @@ init_weapon_mango:  @ 08010430
 @ src/act_weapon.c:302
 	cmp	r6, #0
 	bne L_0801044c
+	.ifdef FIXES
+fix_assert_L_0801044c:
+	b	L_0801044c	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 20 - (. - fix_assert_L_0801044c), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _080104a0	@ =D_0807036c
 	ldr	r1, _080104a4	@ =D_0807039c
 	movs	r2, #151
@@ -699,6 +734,7 @@ init_weapon_mango:  @ 08010430
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0801044c:
 	movs	r5, #0
 @ src/act_weapon.c:304
@@ -768,6 +804,11 @@ act_weapon_mango:  @ 080104b0
 @ src/act_weapon.c:351
 	cmp	r5, #0
 	bne L_080104ce
+	.ifdef FIXES
+fix_assert_L_080104ce:
+	b	L_080104ce	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_080104ce), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _080104fc	@ =D_0807036c
 	ldr	r1, _08010500	@ =D_0807039c
 	ldr	r2, _08010504	@ =0x0000015f
@@ -775,6 +816,7 @@ act_weapon_mango:  @ 080104b0
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_080104ce:
 	ldr	r2, _0801050c	@ =spr_info
 @ src/act_weapon.c:353
@@ -1156,6 +1198,11 @@ act_weapon_cannon:  @ 0801071c
 @ src/act_weapon.c:482
 	cmp	r4, #0
 	bne L_08010742
+	.ifdef FIXES
+fix_assert_L_08010742:
+	b	L_08010742	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 20 - (. - fix_assert_L_08010742), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08010754	@ =D_0807036c
 	ldr	r1, _08010758	@ =D_0807039c
 	movs	r2, #241
@@ -1164,6 +1211,7 @@ act_weapon_cannon:  @ 0801071c
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_08010742:
 	ldr	r0, [r4, #88]
 @ src/act_weapon.c:484
@@ -1329,6 +1377,11 @@ init_weapon_rocket:  @ 08010844
 @ src/act_weapon.c:541
 	cmp	r6, #0
 	bne L_0801085e
+	.ifdef FIXES
+fix_assert_L_0801085e:
+	b	L_0801085e	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0801085e), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _080108bc	@ =D_0807036c
 	ldr	r1, _080108c0	@ =D_0807039c
 	ldr	r2, _080108c4	@ =0x0000021d
@@ -1336,6 +1389,7 @@ init_weapon_rocket:  @ 08010844
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0801085e:
 	movs	r4, #0
 @ src/act_weapon.c:543
@@ -1419,6 +1473,11 @@ act_weapon_rocket:  @ 080108d0
 @ src/act_weapon.c:569
 	cmp	r7, #0
 	bne L_080108f4
+	.ifdef FIXES
+fix_assert_L_080108f4:
+	b	L_080108f4	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_080108f4), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08010904	@ =D_0807036c
 	ldr	r1, _08010908	@ =D_0807039c
 	ldr	r2, _0801090c	@ =0x00000239
@@ -1426,6 +1485,7 @@ act_weapon_rocket:  @ 080108d0
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_080108f4:
 	ldr	r0, [r7, #80]
 @ src/act_weapon.c:571
@@ -1945,6 +2005,11 @@ init_weapon_chain_rocket:  @ 08010c3c
 @ src/act_weapon.c:732
 	cmp	r6, #0
 	bne L_08010c58
+	.ifdef FIXES
+fix_assert_L_08010c58:
+	b	L_08010c58	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 20 - (. - fix_assert_L_08010c58), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08010cb0	@ =D_0807036c
 	ldr	r1, _08010cb4	@ =D_0807039c
 	movs	r2, #183
@@ -1953,6 +2018,7 @@ init_weapon_chain_rocket:  @ 08010c3c
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_08010c58:
 	movs	r4, #0
 @ src/act_weapon.c:734
@@ -2030,6 +2096,11 @@ act_weapon_chain_rocket:  @ 08010cc0
 @ src/act_weapon.c:759
 	cmp	r0, #0
 	bne L_08010ce4
+	.ifdef FIXES
+fix_assert_L_08010ce4:
+	b	L_08010ce4	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_08010ce4), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08010cf4	@ =D_0807036c
 	ldr	r1, _08010cf8	@ =D_0807039c
 	ldr	r2, _08010cfc	@ =0x000002f7
@@ -2037,6 +2108,7 @@ act_weapon_chain_rocket:  @ 08010cc0
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_08010ce4:
 	mov	r1, sl
 @ src/act_weapon.c:761
@@ -2642,6 +2714,18 @@ init_weapon_grip_grab:  @ 080110c8
 @ src/act_weapon.c:957
 	cmp	r5, #0
 	bne L_080110e2
+	.ifdef FIXES
+fix_assert_L_080110e2:
+	b	L_080110e2	@ FIX "asserts": skip the failed-assert print and trap, carry on
+fix_grip_parent:	@ FIX "grip-grab-null": called from act_weapon_grip_grab (act_weapon.c:1140)
+	ldr	r1, [r7, #92]	@ parent
+	cmp	r1, #0
+	bne	1f
+	adds	r1, r7, #0	@ no parent: spawn the particle at the weapon itself
+1:	ldr	r0, [r1, #32]
+	bx	lr
+	.fill 18 - (. - fix_assert_L_080110e2), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08011160	@ =D_0807036c
 	ldr	r1, _08011164	@ =D_0807039c
 	ldr	r2, _08011168	@ =0x000003bd
@@ -2649,6 +2733,7 @@ init_weapon_grip_grab:  @ 080110c8
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_080110e2:
 	movs	r1, #0
 @ src/act_weapon.c:959
@@ -2751,6 +2836,18 @@ act_weapon_grip_grab:  @ 08011178
 @ src/act_weapon.c:988
 	cmp	r7, #0
 	bne L_0801119e
+	.ifdef FIXES
+fix_assert_L_0801119e:
+	b	L_0801119e	@ FIX "asserts": skip the failed-assert print and trap, carry on
+fix_grip_target:	@ FIX "grip-grab-null": called from act_weapon_grip_grab (act_weapon.c:937)
+	ldr	r3, [r7, #88]	@ target
+	mov	r0, sl
+	cmp	r3, #0
+	beq	1f
+	bx	lr
+1:	b	L_080114a4	@ target gone: end the weapon (stop its sound, free it)
+	.fill 20 - (. - fix_assert_L_0801119e), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _080111b4	@ =D_0807036c
 	ldr	r1, _080111b8	@ =D_0807039c
 	movs	r2, #247
@@ -2759,6 +2856,7 @@ act_weapon_grip_grab:  @ 08011178
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0801119e:
 	ldr	r0, [r7, #80]
 @ src/act_weapon.c:990
@@ -3237,9 +3335,13 @@ L_080114a4:
 	b L_0801152c
 @ src/act_weapon.c:937
 L_080114b2:
+	.ifdef FIXES
+	bl	fix_grip_target	@ FIX "grip-grab-null": same as below, but ends the weapon if the target is gone
+	.else
 	ldr	r3, [r7, #88]
 @ src/act_weapon.c:938
 	mov	r0, sl
+	.endif
 	ldrh	r2, [r0, #0]
 @ src/act_weapon.c:940
 	ldr	r0, _0801153c	@ =spr_info
@@ -3281,9 +3383,13 @@ L_080114b2:
 	cmp	r4, #0
 	beq L_0801152c
 @ src/act_weapon.c:1140
+	.ifdef FIXES
+	bl	fix_grip_parent	@ FIX "grip-grab-null": same as below, but uses the weapon if there is no parent
+	.else
 	ldr	r1, [r7, #92]
 @ src/act_weapon.c:1142
 	ldr	r0, [r1, #32]
+	.endif
 	str	r0, [r4, #0]
 @ src/act_weapon.c:1143
 	ldr	r0, [r1, #36]
@@ -3333,6 +3439,11 @@ react_weapon_melon:  @ 08011544
 @ src/act_weapon.c:284
 	cmp	r4, #0
 	bne L_08011562
+	.ifdef FIXES
+fix_assert_L_08011562:
+	b	L_08011562	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 20 - (. - fix_assert_L_08011562), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08011594	@ =D_0807036c
 	ldr	r1, _08011598	@ =D_0807039c
 	movs	r2, #142
@@ -3341,10 +3452,16 @@ react_weapon_melon:  @ 08011544
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_08011562:
 	cmp	r5, #0
 @ src/act_weapon.c:285
 	bne L_08011578
+	.ifdef FIXES
+fix_assert_L_08011578:
+	b	L_08011578	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_08011578), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08011594	@ =D_0807036c
 	ldr	r1, _08011598	@ =D_0807039c
 	ldr	r2, _080115a0	@ =0x0000011d
@@ -3352,6 +3469,7 @@ L_08011562:
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_08011578:
 	ldrh	r0, [r5, #2]
 @ src/act_weapon.c:287
@@ -3405,6 +3523,11 @@ react_weapon_mango:  @ 080115bc
 @ src/act_weapon.c:455
 	cmp	r4, #0
 	bne L_080115d8
+	.ifdef FIXES
+fix_assert_L_080115d8:
+	b	L_080115d8	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_080115d8), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0801160c	@ =D_0807036c
 	ldr	r1, _08011610	@ =D_0807039c
 	ldr	r2, _08011614	@ =0x000001c7
@@ -3412,10 +3535,16 @@ react_weapon_mango:  @ 080115bc
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_080115d8:
 	cmp	r5, #0
 @ src/act_weapon.c:456
 	bne L_080115f0
+	.ifdef FIXES
+fix_assert_L_080115f0:
+	b	L_080115f0	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 20 - (. - fix_assert_L_080115f0), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0801160c	@ =D_0807036c
 	ldr	r1, _08011610	@ =D_0807039c
 	movs	r2, #228
@@ -3424,6 +3553,7 @@ L_080115d8:
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_080115f0:
 	ldrh	r0, [r5, #2]
 @ src/act_weapon.c:458
@@ -3476,6 +3606,11 @@ init_weapon_cannon:  @ 08011634
 @ src/act_weapon.c:475
 	cmp	r4, #0
 	bne L_0801164e
+	.ifdef FIXES
+fix_assert_L_0801164e:
+	b	L_0801164e	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0801164e), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0801165c	@ =D_0807036c
 	ldr	r1, _08011660	@ =D_0807039c
 	ldr	r2, _08011664	@ =0x000001db
@@ -3483,6 +3618,7 @@ init_weapon_cannon:  @ 08011634
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0801164e:
 	movs	r1, #0
 @ src/act_weapon.c:476
@@ -3511,6 +3647,11 @@ react_weapon_cannon:  @ 0801166c
 @ src/act_weapon.c:531
 	cmp	r0, #0
 	bne L_08011686
+	.ifdef FIXES
+fix_assert_L_08011686:
+	b	L_08011686	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_08011686), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _080116a4	@ =D_0807036c
 	ldr	r1, _080116a8	@ =D_0807039c
 	ldr	r2, _080116ac	@ =0x00000213
@@ -3518,10 +3659,16 @@ react_weapon_cannon:  @ 0801166c
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_08011686:
 	cmp	r4, #0
 @ src/act_weapon.c:532
 	bne L_0801169e
+	.ifdef FIXES
+fix_assert_L_0801169e:
+	b	L_0801169e	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 20 - (. - fix_assert_L_0801169e), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _080116a4	@ =D_0807036c
 	ldr	r1, _080116a8	@ =D_0807039c
 	movs	r2, #133
@@ -3530,6 +3677,7 @@ L_08011686:
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0801169e:
 	pop	{r4}
 @ src/act_weapon.c:533
@@ -3555,6 +3703,11 @@ react_weapon_rocket:  @ 080116b8
 @ src/act_weapon.c:719
 	cmp	r4, #0
 	bne L_080116d4
+	.ifdef FIXES
+fix_assert_L_080116d4:
+	b	L_080116d4	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_080116d4), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08011718	@ =D_0807036c
 	ldr	r1, _0801171c	@ =D_0807039c
 	ldr	r2, _08011720	@ =0x000002cf
@@ -3562,10 +3715,16 @@ react_weapon_rocket:  @ 080116b8
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_080116d4:
 	cmp	r5, #0
 @ src/act_weapon.c:720
 	bne L_080116ec
+	.ifdef FIXES
+fix_assert_L_080116ec:
+	b	L_080116ec	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 20 - (. - fix_assert_L_080116ec), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08011718	@ =D_0807036c
 	ldr	r1, _0801171c	@ =D_0807039c
 	movs	r2, #180
@@ -3574,6 +3733,7 @@ L_080116d4:
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_080116ec:
 	ldr	r0, [r4, #80]
 @ src/act_weapon.c:722
@@ -3620,6 +3780,11 @@ react_weapon_chain_rocket:  @ 0801172c
 @ src/act_weapon.c:925
 	cmp	r4, #0
 	bne L_08011748
+	.ifdef FIXES
+fix_assert_L_08011748:
+	b	L_08011748	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_08011748), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08011788	@ =D_0807036c
 	ldr	r1, _0801178c	@ =D_0807039c
 	ldr	r2, _08011790	@ =0x0000039d
@@ -3627,10 +3792,16 @@ react_weapon_chain_rocket:  @ 0801172c
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_08011748:
 	cmp	r5, #0
 @ src/act_weapon.c:926
 	bne L_0801175e
+	.ifdef FIXES
+fix_assert_L_0801175e:
+	b	L_0801175e	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0801175e), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08011788	@ =D_0807036c
 	ldr	r1, _0801178c	@ =D_0807039c
 	ldr	r2, _08011798	@ =0x0000039e
@@ -3638,6 +3809,7 @@ L_08011748:
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0801175e:
 	ldr	r0, [r4, #80]
 @ src/act_weapon.c:928
@@ -3685,6 +3857,11 @@ react_weapon_grip_grab:  @ 080117a0
 @ src/act_weapon.c:1157
 	cmp	r4, #0
 	bne L_080117bc
+	.ifdef FIXES
+fix_assert_L_080117bc:
+	b	L_080117bc	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_080117bc), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _080117f8	@ =D_0807036c
 	ldr	r1, _080117fc	@ =D_0807039c
 	ldr	r2, _08011800	@ =0x00000485
@@ -3692,10 +3869,16 @@ react_weapon_grip_grab:  @ 080117a0
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_080117bc:
 	cmp	r5, #0
 @ src/act_weapon.c:1158
 	bne L_080117d2
+	.ifdef FIXES
+fix_assert_L_080117d2:
+	b	L_080117d2	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_080117d2), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _080117f8	@ =D_0807036c
 	ldr	r1, _080117fc	@ =D_0807039c
 	ldr	r2, _08011808	@ =0x00000486
@@ -3703,6 +3886,7 @@ L_080117bc:
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_080117d2:
 	ldr	r0, [r4, #80]
 @ src/act_weapon.c:1160

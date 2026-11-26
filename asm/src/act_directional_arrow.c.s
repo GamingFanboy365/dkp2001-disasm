@@ -10,6 +10,11 @@ init_directional_arrow:  @ 0800fb14
 @ src/act_directional_arrow.c:22
 	cmp	r4, #0
 	bne L_0800fb2e
+	.ifdef FIXES
+fix_assert_L_0800fb2e:
+	b	L_0800fb2e	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800fb2e), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800fb58	@ =D_0807020c
 	ldr	r1, _0800fb5c	@ =D_0807023c
 	ldr	r3, _0800fb60	@ =D_08070258
@@ -17,6 +22,7 @@ init_directional_arrow:  @ 0800fb14
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800fb2e:
 	movs	r1, #0
 @ src/act_directional_arrow.c:24
@@ -61,6 +67,11 @@ react_directional_arrow:  @ 0800fb64
 @ src/act_directional_arrow.c:36
 	cmp	r5, #0
 	bne L_0800fb80
+	.ifdef FIXES
+fix_assert_L_0800fb80:
+	b	L_0800fb80	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800fb80), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800fbb8	@ =D_0807020c
 	ldr	r1, _0800fbbc	@ =D_0807023c
 	ldr	r3, _0800fbc0	@ =D_08070258
@@ -68,10 +79,16 @@ react_directional_arrow:  @ 0800fb64
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800fb80:
 	cmp	r4, #0
 @ src/act_directional_arrow.c:37
 	bne L_0800fb96
+	.ifdef FIXES
+fix_assert_L_0800fb96:
+	b	L_0800fb96	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800fb96), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800fbb8	@ =D_0807020c
 	ldr	r1, _0800fbbc	@ =D_0807023c
 	ldr	r3, _0800fbc4	@ =D_08070264
@@ -79,6 +96,7 @@ L_0800fb80:
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800fb96:
 	ldrh	r0, [r4, #2]
 @ src/act_directional_arrow.c:39

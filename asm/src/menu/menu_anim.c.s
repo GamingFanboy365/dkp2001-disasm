@@ -289,6 +289,11 @@ L_08012de0:
 L_08012de8:
 	cmp	r4, #4
 	bne L_08012dfe
+	.ifdef FIXES
+fix_assert_L_08012dfe:
+	b	L_08012dfe	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_08012dfe), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08012e0c	@ =D_08070574
 	ldr	r1, _08012e10	@ =D_080705a4
 	ldr	r3, _08012e14	@ =D_080705bc
@@ -296,6 +301,7 @@ L_08012de8:
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_08012dfe:
 	adds	r0, r4, #0
 @ src/menu/menu_anim.c:148
@@ -330,6 +336,11 @@ menu_anim_remove:  @ 08012e18
 	cmp	r0, #0
 	bne L_08012e42
 L_08012e30:
+	.ifdef FIXES
+fix_assert_L_08012e42:
+	b	L_08012e42	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_08012e42), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08012e50	@ =D_08070574
 	ldr	r1, _08012e54	@ =D_080705a4
 	ldr	r3, _08012e58	@ =D_080705d4
@@ -337,6 +348,7 @@ L_08012e30:
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_08012e42:
 	movs	r0, #0
 @ src/menu/menu_anim.c:156

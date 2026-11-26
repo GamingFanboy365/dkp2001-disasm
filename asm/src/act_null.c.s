@@ -9,6 +9,11 @@ act_null:  @ 08009dbc
 @ src/act_null.c:23
 	cmp	r0, #0
 	bne L_08009dd4
+	.ifdef FIXES
+fix_assert_L_08009dd4:
+	b	L_08009dd4	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_08009dd4), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08009dd8	@ =D_0806f948
 	ldr	r1, _08009ddc	@ =D_0806f978
 	ldr	r3, _08009de0	@ =D_0806f988
@@ -16,6 +21,7 @@ act_null:  @ 08009dbc
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_08009dd4:
 	pop	{r0}
 @ src/act_null.c:24

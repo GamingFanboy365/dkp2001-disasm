@@ -766,6 +766,11 @@ campan_start_seg:  @ 0800cc60
 	cmp	r0, r1
 	bcc L_0800cc90
 L_0800cc7e:
+	.ifdef FIXES
+fix_assert_L_0800cc90:
+	b	L_0800cc90	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800cc90), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800cfec	@ =D_0806fc60
 	ldr	r1, _0800cff0	@ =D_0806fc90
 	ldr	r2, _0800cff4	@ =0x00000119
@@ -773,6 +778,7 @@ L_0800cc7e:
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800cc90:
 	ldr	r1, _0800cffc	@ =cur_seg_pt
 @ src/camera_pan.c:283
@@ -1193,6 +1199,11 @@ L_0800cc90:
 	ldr	r0, [r1, #0]
 	cmp	r0, #0
 	bne L_0800cfb4
+	.ifdef FIXES
+fix_assert_L_0800cfb4:
+	b	L_0800cfb4	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800cfb4), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800cfec	@ =D_0806fc60
 	ldr	r1, _0800cff0	@ =D_0806fc90
 	ldr	r2, _0800d008	@ =0x00000143
@@ -1200,6 +1211,7 @@ L_0800cc90:
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800cfb4:
 	ldr	r2, _0800cfe4	@ =cur_pt
 @ src/camera_pan.c:324

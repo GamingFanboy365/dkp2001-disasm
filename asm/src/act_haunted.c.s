@@ -10,6 +10,11 @@ init_haunted_ghost:  @ 0800b8dc
 @ src/act_haunted.c:39
 	cmp	r4, #0
 	bne L_0800b8f6
+	.ifdef FIXES
+fix_assert_L_0800b8f6:
+	b	L_0800b8f6	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800b8f6), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800b928	@ =D_0806faec
 	ldr	r1, _0800b92c	@ =D_0806fb1c
 	ldr	r3, _0800b930	@ =D_0806fb30
@@ -17,6 +22,7 @@ init_haunted_ghost:  @ 0800b8dc
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800b8f6:
 	movs	r0, #65
 @ src/act_haunted.c:41
@@ -148,6 +154,11 @@ act_haunted_ghost:  @ 0800b9c8
 @ src/act_haunted.c:87
 	cmp	r7, #0
 	bne L_0800b9e2
+	.ifdef FIXES
+fix_assert_L_0800b9e2:
+	b	L_0800b9e2	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800b9e2), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800ba60	@ =D_0806faec
 	ldr	r1, _0800ba64	@ =D_0806fb1c
 	ldr	r3, _0800ba68	@ =D_0806fb30
@@ -155,6 +166,7 @@ act_haunted_ghost:  @ 0800b9c8
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800b9e2:
 	ldr	r6, [r7, #80]
 @ src/act_haunted.c:90
@@ -239,6 +251,11 @@ init_happy_soul_monitor:  @ 0800ba74
 @ src/act_haunted.c:117
 	cmp	r4, #0
 	bne L_0800ba8e
+	.ifdef FIXES
+fix_assert_L_0800ba8e:
+	b	L_0800ba8e	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800ba8e), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800baec	@ =D_0806faec
 	ldr	r1, _0800baf0	@ =D_0806fb1c
 	ldr	r3, _0800baf4	@ =D_0806fb30
@@ -246,6 +263,7 @@ init_happy_soul_monitor:  @ 0800ba74
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800ba8e:
 	movs	r0, #38
 @ src/act_haunted.c:119
@@ -438,6 +456,11 @@ init_happy_soul_hud:  @ 0800bba0
 @ src/act_haunted.c:185
 	cmp	r0, #0
 	bne L_0800bbc0
+	.ifdef FIXES
+fix_assert_L_0800bbc0:
+	b	L_0800bbc0	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800bbc0), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800bca8	@ =D_0806faec
 	ldr	r1, _0800bcac	@ =D_0806fb1c
 	ldr	r3, _0800bcb0	@ =D_0806fb30
@@ -445,6 +468,7 @@ init_happy_soul_hud:  @ 0800bba0
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800bbc0:
 	movs	r1, #0
 @ src/act_haunted.c:186
@@ -1819,6 +1843,11 @@ react_haunted_ghost:  @ 0800c430
 @ src/act_haunted.c:97
 	cmp	r5, #0
 	bne L_0800c44c
+	.ifdef FIXES
+fix_assert_L_0800c44c:
+	b	L_0800c44c	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800c44c), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800c470	@ =D_0806faec
 	ldr	r1, _0800c474	@ =D_0806fb1c
 	ldr	r3, _0800c478	@ =D_0806fb30
@@ -1826,10 +1855,16 @@ react_haunted_ghost:  @ 0800c430
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800c44c:
 	cmp	r4, #0
 @ src/act_haunted.c:98
 	bne L_0800c462
+	.ifdef FIXES
+fix_assert_L_0800c462:
+	b	L_0800c462	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800c462), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800c470	@ =D_0806faec
 	ldr	r1, _0800c474	@ =D_0806fb1c
 	ldr	r3, _0800c47c	@ =D_0806fb3c
@@ -1837,6 +1872,7 @@ L_0800c44c:
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800c462:
 	ldrh	r0, [r4, #2]
 @ src/act_haunted.c:100

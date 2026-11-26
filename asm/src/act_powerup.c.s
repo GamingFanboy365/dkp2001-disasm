@@ -10,6 +10,11 @@ init_powerup:  @ 0800d1a8
 @ src/act_powerup.c:27
 	cmp	r6, #0
 	bne L_0800d1c2
+	.ifdef FIXES
+fix_assert_L_0800d1c2:
+	b	L_0800d1c2	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800d1c2), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800d1d8	@ =D_0806fd3c
 	ldr	r1, _0800d1dc	@ =D_0806fd6c
 	ldr	r3, _0800d1e0	@ =D_0806fd80
@@ -17,6 +22,7 @@ init_powerup:  @ 0800d1a8
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800d1c2:
 	movs	r0, #1
 @ src/act_powerup.c:29
@@ -110,6 +116,11 @@ act_powerup:  @ 0800d248
 @ src/act_powerup.c:58
 	cmp	r4, #0
 	bne L_0800d262
+	.ifdef FIXES
+fix_assert_L_0800d262:
+	b	L_0800d262	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800d262), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800d274	@ =D_0806fd3c
 	ldr	r1, _0800d278	@ =D_0806fd6c
 	ldr	r3, _0800d27c	@ =D_0806fd80
@@ -117,6 +128,7 @@ act_powerup:  @ 0800d248
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800d262:
 	adds	r3, r4, #0
 @ src/act_powerup.c:60
@@ -221,6 +233,11 @@ react_powerup:  @ 0800d2f0
 @ src/act_powerup.c:85
 	cmp	r6, #0
 	bne L_0800d30c
+	.ifdef FIXES
+fix_assert_L_0800d30c:
+	b	L_0800d30c	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800d30c), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800d374	@ =D_0806fd3c
 	ldr	r1, _0800d378	@ =D_0806fd6c
 	ldr	r3, _0800d37c	@ =D_0806fd80
@@ -228,10 +245,16 @@ react_powerup:  @ 0800d2f0
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800d30c:
 	cmp	r4, #0
 @ src/act_powerup.c:86
 	bne L_0800d322
+	.ifdef FIXES
+fix_assert_L_0800d322:
+	b	L_0800d322	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800d322), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800d374	@ =D_0806fd3c
 	ldr	r1, _0800d378	@ =D_0806fd6c
 	ldr	r3, _0800d380	@ =D_0806fd8c
@@ -239,6 +262,7 @@ L_0800d30c:
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800d322:
 	ldrh	r1, [r4, #2]
 @ src/act_powerup.c:90

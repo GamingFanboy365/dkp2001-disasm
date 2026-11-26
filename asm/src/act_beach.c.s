@@ -10,6 +10,11 @@ init_beach_gun:  @ 0800ff28
 @ src/act_beach.c:25
 	cmp	r5, #0
 	bne L_0800ff42
+	.ifdef FIXES
+fix_assert_L_0800ff42:
+	b	L_0800ff42	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800ff42), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800ff80	@ =D_08070314
 	ldr	r1, _0800ff84	@ =D_08070344
 	ldr	r3, _0800ff88	@ =D_08070354
@@ -17,6 +22,7 @@ init_beach_gun:  @ 0800ff28
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800ff42:
 	movs	r0, #1
 @ src/act_beach.c:27
@@ -69,6 +75,11 @@ act_beach_gun:  @ 0800ff90
 @ src/act_beach.c:38
 	cmp	r0, #0
 	bne L_0800ffa8
+	.ifdef FIXES
+fix_assert_L_0800ffa8:
+	b	L_0800ffa8	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800ffa8), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800ffac	@ =D_08070314
 	ldr	r1, _0800ffb0	@ =D_08070344
 	ldr	r3, _0800ffb4	@ =D_08070354
@@ -76,6 +87,7 @@ act_beach_gun:  @ 0800ff90
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800ffa8:
 	pop	{r0}
 @ src/act_beach.c:40
@@ -95,6 +107,11 @@ react_beach_gun:  @ 0800ffb8
 @ src/act_beach.c:44
 	cmp	r0, #0
 	bne L_0800ffd2
+	.ifdef FIXES
+fix_assert_L_0800ffd2:
+	b	L_0800ffd2	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800ffd2), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800fff0	@ =D_08070314
 	ldr	r1, _0800fff4	@ =D_08070344
 	ldr	r3, _0800fff8	@ =D_08070354
@@ -102,10 +119,16 @@ react_beach_gun:  @ 0800ffb8
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800ffd2:
 	cmp	r4, #0
 @ src/act_beach.c:45
 	bne L_0800ffe8
+	.ifdef FIXES
+fix_assert_L_0800ffe8:
+	b	L_0800ffe8	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800ffe8), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800fff0	@ =D_08070314
 	ldr	r1, _0800fff4	@ =D_08070344
 	ldr	r3, _0800fffc	@ =D_08070360
@@ -113,6 +136,7 @@ L_0800ffd2:
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800ffe8:
 	pop	{r4}
 @ src/act_beach.c:46

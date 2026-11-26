@@ -10,6 +10,11 @@ init_start_pos:  @ 0800d708
 @ src/act_startpos.c:28
 	cmp	r6, #0
 	bne L_0800d722
+	.ifdef FIXES
+fix_assert_L_0800d722:
+	b	L_0800d722	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800d722), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800d7b4	@ =D_0806fde8
 	ldr	r1, _0800d7b8	@ =D_0806fe18
 	ldr	r3, _0800d7bc	@ =D_0806fe2c
@@ -17,6 +22,7 @@ init_start_pos:  @ 0800d708
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800d722:
 	ldr	r0, [r6, #76]
 @ src/act_startpos.c:30

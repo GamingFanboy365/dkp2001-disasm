@@ -10,6 +10,11 @@ init_static:  @ 08009de4
 @ src/act_static.c:27
 	cmp	r4, #0
 	bne L_08009dfe
+	.ifdef FIXES
+fix_assert_L_08009dfe:
+	b	L_08009dfe	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_08009dfe), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08009e50	@ =D_0806f994
 	ldr	r1, _08009e54	@ =D_0806f9c4
 	ldr	r3, _08009e58	@ =D_0806f9d8
@@ -17,6 +22,7 @@ init_static:  @ 08009de4
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_08009dfe:
 	ldr	r0, _08009e5c	@ =0x00001001
 @ src/act_static.c:29
@@ -89,6 +95,11 @@ react_static:  @ 08009e68
 @ src/act_static.c:87
 	cmp	r0, #0
 	bne L_08009e82
+	.ifdef FIXES
+fix_assert_L_08009e82:
+	b	L_08009e82	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_08009e82), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08009ea0	@ =D_0806f994
 	ldr	r1, _08009ea4	@ =D_0806f9c4
 	ldr	r3, _08009ea8	@ =D_0806f9d8
@@ -96,10 +107,16 @@ react_static:  @ 08009e68
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_08009e82:
 	cmp	r4, #0
 @ src/act_static.c:88
 	bne L_08009e98
+	.ifdef FIXES
+fix_assert_L_08009e98:
+	b	L_08009e98	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_08009e98), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08009ea0	@ =D_0806f994
 	ldr	r1, _08009ea4	@ =D_0806f9c4
 	ldr	r3, _08009eac	@ =D_0806f9e4
@@ -107,6 +124,7 @@ L_08009e82:
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_08009e98:
 	pop	{r4}
 @ src/act_static.c:89
@@ -131,6 +149,11 @@ react_palmtree:  @ 08009eb0
 @ src/act_static.c:94
 	cmp	r5, #0
 	bne L_08009ecc
+	.ifdef FIXES
+fix_assert_L_08009ecc:
+	b	L_08009ecc	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_08009ecc), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08009ef0	@ =D_0806f994
 	ldr	r1, _08009ef4	@ =D_0806f9c4
 	ldr	r3, _08009ef8	@ =D_0806f9d8
@@ -138,10 +161,16 @@ react_palmtree:  @ 08009eb0
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_08009ecc:
 	cmp	r4, #0
 @ src/act_static.c:95
 	bne L_08009ee2
+	.ifdef FIXES
+fix_assert_L_08009ee2:
+	b	L_08009ee2	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_08009ee2), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08009ef0	@ =D_0806f994
 	ldr	r1, _08009ef4	@ =D_0806f9c4
 	ldr	r3, _08009efc	@ =D_0806f9e4
@@ -149,6 +178,7 @@ L_08009ecc:
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_08009ee2:
 	ldrh	r0, [r4, #2]
 @ src/act_static.c:97
@@ -193,6 +223,11 @@ react_lava_flame:  @ 08009f18
 @ src/act_static.c:116
 	cmp	r5, #0
 	bne L_08009f34
+	.ifdef FIXES
+fix_assert_L_08009f34:
+	b	L_08009f34	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_08009f34), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08009f70	@ =D_0806f994
 	ldr	r1, _08009f74	@ =D_0806f9c4
 	ldr	r3, _08009f78	@ =D_0806f9d8
@@ -200,10 +235,16 @@ react_lava_flame:  @ 08009f18
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_08009f34:
 	cmp	r4, #0
 @ src/act_static.c:117
 	bne L_08009f4a
+	.ifdef FIXES
+fix_assert_L_08009f4a:
+	b	L_08009f4a	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_08009f4a), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08009f70	@ =D_0806f994
 	ldr	r1, _08009f74	@ =D_0806f9c4
 	ldr	r3, _08009f7c	@ =D_0806f9e4
@@ -211,6 +252,7 @@ L_08009f34:
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_08009f4a:
 	ldrh	r0, [r4, #2]
 @ src/act_static.c:119

@@ -10,6 +10,11 @@ init_jungle_grubhole:  @ 08011af8
 @ src/act_jungle.c:27
 	cmp	r4, #0
 	bne L_08011b12
+	.ifdef FIXES
+fix_assert_L_08011b12:
+	b	L_08011b12	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_08011b12), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08011b4c	@ =D_0807045c
 	ldr	r1, _08011b50	@ =D_0807048c
 	ldr	r3, _08011b54	@ =D_080704a0
@@ -17,6 +22,7 @@ init_jungle_grubhole:  @ 08011af8
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_08011b12:
 	movs	r0, #1
 @ src/act_jungle.c:29
@@ -73,6 +79,11 @@ react_jungle_grubhole:  @ 08011b60
 @ src/act_jungle.c:45
 	cmp	r0, #0
 	bne L_08011b7a
+	.ifdef FIXES
+fix_assert_L_08011b7a:
+	b	L_08011b7a	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_08011b7a), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08011b98	@ =D_0807045c
 	ldr	r1, _08011b9c	@ =D_0807048c
 	ldr	r3, _08011ba0	@ =D_080704a0
@@ -80,10 +91,16 @@ react_jungle_grubhole:  @ 08011b60
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_08011b7a:
 	cmp	r4, #0
 @ src/act_jungle.c:46
 	bne L_08011b90
+	.ifdef FIXES
+fix_assert_L_08011b90:
+	b	L_08011b90	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_08011b90), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08011b98	@ =D_0807045c
 	ldr	r1, _08011b9c	@ =D_0807048c
 	ldr	r3, _08011ba4	@ =D_080704ac
@@ -91,6 +108,7 @@ L_08011b7a:
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_08011b90:
 	pop	{r4}
 @ src/act_jungle.c:47
@@ -114,6 +132,11 @@ init_jungle_crowpoint:  @ 08011ba8
 @ src/act_jungle.c:51
 	cmp	r4, #0
 	bne L_08011bc2
+	.ifdef FIXES
+fix_assert_L_08011bc2:
+	b	L_08011bc2	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_08011bc2), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08011bfc	@ =D_0807045c
 	ldr	r1, _08011c00	@ =D_0807048c
 	ldr	r3, _08011c04	@ =D_080704a0
@@ -121,6 +144,7 @@ init_jungle_crowpoint:  @ 08011ba8
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_08011bc2:
 	movs	r0, #1
 @ src/act_jungle.c:53
@@ -177,6 +201,11 @@ react_jungle_crowpoint:  @ 08011c10
 @ src/act_jungle.c:69
 	cmp	r0, #0
 	bne L_08011c2a
+	.ifdef FIXES
+fix_assert_L_08011c2a:
+	b	L_08011c2a	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_08011c2a), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08011c48	@ =D_0807045c
 	ldr	r1, _08011c4c	@ =D_0807048c
 	ldr	r3, _08011c50	@ =D_080704a0
@@ -184,10 +213,16 @@ react_jungle_crowpoint:  @ 08011c10
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_08011c2a:
 	cmp	r4, #0
 @ src/act_jungle.c:70
 	bne L_08011c40
+	.ifdef FIXES
+fix_assert_L_08011c40:
+	b	L_08011c40	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_08011c40), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08011c48	@ =D_0807045c
 	ldr	r1, _08011c4c	@ =D_0807048c
 	ldr	r3, _08011c54	@ =D_080704ac
@@ -195,6 +230,7 @@ L_08011c2a:
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_08011c40:
 	pop	{r4}
 @ src/act_jungle.c:71
@@ -218,6 +254,11 @@ init_jungle_royalbird:  @ 08011c58
 @ src/act_jungle.c:75
 	cmp	r4, #0
 	bne L_08011c72
+	.ifdef FIXES
+fix_assert_L_08011c72:
+	b	L_08011c72	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_08011c72), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08011cac	@ =D_0807045c
 	ldr	r1, _08011cb0	@ =D_0807048c
 	ldr	r3, _08011cb4	@ =D_080704a0
@@ -225,6 +266,7 @@ init_jungle_royalbird:  @ 08011c58
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_08011c72:
 	movs	r0, #1
 @ src/act_jungle.c:77
@@ -281,6 +323,11 @@ react_jungle_royalbird:  @ 08011cc0
 @ src/act_jungle.c:93
 	cmp	r0, #0
 	bne L_08011cda
+	.ifdef FIXES
+fix_assert_L_08011cda:
+	b	L_08011cda	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_08011cda), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08011cf8	@ =D_0807045c
 	ldr	r1, _08011cfc	@ =D_0807048c
 	ldr	r3, _08011d00	@ =D_080704a0
@@ -288,10 +335,16 @@ react_jungle_royalbird:  @ 08011cc0
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_08011cda:
 	cmp	r4, #0
 @ src/act_jungle.c:94
 	bne L_08011cf0
+	.ifdef FIXES
+fix_assert_L_08011cf0:
+	b	L_08011cf0	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_08011cf0), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08011cf8	@ =D_0807045c
 	ldr	r1, _08011cfc	@ =D_0807048c
 	ldr	r3, _08011d04	@ =D_080704ac
@@ -299,6 +352,7 @@ L_08011cda:
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_08011cf0:
 	pop	{r4}
 @ src/act_jungle.c:95

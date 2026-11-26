@@ -569,6 +569,11 @@ L_0800e298:
 L_0800e2b0:
 	cmp	r2, #0
 	ble L_0800e2c6
+	.ifdef FIXES
+fix_assert_L_0800e2c6:
+	b	L_0800e2c6	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800e2c6), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800e2e4	@ =D_0806ffac
 	ldr	r1, _0800e2e8	@ =D_0806ffdc
 	ldr	r3, _0800e2ec	@ =D_0806fff4
@@ -576,6 +581,7 @@ L_0800e2b0:
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800e2c6:
 	ldr	r5, [sp, #4]
 @ src/act_race_monitor.c:24
@@ -651,6 +657,11 @@ L_0800e318:
 L_0800e330:
 	cmp	r2, #0
 	ble L_0800e346
+	.ifdef FIXES
+fix_assert_L_0800e346:
+	b	L_0800e346	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800e346), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800e364	@ =D_0806ffac
 	ldr	r1, _0800e368	@ =D_0806ffdc
 	ldr	r3, _0800e36c	@ =D_0807001c
@@ -658,6 +669,7 @@ L_0800e330:
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800e346:
 	ldr	r5, [sp, #8]
 @ src/act_race_monitor.c:24
@@ -733,6 +745,11 @@ L_0800e398:
 L_0800e3b0:
 	cmp	r2, #0
 	ble L_0800e3c6
+	.ifdef FIXES
+fix_assert_L_0800e3c6:
+	b	L_0800e3c6	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800e3c6), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800e40c	@ =D_0806ffac
 	ldr	r1, _0800e410	@ =D_0806ffdc
 	ldr	r3, _0800e414	@ =D_08070044
@@ -740,6 +757,7 @@ L_0800e3b0:
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800e3c6:
 	ldr	r2, _0800e418	@ =monitor
 @ src/act_race_monitor.c:117
@@ -804,6 +822,11 @@ init_race_monitor:  @ 0800e41c
 @ src/act_race_monitor.c:130
 	cmp	r4, #0
 	bne L_0800e440
+	.ifdef FIXES
+fix_assert_L_0800e440:
+	b	L_0800e440	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800e440), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800e540	@ =D_0806ffac
 	ldr	r1, _0800e544	@ =D_0806ffdc
 	ldr	r3, _0800e548	@ =D_0807006c
@@ -811,6 +834,7 @@ init_race_monitor:  @ 0800e41c
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800e440:
 	movs	r0, #1
 @ src/act_race_monitor.c:132
@@ -978,6 +1002,11 @@ act_race_monitor:  @ 0800e554
 @ src/act_race_monitor.c:182
 	cmp	r5, #0
 	bne L_0800e56e
+	.ifdef FIXES
+fix_assert_L_0800e56e:
+	b	L_0800e56e	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800e56e), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800e5a4	@ =D_0806ffac
 	ldr	r1, _0800e5a8	@ =D_0806ffdc
 	ldr	r3, _0800e5ac	@ =D_0807006c
@@ -985,6 +1014,7 @@ act_race_monitor:  @ 0800e554
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800e56e:
 	.hword 0xf7ff	@ undefined on ARMv4T
 @ src/act_race_monitor.c:184

@@ -10,6 +10,11 @@ init_booster:  @ 0800fbcc
 @ src/act_boost.c:29
 	cmp	r5, #0
 	bne L_0800fbe6
+	.ifdef FIXES
+fix_assert_L_0800fbe6:
+	b	L_0800fbe6	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800fbe6), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800fc38	@ =D_08070270
 	ldr	r1, _0800fc3c	@ =D_080702a0
 	ldr	r3, _0800fc40	@ =D_080702b0
@@ -17,6 +22,7 @@ init_booster:  @ 0800fbcc
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800fbe6:
 	movs	r4, #0
 @ src/act_boost.c:31
@@ -84,6 +90,11 @@ react_booster:  @ 0800fc48
 @ src/act_boost.c:57
 	cmp	r5, #0
 	bne L_0800fc64
+	.ifdef FIXES
+fix_assert_L_0800fc64:
+	b	L_0800fc64	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800fc64), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800fce4	@ =D_08070270
 	ldr	r1, _0800fce8	@ =D_080702a0
 	ldr	r3, _0800fcec	@ =D_080702b0
@@ -91,10 +102,16 @@ react_booster:  @ 0800fc48
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800fc64:
 	cmp	r4, #0
 @ src/act_boost.c:58
 	bne L_0800fc7a
+	.ifdef FIXES
+fix_assert_L_0800fc7a:
+	b	L_0800fc7a	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800fc7a), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800fce4	@ =D_08070270
 	ldr	r1, _0800fce8	@ =D_080702a0
 	ldr	r3, _0800fcf0	@ =D_080702bc
@@ -102,6 +119,7 @@ L_0800fc64:
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800fc7a:
 	adds	r6, r5, #0
 @ src/act_boost.c:60
@@ -185,6 +203,11 @@ act_booster:  @ 0800fcfc
 @ src/act_boost.c:47
 	cmp	r4, #0
 	bne L_0800fd16
+	.ifdef FIXES
+fix_assert_L_0800fd16:
+	b	L_0800fd16	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800fd16), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800fd2c	@ =D_08070270
 	ldr	r1, _0800fd30	@ =D_080702a0
 	ldr	r3, _0800fd34	@ =D_080702b0
@@ -192,6 +215,7 @@ act_booster:  @ 0800fcfc
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800fd16:
 	adds	r1, r4, #0
 @ src/act_boost.c:49
@@ -224,6 +248,11 @@ react_turbo:  @ 0800fd38
 @ src/act_boost.c:79
 	cmp	r5, #0
 	bne L_0800fd54
+	.ifdef FIXES
+fix_assert_L_0800fd54:
+	b	L_0800fd54	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800fd54), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800fda0	@ =D_08070270
 	ldr	r1, _0800fda4	@ =D_080702a0
 	ldr	r3, _0800fda8	@ =D_080702b0
@@ -231,10 +260,16 @@ react_turbo:  @ 0800fd38
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800fd54:
 	cmp	r4, #0
 @ src/act_boost.c:80
 	bne L_0800fd6a
+	.ifdef FIXES
+fix_assert_L_0800fd6a:
+	b	L_0800fd6a	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800fd6a), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800fda0	@ =D_08070270
 	ldr	r1, _0800fda4	@ =D_080702a0
 	ldr	r3, _0800fdac	@ =D_080702bc
@@ -242,6 +277,7 @@ L_0800fd54:
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800fd6a:
 	ldrh	r0, [r4, #2]
 @ src/act_boost.c:82

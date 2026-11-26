@@ -247,6 +247,11 @@ move_player:  @ 0800ea2c
 @ src/plane.c:224
 	cmp	r6, #0
 	bne L_0800ea52
+	.ifdef FIXES
+fix_assert_L_0800ea52:
+	b	L_0800ea52	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800ea52), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800ea74	@ =D_08070118
 	ldr	r1, _0800ea78	@ =D_08070148
 	ldr	r3, _0800ea7c	@ =D_08070154
@@ -254,6 +259,7 @@ move_player:  @ 0800ea2c
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800ea52:
 	ldr	r0, [r6, #120]
 @ src/plane.c:228

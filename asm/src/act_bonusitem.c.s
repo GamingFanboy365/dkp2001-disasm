@@ -10,6 +10,11 @@ init_bonusitem:  @ 0800d960
 @ src/act_bonusitem.c:27
 	cmp	r6, #0
 	bne L_0800d97a
+	.ifdef FIXES
+fix_assert_L_0800d97a:
+	b	L_0800d97a	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800d97a), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800d994	@ =D_0806fe9c
 	ldr	r1, _0800d998	@ =D_0806fecc
 	ldr	r3, _0800d99c	@ =D_0806fee0
@@ -17,6 +22,7 @@ init_bonusitem:  @ 0800d960
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800d97a:
 	movs	r0, #1
 @ src/act_bonusitem.c:29
@@ -96,6 +102,11 @@ act_bonusitem:  @ 0800d9ec
 @ src/act_bonusitem.c:48
 	cmp	r5, #0
 	bne L_0800da06
+	.ifdef FIXES
+fix_assert_L_0800da06:
+	b	L_0800da06	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800da06), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800da38	@ =D_0806fe9c
 	ldr	r1, _0800da3c	@ =D_0806fecc
 	ldr	r3, _0800da40	@ =D_0806fee0
@@ -103,6 +114,7 @@ act_bonusitem:  @ 0800d9ec
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800da06:
 	ldr	r1, _0800da44	@ =spr_info
 @ src/act_bonusitem.c:50
@@ -156,6 +168,11 @@ react_bonusitem:  @ 0800da48
 @ src/act_bonusitem.c:64
 	cmp	r5, #0
 	bne L_0800da64
+	.ifdef FIXES
+fix_assert_L_0800da64:
+	b	L_0800da64	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800da64), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800dab0	@ =D_0806fe9c
 	ldr	r1, _0800dab4	@ =D_0806fecc
 	ldr	r3, _0800dab8	@ =D_0806fee0
@@ -163,10 +180,16 @@ react_bonusitem:  @ 0800da48
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800da64:
 	cmp	r4, #0
 @ src/act_bonusitem.c:65
 	bne L_0800da7a
+	.ifdef FIXES
+fix_assert_L_0800da7a:
+	b	L_0800da7a	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800da7a), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800dab0	@ =D_0806fe9c
 	ldr	r1, _0800dab4	@ =D_0806fecc
 	ldr	r3, _0800dabc	@ =D_0806feec
@@ -174,6 +197,7 @@ L_0800da64:
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800da7a:
 	ldrh	r0, [r4, #2]
 @ src/act_bonusitem.c:67

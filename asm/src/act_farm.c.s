@@ -10,6 +10,11 @@ init_farm_bunny:  @ 0800ae2c
 @ src/act_farm.c:32
 	cmp	r5, #0
 	bne L_0800ae46
+	.ifdef FIXES
+fix_assert_L_0800ae46:
+	b	L_0800ae46	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800ae46), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800ae84	@ =D_0806fa94
 	ldr	r1, _0800ae88	@ =D_0806fac4
 	ldr	r3, _0800ae8c	@ =D_0806fad4
@@ -17,6 +22,7 @@ init_farm_bunny:  @ 0800ae2c
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800ae46:
 	movs	r4, #0
 @ src/act_farm.c:34
@@ -73,6 +79,11 @@ act_farm_bunny:  @ 0800ae94
 @ src/act_farm.c:51
 	cmp	r4, #0
 	bne L_0800aeae
+	.ifdef FIXES
+fix_assert_L_0800aeae:
+	b	L_0800aeae	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800aeae), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800aec4	@ =D_0806fa94
 	ldr	r1, _0800aec8	@ =D_0806fac4
 	ldr	r3, _0800aecc	@ =D_0806fad4
@@ -80,6 +91,7 @@ act_farm_bunny:  @ 0800ae94
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800aeae:
 	adds	r0, r4, #0
 @ src/act_farm.c:53
@@ -300,6 +312,11 @@ init_farm_jumping_vegetable:  @ 0800afe8
 @ src/act_farm.c:135
 	cmp	r5, #0
 	bne L_0800b002
+	.ifdef FIXES
+fix_assert_L_0800b002:
+	b	L_0800b002	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800b002), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800b040	@ =D_0806fa94
 	ldr	r1, _0800b044	@ =D_0806fac4
 	ldr	r3, _0800b048	@ =D_0806fad4
@@ -307,6 +324,7 @@ init_farm_jumping_vegetable:  @ 0800afe8
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800b002:
 	movs	r4, #0
 @ src/act_farm.c:137
@@ -362,6 +380,11 @@ init_farm_chicken:  @ 0800b050
 @ src/act_farm.c:162
 	cmp	r6, #0
 	bne L_0800b06a
+	.ifdef FIXES
+fix_assert_L_0800b06a:
+	b	L_0800b06a	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800b06a), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800b0bc	@ =D_0806fa94
 	ldr	r1, _0800b0c0	@ =D_0806fac4
 	ldr	r3, _0800b0c4	@ =D_0806fad4
@@ -369,6 +392,7 @@ init_farm_chicken:  @ 0800b050
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800b06a:
 	movs	r5, #0
 @ src/act_farm.c:164
@@ -435,6 +459,11 @@ act_farm_chicken:  @ 0800b0cc
 @ src/act_farm.c:181
 	cmp	r4, #0
 	bne L_0800b0e6
+	.ifdef FIXES
+fix_assert_L_0800b0e6:
+	b	L_0800b0e6	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800b0e6), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800b130	@ =D_0806fa94
 	ldr	r1, _0800b134	@ =D_0806fac4
 	ldr	r3, _0800b138	@ =D_0806fad4
@@ -442,6 +471,7 @@ act_farm_chicken:  @ 0800b0cc
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800b0e6:
 	ldr	r0, [r4, #80]
 @ src/act_farm.c:183
@@ -583,6 +613,11 @@ init_farm_egg_hud:  @ 0800b1a8
 @ src/act_farm.c:285
 	cmp	r5, #0
 	bne L_0800b1cc
+	.ifdef FIXES
+fix_assert_L_0800b1cc:
+	b	L_0800b1cc	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800b1cc), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800b37c	@ =D_0806fa94
 	ldr	r1, _0800b380	@ =D_0806fac4
 	ldr	r2, _0800b384	@ =0x0000011d
@@ -590,6 +625,7 @@ init_farm_egg_hud:  @ 0800b1a8
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800b1cc:
 	movs	r1, #0
 @ src/act_farm.c:287
@@ -884,6 +920,11 @@ init_farm_egg:  @ 0800b39c
 @ src/act_farm.c:435
 	cmp	r6, #0
 	bne L_0800b3b6
+	.ifdef FIXES
+fix_assert_L_0800b3b6:
+	b	L_0800b3b6	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800b3b6), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800b3f8	@ =D_0806fa94
 	ldr	r1, _0800b3fc	@ =D_0806fac4
 	ldr	r2, _0800b400	@ =0x000001b3
@@ -891,6 +932,7 @@ init_farm_egg:  @ 0800b39c
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800b3b6:
 	movs	r5, #0
 @ src/act_farm.c:437
@@ -949,6 +991,11 @@ act_farm_egg:  @ 0800b40c
 @ src/act_farm.c:449
 	cmp	r4, #0
 	bne L_0800b426
+	.ifdef FIXES
+fix_assert_L_0800b426:
+	b	L_0800b426	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800b426), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800b438	@ =D_0806fa94
 	ldr	r1, _0800b43c	@ =D_0806fac4
 	ldr	r2, _0800b440	@ =0x000001c1
@@ -956,6 +1003,7 @@ act_farm_egg:  @ 0800b40c
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800b426:
 	ldr	r0, [r4, #80]
 @ src/act_farm.c:451
@@ -1120,6 +1168,11 @@ react_farm_bunny:  @ 0800b504
 @ src/act_farm.c:127
 	cmp	r0, #0
 	bne L_0800b51e
+	.ifdef FIXES
+fix_assert_L_0800b51e:
+	b	L_0800b51e	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800b51e), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800b53c	@ =D_0806fa94
 	ldr	r1, _0800b540	@ =D_0806fac4
 	ldr	r3, _0800b544	@ =D_0806fad4
@@ -1127,10 +1180,16 @@ react_farm_bunny:  @ 0800b504
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800b51e:
 	cmp	r4, #0
 @ src/act_farm.c:128
 	bne L_0800b534
+	.ifdef FIXES
+fix_assert_L_0800b534:
+	b	L_0800b534	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800b534), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800b53c	@ =D_0806fa94
 	ldr	r1, _0800b540	@ =D_0806fac4
 	ldr	r3, _0800b548	@ =D_0806fae0
@@ -1138,6 +1197,7 @@ L_0800b51e:
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800b534:
 	pop	{r4}
 @ src/act_farm.c:129
@@ -1160,6 +1220,11 @@ act_farm_jumping_vegetable:  @ 0800b54c
 @ src/act_farm.c:151
 	cmp	r0, #0
 	bne L_0800b564
+	.ifdef FIXES
+fix_assert_L_0800b564:
+	b	L_0800b564	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800b564), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800b568	@ =D_0806fa94
 	ldr	r1, _0800b56c	@ =D_0806fac4
 	ldr	r3, _0800b570	@ =D_0806fad4
@@ -1167,6 +1232,7 @@ act_farm_jumping_vegetable:  @ 0800b54c
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800b564:
 	pop	{r0}
 @ src/act_farm.c:152
@@ -1186,6 +1252,11 @@ react_farm_jumping_vegetable:  @ 0800b574
 @ src/act_farm.c:156
 	cmp	r0, #0
 	bne L_0800b58e
+	.ifdef FIXES
+fix_assert_L_0800b58e:
+	b	L_0800b58e	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800b58e), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800b5ac	@ =D_0806fa94
 	ldr	r1, _0800b5b0	@ =D_0806fac4
 	ldr	r3, _0800b5b4	@ =D_0806fad4
@@ -1193,10 +1264,16 @@ react_farm_jumping_vegetable:  @ 0800b574
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800b58e:
 	cmp	r4, #0
 @ src/act_farm.c:157
 	bne L_0800b5a4
+	.ifdef FIXES
+fix_assert_L_0800b5a4:
+	b	L_0800b5a4	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800b5a4), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800b5ac	@ =D_0806fa94
 	ldr	r1, _0800b5b0	@ =D_0806fac4
 	ldr	r3, _0800b5b8	@ =D_0806fae0
@@ -1204,6 +1281,7 @@ L_0800b58e:
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800b5a4:
 	pop	{r4}
 @ src/act_farm.c:158
@@ -1228,6 +1306,11 @@ react_farm_chicken:  @ 0800b5bc
 @ src/act_farm.c:232
 	cmp	r5, #0
 	bne L_0800b5d8
+	.ifdef FIXES
+fix_assert_L_0800b5d8:
+	b	L_0800b5d8	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800b5d8), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800b5fc	@ =D_0806fa94
 	ldr	r1, _0800b600	@ =D_0806fac4
 	ldr	r3, _0800b604	@ =D_0806fad4
@@ -1235,10 +1318,16 @@ react_farm_chicken:  @ 0800b5bc
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800b5d8:
 	cmp	r4, #0
 @ src/act_farm.c:233
 	bne L_0800b5ee
+	.ifdef FIXES
+fix_assert_L_0800b5ee:
+	b	L_0800b5ee	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800b5ee), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800b5fc	@ =D_0806fa94
 	ldr	r1, _0800b600	@ =D_0806fac4
 	ldr	r3, _0800b608	@ =D_0806fae0
@@ -1246,6 +1335,7 @@ L_0800b5d8:
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800b5ee:
 	ldrh	r0, [r4, #2]
 @ src/act_farm.c:235
@@ -1289,6 +1379,11 @@ init_farm_egg_monitor:  @ 0800b624
 @ src/act_farm.c:252
 	cmp	r4, #0
 	bne L_0800b63e
+	.ifdef FIXES
+fix_assert_L_0800b63e:
+	b	L_0800b63e	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800b63e), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800b67c	@ =D_0806fa94
 	ldr	r1, _0800b680	@ =D_0806fac4
 	ldr	r3, _0800b684	@ =D_0806fad4
@@ -1296,6 +1391,7 @@ init_farm_egg_monitor:  @ 0800b624
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800b63e:
 	movs	r0, #38
 @ src/act_farm.c:254
@@ -1348,6 +1444,11 @@ act_farm_egg_monitor:  @ 0800b688
 @ src/act_farm.c:269
 	cmp	r4, #0
 	bne L_0800b6a2
+	.ifdef FIXES
+fix_assert_L_0800b6a2:
+	b	L_0800b6a2	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800b6a2), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800b6d0	@ =D_0806fa94
 	ldr	r1, _0800b6d4	@ =D_0806fac4
 	ldr	r2, _0800b6d8	@ =0x0000010d
@@ -1355,6 +1456,7 @@ act_farm_egg_monitor:  @ 0800b688
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800b6a2:
 	ldr	r0, [r4, #84]
 @ src/act_farm.c:271
@@ -1407,6 +1509,11 @@ act_farm_egg_hud:  @ 0800b6e8
 @ src/act_farm.c:383
 	cmp	r0, #0
 	bne L_0800b700
+	.ifdef FIXES
+fix_assert_L_0800b700:
+	b	L_0800b700	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800b700), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800b704	@ =D_0806fa94
 	ldr	r1, _0800b708	@ =D_0806fac4
 	ldr	r2, _0800b70c	@ =0x0000017f
@@ -1414,6 +1521,7 @@ act_farm_egg_hud:  @ 0800b6e8
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800b700:
 	pop	{r0}
 @ src/act_farm.c:384
@@ -1435,6 +1543,11 @@ init_farm_nestpoint:  @ 0800b714
 @ src/act_farm.c:388
 	cmp	r4, #0
 	bne L_0800b730
+	.ifdef FIXES
+fix_assert_L_0800b730:
+	b	L_0800b730	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 20 - (. - fix_assert_L_0800b730), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800b73c	@ =D_0806fa94
 	ldr	r1, _0800b740	@ =D_0806fac4
 	movs	r2, #194
@@ -1443,6 +1556,7 @@ init_farm_nestpoint:  @ 0800b714
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800b730:
 	movs	r0, #1
 @ src/act_farm.c:390
@@ -1466,6 +1580,11 @@ act_farm_nestpoint:  @ 0800b748
 @ src/act_farm.c:395
 	cmp	r0, #0
 	bne L_0800b760
+	.ifdef FIXES
+fix_assert_L_0800b760:
+	b	L_0800b760	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800b760), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800b764	@ =D_0806fa94
 	ldr	r1, _0800b768	@ =D_0806fac4
 	ldr	r2, _0800b76c	@ =0x0000018b
@@ -1473,6 +1592,7 @@ act_farm_nestpoint:  @ 0800b748
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800b760:
 	pop	{r0}
 @ src/act_farm.c:397
@@ -1494,6 +1614,11 @@ react_farm_nestpoint:  @ 0800b774
 @ src/act_farm.c:401
 	cmp	r0, #0
 	bne L_0800b78e
+	.ifdef FIXES
+fix_assert_L_0800b78e:
+	b	L_0800b78e	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800b78e), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800b7ac	@ =D_0806fa94
 	ldr	r1, _0800b7b0	@ =D_0806fac4
 	ldr	r2, _0800b7b4	@ =0x00000191
@@ -1501,10 +1626,16 @@ react_farm_nestpoint:  @ 0800b774
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800b78e:
 	cmp	r4, #0
 @ src/act_farm.c:402
 	bne L_0800b7a6
+	.ifdef FIXES
+fix_assert_L_0800b7a6:
+	b	L_0800b7a6	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 20 - (. - fix_assert_L_0800b7a6), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800b7ac	@ =D_0806fa94
 	ldr	r1, _0800b7b0	@ =D_0806fac4
 	movs	r2, #201
@@ -1513,6 +1644,7 @@ L_0800b78e:
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800b7a6:
 	pop	{r4}
 @ src/act_farm.c:403
@@ -1537,6 +1669,11 @@ init_farm_egg_generator:  @ 0800b7c0
 @ src/act_farm.c:407
 	cmp	r4, #0
 	bne L_0800b7da
+	.ifdef FIXES
+fix_assert_L_0800b7da:
+	b	L_0800b7da	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800b7da), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800b7e8	@ =D_0806fa94
 	ldr	r1, _0800b7ec	@ =D_0806fac4
 	ldr	r2, _0800b7f0	@ =0x00000197
@@ -1544,6 +1681,7 @@ init_farm_egg_generator:  @ 0800b7c0
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800b7da:
 	movs	r1, #0
 @ src/act_farm.c:409
@@ -1572,6 +1710,11 @@ act_farm_egg_generator:  @ 0800b7f8
 @ src/act_farm.c:415
 	cmp	r5, #0
 	bne L_0800b812
+	.ifdef FIXES
+fix_assert_L_0800b812:
+	b	L_0800b812	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800b812), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800b850	@ =D_0806fa94
 	ldr	r1, _0800b854	@ =D_0806fac4
 	ldr	r2, _0800b858	@ =0x0000019f
@@ -1579,6 +1722,7 @@ act_farm_egg_generator:  @ 0800b7f8
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800b812:
 	ldr	r0, [r5, #80]
 @ src/act_farm.c:417
@@ -1640,6 +1784,11 @@ react_farm_egg:  @ 0800b864
 @ src/act_farm.c:547
 	cmp	r5, #0
 	bne L_0800b880
+	.ifdef FIXES
+fix_assert_L_0800b880:
+	b	L_0800b880	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800b880), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800b8c8	@ =D_0806fa94
 	ldr	r1, _0800b8cc	@ =D_0806fac4
 	ldr	r2, _0800b8d0	@ =0x00000223
@@ -1647,10 +1796,16 @@ react_farm_egg:  @ 0800b864
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800b880:
 	cmp	r4, #0
 @ src/act_farm.c:548
 	bne L_0800b898
+	.ifdef FIXES
+fix_assert_L_0800b898:
+	b	L_0800b898	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 20 - (. - fix_assert_L_0800b898), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800b8c8	@ =D_0806fa94
 	ldr	r1, _0800b8cc	@ =D_0806fac4
 	movs	r2, #137
@@ -1659,6 +1814,7 @@ L_0800b880:
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800b898:
 	ldrh	r2, [r4, #2]
 @ src/act_farm.c:550

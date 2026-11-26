@@ -15,6 +15,11 @@ init_starthoop:  @ 0800d3e8
 @ src/act_starthoop.c:26
 	cmp	r0, #0
 	bne L_0800d40c
+	.ifdef FIXES
+fix_assert_L_0800d40c:
+	b	L_0800d40c	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800d40c), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800d5f4	@ =D_0806fd98
 	ldr	r1, _0800d5f8	@ =D_0806fdc8
 	ldr	r3, _0800d5fc	@ =D_0806fddc
@@ -22,6 +27,7 @@ init_starthoop:  @ 0800d3e8
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800d40c:
 	movs	r0, #1
 @ src/act_starthoop.c:28
@@ -351,6 +357,11 @@ act_starthoop:  @ 0800d610
 @ src/act_starthoop.c:117
 	cmp	r5, #0
 	bne L_0800d634
+	.ifdef FIXES
+fix_assert_L_0800d634:
+	b	L_0800d634	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800d634), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800d6a8	@ =D_0806fd98
 	ldr	r1, _0800d6ac	@ =D_0806fdc8
 	ldr	r3, _0800d6b0	@ =D_0806fddc
@@ -358,6 +369,7 @@ act_starthoop:  @ 0800d610
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800d634:
 	ldr	r0, _0800d6b4	@ =sys_flags
 @ src/act_starthoop.c:120

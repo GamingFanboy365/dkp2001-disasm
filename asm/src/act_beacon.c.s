@@ -9,6 +9,11 @@ init_beacon:  @ 0800d110
 @ src/act_beacon.c:22
 	cmp	r0, #0
 	bne L_0800d128
+	.ifdef FIXES
+fix_assert_L_0800d128:
+	b	L_0800d128	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800d128), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800d12c	@ =D_0806fce0
 	ldr	r1, _0800d130	@ =D_0806fd10
 	ldr	r3, _0800d134	@ =D_0806fd24
@@ -16,6 +21,7 @@ init_beacon:  @ 0800d110
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800d128:
 	pop	{r0}
 @ src/act_beacon.c:30
@@ -34,6 +40,11 @@ act_beacon:  @ 0800d138
 @ src/act_beacon.c:34
 	cmp	r0, #0
 	bne L_0800d150
+	.ifdef FIXES
+fix_assert_L_0800d150:
+	b	L_0800d150	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800d150), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800d154	@ =D_0806fce0
 	ldr	r1, _0800d158	@ =D_0806fd10
 	ldr	r3, _0800d15c	@ =D_0806fd24
@@ -41,6 +52,7 @@ act_beacon:  @ 0800d138
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800d150:
 	pop	{r0}
 @ src/act_beacon.c:35
@@ -60,6 +72,11 @@ react_beacon:  @ 0800d160
 @ src/act_beacon.c:39
 	cmp	r0, #0
 	bne L_0800d17a
+	.ifdef FIXES
+fix_assert_L_0800d17a:
+	b	L_0800d17a	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800d17a), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800d198	@ =D_0806fce0
 	ldr	r1, _0800d19c	@ =D_0806fd10
 	ldr	r3, _0800d1a0	@ =D_0806fd24
@@ -67,10 +84,16 @@ react_beacon:  @ 0800d160
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800d17a:
 	cmp	r4, #0
 @ src/act_beacon.c:40
 	bne L_0800d190
+	.ifdef FIXES
+fix_assert_L_0800d190:
+	b	L_0800d190	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800d190), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800d198	@ =D_0806fce0
 	ldr	r1, _0800d19c	@ =D_0806fd10
 	ldr	r3, _0800d1a4	@ =D_0806fd30
@@ -78,6 +101,7 @@ L_0800d17a:
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800d190:
 	pop	{r4}
 @ src/act_beacon.c:41

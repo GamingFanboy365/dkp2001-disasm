@@ -167,6 +167,11 @@ spr_set_animation:  @ 080083e4
 @ src/sprite.c:207
 	cmp	r1, #15
 	ble L_080083fc
+	.ifdef FIXES
+fix_assert_L_080083fc:
+	b	L_080083fc	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_080083fc), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08008400	@ =D_0806f5f4
 	ldr	r1, _08008404	@ =D_0806f624
 	ldr	r3, _08008408	@ =D_0806f634
@@ -174,6 +179,7 @@ spr_set_animation:  @ 080083e4
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_080083fc:
 	pop	{r0}
 @ src/sprite.c:213

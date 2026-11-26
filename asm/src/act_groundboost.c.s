@@ -11,6 +11,11 @@ react_groundboost:  @ 0800f8a4
 @ src/act_groundboost.c:53
 	cmp	r5, #0
 	bne L_0800f8c0
+	.ifdef FIXES
+fix_assert_L_0800f8c0:
+	b	L_0800f8c0	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800f8c0), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800f95c	@ =D_08070160
 	ldr	r1, _0800f960	@ =D_08070190
 	ldr	r3, _0800f964	@ =D_080701a8
@@ -18,10 +23,16 @@ react_groundboost:  @ 0800f8a4
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800f8c0:
 	cmp	r4, #0
 @ src/act_groundboost.c:54
 	bne L_0800f8d6
+	.ifdef FIXES
+fix_assert_L_0800f8d6:
+	b	L_0800f8d6	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800f8d6), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800f95c	@ =D_08070160
 	ldr	r1, _0800f960	@ =D_08070190
 	ldr	r3, _0800f968	@ =D_080701b4
@@ -29,6 +40,7 @@ L_0800f8c0:
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800f8d6:
 	adds	r6, r5, #0
 @ src/act_groundboost.c:56
@@ -129,6 +141,11 @@ init_groundboost:  @ 0800f978
 @ src/act_groundboost.c:26
 	cmp	r4, #0
 	bne L_0800f992
+	.ifdef FIXES
+fix_assert_L_0800f992:
+	b	L_0800f992	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800f992), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800f9bc	@ =D_08070160
 	ldr	r1, _0800f9c0	@ =D_08070190
 	ldr	r3, _0800f9c4	@ =D_080701a8
@@ -136,6 +153,7 @@ init_groundboost:  @ 0800f978
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800f992:
 	movs	r1, #0
 @ src/act_groundboost.c:28
@@ -179,6 +197,11 @@ act_groundboost:  @ 0800f9c8
 @ src/act_groundboost.c:43
 	cmp	r4, #0
 	bne L_0800f9e2
+	.ifdef FIXES
+fix_assert_L_0800f9e2:
+	b	L_0800f9e2	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800f9e2), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800f9f8	@ =D_08070160
 	ldr	r1, _0800f9fc	@ =D_08070190
 	ldr	r3, _0800fa00	@ =D_080701a8
@@ -186,6 +209,7 @@ act_groundboost:  @ 0800f9c8
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800f9e2:
 	adds	r1, r4, #0
 @ src/act_groundboost.c:45

@@ -10,6 +10,11 @@ init_banana:  @ 0800dac0
 @ src/act_banana.c:25
 	cmp	r5, #0
 	bne L_0800dada
+	.ifdef FIXES
+fix_assert_L_0800dada:
+	b	L_0800dada	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800dada), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800db20	@ =D_0806fef8
 	ldr	r1, _0800db24	@ =D_0806ff28
 	ldr	r3, _0800db28	@ =D_0806ff3c
@@ -17,6 +22,7 @@ init_banana:  @ 0800dac0
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800dada:
 	movs	r0, #9
 @ src/act_banana.c:27
@@ -75,6 +81,11 @@ react_banana:  @ 0800db30
 @ src/act_banana.c:39
 	cmp	r5, #0
 	bne L_0800db4c
+	.ifdef FIXES
+fix_assert_L_0800db4c:
+	b	L_0800db4c	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800db4c), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800db98	@ =D_0806fef8
 	ldr	r1, _0800db9c	@ =D_0806ff28
 	ldr	r3, _0800dba0	@ =D_0806ff3c
@@ -82,10 +93,16 @@ react_banana:  @ 0800db30
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800db4c:
 	cmp	r4, #0
 @ src/act_banana.c:40
 	bne L_0800db62
+	.ifdef FIXES
+fix_assert_L_0800db62:
+	b	L_0800db62	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800db62), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800db98	@ =D_0806fef8
 	ldr	r1, _0800db9c	@ =D_0806ff28
 	ldr	r3, _0800dba4	@ =D_0806ff48
@@ -93,6 +110,7 @@ L_0800db4c:
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800db62:
 	ldrh	r0, [r4, #2]
 @ src/act_banana.c:42

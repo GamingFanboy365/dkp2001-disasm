@@ -10,6 +10,11 @@ init_bouncing_bomb:  @ 0800c694
 @ src/act_bounce_bomb.c:20
 	cmp	r5, #0
 	bne L_0800c6ae
+	.ifdef FIXES
+fix_assert_L_0800c6ae:
+	b	L_0800c6ae	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800c6ae), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800c6e0	@ =D_0806fb48
 	ldr	r1, _0800c6e4	@ =D_0806fb78
 	ldr	r3, _0800c6e8	@ =D_0806fb90
@@ -17,6 +22,7 @@ init_bouncing_bomb:  @ 0800c694
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800c6ae:
 	movs	r0, #1
 @ src/act_bounce_bomb.c:22
@@ -64,6 +70,11 @@ act_bouncing_bomb:  @ 0800c6f0
 @ src/act_bounce_bomb.c:33
 	cmp	r4, #0
 	bne L_0800c70a
+	.ifdef FIXES
+fix_assert_L_0800c70a:
+	b	L_0800c70a	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800c70a), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800c734	@ =D_0806fb48
 	ldr	r1, _0800c738	@ =D_0806fb78
 	ldr	r3, _0800c73c	@ =D_0806fb90
@@ -71,6 +82,7 @@ act_bouncing_bomb:  @ 0800c6f0
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800c70a:
 	ldr	r0, [r4, #36]
 @ src/act_bounce_bomb.c:35
@@ -124,6 +136,11 @@ react_bouncing_bomb:  @ 0800c74c
 @ src/act_bounce_bomb.c:53
 	cmp	r0, #0
 	bne L_0800c766
+	.ifdef FIXES
+fix_assert_L_0800c766:
+	b	L_0800c766	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800c766), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800c784	@ =D_0806fb48
 	ldr	r1, _0800c788	@ =D_0806fb78
 	ldr	r3, _0800c78c	@ =D_0806fb90
@@ -131,10 +148,16 @@ react_bouncing_bomb:  @ 0800c74c
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800c766:
 	cmp	r4, #0
 @ src/act_bounce_bomb.c:54
 	bne L_0800c77c
+	.ifdef FIXES
+fix_assert_L_0800c77c:
+	b	L_0800c77c	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800c77c), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800c784	@ =D_0806fb48
 	ldr	r1, _0800c788	@ =D_0806fb78
 	ldr	r3, _0800c790	@ =D_0806fb9c
@@ -142,6 +165,7 @@ L_0800c766:
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800c77c:
 	pop	{r4}
 @ src/act_bounce_bomb.c:56

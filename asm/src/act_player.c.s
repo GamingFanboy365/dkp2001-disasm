@@ -108,6 +108,11 @@ init_player:  @ 080087a0
 @ src/act_player.c:118
 	cmp	r6, #0
 	bne L_080087ba
+	.ifdef FIXES
+fix_assert_L_080087ba:
+	b	L_080087ba	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_080087ba), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08008828	@ =D_0806f640
 	ldr	r1, _0800882c	@ =D_0806f670
 	ldr	r3, _08008830	@ =D_0806f684
@@ -115,6 +120,7 @@ init_player:  @ 080087a0
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_080087ba:
 	movs	r4, #0
 @ src/act_player.c:120
@@ -721,6 +727,11 @@ L_08008b48:
 	b L_08008b72
 @ src/act_player.c:327
 L_08008b60:
+	.ifdef FIXES
+fix_assert_L_08008b72:
+	b	L_08008b72	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_08008b72), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08008bb4	@ =D_0806f640
 	ldr	r1, _08008bb8	@ =D_0806f670
 	ldr	r2, _08008bbc	@ =0x00000147
@@ -728,6 +739,7 @@ L_08008b60:
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_08008b72:
 	mov	r0, r8
 @ src/act_player.c:329
@@ -788,6 +800,11 @@ react_player:  @ 08008bc8
 @ src/act_player.c:350
 	cmp	r5, #0
 	bne L_08008be6
+	.ifdef FIXES
+fix_assert_L_08008be6:
+	b	L_08008be6	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 20 - (. - fix_assert_L_08008be6), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08008c08	@ =D_0806f640
 	ldr	r1, _08008c0c	@ =D_0806f670
 	movs	r2, #175
@@ -796,10 +813,16 @@ react_player:  @ 08008bc8
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_08008be6:
 	cmp	r4, #0
 @ src/act_player.c:351
 	bne L_08008bfc
+	.ifdef FIXES
+fix_assert_L_08008bfc:
+	b	L_08008bfc	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_08008bfc), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08008c08	@ =D_0806f640
 	ldr	r1, _08008c0c	@ =D_0806f670
 	ldr	r2, _08008c14	@ =0x0000015f
@@ -807,6 +830,7 @@ L_08008be6:
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_08008bfc:
 	ldrh	r0, [r4, #2]
 @ src/act_player.c:353
@@ -942,6 +966,11 @@ L_08008cb4:
 	ldrh	r0, [r4, #0]
 	cmp	r0, #5
 	bls L_08008cd0
+	.ifdef FIXES
+fix_assert_L_08008cd0:
+	b	L_08008cd0	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 20 - (. - fix_assert_L_08008cd0), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08008cf0	@ =D_0806f640
 	ldr	r1, _08008cf4	@ =D_0806f670
 	ldr	r3, _08008cf8	@ =D_0806f824
@@ -950,6 +979,7 @@ L_08008cb4:
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_08008cd0:
 	ldr	r2, _08008cfc	@ =player_voice_fx
 @ src/act_player.c:399
@@ -1010,6 +1040,11 @@ L_08008d2a:
 	ldrh	r0, [r4, #0]
 	cmp	r0, #5
 	bls L_08008d46
+	.ifdef FIXES
+fix_assert_L_08008d46:
+	b	L_08008d46	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 20 - (. - fix_assert_L_08008d46), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08008d64	@ =D_0806f640
 	ldr	r1, _08008d68	@ =D_0806f670
 	movs	r2, #199
@@ -1018,6 +1053,7 @@ L_08008d2a:
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_08008d46:
 	ldr	r2, _08008d70	@ =player_voice_fx
 @ src/act_player.c:399

@@ -10,6 +10,11 @@ init_beachhut:  @ 0800d7d0
 @ src/act_beachhut.c:29
 	cmp	r6, #0
 	bne L_0800d7ea
+	.ifdef FIXES
+fix_assert_L_0800d7ea:
+	b	L_0800d7ea	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800d7ea), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800d804	@ =D_0806fe40
 	ldr	r1, _0800d808	@ =D_0806fe70
 	ldr	r3, _0800d80c	@ =D_0806fe84
@@ -17,6 +22,7 @@ init_beachhut:  @ 0800d7d0
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800d7ea:
 	movs	r0, #1
 @ src/act_beachhut.c:31
@@ -127,6 +133,11 @@ act_beachhut:  @ 0800d8b4
 @ src/act_beachhut.c:64
 	cmp	r4, #0
 	bne L_0800d8ce
+	.ifdef FIXES
+fix_assert_L_0800d8ce:
+	b	L_0800d8ce	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800d8ce), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800d8ec	@ =D_0806fe40
 	ldr	r1, _0800d8f0	@ =D_0806fe70
 	ldr	r3, _0800d8f4	@ =D_0806fe84
@@ -134,6 +145,7 @@ act_beachhut:  @ 0800d8b4
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800d8ce:
 	adds	r5, r4, #0
 @ src/act_beachhut.c:66
@@ -171,6 +183,11 @@ react_beachhut:  @ 0800d8f8
 @ src/act_beachhut.c:98
 	cmp	r5, #0
 	bne L_0800d914
+	.ifdef FIXES
+fix_assert_L_0800d914:
+	b	L_0800d914	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800d914), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800d938	@ =D_0806fe40
 	ldr	r1, _0800d93c	@ =D_0806fe70
 	ldr	r3, _0800d940	@ =D_0806fe84
@@ -178,10 +195,16 @@ react_beachhut:  @ 0800d8f8
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800d914:
 	cmp	r4, #0
 @ src/act_beachhut.c:99
 	bne L_0800d92a
+	.ifdef FIXES
+fix_assert_L_0800d92a:
+	b	L_0800d92a	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800d92a), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800d938	@ =D_0806fe40
 	ldr	r1, _0800d93c	@ =D_0806fe70
 	ldr	r3, _0800d944	@ =D_0806fe90
@@ -189,6 +212,7 @@ L_0800d914:
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800d92a:
 	ldrh	r0, [r4, #2]
 @ src/act_beachhut.c:101

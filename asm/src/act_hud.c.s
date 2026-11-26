@@ -14,6 +14,11 @@ init_hud_map:  @ 08009f80
 @ src/act_hud.c:29
 	cmp	r5, #0
 	bne L_08009fa2
+	.ifdef FIXES
+fix_assert_L_08009fa2:
+	b	L_08009fa2	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_08009fa2), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08009fb8	@ =D_0806f9f0
 	ldr	r1, _08009fbc	@ =D_0806fa20
 	ldr	r3, _08009fc0	@ =D_0806fa30
@@ -21,6 +26,7 @@ init_hud_map:  @ 08009f80
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_08009fa2:
 	movs	r6, #0
 @ src/act_hud.c:32
@@ -323,6 +329,11 @@ act_hud_map:  @ 0800a17c
 @ src/act_hud.c:162
 	cmp	r4, #0
 	bne L_0800a19a
+	.ifdef FIXES
+fix_assert_L_0800a19a:
+	b	L_0800a19a	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800a19a), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800a1b0	@ =D_0806f9f0
 	ldr	r1, _0800a1b4	@ =D_0806fa20
 	ldr	r3, _0800a1b8	@ =D_0806fa30
@@ -330,6 +341,7 @@ act_hud_map:  @ 0800a17c
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800a19a:
 	adds	r2, r4, #0
 @ src/act_hud.c:166
@@ -527,6 +539,11 @@ init_hud_counter:  @ 0800a2a4
 @ src/act_hud.c:237
 	cmp	r7, #0
 	bne L_0800a2be
+	.ifdef FIXES
+fix_assert_L_0800a2be:
+	b	L_0800a2be	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800a2be), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800a328	@ =D_0806f9f0
 	ldr	r1, _0800a32c	@ =D_0806fa20
 	ldr	r3, _0800a330	@ =D_0806fa30
@@ -534,6 +551,7 @@ init_hud_counter:  @ 0800a2a4
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800a2be:
 	movs	r1, #0
 @ src/act_hud.c:238
@@ -621,6 +639,11 @@ act_hud_counter:  @ 0800a340
 @ src/act_hud.c:269
 	cmp	r4, #0
 	bne L_0800a35a
+	.ifdef FIXES
+fix_assert_L_0800a35a:
+	b	L_0800a35a	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800a35a), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800a3a0	@ =D_0806f9f0
 	ldr	r1, _0800a3a4	@ =D_0806fa20
 	ldr	r2, _0800a3a8	@ =0x0000010d
@@ -628,6 +651,7 @@ act_hud_counter:  @ 0800a340
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800a35a:
 	ldr	r2, _0800a3b0	@ =monitor
 @ src/act_hud.c:271
@@ -809,6 +833,11 @@ act_hud_direction:  @ 0800a458
 @ src/act_hud.c:346
 	cmp	r4, #0
 	bne L_0800a474
+	.ifdef FIXES
+fix_assert_L_0800a474:
+	b	L_0800a474	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 20 - (. - fix_assert_L_0800a474), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800a498	@ =D_0806f9f0
 	ldr	r1, _0800a49c	@ =D_0806fa20
 	movs	r2, #173
@@ -817,6 +846,7 @@ act_hud_direction:  @ 0800a458
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800a474:
 	adds	r0, r4, #0
 @ src/act_hud.c:348
@@ -1030,6 +1060,11 @@ act_hud_position:  @ 0800a5b4
 @ src/act_hud.c:430
 	cmp	r5, #0
 	bne L_0800a5d0
+	.ifdef FIXES
+fix_assert_L_0800a5d0:
+	b	L_0800a5d0	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 20 - (. - fix_assert_L_0800a5d0), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800a618	@ =D_0806f9f0
 	ldr	r1, _0800a61c	@ =D_0806fa20
 	movs	r2, #215
@@ -1038,6 +1073,7 @@ act_hud_position:  @ 0800a5b4
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800a5d0:
 	ldr	r0, _0800a624	@ =monitor
 @ src/act_hud.c:432
@@ -1519,6 +1555,11 @@ act_hud_status:  @ 0800a890
 @ src/act_hud.c:600
 	cmp	r4, #0
 	bne L_0800a8ac
+	.ifdef FIXES
+fix_assert_L_0800a8ac:
+	b	L_0800a8ac	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 20 - (. - fix_assert_L_0800a8ac), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800a8c4	@ =D_0806f9f0
 	ldr	r1, _0800a8c8	@ =D_0806fa20
 	movs	r2, #150
@@ -1527,6 +1568,7 @@ act_hud_status:  @ 0800a890
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800a8ac:
 	adds	r0, r4, #0
 @ src/act_hud.c:602
@@ -1763,6 +1805,11 @@ init_hud_banana:  @ 0800aa08
 @ src/act_hud.c:695
 	cmp	r6, #0
 	bne L_0800aa28
+	.ifdef FIXES
+fix_assert_L_0800aa28:
+	b	L_0800aa28	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800aa28), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800aac8	@ =D_0806f9f0
 	ldr	r1, _0800aacc	@ =D_0806fa20
 	ldr	r2, _0800aad0	@ =0x000002b7
@@ -1770,6 +1817,7 @@ init_hud_banana:  @ 0800aa08
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800aa28:
 	movs	r1, #0
 @ src/act_hud.c:697
@@ -1890,6 +1938,11 @@ act_hud_banana:  @ 0800aae0
 @ src/act_hud.c:738
 	cmp	r7, #0
 	bne L_0800aafc
+	.ifdef FIXES
+fix_assert_L_0800aafc:
+	b	L_0800aafc	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800aafc), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800ab5c	@ =D_0806f9f0
 	ldr	r1, _0800ab60	@ =D_0806fa20
 	ldr	r2, _0800ab64	@ =0x000002e2
@@ -1897,6 +1950,7 @@ act_hud_banana:  @ 0800aae0
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800aafc:
 	ldr	r0, _0800ab6c	@ =players
 @ src/act_hud.c:740
@@ -2075,6 +2129,11 @@ init_hud_status:  @ 0800abf8
 @ src/act_hud.c:593
 	cmp	r4, #0
 	bne L_0800ac12
+	.ifdef FIXES
+fix_assert_L_0800ac12:
+	b	L_0800ac12	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800ac12), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800ac1c	@ =D_0806f9f0
 	ldr	r1, _0800ac20	@ =D_0806fa20
 	ldr	r2, _0800ac24	@ =0x00000251
@@ -2082,6 +2141,7 @@ init_hud_status:  @ 0800abf8
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800ac12:
 	movs	r0, #1
 @ src/act_hud.c:595
@@ -2107,6 +2167,11 @@ init_hud_position:  @ 0800ac2c
 @ src/act_hud.c:417
 	cmp	r4, #0
 	bne L_0800ac46
+	.ifdef FIXES
+fix_assert_L_0800ac46:
+	b	L_0800ac46	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800ac46), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800ac78	@ =D_0806f9f0
 	ldr	r1, _0800ac7c	@ =D_0806fa20
 	ldr	r2, _0800ac80	@ =0x000001a1
@@ -2114,6 +2179,7 @@ init_hud_position:  @ 0800ac2c
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800ac46:
 	movs	r1, #0
 @ src/act_hud.c:419
@@ -2163,6 +2229,11 @@ init_hud_direction:  @ 0800ac88
 @ src/act_hud.c:332
 	cmp	r4, #0
 	bne L_0800aca4
+	.ifdef FIXES
+fix_assert_L_0800aca4:
+	b	L_0800aca4	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 20 - (. - fix_assert_L_0800aca4), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800acd4	@ =D_0806f9f0
 	ldr	r1, _0800acd8	@ =D_0806fa20
 	movs	r2, #166
@@ -2171,6 +2242,7 @@ init_hud_direction:  @ 0800ac88
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800aca4:
 	movs	r1, #0
 @ src/act_hud.c:334

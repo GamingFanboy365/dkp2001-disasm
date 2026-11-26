@@ -61,4 +61,4 @@ $(BUILD)/dkp.gba: $(BUILD)/dkp.elf
 	$(OBJCOPY) -O binary $< $@
 
 clean:
-	rm -rf build build_shift_* build_fixed
+	rm -rf build build_shift_* build_fixed build_fx_*

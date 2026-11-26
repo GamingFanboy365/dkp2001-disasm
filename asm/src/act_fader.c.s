@@ -10,6 +10,11 @@ act_fader:  @ 0800fa04
 @ src/act_fader.c:35
 	cmp	r4, #0
 	bne L_0800fa1e
+	.ifdef FIXES
+fix_assert_L_0800fa1e:
+	b	L_0800fa1e	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800fa1e), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800fa34	@ =D_080701c0
 	ldr	r1, _0800fa38	@ =D_080701f0
 	ldr	r3, _0800fa3c	@ =D_08070200
@@ -17,6 +22,7 @@ act_fader:  @ 0800fa04
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800fa1e:
 	adds	r2, r4, #0
 @ src/act_fader.c:37
@@ -142,6 +148,11 @@ init_fader:  @ 0800fad4
 @ src/act_fader.c:25
 	cmp	r4, #0
 	bne L_0800faee
+	.ifdef FIXES
+fix_assert_L_0800faee:
+	b	L_0800faee	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800faee), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800fb08	@ =D_080701c0
 	ldr	r1, _0800fb0c	@ =D_080701f0
 	ldr	r3, _0800fb10	@ =D_08070200
@@ -149,6 +160,7 @@ init_fader:  @ 0800fad4
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800faee:
 	movs	r0, #0
 @ src/act_fader.c:27

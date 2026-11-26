@@ -10,6 +10,11 @@ init_pylon:  @ 0800dba8
 @ src/act_pylon.c:33
 	cmp	r4, #0
 	bne L_0800dbc2
+	.ifdef FIXES
+fix_assert_L_0800dbc2:
+	b	L_0800dbc2	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800dbc2), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800dbf8	@ =D_0806ff54
 	ldr	r1, _0800dbfc	@ =D_0806ff84
 	ldr	r3, _0800dc00	@ =D_0806ff94
@@ -17,6 +22,7 @@ init_pylon:  @ 0800dba8
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800dbc2:
 	movs	r0, #1
 @ src/act_pylon.c:35
@@ -116,6 +122,11 @@ act_pylon:  @ 0800dc58
 @ src/act_pylon.c:66
 	cmp	r0, #0
 	bne L_0800dc7c
+	.ifdef FIXES
+fix_assert_L_0800dc7c:
+	b	L_0800dc7c	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800dc7c), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800dcc8	@ =D_0806ff54
 	ldr	r1, _0800dccc	@ =D_0806ff84
 	ldr	r3, _0800dcd0	@ =D_0806ff94
@@ -123,6 +134,7 @@ act_pylon:  @ 0800dc58
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800dc7c:
 	ldr	r0, _0800dcd4	@ =SPLINE_EDIT
 @ src/act_pylon.c:68
@@ -552,6 +564,11 @@ react_pylon:  @ 0800df44
 @ src/act_pylon.c:155
 	cmp	r5, #0
 	bne L_0800df60
+	.ifdef FIXES
+fix_assert_L_0800df60:
+	b	L_0800df60	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800df60), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800df84	@ =D_0806ff54
 	ldr	r1, _0800df88	@ =D_0806ff84
 	ldr	r3, _0800df8c	@ =D_0806ff94
@@ -559,10 +576,16 @@ react_pylon:  @ 0800df44
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800df60:
 	cmp	r4, #0
 @ src/act_pylon.c:156
 	bne L_0800df76
+	.ifdef FIXES
+fix_assert_L_0800df76:
+	b	L_0800df76	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800df76), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800df84	@ =D_0806ff54
 	ldr	r1, _0800df88	@ =D_0806ff84
 	ldr	r3, _0800df90	@ =D_0806ffa0
@@ -570,6 +593,7 @@ L_0800df60:
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800df76:
 	ldrh	r0, [r4, #2]
 @ src/act_pylon.c:158

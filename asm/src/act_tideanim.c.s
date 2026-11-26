@@ -10,6 +10,11 @@ init_tideanim:  @ 0800e780
 @ src/act_tideanim.c:21
 	cmp	r4, #0
 	bne L_0800e79a
+	.ifdef FIXES
+fix_assert_L_0800e79a:
+	b	L_0800e79a	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800e79a), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800e7cc	@ =D_08070078
 	ldr	r1, _0800e7d0	@ =D_080700a8
 	ldr	r3, _0800e7d4	@ =D_080700bc
@@ -17,6 +22,7 @@ init_tideanim:  @ 0800e780
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800e79a:
 	movs	r2, #0
 @ src/act_tideanim.c:23
@@ -102,6 +108,11 @@ act_tideanim:  @ 0800e80c
 @ src/act_tideanim.c:50
 	cmp	r4, #0
 	bne L_0800e826
+	.ifdef FIXES
+fix_assert_L_0800e826:
+	b	L_0800e826	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800e826), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800e87c	@ =D_08070078
 	ldr	r1, _0800e880	@ =D_080700a8
 	ldr	r3, _0800e884	@ =D_080700bc
@@ -109,6 +120,7 @@ act_tideanim:  @ 0800e80c
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800e826:
 	movs	r0, #81
 @ src/act_tideanim.c:54

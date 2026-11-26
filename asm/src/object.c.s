@@ -10,6 +10,11 @@ obj_add_process:  @ 080072c0
 @ src/object.c:73
 	cmp	r4, #0
 	bne L_080072da
+	.ifdef FIXES
+fix_assert_L_080072da:
+	b	L_080072da	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_080072da), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08007334	@ =D_0806f1e0
 	ldr	r1, _08007338	@ =D_0806f210
 	ldr	r3, _0800733c	@ =D_0806f220
@@ -17,6 +22,7 @@ obj_add_process:  @ 080072c0
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_080072da:
 	ldrh	r0, [r4, #0]
 @ src/object.c:74
@@ -25,6 +31,11 @@ L_080072da:
 	ands	r0, r1
 	cmp	r0, #0
 	bne L_080072f8
+	.ifdef FIXES
+fix_assert_L_080072f8:
+	b	L_080072f8	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_080072f8), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08007334	@ =D_0806f1e0
 	ldr	r1, _08007338	@ =D_0806f210
 	ldr	r3, _08007340	@ =D_0806f22c
@@ -32,6 +43,7 @@ L_080072da:
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_080072f8:
 	ldr	r1, _08007344	@ =tab_types
 @ src/object.c:77
@@ -98,6 +110,11 @@ obj_remove_process:  @ 08007350
 @ src/object.c:92
 	cmp	r4, #0
 	bne L_0800736a
+	.ifdef FIXES
+fix_assert_L_0800736a:
+	b	L_0800736a	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800736a), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _080073a4	@ =D_0806f1e0
 	ldr	r1, _080073a8	@ =D_0806f210
 	ldr	r3, _080073ac	@ =D_0806f220
@@ -105,6 +122,7 @@ obj_remove_process:  @ 08007350
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800736a:
 	ldrh	r1, [r4, #0]
 @ src/object.c:93
@@ -112,6 +130,11 @@ L_0800736a:
 	ands	r0, r1
 	cmp	r0, #0
 	bne L_08007386
+	.ifdef FIXES
+fix_assert_L_08007386:
+	b	L_08007386	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_08007386), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _080073a4	@ =D_0806f1e0
 	ldr	r1, _080073a8	@ =D_0806f210
 	ldr	r3, _080073b0	@ =D_0806f244
@@ -119,6 +142,7 @@ L_0800736a:
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_08007386:
 	ldrh	r1, [r4, #0]
 @ src/object.c:95
@@ -159,6 +183,11 @@ L_080073b8:
 	ldr	r0, [r5, #0]
 	cmp	r0, r4
 	beq L_080073d2
+	.ifdef FIXES
+fix_assert_L_080073d2:
+	b	L_080073d2	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_080073d2), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _080073e0	@ =D_0806f1e0
 	ldr	r1, _080073e4	@ =D_0806f210
 	ldr	r3, _080073e8	@ =D_0806f25c
@@ -166,6 +195,7 @@ L_080073b8:
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_080073d2:
 	ldr	r0, [r4, #4]
 @ src/object.c:103
@@ -192,6 +222,11 @@ obj_remove_draw:  @ 080073ec
 @ src/object.c:123
 	cmp	r4, #0
 	bne L_08007406
+	.ifdef FIXES
+fix_assert_L_08007406:
+	b	L_08007406	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_08007406), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08007444	@ =D_0806f1e0
 	ldr	r1, _08007448	@ =D_0806f210
 	ldr	r3, _0800744c	@ =D_0806f220
@@ -199,6 +234,7 @@ obj_remove_draw:  @ 080073ec
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_08007406:
 	ldrh	r1, [r4, #0]
 @ src/object.c:124
@@ -207,6 +243,11 @@ L_08007406:
 	ands	r0, r1
 	cmp	r0, #0
 	bne L_08007424
+	.ifdef FIXES
+fix_assert_L_08007424:
+	b	L_08007424	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_08007424), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08007444	@ =D_0806f1e0
 	ldr	r1, _08007448	@ =D_0806f210
 	ldr	r3, _08007450	@ =D_0806f290
@@ -214,6 +255,7 @@ L_08007406:
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_08007424:
 	ldrh	r1, [r4, #0]
 @ src/object.c:126
@@ -279,6 +321,11 @@ obj_add_hit:  @ 08007474
 @ src/object.c:148
 	cmp	r4, #0
 	bne L_0800748e
+	.ifdef FIXES
+fix_assert_L_0800748e:
+	b	L_0800748e	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800748e), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08007504	@ =D_0806f1e0
 	ldr	r1, _08007508	@ =D_0806f210
 	ldr	r3, _0800750c	@ =D_0806f220
@@ -286,6 +333,7 @@ obj_add_hit:  @ 08007474
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800748e:
 	ldrh	r0, [r4, #0]
 @ src/object.c:149
@@ -294,6 +342,11 @@ L_0800748e:
 	ands	r0, r1
 	cmp	r0, #0
 	bne L_080074ac
+	.ifdef FIXES
+fix_assert_L_080074ac:
+	b	L_080074ac	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_080074ac), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08007504	@ =D_0806f1e0
 	ldr	r1, _08007508	@ =D_0806f210
 	ldr	r3, _08007510	@ =D_0806f2a8
@@ -301,6 +354,7 @@ L_0800748e:
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_080074ac:
 	ldr	r1, _08007514	@ =tab_types
 @ src/object.c:152
@@ -382,6 +436,11 @@ obj_free:  @ 08007520
 @ src/object.c:208
 	cmp	r4, #0
 	bne L_0800753a
+	.ifdef FIXES
+fix_assert_L_0800753a:
+	b	L_0800753a	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800753a), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08007598	@ =D_0806f1e0
 	ldr	r1, _0800759c	@ =D_0806f210
 	ldr	r3, _080075a0	@ =D_0806f220
@@ -389,6 +448,7 @@ obj_free:  @ 08007520
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800753a:
 	ldr	r1, _080075a4	@ =tab_types
 @ src/object.c:214
@@ -522,6 +582,11 @@ obj_setup_sprite:  @ 080075f8
 @ src/object.c:252
 	cmp	r4, #0
 	bne L_08007618
+	.ifdef FIXES
+fix_assert_L_08007618:
+	b	L_08007618	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_08007618), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800764c	@ =D_0806f1e0
 	ldr	r1, _08007650	@ =D_0806f210
 	ldr	r3, _08007654	@ =D_0806f220
@@ -529,6 +594,7 @@ obj_setup_sprite:  @ 080075f8
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_08007618:
 	ldrh	r0, [r4, #0]
 @ src/object.c:253
@@ -538,6 +604,11 @@ L_08007618:
 	ands	r0, r5
 	cmp	r0, #0
 	bne L_08007638
+	.ifdef FIXES
+fix_assert_L_08007638:
+	b	L_08007638	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_08007638), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800764c	@ =D_0806f1e0
 	ldr	r1, _08007650	@ =D_0806f210
 	ldr	r3, _08007658	@ =D_0806f2f4
@@ -545,6 +616,7 @@ L_08007618:
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_08007638:
 	ldrh	r0, [r4, #0]
 @ src/object.c:255
@@ -664,6 +736,11 @@ L_080076e4:
 	ands	r0, r5
 	cmp	r0, #0
 	bne L_08007704
+	.ifdef FIXES
+fix_assert_L_08007704:
+	b	L_08007704	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_08007704), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08007730	@ =D_0806f1e0
 	ldr	r1, _08007734	@ =D_0806f210
 	ldr	r3, _08007738	@ =D_0806f278
@@ -671,6 +748,7 @@ L_080076e4:
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_08007704:
 	ldrh	r1, [r4, #0]
 @ src/object.c:112
@@ -722,6 +800,11 @@ obj_destroy_sprite:  @ 08007740
 @ src/object.c:291
 	cmp	r6, #0
 	bne L_08007760
+	.ifdef FIXES
+fix_assert_L_08007760:
+	b	L_08007760	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_08007760), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _080077e8	@ =D_0806f1e0
 	ldr	r1, _080077ec	@ =D_0806f210
 	ldr	r2, _080077f0	@ =0x00000123
@@ -729,6 +812,7 @@ obj_destroy_sprite:  @ 08007740
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_08007760:
 	ldrh	r1, [r6, #0]
 @ src/object.c:292
@@ -737,6 +821,11 @@ L_08007760:
 	ands	r0, r1
 	cmp	r0, #0
 	bne L_08007780
+	.ifdef FIXES
+fix_assert_L_08007780:
+	b	L_08007780	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 20 - (. - fix_assert_L_08007780), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _080077e8	@ =D_0806f1e0
 	ldr	r1, _080077ec	@ =D_0806f210
 	movs	r2, #146
@@ -745,6 +834,7 @@ L_08007760:
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_08007780:
 	ldrh	r0, [r6, #0]
 @ src/object.c:294
@@ -848,6 +938,11 @@ L_08007814:
 @ src/object.c:184
 	cmp	r4, #0
 	bgt L_08007834
+	.ifdef FIXES
+fix_assert_L_08007834:
+	b	L_08007834	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_08007834), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800785c	@ =D_0806f1e0
 	ldr	r1, _08007860	@ =D_0806f210
 	movs	r2, #184
@@ -855,10 +950,16 @@ L_08007814:
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_08007834:
 	cmp	r4, #99
 @ src/object.c:185
 	ble L_0800784a
+	.ifdef FIXES
+fix_assert_L_0800784a:
+	b	L_0800784a	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0800784a), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0800785c	@ =D_0806f1e0
 	ldr	r1, _08007860	@ =D_0806f210
 	movs	r2, #185
@@ -866,6 +967,7 @@ L_08007834:
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800784a:
 	ldr	r2, _0800786c	@ =object_free_list
 @ src/object.c:189
@@ -1112,6 +1214,11 @@ obj_new:  @ 080079b8
 @ src/object.c:184
 	cmp	r4, #0
 	bgt L_080079d2
+	.ifdef FIXES
+fix_assert_L_080079d2:
+	b	L_080079d2	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_080079d2), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _080079f4	@ =D_0806f1e0
 	ldr	r1, _080079f8	@ =D_0806f210
 	ldr	r3, _080079fc	@ =D_0806f2d8
@@ -1119,10 +1226,16 @@ obj_new:  @ 080079b8
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_080079d2:
 	cmp	r4, #99
 @ src/object.c:185
 	ble L_080079e8
+	.ifdef FIXES
+fix_assert_L_080079e8:
+	b	L_080079e8	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_080079e8), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _080079f4	@ =D_0806f1e0
 	ldr	r1, _080079f8	@ =D_0806f210
 	ldr	r3, _08007a00	@ =D_0806f2e4
@@ -1130,6 +1243,7 @@ L_080079d2:
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_080079e8:
 	ldr	r2, _08007a04	@ =object_free_list
 @ src/object.c:189
@@ -1172,6 +1286,11 @@ obj_initialise:  @ 08007a18
 @ src/object.c:316
 	cmp	r4, #0
 	bne L_08007a34
+	.ifdef FIXES
+fix_assert_L_08007a34:
+	b	L_08007a34	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 20 - (. - fix_assert_L_08007a34), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08007a64	@ =D_0806f1e0
 	ldr	r1, _08007a68	@ =D_0806f210
 	movs	r2, #158
@@ -1180,6 +1299,7 @@ obj_initialise:  @ 08007a18
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_08007a34:
 	ldr	r1, _08007a70	@ =tab_types
 @ src/object.c:318
@@ -1273,6 +1393,11 @@ obj_add_draw:  @ 08007ab4
 @ src/object.c:109
 	cmp	r4, #0
 	bne L_08007ace
+	.ifdef FIXES
+fix_assert_L_08007ace:
+	b	L_08007ace	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_08007ace), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08007b10	@ =D_0806f1e0
 	ldr	r1, _08007b14	@ =D_0806f210
 	ldr	r3, _08007b18	@ =D_0806f220
@@ -1280,6 +1405,7 @@ obj_add_draw:  @ 08007ab4
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_08007ace:
 	ldrh	r0, [r4, #0]
 @ src/object.c:110
@@ -1289,6 +1415,11 @@ L_08007ace:
 	ands	r0, r5
 	cmp	r0, #0
 	bne L_08007aee
+	.ifdef FIXES
+fix_assert_L_08007aee:
+	b	L_08007aee	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_08007aee), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08007b10	@ =D_0806f1e0
 	ldr	r1, _08007b14	@ =D_0806f210
 	ldr	r3, _08007b1c	@ =D_0806f278
@@ -1296,6 +1427,7 @@ L_08007ace:
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_08007aee:
 	ldrh	r1, [r4, #0]
 @ src/object.c:112
@@ -1341,6 +1473,11 @@ obj_remove_hit:  @ 08007b24
 @ src/object.c:169
 	cmp	r4, #0
 	bne L_08007b3e
+	.ifdef FIXES
+fix_assert_L_08007b3e:
+	b	L_08007b3e	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_08007b3e), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08007b70	@ =D_0806f1e0
 	ldr	r1, _08007b74	@ =D_0806f210
 	ldr	r3, _08007b78	@ =D_0806f220
@@ -1348,6 +1485,7 @@ obj_remove_hit:  @ 08007b24
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_08007b3e:
 	ldrh	r1, [r4, #0]
 @ src/object.c:170
@@ -1355,6 +1493,11 @@ L_08007b3e:
 	ands	r0, r1
 	cmp	r0, #0
 	bne L_08007b5a
+	.ifdef FIXES
+fix_assert_L_08007b5a:
+	b	L_08007b5a	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_08007b5a), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08007b70	@ =D_0806f1e0
 	ldr	r1, _08007b74	@ =D_0806f210
 	ldr	r3, _08007b7c	@ =D_0806f2c0
@@ -1362,6 +1505,7 @@ L_08007b3e:
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_08007b5a:
 	ldrh	r1, [r4, #0]
 @ src/object.c:171

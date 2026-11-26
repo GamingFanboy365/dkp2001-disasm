@@ -536,6 +536,11 @@ L_080063e2:
 	ldr	r0, [r4, #0]
 	cmp	r0, #0
 	bne L_080063fe
+	.ifdef FIXES
+fix_assert_L_080063fe:
+	b	L_080063fe	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 20 - (. - fix_assert_L_080063fe), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08006458	@ =D_0806f104
 	ldr	r1, _0800645c	@ =D_0806f134
 	movs	r2, #170
@@ -544,6 +549,7 @@ L_080063e2:
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_080063fe:
 	ldr	r0, [r4, #0]
 @ src/main.c:341

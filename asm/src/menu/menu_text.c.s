@@ -640,6 +640,11 @@ L_080126d4:
 L_080126de:
 	cmp	r7, #32
 	bne L_080126f4
+	.ifdef FIXES
+fix_assert_L_080126f4:
+	b	L_080126f4	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_080126f4), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0801276c	@ =D_080704e0
 	ldr	r1, _08012770	@ =D_08070510
 	ldr	r3, _08012774	@ =D_08070528
@@ -647,6 +652,7 @@ L_080126de:
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_080126f4:
 	movs	r5, #0
 @ src/menu/menu_text.c:258
@@ -676,6 +682,11 @@ L_08012712:
 @ src/menu/menu_text.c:263
 	cmp	r5, #32
 	ble L_08012730
+	.ifdef FIXES
+fix_assert_L_08012730:
+	b	L_08012730	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_08012730), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0801276c	@ =D_080704e0
 	ldr	r1, _08012770	@ =D_08070510
 	ldr	r2, _08012778	@ =0x00000107
@@ -683,6 +694,7 @@ L_08012712:
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_08012730:
 	strh	r5, [r4, #16]
 @ src/menu/menu_text.c:266
@@ -834,6 +846,11 @@ menu_text_remove:  @ 08012810
 @ src/menu/menu_text.c:280
 	cmp	r0, #0
 	bne L_08012834
+	.ifdef FIXES
+fix_assert_L_08012834:
+	b	L_08012834	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 20 - (. - fix_assert_L_08012834), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0801288c	@ =D_080704e0
 	ldr	r1, _08012890	@ =D_08070510
 	movs	r2, #140
@@ -842,12 +859,18 @@ menu_text_remove:  @ 08012810
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_08012834:
 	movs	r1, #0
 @ src/menu/menu_text.c:281
 	ldrsh	r0, [r5, r1]
 	cmp	r0, #0
 	bne L_0801284e
+	.ifdef FIXES
+fix_assert_L_0801284e:
+	b	L_0801284e	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_0801284e), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0801288c	@ =D_080704e0
 	ldr	r1, _08012890	@ =D_08070510
 	ldr	r2, _08012898	@ =0x00000119
@@ -855,6 +878,7 @@ L_08012834:
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0801284e:
 	movs	r0, #0
 @ src/menu/menu_text.c:283
@@ -925,6 +949,11 @@ menu_text_set_font_handle:  @ 080128a8
 	ldrsh	r0, [r4, r1]
 	cmp	r0, #0
 	bne L_080128d2
+	.ifdef FIXES
+fix_assert_L_080128d2:
+	b	L_080128d2	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 20 - (. - fix_assert_L_080128d2), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _080128ec	@ =D_080704e0
 	ldr	r1, _080128f0	@ =D_08070510
 	movs	r2, #147
@@ -933,6 +962,7 @@ menu_text_set_font_handle:  @ 080128a8
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_080128d2:
 	movs	r1, #4
 @ src/menu/menu_text.c:296
@@ -976,6 +1006,11 @@ menu_text_set_xy_handle:  @ 080128f8
 	ldrsh	r0, [r4, r1]
 	cmp	r0, #0
 	bne L_08012922
+	.ifdef FIXES
+fix_assert_L_08012922:
+	b	L_08012922	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_08012922), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08012948	@ =D_080704e0
 	ldr	r1, _0801294c	@ =D_08070510
 	ldr	r2, _08012950	@ =0x00000133
@@ -983,6 +1018,7 @@ menu_text_set_xy_handle:  @ 080128f8
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_08012922:
 	movs	r1, #8
 @ src/menu/menu_text.c:309
@@ -1037,6 +1073,11 @@ menu_text_set_x_handle:  @ 08012958
 	ldrsh	r0, [r4, r1]
 	cmp	r0, #0
 	bne L_08012982
+	.ifdef FIXES
+fix_assert_L_08012982:
+	b	L_08012982	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 20 - (. - fix_assert_L_08012982), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _0801299c	@ =D_080704e0
 	ldr	r1, _080129a0	@ =D_08070510
 	movs	r2, #163
@@ -1045,6 +1086,7 @@ menu_text_set_x_handle:  @ 08012958
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_08012982:
 	movs	r1, #8
 @ src/menu/menu_text.c:328
@@ -1087,6 +1129,11 @@ menu_text_set_dx_handle:  @ 080129a8
 	ldrsh	r0, [r4, r1]
 	cmp	r0, #0
 	bne L_080129d0
+	.ifdef FIXES
+fix_assert_L_080129d0:
+	b	L_080129d0	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_080129d0), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _080129e8	@ =D_080704e0
 	ldr	r1, _080129ec	@ =D_08070510
 	ldr	r2, _080129f0	@ =0x00000153
@@ -1094,6 +1141,7 @@ menu_text_set_dx_handle:  @ 080129a8
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_080129d0:
 	movs	r1, #10
 @ src/menu/menu_text.c:341
@@ -1137,6 +1185,11 @@ menu_text_set_y_handle:  @ 080129f8
 	ldrsh	r0, [r4, r1]
 	cmp	r0, #0
 	bne L_08012a22
+	.ifdef FIXES
+fix_assert_L_08012a22:
+	b	L_08012a22	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 20 - (. - fix_assert_L_08012a22), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08012a3c	@ =D_080704e0
 	ldr	r1, _08012a40	@ =D_08070510
 	movs	r2, #176
@@ -1145,6 +1198,7 @@ menu_text_set_y_handle:  @ 080129f8
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_08012a22:
 	movs	r1, #12
 @ src/menu/menu_text.c:354
@@ -1187,6 +1241,11 @@ menu_text_set_dy_handle:  @ 08012a48
 	ldrsh	r0, [r4, r1]
 	cmp	r0, #0
 	bne L_08012a70
+	.ifdef FIXES
+fix_assert_L_08012a70:
+	b	L_08012a70	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_08012a70), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08012a88	@ =D_080704e0
 	ldr	r1, _08012a8c	@ =D_08070510
 	ldr	r2, _08012a90	@ =0x0000016d
@@ -1194,6 +1253,7 @@ menu_text_set_dy_handle:  @ 08012a48
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_08012a70:
 	movs	r1, #14
 @ src/menu/menu_text.c:367
@@ -1237,6 +1297,11 @@ menu_text_set_palette_handle:  @ 08012a98
 	ldrsh	r0, [r4, r1]
 	cmp	r0, #0
 	bne L_08012ac2
+	.ifdef FIXES
+fix_assert_L_08012ac2:
+	b	L_08012ac2	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 20 - (. - fix_assert_L_08012ac2), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08012adc	@ =D_080704e0
 	ldr	r1, _08012ae0	@ =D_08070510
 	movs	r2, #189
@@ -1245,6 +1310,7 @@ menu_text_set_palette_handle:  @ 08012a98
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_08012ac2:
 	movs	r1, #18
 @ src/menu/menu_text.c:380
@@ -1287,6 +1353,11 @@ menu_text_set_shadow_handle:  @ 08012ae8
 	ldrsh	r0, [r4, r1]
 	cmp	r0, #0
 	bne L_08012b10
+	.ifdef FIXES
+fix_assert_L_08012b10:
+	b	L_08012b10	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 18 - (. - fix_assert_L_08012b10), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08012b28	@ =D_080704e0
 	ldr	r1, _08012b2c	@ =D_08070510
 	ldr	r2, _08012b30	@ =0x00000187
@@ -1294,6 +1365,7 @@ menu_text_set_shadow_handle:  @ 08012ae8
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_08012b10:
 	movs	r1, #6
 @ src/menu/menu_text.c:393
@@ -1337,6 +1409,11 @@ menu_text_set_callback_handle:  @ 08012b38
 	ldrsh	r0, [r4, r1]
 	cmp	r0, #0
 	bne L_08012b62
+	.ifdef FIXES
+fix_assert_L_08012b62:
+	b	L_08012b62	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 20 - (. - fix_assert_L_08012b62), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08012b84	@ =D_080704e0
 	ldr	r1, _08012b88	@ =D_08070510
 	movs	r2, #202
@@ -1345,6 +1422,7 @@ menu_text_set_callback_handle:  @ 08012b38
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_08012b62:
 	ldr	r0, [r4, #20]
 @ src/menu/menu_text.c:406
@@ -1390,6 +1468,11 @@ menu_text_wobble_x_callback:  @ 08012b90
 @ src/menu/menu_text.c:444
 	cmp	r0, #0
 	bne L_08012bb6
+	.ifdef FIXES
+fix_assert_L_08012bb6:
+	b	L_08012bb6	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 20 - (. - fix_assert_L_08012bb6), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08012bd0	@ =D_080704e0
 	ldr	r1, _08012bd4	@ =D_08070510
 	movs	r2, #222
@@ -1398,6 +1481,7 @@ menu_text_wobble_x_callback:  @ 08012b90
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_08012bb6:
 	cmp	r5, #0
 @ src/menu/menu_text.c:446
@@ -1451,6 +1535,11 @@ menu_text_wobble_y_callback:  @ 08012bec
 @ src/menu/menu_text.c:420
 	cmp	r0, #0
 	bne L_08012c12
+	.ifdef FIXES
+fix_assert_L_08012c12:
+	b	L_08012c12	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.fill 20 - (. - fix_assert_L_08012c12), 1, 0	@ same size as the original block
+	.else
 	ldr	r0, _08012c2c	@ =D_080704e0
 	ldr	r1, _08012c30	@ =D_08070510
 	movs	r2, #210
@@ -1459,6 +1548,7 @@ menu_text_wobble_y_callback:  @ 08012bec
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_08012c12:
 	cmp	r5, #0
 @ src/menu/menu_text.c:422

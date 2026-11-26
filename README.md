@@ -225,18 +225,22 @@ See [FIXES.md](FIXES.md): `make fixed` builds the fixed ROM and `make patch` mak
 
 ## Bugs found so far
 
-- **Jungle 03: computer players read past their waypoint network.** `ai_steer` (act_comp_player.c)
-  indexes past the end of `__net_jungle_03` (a 0x26-byte network) into the next data, which is
-  `english_table`, the text-pointer table. It then uses halves of those pointers as waypoint
-  coordinates. The AI on that track is steering by garbage.
-- **Unfinished tracks.** Desert 00, 02 and 03 have placeholder ground: grids stamped with their slot
-  names "S3-2", "R4-1" and "R5-3". Jungle 03 is a maze whose AI network is a stub (see above).
-- **Asserts trap.** Failed `ASSERT`s print through `AGBPrintf` and then hit an `0xEFFF` undefined
-  instruction (223 sites). On hardware or an emulator without a debugger attached, that's a hang
-  or crash rather than a message.
-- **newlib stdio state is in ROM.** `impure_data` was linked into `.data`, which sits in ROM in
-  this build, so `__sinit` re-initialises stdio on every debug print (its writes are dropped).
-  Harmless to gameplay, but every `printf` pays for it.
+Found by playing every track and the front-end in mGBA with `tools/romtest` reporting
+emulator-detected faults (illegal instructions, unmapped memory), plus reading the code. Fixed in
+the patch (see [FIXES.md](FIXES.md)):
+
+- **Farm 02 hangs on a black screen.** Its course has six start positions for four racers, and
+  the "idx < 4" assert traps.
+- **Failed asserts hang the game** (223 sites). They print through AGBPrint on corrupted stdio
+  state, then execute the undefined instruction `0xEFFF`.
+- **Grip grab weapon reads through null pointers** once its target or parent is gone.
+- **Computer players read past the AI network** on the 29 courses whose network has one route.
+  On Jungle 03 they steered by a text-pointer table.
+
+Not fixed (no data to fix them with):
+
+- **Unfinished tracks.** Desert 00, 02 and 03 have placeholder ground (grids stamped "S3-2",
+  "R4-1", "R5-3"). Beach 03, Farm 03 and Haunted 01 have no AI network at all.
 
 ## Status / roadmap
 
@@ -257,4 +261,5 @@ See [FIXES.md](FIXES.md): `make fixed` builds the fixed ROM and `make patch` mak
 - [ ] Editable format for in-game sprites (needs an encoder that reproduces the original RLE)
 - [ ] Matching decompilation of the C modules. The compiler is the same GCC 2.9 lineage
       `agbcc` derives from, and line tables give the source line for every instruction.
-- [ ] Bug-fix build of the game, distributed as an `.ips` patch against the ELF-derived ROM
+- [x] Bug-fix build (`make fixed`) and IPS patch (`make patch`): 4 fixes so far, see FIXES.md
+- [ ] More fixes: AI networks for the tracks that have none

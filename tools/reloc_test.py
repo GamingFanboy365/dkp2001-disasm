@@ -8,7 +8,10 @@ Then it plays every track in mGBA on all three ROMs with the same inputs and
 compares screen hashes. If a pointer were still a raw number, the shifted
 ROMs would crash or behave differently.
 
-Usage: python3 tools/reloc_test.py path/to/romtest [first_track] [last_track]
+Usage: python3 tools/reloc_test.py path/to/romtest [--fixed] [first_track] [last_track]
+
+With --fixed the bug-fix build is tested instead (make fixed); there the
+Jungle 03 out-of-bounds read is fixed, so every track must be identical.
 
 Track N is reached by pressing A N times on the debug menu, then START.
 """
@@ -49,12 +52,23 @@ def frontend(romtest, rom):
 
 
 def main():
-    romtest = sys.argv[1]
-    first = int(sys.argv[2]) if len(sys.argv) > 2 else 0
-    last = int(sys.argv[3]) if len(sys.argv) > 3 else 39
-    subprocess.run(["make", "-s", "compare"], check=True)
-    subprocess.run(["make", "-s", "shifted", "SHIFT_CODE=0x1000"], check=True, capture_output=True)
-    subprocess.run(["make", "-s", "shifted", "SHIFT_DATA=0x1000"], check=True, capture_output=True)
+    global ROMS, KNOWN
+    args = [a for a in sys.argv[1:] if a != "--fixed"]
+    romtest = args[0]
+    first = int(args[1]) if len(args) > 1 else 0
+    last = int(args[2]) if len(args) > 2 else 39
+    if "--fixed" in sys.argv:
+        ROMS = {"original": "build_fixed/dkp.gba",
+                "code+data shifted": "build_fx_c/dkp.gba",
+                "data shifted": "build_fx_d/dkp.gba"}
+        KNOWN = {}
+        subprocess.run(["make", "-s", "fixed"], check=True, capture_output=True)
+        for d, var in (("build_fx_c", "SHIFT_CODE=0x1000"), ("build_fx_d", "SHIFT_DATA=0x1000")):
+            subprocess.run(["make", "-s", f"BUILD={d}", "FIXES=1", var, f"{d}/dkp.gba"], check=True, capture_output=True)
+    else:
+        subprocess.run(["make", "-s", "compare"], check=True)
+        subprocess.run(["make", "-s", "shifted", "SHIFT_CODE=0x1000"], check=True, capture_output=True)
+        subprocess.run(["make", "-s", "shifted", "SHIFT_DATA=0x1000"], check=True, capture_output=True)
     bad = []
     h = {name: frontend(romtest, rom) for name, rom in ROMS.items()}
     diff = [n for n in h if h[n] != h["original"]]
