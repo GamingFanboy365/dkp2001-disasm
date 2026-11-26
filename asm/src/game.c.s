@@ -403,6 +403,16 @@ game_process:  @ 08006740
 	ldr	r0, [r0, #0]
 	bl _call_via_r0
 @ src/game.c:274
+	.ifdef FIXES
+	@ FIX "timing-meter": the developers' CPU-time meter. Each frame it put a
+	@ star on the bottom row at the scanline each stage of the frame finished
+	@ on, plus reference stars and circles at fixed positions, writing straight
+	@ into OAM slots 100-103 and 120-127 over whatever sprites were there.
+fix_timing_meter:
+	b	L_fix_timing_meter_end
+	.fill 130 - (. - fix_timing_meter), 1, 0	@ same size as the original
+L_fix_timing_meter_end:
+	.else
 	movs	r5, #0
 	ldr	r0, [r6, #0]
 	cmp	r5, r0
@@ -490,6 +500,7 @@ L_080067d0:
 @ src/game.c:298
 	ldr	r0, _08006900	@ =0x0700033c
 	strh	r2, [r0, #0]
+	.endif
 @ src/game.c:300
 	ldr	r4, _080068d4	@ =vcount_p
 @ src/game.c:305

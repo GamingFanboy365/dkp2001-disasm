@@ -833,6 +833,35 @@ L_08009b12:
 	cmp	r0, #0
 	beq L_08009b98
 @ src/act_camera.c:280
+	.ifdef FIXES
+	@ FIX "fe-camera-pan": a race started from the front-end menu plays a
+	@ camera fly-in read from the course's AI network, taken to be its 6th
+	@ route. Only the six courses whose network has six routes carry one; on
+	@ every other course (the Dog Fights arenas included) the game read
+	@ route data or garbage as a path of hundreds of points into the 32-point
+	@ buffer, wrecking RAM and hanging. Use the path only when there are six
+	@ routes; otherwise do the normal race-start pan the debug menu uses.
+fix_fe_camera_pan:
+	ldr	r2, _08009b90	@ =tab_levels
+	ldr	r0, _08009b94	@ =game_level
+	ldr	r1, [r0, #0]
+	movs	r0, #36
+	muls	r0, r1
+	adds	r0, r0, r2
+	ldr	r0, [r0, #32]	@ tab_levels[game_level].network
+	ldrh	r1, [r0, #0]	@ number of routes
+	cmp	r1, #6
+	bne	L_08009b98
+	ldrh	r1, [r0, #12]
+	lsrs	r1, r1, #1
+	lsls	r1, r1, #1
+	adds	r0, r0, r1
+	bl campan_load2
+	movs	r0, #1
+	str	r0, [r4, #88]
+	b L_08009ba6
+	.fill 38 - (. - fix_fe_camera_pan), 1, 0	@ same size as the original
+	.else
 	ldr	r2, _08009b90	@ =tab_levels
 	ldr	r0, _08009b94	@ =game_level
 	ldr	r1, [r0, #0]
@@ -855,6 +884,7 @@ L_08009b12:
 @ src/act_camera.c:285
 	b L_08009ba6
 	movs	r0, r0
+	.endif
 	.balign 4
 _08009b78:
 	.word D_0806f8d8	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"

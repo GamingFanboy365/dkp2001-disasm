@@ -294,11 +294,18 @@ the patch (see [FIXES.md](FIXES.md)):
   On Jungle 03 they steered by a text-pointer table.
 - **The races are silent**, though the ROM has six course themes and final-lap speed-up code.
   The fixed build plays each world's theme.
+- **Races started from the front-end hang** on most courses, Dog Fights included. The camera
+  fly-in is read from the course's AI network, and only six courses have one; on the others a
+  garbage path of hundreds of points overruns a 32-point buffer and wrecks RAM.
+- **Stars and circles along the bottom of the screen** in races are the developers' CPU-time
+  meter, drawn straight into OAM. The fixed build hides it.
 
 Not fixed (no data to fix them with):
 
 - **Unfinished tracks.** Desert 00, 02 and 03 have placeholder ground (grids stamped "S3-2",
   "R4-1", "R5-3"). Beach 03, Farm 03 and Haunted 01 have no AI network at all.
+- **No dogfight game.** Dog Fights starts an ordinary race on an arena course; no code outside
+  the menu knows which mode was chosen.
 
 ## Status / roadmap
 
@@ -320,6 +327,6 @@ Not fixed (no data to fix them with):
 - [ ] Editable format for in-game sprites (needs an encoder that reproduces the original RLE)
 - [ ] Matching decompilation of the C modules. The compiler is the same GCC 2.9 lineage
       `agbcc` derives from, and line tables give the source line for every instruction.
-- [x] Bug-fix build (`make fixed`) and IPS patch (`patches/`, `make patch`): 5 fixes so far,
+- [x] Bug-fix build (`make fixed`) and IPS patch (`patches/`, `make patch`): 7 fixes so far,
       including music in the races; see FIXES.md
 - [ ] More fixes: AI networks for the tracks that have none

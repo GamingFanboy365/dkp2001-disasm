@@ -131,6 +131,12 @@ The game has two front-ends:
   sound driver's `AE_*` messages use it.
 - **222 `ASSERT`s** and the sound driver's error checks stop the game with an undefined
   instruction (`0xEFFF`) when they fail.
+- **CPU-time meter.** In races, `game_process` (game.c:274–298) draws a row of stars along the
+  bottom of the screen, one per frame stage, each at the x position of the scanline that stage
+  finished on, plus reference stars and circles. These are the stars and dots at the bottom of
+  every race screen. The fix patch hides it.
+- **Dog Fights is only a menu.** Its arenas start as ordinary races; nothing outside the menu
+  reads the chosen mode.
 - **`impure_data` in ROM.** newlib's stdio state was linked into ROM, so every debug print
   re-initialises stdio.
 
