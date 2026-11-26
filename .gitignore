@@ -1,0 +1,10 @@
+# Copyrighted inputs/outputs: never commit these.
+*.elf
+*.gba
+*.bin
+__pycache__/
+build/
+build_shift_*/
+tools/romtest/romtest
+# Game assets are extracted from your own ELF (tools/dkp_split.py --assets-only)
+assets/

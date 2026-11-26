@@ -1,0 +1,4585 @@
+@ data/rodata.s  [0805e6d0-0826034c]
+@ Labels and pointers are here; larger blocks of bytes are in assets/ (see the .incbin paths).
+
+
+tab_sin:  @ 0805e6d0
+	.incbin "assets/tables/tab_sin.bin"
+
+tab_tan:  @ 0805e8d2
+	.incbin "assets/tables/tab_tan.bin"
+
+tab_asin:  @ 0805ead2
+	.incbin "assets/tables/tab_asin.bin"
+
+tab_atan:  @ 0805ecd4
+	.incbin "assets/tables/tab_atan.bin"
+
+tab_oneovercosfromsin:  @ 0805eed6
+	.incbin "assets/tables/tab_oneovercosfromsin.bin"
+
+tab_oneoverx:  @ 0805f0d8
+	.incbin "assets/tables/tab_oneoverx.bin"
+
+D_0806f0d8:  @ 0806f0d8
+	.asciz "%s: start\n"
+	.byte 0x00
+
+D_0806f0e4:  @ 0806f0e4
+	.asciz "AgbMain"
+
+D_0806f0ec:  @ 0806f0ec
+	.asciz "%s: enter main loop\n"
+	.byte 0x00, 0x00, 0x00
+
+D_0806f104:  @ 0806f104
+	.asciz "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
+	.byte 0x00
+
+D_0806f134:  @ 0806f134
+	.asciz "src/main.c"
+	.byte 0x00
+
+D_0806f140:  @ 0806f140
+	.asciz "sys_mode != NULL"
+	.byte 0x00, 0x00, 0x00
+
+D_0806f154:  @ 0806f154
+	.asciz "%s: main loop finished (soft reset)\n"
+	.byte 0x00, 0x00, 0x00
+
+D_0806f17c:  @ 0806f17c
+	.asciz "%s: level=%i\n"
+	.byte 0x00, 0x00
+
+D_0806f18c:  @ 0806f18c
+	.asciz "game_init"
+	.byte 0x00, 0x00
+
+D_0806f198:  @ 0806f198
+	.asciz "%s: quit\n"
+	.byte 0x00, 0x00
+
+D_0806f1a4:  @ 0806f1a4
+	.asciz "game_process"
+	.byte 0x00, 0x00, 0x00
+
+D_0806f1b4:  @ 0806f1b4
+	.asciz "%s: restart\n"
+	.byte 0x00, 0x00, 0x00
+
+D_0806f1c4:  @ 0806f1c4
+	.asciz "%s: setup logo\n"
+
+D_0806f1d4:  @ 0806f1d4
+	.asciz "logo_init"
+	.byte 0x00, 0x00
+
+D_0806f1e0:  @ 0806f1e0
+	.asciz "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
+	.byte 0x00
+
+D_0806f210:  @ 0806f210
+	.asciz "src/object.c"
+	.byte 0x00, 0x00, 0x00
+
+D_0806f220:  @ 0806f220
+	.asciz "o != NULL"
+	.byte 0x00, 0x00
+
+D_0806f22c:  @ 0806f22c
+	.asciz "~OV_FLAGS(o) & OF_ACT"
+	.byte 0x00, 0x00
+
+D_0806f244:  @ 0806f244
+	.asciz "OV_FLAGS(o) & OF_ACT"
+	.byte 0x00, 0x00, 0x00
+
+D_0806f25c:  @ 0806f25c
+	.asciz "object_process_list == o"
+	.byte 0x00, 0x00, 0x00
+
+D_0806f278:  @ 0806f278
+	.asciz "~OV_FLAGS(o) & OF_DRAW"
+	.byte 0x00
+
+D_0806f290:  @ 0806f290
+	.asciz "OV_FLAGS(o) & OF_DRAW"
+	.byte 0x00, 0x00
+
+D_0806f2a8:  @ 0806f2a8
+	.asciz "~OV_FLAGS(o) & OF_REACT"
+
+D_0806f2c0:  @ 0806f2c0
+	.asciz "OV_FLAGS(o) & OF_REACT"
+	.byte 0x00
+
+D_0806f2d8:  @ 0806f2d8
+	.asciz "type > 0"
+	.byte 0x00, 0x00, 0x00
+
+D_0806f2e4:  @ 0806f2e4
+	.asciz "type < OBJ_NUM"
+	.byte 0x00
+
+D_0806f2f4:  @ 0806f2f4
+	.asciz "~OV_FLAGS(o) & OF_SPRITE"
+	.byte 0x00, 0x00, 0x00
+
+D_0806f310:  @ 0806f310
+	.asciz "OV_FLAGS(o) & OF_SPRITE"
+
+D_0806f328:  @ 0806f328
+	.asciz "Blend"
+	.byte 0x00, 0x00
+
+D_0806f330:  @ 0806f330
+	.asciz "Player"
+	.byte 0x00
+
+D_0806f338:  @ 0806f338
+	.asciz "Level"
+	.byte 0x00, 0x00
+
+D_0806f340:  @ 0806f340
+	.asciz "Desert  03  "
+	.byte 0x00, 0x00, 0x00
+
+D_0806f350:  @ 0806f350
+	.asciz "Desert  02  "
+	.byte 0x00, 0x00, 0x00
+
+D_0806f360:  @ 0806f360
+	.asciz "Desert  01  "
+	.byte 0x00, 0x00, 0x00
+
+D_0806f370:  @ 0806f370
+	.asciz "Desert  00  "
+	.byte 0x00, 0x00, 0x00
+
+D_0806f380:  @ 0806f380
+	.asciz "Swamp   03  "
+	.byte 0x00, 0x00, 0x00
+
+D_0806f390:  @ 0806f390
+	.asciz "Swamp   02  "
+	.byte 0x00, 0x00, 0x00
+
+D_0806f3a0:  @ 0806f3a0
+	.asciz "Swamp   01  "
+	.byte 0x00, 0x00, 0x00
+
+D_0806f3b0:  @ 0806f3b0
+	.asciz "Swamp   00  "
+	.byte 0x00, 0x00, 0x00
+
+D_0806f3c0:  @ 0806f3c0
+	.asciz "Jungle  03  "
+	.byte 0x00, 0x00, 0x00
+
+D_0806f3d0:  @ 0806f3d0
+	.asciz "Jungle  02  "
+	.byte 0x00, 0x00, 0x00
+
+D_0806f3e0:  @ 0806f3e0
+	.asciz "Jungle  01  "
+	.byte 0x00, 0x00, 0x00
+
+D_0806f3f0:  @ 0806f3f0
+	.asciz "Jungle  00  "
+	.byte 0x00, 0x00, 0x00
+
+D_0806f400:  @ 0806f400
+	.asciz "Haunted 03  "
+	.byte 0x00, 0x00, 0x00
+
+D_0806f410:  @ 0806f410
+	.asciz "Haunted 02  "
+	.byte 0x00, 0x00, 0x00
+
+D_0806f420:  @ 0806f420
+	.asciz "Haunted 01  "
+	.byte 0x00, 0x00, 0x00
+
+D_0806f430:  @ 0806f430
+	.asciz "Haunted 00  "
+	.byte 0x00, 0x00, 0x00
+
+D_0806f440:  @ 0806f440
+	.asciz "Farm    04  "
+	.byte 0x00, 0x00, 0x00
+
+D_0806f450:  @ 0806f450
+	.asciz "Farm    03  "
+	.byte 0x00, 0x00, 0x00
+
+D_0806f460:  @ 0806f460
+	.asciz "Farm    02  "
+	.byte 0x00, 0x00, 0x00
+
+D_0806f470:  @ 0806f470
+	.asciz "Farm    01  "
+	.byte 0x00, 0x00, 0x00
+
+D_0806f480:  @ 0806f480
+	.asciz "Farm    00  "
+	.byte 0x00, 0x00, 0x00
+
+D_0806f490:  @ 0806f490
+	.asciz "Lake    03  "
+	.byte 0x00, 0x00, 0x00
+
+D_0806f4a0:  @ 0806f4a0
+	.asciz "Lake    02  "
+	.byte 0x00, 0x00, 0x00
+
+D_0806f4b0:  @ 0806f4b0
+	.asciz "Lake    01  "
+	.byte 0x00, 0x00, 0x00
+
+D_0806f4c0:  @ 0806f4c0
+	.asciz "Lake    00  "
+	.byte 0x00, 0x00, 0x00
+
+D_0806f4d0:  @ 0806f4d0
+	.asciz "Keep    03  "
+	.byte 0x00, 0x00, 0x00
+
+D_0806f4e0:  @ 0806f4e0
+	.asciz "Keep    02  "
+	.byte 0x00, 0x00, 0x00
+
+D_0806f4f0:  @ 0806f4f0
+	.asciz "Keep    01  "
+	.byte 0x00, 0x00, 0x00
+
+D_0806f500:  @ 0806f500
+	.asciz "Keep    00  "
+	.byte 0x00, 0x00, 0x00
+
+D_0806f510:  @ 0806f510
+	.asciz "Snow    03  "
+	.byte 0x00, 0x00, 0x00
+
+D_0806f520:  @ 0806f520
+	.asciz "Snow    02  "
+	.byte 0x00, 0x00, 0x00
+
+D_0806f530:  @ 0806f530
+	.asciz "Snow    01  "
+	.byte 0x00, 0x00, 0x00
+
+D_0806f540:  @ 0806f540
+	.asciz "Snow    00  "
+	.byte 0x00, 0x00, 0x00
+
+D_0806f550:  @ 0806f550
+	.asciz "Lava    02  "
+	.byte 0x00, 0x00, 0x00
+
+D_0806f560:  @ 0806f560
+	.asciz "Lava    01  "
+	.byte 0x00, 0x00, 0x00
+
+D_0806f570:  @ 0806f570
+	.asciz "Lava    00  "
+	.byte 0x00, 0x00, 0x00
+
+D_0806f580:  @ 0806f580
+	.asciz "Beach   03  "
+	.byte 0x00, 0x00, 0x00
+
+D_0806f590:  @ 0806f590
+	.asciz "Beach   02  "
+	.byte 0x00, 0x00, 0x00
+
+D_0806f5a0:  @ 0806f5a0
+	.asciz "Beach   01  "
+	.byte 0x00, 0x00, 0x00
+
+D_0806f5b0:  @ 0806f5b0
+	.asciz "Beach   00  "
+	.byte 0x00, 0x00, 0x00
+
+D_0806f5c0:  @ 0806f5c0
+	.asciz "Down  "
+	.byte 0x00
+
+D_0806f5c8:  @ 0806f5c8
+	.asciz "Up   "
+	.byte 0x00, 0x00
+
+D_0806f5d0:  @ 0806f5d0
+	.asciz "Alpha "
+	.byte 0x00
+
+D_0806f5d8:  @ 0806f5d8
+	.asciz "Off   "
+	.byte 0x00
+
+D_0806f5e0:  @ 0806f5e0
+	.asciz "Diddy Kong Pilot"
+	.byte 0x00, 0x00, 0x00
+
+D_0806f5f4:  @ 0806f5f4
+	.asciz "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
+	.byte 0x00
+
+D_0806f624:  @ 0806f624
+	.asciz "src/sprite.c"
+	.byte 0x00, 0x00, 0x00
+
+D_0806f634:  @ 0806f634
+	.asciz "a < ANI_NUM"
+
+D_0806f640:  @ 0806f640
+	.asciz "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
+	.byte 0x00
+
+D_0806f670:  @ 0806f670
+	.asciz "src/act_player.c"
+	.byte 0x00, 0x00, 0x00
+
+D_0806f684:  @ 0806f684
+	.asciz "o != NULL"
+	.byte 0x00, 0x00
+
+D_0806f690:  @ 0806f690
+	.asciz "FALSE"
+	.byte 0x00, 0x00
+
+D_0806f698:  @ 0806f698
+	.asciz "t != NULL"
+	.byte 0x00, 0x00
+
+player_voice_fx:  @ 0806f6a4  const const int[6][16]  (src/act_player.c)
+	.incbin "assets/tables/act_player/player_voice_fx.bin"
+
+D_0806f824:  @ 0806f824
+	.asciz "OV_PLAYER_CHARACTER(o)<6"
+	.byte 0x00, 0x00, 0x00
+
+D_0806f840:  @ 0806f840
+	.asciz "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
+	.byte 0x00
+
+D_0806f870:  @ 0806f870
+	.asciz "src/act_comp_player.c"
+	.byte 0x00, 0x00
+
+D_0806f888:  @ 0806f888
+	.asciz "o != NULL"
+	.byte 0x00, 0x00
+
+D_0806f894:  @ 0806f894
+	.asciz "Added point %d, %d, %d (%d, %d, %d)\n"
+	.byte 0x00, 0x00, 0x00
+
+D_0806f8bc:  @ 0806f8bc
+	.asciz "Cannot add any more points\n"
+
+D_0806f8d8:  @ 0806f8d8
+	.asciz "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
+	.byte 0x00
+
+D_0806f908:  @ 0806f908
+	.asciz "src/act_camera.c"
+	.byte 0x00, 0x00, 0x00
+
+D_0806f91c:  @ 0806f91c
+	.asciz "o != NULL"
+	.byte 0x00, 0x00
+
+D_0806f928:  @ 0806f928
+	.byte 0x30, 0x00, 0x00, 0x00
+
+D_0806f92c:  @ 0806f92c
+	.asciz "OV_TYPE(o) == OBJ_CAMERA"
+	.byte 0x00, 0x00, 0x00
+
+D_0806f948:  @ 0806f948
+	.asciz "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
+	.byte 0x00
+
+D_0806f978:  @ 0806f978
+	.asciz "src/act_null.c"
+	.byte 0x00
+
+D_0806f988:  @ 0806f988
+	.asciz "o != NULL"
+	.byte 0x00, 0x00
+
+D_0806f994:  @ 0806f994
+	.asciz "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
+	.byte 0x00
+
+D_0806f9c4:  @ 0806f9c4
+	.asciz "src/act_static.c"
+	.byte 0x00, 0x00, 0x00
+
+D_0806f9d8:  @ 0806f9d8
+	.asciz "o != NULL"
+	.byte 0x00, 0x00
+
+D_0806f9e4:  @ 0806f9e4
+	.asciz "t != NULL"
+	.byte 0x00, 0x00
+
+D_0806f9f0:  @ 0806f9f0
+	.asciz "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
+	.byte 0x00
+
+D_0806fa20:  @ 0806fa20
+	.asciz "src/act_hud.c"
+	.byte 0x00, 0x00
+
+D_0806fa30:  @ 0806fa30
+	.asciz "o != NULL"
+	.byte 0x00, 0x00
+
+D_0806fa3c:  @ 0806fa3c
+	.asciz "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
+	.byte 0x00
+
+D_0806fa6c:  @ 0806fa6c
+	.asciz "src/act_keep.c"
+	.byte 0x00
+
+D_0806fa7c:  @ 0806fa7c
+	.asciz "o != NULL"
+	.byte 0x00, 0x00
+
+D_0806fa88:  @ 0806fa88
+	.asciz "t != NULL"
+	.byte 0x00, 0x00
+
+D_0806fa94:  @ 0806fa94
+	.asciz "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
+	.byte 0x00
+
+D_0806fac4:  @ 0806fac4
+	.asciz "src/act_farm.c"
+	.byte 0x00
+
+D_0806fad4:  @ 0806fad4
+	.asciz "o != NULL"
+	.byte 0x00, 0x00
+
+D_0806fae0:  @ 0806fae0
+	.asciz "t != NULL"
+	.byte 0x00, 0x00
+
+D_0806faec:  @ 0806faec
+	.asciz "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
+	.byte 0x00
+
+D_0806fb1c:  @ 0806fb1c
+	.asciz "src/act_haunted.c"
+	.byte 0x00, 0x00
+
+D_0806fb30:  @ 0806fb30
+	.asciz "o != NULL"
+	.byte 0x00, 0x00
+
+D_0806fb3c:  @ 0806fb3c
+	.asciz "t != NULL"
+	.byte 0x00, 0x00
+
+D_0806fb48:  @ 0806fb48
+	.asciz "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
+	.byte 0x00
+
+D_0806fb78:  @ 0806fb78
+	.asciz "src/act_bounce_bomb.c"
+	.byte 0x00, 0x00
+
+D_0806fb90:  @ 0806fb90
+	.asciz "o != NULL"
+	.byte 0x00, 0x00
+
+D_0806fb9c:  @ 0806fb9c
+	.asciz "t != NULL"
+	.byte 0x00, 0x00
+
+D_0806fba8:  @ 0806fba8
+	.asciz "\n\t.global label_here\n\n"
+	.byte 0x00
+
+D_0806fbc0:  @ 0806fbc0
+	.asciz "\t.align\n\n"
+	.byte 0x00, 0x00
+
+D_0806fbcc:  @ 0806fbcc
+	.asciz "@ Path points\n"
+	.byte 0x00
+
+D_0806fbdc:  @ 0806fbdc
+	.asciz "label_here:\n"
+	.byte 0x00, 0x00, 0x00
+
+D_0806fbec:  @ 0806fbec
+	.asciz ".word %d\t@ Number of points\n\n"
+	.byte 0x00, 0x00
+
+D_0806fc0c:  @ 0806fc0c
+	.asciz ".word 0x%.8x, 0x%.8x, 0x%.8x\n"
+	.byte 0x00, 0x00
+
+D_0806fc2c:  @ 0806fc2c
+	.asciz ".word %d\n\n"
+	.byte 0x00
+
+D_0806fc38:  @ 0806fc38
+	.asciz ".end\n\n"
+	.byte 0x00
+
+D_0806fc40:  @ 0806fc40
+	.asciz "Not enough points for a path\n"
+	.byte 0x00, 0x00
+
+D_0806fc60:  @ 0806fc60
+	.asciz "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
+	.byte 0x00
+
+D_0806fc90:  @ 0806fc90
+	.asciz "src/camera_pan.c"
+	.byte 0x00, 0x00, 0x00
+
+D_0806fca4:  @ 0806fca4
+	.asciz "cur_pt >= 1 && cur_pt + 2 < num_pts"
+
+D_0806fcc8:  @ 0806fcc8
+	.asciz "pts[cur_pt].segs != 0"
+	.byte 0x00, 0x00
+
+D_0806fce0:  @ 0806fce0
+	.asciz "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
+	.byte 0x00
+
+D_0806fd10:  @ 0806fd10
+	.asciz "src/act_beacon.c"
+	.byte 0x00, 0x00, 0x00
+
+D_0806fd24:  @ 0806fd24
+	.asciz "o != NULL"
+	.byte 0x00, 0x00
+
+D_0806fd30:  @ 0806fd30
+	.asciz "t != NULL"
+	.byte 0x00, 0x00
+
+D_0806fd3c:  @ 0806fd3c
+	.asciz "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
+	.byte 0x00
+
+D_0806fd6c:  @ 0806fd6c
+	.asciz "src/act_powerup.c"
+	.byte 0x00, 0x00
+
+D_0806fd80:  @ 0806fd80
+	.asciz "o != NULL"
+	.byte 0x00, 0x00
+
+D_0806fd8c:  @ 0806fd8c
+	.asciz "t != NULL"
+	.byte 0x00, 0x00
+
+D_0806fd98:  @ 0806fd98
+	.asciz "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
+	.byte 0x00
+
+D_0806fdc8:  @ 0806fdc8
+	.asciz "src/act_starthoop.c"
+
+D_0806fddc:  @ 0806fddc
+	.asciz "o != NULL"
+	.byte 0x00, 0x00
+
+D_0806fde8:  @ 0806fde8
+	.asciz "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
+	.byte 0x00
+
+D_0806fe18:  @ 0806fe18
+	.asciz "src/act_startpos.c"
+	.byte 0x00
+
+D_0806fe2c:  @ 0806fe2c
+	.asciz "o != NULL"
+	.byte 0x00, 0x00
+
+D_0806fe38:  @ 0806fe38
+	.asciz "idx < 4"
+
+D_0806fe40:  @ 0806fe40
+	.asciz "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
+	.byte 0x00
+
+D_0806fe70:  @ 0806fe70
+	.asciz "src/act_beachhut.c"
+	.byte 0x00
+
+D_0806fe84:  @ 0806fe84
+	.asciz "o != NULL"
+	.byte 0x00, 0x00
+
+D_0806fe90:  @ 0806fe90
+	.asciz "t != NULL"
+	.byte 0x00, 0x00
+
+D_0806fe9c:  @ 0806fe9c
+	.asciz "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
+	.byte 0x00
+
+D_0806fecc:  @ 0806fecc
+	.asciz "src/act_bonusitem.c"
+
+D_0806fee0:  @ 0806fee0
+	.asciz "o != NULL"
+	.byte 0x00, 0x00
+
+D_0806feec:  @ 0806feec
+	.asciz "t != NULL"
+	.byte 0x00, 0x00
+
+D_0806fef8:  @ 0806fef8
+	.asciz "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
+	.byte 0x00
+
+D_0806ff28:  @ 0806ff28
+	.asciz "src/act_banana.c"
+	.byte 0x00, 0x00, 0x00
+
+D_0806ff3c:  @ 0806ff3c
+	.asciz "o != NULL"
+	.byte 0x00, 0x00
+
+D_0806ff48:  @ 0806ff48
+	.asciz "t != NULL"
+	.byte 0x00, 0x00
+
+D_0806ff54:  @ 0806ff54
+	.asciz "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
+	.byte 0x00
+
+D_0806ff84:  @ 0806ff84
+	.asciz "src/act_pylon.c"
+
+D_0806ff94:  @ 0806ff94
+	.asciz "o != NULL"
+	.byte 0x00, 0x00
+
+D_0806ffa0:  @ 0806ffa0
+	.asciz "t != NULL"
+	.byte 0x00, 0x00
+
+D_0806ffac:  @ 0806ffac
+	.asciz "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
+	.byte 0x00
+
+D_0806ffdc:  @ 0806ffdc
+	.asciz "src/act_race_monitor.c"
+	.byte 0x00
+
+D_0806fff4:  @ 0806fff4
+	.asciz "compare_position(order[0], order[1])<=0"
+
+D_0807001c:  @ 0807001c
+	.asciz "compare_position(order[1], order[2])<=0"
+
+D_08070044:  @ 08070044
+	.asciz "compare_position(order[2], order[3])<=0"
+
+D_0807006c:  @ 0807006c
+	.asciz "o != NULL"
+	.byte 0x00, 0x00
+
+D_08070078:  @ 08070078
+	.asciz "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
+	.byte 0x00
+
+D_080700a8:  @ 080700a8
+	.asciz "src/act_tideanim.c"
+	.byte 0x00
+
+D_080700bc:  @ 080700bc
+	.asciz "o != NULL"
+	.byte 0x00, 0x00
+
+boost_pow:  @ 080700c8  const const int[5]  (src/plane.c)
+	.byte 0x06, 0x00, 0x00, 0x00, 0x08, 0x00, 0x00, 0x00, 0x0a, 0x00, 0x00, 0x00, 0x0f, 0x00, 0x00, 0x00
+	.byte 0x14, 0x00, 0x00, 0x00
+
+boost_dur:  @ 080700dc  const const int[5]  (src/plane.c)
+	.byte 0x1e, 0x00, 0x00, 0x00, 0x64, 0x00, 0x00, 0x00, 0x64, 0x00, 0x00, 0x00, 0x3c, 0x00, 0x00, 0x00
+	.byte 0x64, 0x00, 0x00, 0x00
+
+boost_stars:  @ 080700f0  const const u8[5][8]  (src/plane.c)
+	.byte 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x05
+	.byte 0x01, 0x01, 0x01, 0x04, 0x01, 0x05, 0x01, 0x01, 0x03, 0x03, 0x05, 0x03, 0x01, 0x03, 0x03, 0x05
+	.byte 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x01
+
+D_08070118:  @ 08070118
+	.asciz "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
+	.byte 0x00
+
+D_08070148:  @ 08070148
+	.asciz "src/plane.c"
+
+D_08070154:  @ 08070154
+	.asciz "o != NULL"
+	.byte 0x00, 0x00
+
+D_08070160:  @ 08070160
+	.asciz "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
+	.byte 0x00
+
+D_08070190:  @ 08070190
+	.asciz "src/act_groundboost.c"
+	.byte 0x00, 0x00
+
+D_080701a8:  @ 080701a8
+	.asciz "o != NULL"
+	.byte 0x00, 0x00
+
+D_080701b4:  @ 080701b4
+	.asciz "t != NULL"
+	.byte 0x00, 0x00
+
+D_080701c0:  @ 080701c0
+	.asciz "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
+	.byte 0x00
+
+D_080701f0:  @ 080701f0
+	.asciz "src/act_fader.c"
+
+D_08070200:  @ 08070200
+	.asciz "o != NULL"
+	.byte 0x00, 0x00
+
+D_0807020c:  @ 0807020c
+	.asciz "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
+	.byte 0x00
+
+D_0807023c:  @ 0807023c
+	.asciz "src/act_directional_arrow.c"
+
+D_08070258:  @ 08070258
+	.asciz "o != NULL"
+	.byte 0x00, 0x00
+
+D_08070264:  @ 08070264
+	.asciz "t != NULL"
+	.byte 0x00, 0x00
+
+D_08070270:  @ 08070270
+	.asciz "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
+	.byte 0x00
+
+D_080702a0:  @ 080702a0
+	.asciz "src/act_boost.c"
+
+D_080702b0:  @ 080702b0
+	.asciz "o != NULL"
+	.byte 0x00, 0x00
+
+D_080702bc:  @ 080702bc
+	.asciz "t != NULL"
+	.byte 0x00, 0x00
+
+D_080702c8:  @ 080702c8
+	.asciz "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
+	.byte 0x00
+
+D_080702f8:  @ 080702f8
+	.asciz "src/act_pause.c"
+
+D_08070308:  @ 08070308
+	.asciz "o != NULL"
+	.byte 0x00, 0x00
+
+D_08070314:  @ 08070314
+	.asciz "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
+	.byte 0x00
+
+D_08070344:  @ 08070344
+	.asciz "src/act_beach.c"
+
+D_08070354:  @ 08070354
+	.asciz "o != NULL"
+	.byte 0x00, 0x00
+
+D_08070360:  @ 08070360
+	.asciz "t != NULL"
+	.byte 0x00, 0x00
+
+D_0807036c:  @ 0807036c
+	.asciz "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
+	.byte 0x00
+
+D_0807039c:  @ 0807039c
+	.asciz "src/act_weapon.c"
+	.byte 0x00, 0x00, 0x00
+
+D_080703b0:  @ 080703b0
+	.asciz "o != NULL"
+	.byte 0x00, 0x00
+
+D_080703bc:  @ 080703bc
+	.asciz "t != NULL"
+	.byte 0x00, 0x00
+
+boost_dur.24:  @ 080703c8  void  (src/act_weapon.c)
+	.byte 0x1e, 0x00, 0x00, 0x00, 0x64, 0x00, 0x00, 0x00, 0x64, 0x00, 0x00, 0x00, 0x3c, 0x00, 0x00, 0x00
+	.byte 0x64, 0x00, 0x00, 0x00
+
+boost_stars.25:  @ 080703dc  void  (src/act_weapon.c)
+	.byte 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x05
+	.byte 0x01, 0x01, 0x01, 0x04, 0x01, 0x05, 0x01, 0x01, 0x03, 0x03, 0x05, 0x03, 0x01, 0x03, 0x03, 0x05
+	.byte 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x05, 0x01
+
+D_08070404:  @ 08070404
+	.asciz "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
+	.byte 0x00
+
+D_08070434:  @ 08070434
+	.asciz "src/act_swamp.c"
+
+D_08070444:  @ 08070444
+	.asciz "o != NULL"
+	.byte 0x00, 0x00
+
+D_08070450:  @ 08070450
+	.asciz "t != NULL"
+	.byte 0x00, 0x00
+
+D_0807045c:  @ 0807045c
+	.asciz "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
+	.byte 0x00
+
+D_0807048c:  @ 0807048c
+	.asciz "src/act_jungle.c"
+	.byte 0x00, 0x00, 0x00
+
+D_080704a0:  @ 080704a0
+	.asciz "o != NULL"
+	.byte 0x00, 0x00
+
+D_080704ac:  @ 080704ac
+	.asciz "t != NULL"
+	.byte 0x00, 0x00
+
+audio_buff0_ref:  @ 080704b8  const int  (src/audio/c_inc.c)
+	.word audio_buffers
+
+audio_noise0_ref:  @ 080704bc  const int  (src/audio/c_inc.c)
+	.word audio_buffers+0x160
+
+audio_buff1_ref:  @ 080704c0  const int  (src/audio/c_inc.c)
+	.word audio_buffers+0x240
+
+audio_noise1_ref:  @ 080704c4  const int  (src/audio/c_inc.c)
+	.word audio_buffers+0x3a0
+
+audio_chan_sizexmax_polyphonyxnum_midi_channels:  @ 080704c8  const int  (src/audio/c_inc.c)
+	.byte 0x00, 0x12, 0x00, 0x00
+
+audio_chan_sizexmax_polyphony:  @ 080704cc  const int  (src/audio/c_inc.c)
+	.byte 0x20, 0x01, 0x00, 0x00
+
+audio_chan_sizexmax_fx:  @ 080704d0  const int  (src/audio/c_inc.c)
+	.byte 0x90, 0x00, 0x00, 0x00
+
+audio_max_fx:  @ 080704d4  const int  (src/audio/c_inc.c)
+	.byte 0x03, 0x00, 0x00, 0x00
+
+audio_overflow_noise:  @ 080704d8  const int  (src/audio/c_inc.c)
+	.byte 0x00, 0x00, 0x00, 0x00
+
+audio_max_polyphony:  @ 080704dc  const int  (src/audio/c_inc.c)
+	.byte 0x06, 0x00, 0x00, 0x00
+
+D_080704e0:  @ 080704e0
+	.asciz "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
+	.byte 0x00
+
+D_08070510:  @ 08070510
+	.asciz "src/menu/menu_text.c"
+	.byte 0x00, 0x00, 0x00
+
+D_08070528:  @ 08070528
+	.asciz "index!=NUM_HANDLES"
+	.byte 0x00
+
+D_0807053c:  @ 0807053c
+	.asciz "length<=MAX_CHARS"
+	.byte 0x00, 0x00
+
+D_08070550:  @ 08070550
+	.asciz "index != 0"
+	.byte 0x00
+
+D_0807055c:  @ 0807055c
+	.asciz "handle->used"
+	.byte 0x00, 0x00, 0x00
+
+D_0807056c:  @ 0807056c
+	.asciz "index"
+	.byte 0x00, 0x00
+
+D_08070574:  @ 08070574
+	.asciz "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
+	.byte 0x00
+
+D_080705a4:  @ 080705a4
+	.asciz "src/menu/menu_anim.c"
+	.byte 0x00, 0x00, 0x00
+
+D_080705bc:  @ 080705bc
+	.asciz "index!=NUM_ANIM_HANDLES"
+
+D_080705d4:  @ 080705d4
+	.asciz "index>=0 && index<NUM_ANIM_HANDLES && handle->used"
+	.byte 0x00
+
+D_08070608:  @ 08070608
+	.asciz "making plane %d\n"
+	.byte 0x00, 0x00, 0x00
+
+D_0807061c:  @ 0807061c
+	.byte 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x00
+
+D_08070624:  @ 08070624
+	.byte 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x1a, 0x00
+
+D_0807062c:  @ 0807062c
+	.byte 0x1b, 0x1c, 0x1d, 0x1e, 0x1f, 0x19, 0x21, 0x00
+
+D_08070634:  @ 08070634
+	.byte 0x0e, 0x0f, 0x10, 0x11, 0x12, 0x13, 0x00, 0x00
+
+D_0807063c:  @ 0807063c
+	.byte 0x2e, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x00
+
+D_08070644:  @ 08070644
+	.asciz "K.ROOL'S GOLD"
+	.byte 0x00, 0x00
+
+D_08070654:  @ 08070654
+	.asciz "BACK TO THE LIGHT"
+	.byte 0x00, 0x00
+
+D_08070668:  @ 08070668
+	.asciz "KING OF KONGS"
+	.byte 0x00, 0x00
+
+D_08070678:  @ 08070678
+	.asciz "POLAR PLATEAU"
+	.byte 0x00, 0x00
+
+D_08070688:  @ 08070688
+	.asciz "ISLAND OF EGGS"
+	.byte 0x00
+
+D_08070698:  @ 08070698
+	.asciz "WESTERN WASTES"
+	.byte 0x00
+
+D_080706a8:  @ 080706a8
+	.asciz "KONGO KINGDOM"
+	.byte 0x00, 0x00
+
+D_080706b8:  @ 080706b8
+	.asciz "SLEEPY SHORES"
+	.byte 0x00, 0x00
+
+D_080706c8:  @ 080706c8
+	.asciz "DESERT RACE 2"
+	.byte 0x00, 0x00
+
+D_080706d8:  @ 080706d8
+	.asciz "VULTURE VALLEY"
+	.byte 0x00
+
+D_080706e8:  @ 080706e8
+	.asciz "WASTELAND WIPE OUT"
+	.byte 0x00
+
+D_080706fc:  @ 080706fc
+	.asciz "FLY LIKE THE WIND"
+	.byte 0x00, 0x00
+
+D_08070710:  @ 08070710
+	.asciz "JUNGLE RACE 2"
+	.byte 0x00, 0x00
+
+D_08070720:  @ 08070720
+	.asciz "JET SET JUNGLE"
+	.byte 0x00
+
+D_08070730:  @ 08070730
+	.asciz "GRUB GRAB"
+	.byte 0x00, 0x00
+
+D_0807073c:  @ 0807073c
+	.asciz "HAUNTED RACE 2"
+	.byte 0x00
+
+D_0807074c:  @ 0807074c
+	.asciz "GHOST GRASP 2"
+	.byte 0x00, 0x00
+
+D_0807075c:  @ 0807075c
+	.asciz "HAIR RAISING RESCUE"
+
+D_08070770:  @ 08070770
+	.asciz "WHISPER WOODS"
+	.byte 0x00, 0x00
+
+D_08070780:  @ 08070780
+	.asciz "SWAMP RACE 2"
+	.byte 0x00, 0x00, 0x00
+
+D_08070790:  @ 08070790
+	.asciz "SWOOP SWAMP"
+
+D_0807079c:  @ 0807079c
+	.asciz "SWAMP SHOWDOWN"
+	.byte 0x00
+
+D_080707ac:  @ 080707ac
+	.asciz "SWAMP SWOOP"
+
+D_080707b8:  @ 080707b8
+	.asciz "FARM ATTRACT"
+	.byte 0x00, 0x00, 0x00
+
+D_080707c8:  @ 080707c8
+	.asciz "FARM RACE 2"
+
+D_080707d4:  @ 080707d4
+	.asciz "FARM FEUD"
+	.byte 0x00, 0x00
+
+D_080707e0:  @ 080707e0
+	.asciz "CRANKY PANKY"
+	.byte 0x00, 0x00, 0x00
+
+D_080707f0:  @ 080707f0
+	.asciz "HATCH MATCH"
+
+D_080707fc:  @ 080707fc
+	.asciz "CHICKEN CHASE"
+	.byte 0x00, 0x00
+
+D_0807080c:  @ 0807080c
+	.asciz "LAKE RACE 2"
+
+D_08070818:  @ 08070818
+	.asciz "LAKE RACE 1"
+
+D_08070824:  @ 08070824
+	.asciz "FOCAL FEUD"
+	.byte 0x00
+
+D_08070830:  @ 08070830
+	.asciz "PEACEFUL PASSAGE"
+	.byte 0x00, 0x00, 0x00
+
+D_08070844:  @ 08070844
+	.asciz "KEEP RACE 2"
+
+D_08070850:  @ 08070850
+	.asciz "CRACKPOT KEEP"
+	.byte 0x00, 0x00
+
+D_08070860:  @ 08070860
+	.asciz "CLASSIC VARIATION"
+	.byte 0x00, 0x00
+
+D_08070874:  @ 08070874
+	.asciz "DARK TOWER"
+	.byte 0x00
+
+D_08070880:  @ 08070880
+	.asciz "SNOW RACE 2"
+
+D_0807088c:  @ 0807088c
+	.asciz "SNOWBALL SNAPSHOT"
+	.byte 0x00, 0x00
+
+D_080708a0:  @ 080708a0
+	.asciz "DAWN DUEL"
+	.byte 0x00, 0x00
+
+D_080708ac:  @ 080708ac
+	.asciz "FROSTY LAKE"
+
+D_080708b8:  @ 080708b8
+	.asciz "LAVA RACE 2"
+
+D_080708c4:  @ 080708c4
+	.asciz "CLASSIC DOGFIGHT"
+	.byte 0x00, 0x00, 0x00
+
+D_080708d8:  @ 080708d8
+	.asciz "MAGMA MAINLAND"
+	.byte 0x00
+
+D_080708e8:  @ 080708e8
+	.asciz "FLAWED GENIE'US"
+
+D_080708f8:  @ 080708f8
+	.asciz "BEACH BARRICADE"
+
+D_08070908:  @ 08070908
+	.asciz "BEACH RACE 2"
+	.byte 0x00, 0x00, 0x00
+
+D_08070918:  @ 08070918
+	.asciz "BOUNTY BEACH"
+	.byte 0x00, 0x00, 0x00
+
+D_08070928:  @ 08070928
+	.byte 0x0f, 0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x00
+
+D_08070930:  @ 08070930
+	.asciz "SELECT BATTLE"
+	.byte 0x00, 0x00
+
+D_08070940:  @ 08070940
+	.asciz "SELECT DOGFIGHT"
+
+D_08070950:  @ 08070950
+	.asciz "SELECT STORY"
+	.byte 0x00, 0x00, 0x00
+
+D_08070960:  @ 08070960
+	.asciz "SELECT WORLD"
+	.byte 0x00, 0x00, 0x00
+
+D_08070970:  @ 08070970
+	.asciz "MASTER"
+	.byte 0x00
+
+D_08070978:  @ 08070978
+	.byte 0x41, 0x43, 0x45, 0x00
+
+D_0807097c:  @ 0807097c
+	.asciz "VETERAN"
+
+D_08070984:  @ 08070984
+	.asciz "PRO PILOT"
+	.byte 0x00, 0x00
+
+D_08070990:  @ 08070990
+	.asciz "NOVICE"
+	.byte 0x00
+
+D_08070998:  @ 08070998
+	.asciz "%d,%d,%d (%d,%d)\n"
+	.byte 0x00, 0x00
+
+spr_xc:  @ 080709ac  const const u8[12]  (src/sprite_ram.c)
+	.byte 0x04, 0x08, 0x10, 0x20, 0x08, 0x10, 0x10, 0x20, 0x04, 0x04, 0x08, 0x10
+
+spr_yc:  @ 080709b8  const const u8[12]  (src/sprite_ram.c)
+	.byte 0x04, 0x08, 0x10, 0x20, 0x04, 0x04, 0x08, 0x10, 0x08, 0x10, 0x10, 0x20
+
+frx:  @ 080709c4  const const u8[257]  (src/sprite_ram.c)
+	.incbin "assets/tables/sprite_ram/frx.bin"
+
+fry:  @ 08070ac5  const const u8[257]  (src/sprite_ram.c)
+	.incbin "assets/tables/sprite_ram/fry.bin"
+
+__pal_beach_lvl:  @ 08070bc8
+	.incbin "assets/palettes/beach_lvl.bin"
+
+__pal_beach_sky:  @ 08070dc8
+	.incbin "assets/palettes/beach_sky.bin"
+
+__pal_beach_scene:  @ 08070fc8
+	.incbin "assets/palettes/beach_scene.bin"
+
+__pal_farm_lvl:  @ 080711c8
+	.incbin "assets/palettes/farm_lvl.bin"
+
+__pal_farm_sky:  @ 080713c8
+	.incbin "assets/palettes/farm_sky.bin"
+
+__pal_haunted_lvl:  @ 080715c8
+	.incbin "assets/palettes/haunted_lvl.bin"
+
+__pal_haunted_sky:  @ 080717c8
+	.incbin "assets/palettes/haunted_sky.bin"
+
+__pal_jungle_sky:  @ 080719c8
+	.incbin "assets/palettes/jungle_sky.bin"
+
+__pal_jungle_lvl:  @ 08071bc8
+	.incbin "assets/palettes/jungle_lvl.bin"
+
+__pal_keep_lvl:  @ 08071dc8
+	.incbin "assets/palettes/keep_lvl.bin"
+
+__pal_keep_sky:  @ 08071fc8
+	.incbin "assets/palettes/keep_sky.bin"
+
+__pal_lake_lvl:  @ 080721c8
+	.incbin "assets/palettes/lake_lvl.bin"
+
+__pal_lake_sky:  @ 080723c8
+	.incbin "assets/palettes/lake_sky.bin"
+
+__pal_lava_lvl:  @ 080725c8
+	.incbin "assets/palettes/lava_lvl.bin"
+
+__pal_lava_sky:  @ 080727c8
+	.incbin "assets/palettes/lava_sky.bin"
+
+__pal_snow_lvl:  @ 080729c8
+	.incbin "assets/palettes/snow_lvl.bin"
+
+__pal_snow_sky:  @ 08072bc8
+	.incbin "assets/palettes/snow_sky.bin"
+
+__pal_swamp_sky:  @ 08072dc8
+	.incbin "assets/palettes/swamp_sky.bin"
+
+__pal_swamp_lvl:  @ 08072fc8
+	.incbin "assets/palettes/swamp_lvl.bin"
+
+__pal_test_lvl:  @ 080731c8
+	.incbin "assets/palettes/test_lvl.bin"
+
+__pal_test_sky:  @ 080733c8
+	.incbin "assets/palettes/test_sky.bin"
+
+__pal_valley_lvl:  @ 080735c8
+	.incbin "assets/palettes/valley_lvl.bin"
+
+__pal_desert_sky:  @ 080737c8
+	.incbin "assets/palettes/desert_sky.bin"
+
+__pal_desert_lvl:  @ 080739c8
+	.incbin "assets/palettes/desert_lvl.bin"
+
+__chr_dkp:  @ 08073bc8
+	.incbin "assets/backgrounds/tiles/dkp.bin"
+
+__chr_beach_scene:  @ 080c4eca
+	.byte 0x54, 0x02
+
+D_080c4ecc:  @ 080c4ecc
+	.incbin "assets/backgrounds/tiles/beach_scene.bin"
+
+__chr_beach_sky:  @ 080ce3cc
+	.word __chr_dkp
+	.incbin "assets/backgrounds/tiles/beach_sky.bin"
+
+__chr_farm_sky:  @ 080ce500
+	.word __chr_dkp
+	.incbin "assets/backgrounds/tiles/farm_sky.bin"
+
+__chr_haunted_sky:  @ 080ce6b4
+	.word __chr_dkp
+	.incbin "assets/backgrounds/tiles/haunted_sky.bin"
+
+__chr_keep_sky:  @ 080ce8b4
+	.word __chr_dkp
+	.incbin "assets/backgrounds/tiles/keep_sky.bin"
+
+__chr_lake_sky:  @ 080cea8c
+	.word __chr_dkp
+	.incbin "assets/backgrounds/tiles/lake_sky.bin"
+
+__chr_lava_sky:  @ 080cec8c
+	.word __chr_dkp
+	.incbin "assets/backgrounds/tiles/lava_sky.bin"
+
+__chr_snow_sky:  @ 080cee80
+	.word __chr_dkp
+	.incbin "assets/backgrounds/tiles/snow_sky.bin"
+
+__chr_jungle_sky:  @ 080cf080
+	.word __chr_dkp
+	.incbin "assets/backgrounds/tiles/jungle_sky.bin"
+
+__chr_desert_sky:  @ 080cf278
+	.word __chr_dkp
+	.incbin "assets/backgrounds/tiles/desert_sky.bin"
+
+__chr_swamp_sky:  @ 080cf464
+	.word __chr_dkp
+	.incbin "assets/backgrounds/tiles/swamp_sky.bin"
+
+__chr_beach_00_lvl:  @ 080cf664
+	.word __chr_dkp
+	.incbin "assets/backgrounds/tiles/beach_00_lvl.bin"
+
+__chr_beach_01_lvl:  @ 080cf82c
+	.word __chr_dkp
+	.incbin "assets/backgrounds/tiles/beach_01_lvl.bin"
+
+__chr_beach_02_lvl:  @ 080cfa3c
+	.word __chr_dkp
+	.incbin "assets/backgrounds/tiles/beach_02_lvl.bin"
+
+__chr_beach_03_lvl:  @ 080cfc14
+	.word __chr_dkp
+	.byte 0x02, 0x00, 0x00, 0x00, 0x9e, 0x05, 0x00, 0x00
+
+__chr_farm_00_lvl:  @ 080cfc20
+	.word __chr_dkp
+	.incbin "assets/backgrounds/tiles/farm_00_lvl.bin"
+
+__chr_farm_01_lvl:  @ 080cfe18
+	.word __chr_dkp
+	.incbin "assets/backgrounds/tiles/farm_01_lvl.bin"
+
+__chr_farm_02_lvl:  @ 080d0020
+	.word __chr_dkp
+	.byte 0x02, 0x00, 0x00, 0x00, 0x4e, 0x07, 0x00, 0x00
+
+__chr_farm_03_lvl:  @ 080d002c
+	.word __chr_dkp
+	.incbin "assets/backgrounds/tiles/farm_03_lvl.bin"
+
+__chr_farm_04_lvl:  @ 080d01a0
+	.word __chr_dkp
+	.incbin "assets/backgrounds/tiles/farm_04_lvl.bin"
+
+__chr_farm_05_lvl:  @ 080d0374
+	.word __chr_dkp
+	.incbin "assets/backgrounds/tiles/farm_05_lvl.bin"
+
+__chr_haunted_00_lvl:  @ 080d04c8
+	.word __chr_dkp
+	.incbin "assets/backgrounds/tiles/haunted_00_lvl.bin"
+
+__chr_haunted_01_lvl:  @ 080d06bc
+	.word __chr_dkp
+	.incbin "assets/backgrounds/tiles/haunted_01_lvl.bin"
+
+__chr_haunted_02_lvl:  @ 080d087c
+	.word __chr_dkp
+	.incbin "assets/backgrounds/tiles/haunted_02_lvl.bin"
+
+__chr_haunted_03_lvl:  @ 080d0a3c
+	.word __chr_dkp
+	.incbin "assets/backgrounds/tiles/haunted_03_lvl.bin"
+
+__chr_keep_00_lvl:  @ 080d0c38
+	.word __chr_dkp
+	.incbin "assets/backgrounds/tiles/keep_00_lvl.bin"
+
+__chr_keep_01_lvl:  @ 080d0d9c
+	.word __chr_dkp
+	.incbin "assets/backgrounds/tiles/keep_01_lvl.bin"
+
+__chr_keep_02_lvl:  @ 080d0f14
+	.word __chr_dkp
+	.incbin "assets/backgrounds/tiles/keep_02_lvl.bin"
+
+__chr_keep_03_lvl:  @ 080d0fd0
+	.word __chr_dkp
+	.incbin "assets/backgrounds/tiles/keep_03_lvl.bin"
+
+__chr_lake_00_lvl:  @ 080d1148
+	.word __chr_dkp
+	.incbin "assets/backgrounds/tiles/lake_00_lvl.bin"
+
+__chr_lake_01_lvl:  @ 080d134c
+	.word __chr_dkp
+	.incbin "assets/backgrounds/tiles/lake_01_lvl.bin"
+
+__chr_lake_02_lvl:  @ 080d14c0
+	.word __chr_dkp
+	.byte 0x02, 0x00, 0x00, 0x00, 0x89, 0x08, 0x00, 0x00
+
+__chr_lake_03_lvl:  @ 080d14cc
+	.word __chr_dkp
+	.byte 0x02, 0x00, 0x00, 0x00, 0x89, 0x08, 0x00, 0x00
+
+__chr_lava_00_lvl:  @ 080d14d8
+	.word __chr_dkp
+	.incbin "assets/backgrounds/tiles/lava_00_lvl.bin"
+
+__chr_lava_01_lvl:  @ 080d1604
+	.word __chr_dkp
+	.incbin "assets/backgrounds/tiles/lava_01_lvl.bin"
+
+__chr_lava_02_lvl:  @ 080d16e8
+	.word __chr_dkp
+	.byte 0x02, 0x00, 0x00, 0x00, 0x33, 0x08, 0x00, 0x00
+
+__chr_snow_00_lvl:  @ 080d16f4
+	.word __chr_dkp
+	.incbin "assets/backgrounds/tiles/snow_00_lvl.bin"
+	.word L_030002f0+0xe
+	.incbin "assets/backgrounds/tiles/snow_00_lvl.2.bin"
+
+__chr_snow_01_lvl:  @ 080d18d4
+	.word __chr_dkp
+	.incbin "assets/backgrounds/tiles/snow_01_lvl.bin"
+	.word L_030002f0+0xf
+	.incbin "assets/backgrounds/tiles/snow_01_lvl.2.bin"
+
+__chr_snow_02_lvl:  @ 080d1a7c
+	.word __chr_dkp
+	.byte 0x02, 0x00, 0x00, 0x00, 0xca, 0x0b, 0x00, 0x00
+
+__chr_snow_03_lvl:  @ 080d1a88
+	.word __chr_dkp
+	.incbin "assets/backgrounds/tiles/snow_03_lvl.bin"
+
+__chr_jungle_00_lvl:  @ 080d1c24
+	.word __chr_dkp
+	.incbin "assets/backgrounds/tiles/jungle_00_lvl.bin"
+
+__chr_jungle_01_lvl:  @ 080d1e2c
+	.word __chr_dkp
+	.incbin "assets/backgrounds/tiles/jungle_01_lvl.bin"
+
+__chr_jungle_02_lvl:  @ 080d2034
+	.word __chr_dkp
+	.byte 0x06, 0x00, 0x00, 0x00, 0xf2, 0x03, 0x19, 0x04, 0xb5, 0x05, 0x32, 0x06, 0x32, 0x0a, 0x00, 0x00
+
+__chr_jungle_03_lvl:  @ 080d2048
+	.word __chr_dkp
+	.byte 0x1c, 0x00, 0x00, 0x00, 0xec, 0x03, 0xf2, 0x03, 0x15, 0x04, 0x19, 0x04, 0xa0, 0x05, 0xb5, 0x05
+	.byte 0xbb, 0x05, 0xc4, 0x05, 0xee, 0x05, 0xf2, 0x05, 0x05, 0x06, 0x1f, 0x06, 0x95, 0x06, 0x9a, 0x06
+	.byte 0xb5, 0x06, 0xb7, 0x06, 0xc6, 0x06, 0xe0, 0x06, 0xe2, 0x06, 0xe3, 0x06, 0xee, 0x06, 0x30, 0x07
+	.byte 0x69, 0x07, 0x6a, 0x07, 0xe2, 0x08
+	.asciz ".\n2\n"
+	.byte 0x00
+
+__chr_desert_00_lvl:  @ 080d2088
+	.word __chr_dkp
+	.incbin "assets/backgrounds/tiles/desert_00_lvl.bin"
+
+__chr_desert_01_lvl:  @ 080d20dc
+	.word __chr_dkp
+	.incbin "assets/backgrounds/tiles/desert_01_lvl.bin"
+
+__chr_desert_02_lvl:  @ 080d2260
+	.word __chr_dkp
+	.byte 0x02, 0x00, 0x00, 0x00, 0x1e, 0x07, 0x00, 0x00
+
+__chr_desert_03_lvl:  @ 080d226c
+	.word __chr_dkp
+	.byte 0x02, 0x00, 0x00, 0x00, 0x1e, 0x07, 0x00, 0x00
+
+__chr_swamp_00_lvl:  @ 080d2278
+	.word __chr_dkp
+	.incbin "assets/backgrounds/tiles/swamp_00_lvl.bin"
+
+__chr_swamp_01_lvl:  @ 080d2484
+	.word __chr_dkp
+	.incbin "assets/backgrounds/tiles/swamp_01_lvl.bin"
+
+__chr_swamp_02_lvl:  @ 080d25c0
+	.word __chr_dkp
+	.incbin "assets/backgrounds/tiles/swamp_02_lvl.bin"
+
+__chr_swamp_03_lvl:  @ 080d27c4
+	.word __chr_dkp
+	.byte 0x02, 0x00, 0x00, 0x00, 0xe2, 0x08
+
+__frs_dkp:  @ 080d27ce
+	.incbin "assets/backgrounds/dkp.bin"
+
+__map_beach_scene:  @ 0810fcfe
+	.byte 0x20, 0x00, 0x14, 0x00
+
+D_0810fd02:  @ 0810fd02
+	.incbin "assets/backgrounds/maps/beach_scene.bin"
+
+__map_beach_00_sky:  @ 08110202
+	.incbin "assets/backgrounds/maps/beach_00_sky.bin"
+
+__map_beach_00_gnd:  @ 08110386
+	.incbin "assets/backgrounds/maps/beach_00_gnd.bin"
+
+__map_beach_00_lvl:  @ 0811040a
+	.incbin "assets/backgrounds/maps/beach_00_lvl.bin"
+
+__map_beach_01_lvl:  @ 08110c0e
+	.incbin "assets/backgrounds/maps/beach_01_lvl.bin"
+
+__map_beach_02_lvl:  @ 08111412
+	.incbin "assets/backgrounds/maps/beach_02_lvl.bin"
+
+__map_beach_03_lvl:  @ 08111c16
+	.incbin "assets/backgrounds/maps/beach_03_lvl.bin"
+
+__map_farm_00_sky:  @ 0811241a
+	.incbin "assets/backgrounds/maps/farm_00_sky.bin"
+
+__map_farm_00_gnd:  @ 0811259e
+	.incbin "assets/backgrounds/maps/farm_00_gnd.bin"
+
+__map_farm_00_lvl:  @ 08112622
+	.incbin "assets/backgrounds/maps/farm_00_lvl.bin"
+
+__map_farm_01_lvl:  @ 08112e26
+	.incbin "assets/backgrounds/maps/farm_01_lvl.bin"
+
+__map_farm_02_lvl:  @ 0811362a
+	.incbin "assets/backgrounds/maps/farm_02_lvl.bin"
+
+__map_farm_03_lvl:  @ 08113e2e
+	.incbin "assets/backgrounds/maps/farm_03_lvl.bin"
+
+__map_farm_04_lvl:  @ 08114632
+	.incbin "assets/backgrounds/maps/farm_04_lvl.bin"
+
+__map_farm_05_lvl:  @ 08114e36
+	.incbin "assets/backgrounds/maps/farm_05_lvl.bin"
+
+__map_haunted_00_sky:  @ 0811563a
+	.incbin "assets/backgrounds/maps/haunted_00_sky.bin"
+
+__map_haunted_00_gnd:  @ 081157be
+	.incbin "assets/backgrounds/maps/haunted_00_gnd.bin"
+
+__map_haunted_00_lvl:  @ 08115842
+	.incbin "assets/backgrounds/maps/haunted_00_lvl.bin"
+
+__map_haunted_01_lvl:  @ 08116046
+	.incbin "assets/backgrounds/maps/haunted_01_lvl.bin"
+
+__map_haunted_02_lvl:  @ 0811684a
+	.incbin "assets/backgrounds/maps/haunted_02_lvl.bin"
+
+__map_haunted_03_lvl:  @ 0811704e
+	.incbin "assets/backgrounds/maps/haunted_03_lvl.bin"
+
+__map_jungle_00_sky:  @ 08117852
+	.incbin "assets/backgrounds/maps/jungle_00_sky.bin"
+
+__map_jungle_00_gnd:  @ 081179d6
+	.incbin "assets/backgrounds/maps/jungle_00_gnd.bin"
+
+__map_jungle_00_lvl:  @ 08117a5a
+	.incbin "assets/backgrounds/maps/jungle_00_lvl.bin"
+
+__map_jungle_01_lvl:  @ 0811825e
+	.incbin "assets/backgrounds/maps/jungle_01_lvl.bin"
+
+__map_jungle_02_lvl:  @ 08118a62
+	.incbin "assets/backgrounds/maps/jungle_02_lvl.bin"
+
+__map_jungle_03_lvl:  @ 08119266
+	.incbin "assets/backgrounds/maps/jungle_03_lvl.bin"
+
+__map_keep_00_sky:  @ 08119a6a
+	.incbin "assets/backgrounds/maps/keep_00_sky.bin"
+
+__map_keep_00_gnd:  @ 08119bee
+	.incbin "assets/backgrounds/maps/keep_00_gnd.bin"
+
+__map_keep_00_lvl:  @ 08119c72
+	.incbin "assets/backgrounds/maps/keep_00_lvl.bin"
+
+__map_keep_01_lvl:  @ 0811a476
+	.incbin "assets/backgrounds/maps/keep_01_lvl.bin"
+
+__map_keep_02_lvl:  @ 0811ac7a
+	.incbin "assets/backgrounds/maps/keep_02_lvl.bin"
+
+__map_keep_03_lvl:  @ 0811b47e
+	.incbin "assets/backgrounds/maps/keep_03_lvl.bin"
+
+__map_lake_00_sky:  @ 0811bc82
+	.incbin "assets/backgrounds/maps/lake_00_sky.bin"
+
+__map_lake_00_gnd:  @ 0811be06
+	.incbin "assets/backgrounds/maps/lake_00_gnd.bin"
+
+__map_lake_00_lvl:  @ 0811be8a
+	.incbin "assets/backgrounds/maps/lake_00_lvl.bin"
+
+__map_lake_01_lvl:  @ 0811c68e
+	.incbin "assets/backgrounds/maps/lake_01_lvl.bin"
+
+__map_lake_02_lvl:  @ 0811ce92
+	.incbin "assets/backgrounds/maps/lake_02_lvl.bin"
+
+__map_lake_03_lvl:  @ 0811d696
+	.incbin "assets/backgrounds/maps/lake_03_lvl.bin"
+
+__map_lava_00_sky:  @ 0811de9a
+	.incbin "assets/backgrounds/maps/lava_00_sky.bin"
+
+__map_lava_00_gnd:  @ 0811e01e
+	.incbin "assets/backgrounds/maps/lava_00_gnd.bin"
+
+__map_lava_00_lvl:  @ 0811e0a2
+	.incbin "assets/backgrounds/maps/lava_00_lvl.bin"
+
+__map_lava_01_lvl:  @ 0811e8a6
+	.incbin "assets/backgrounds/maps/lava_01_lvl.bin"
+
+__map_lava_02_lvl:  @ 0811f0aa
+	.incbin "assets/backgrounds/maps/lava_02_lvl.bin"
+
+__map_snow_00_sky:  @ 0811f8ae
+	.incbin "assets/backgrounds/maps/snow_00_sky.bin"
+
+__map_snow_00_gnd:  @ 0811fa32
+	.incbin "assets/backgrounds/maps/snow_00_gnd.bin"
+
+__map_snow_00_lvl:  @ 0811fab6
+	.incbin "assets/backgrounds/maps/snow_00_lvl.bin"
+
+__map_snow_01_lvl:  @ 081202ba
+	.incbin "assets/backgrounds/maps/snow_01_lvl.bin"
+
+__map_snow_02_lvl:  @ 08120abe
+	.incbin "assets/backgrounds/maps/snow_02_lvl.bin"
+
+__map_snow_03_lvl:  @ 081212c2
+	.incbin "assets/backgrounds/maps/snow_03_lvl.bin"
+
+__map_desert_00_sky:  @ 08121ac6
+	.incbin "assets/backgrounds/maps/desert_00_sky.bin"
+
+__map_desert_00_gnd:  @ 08121c4a
+	.incbin "assets/backgrounds/maps/desert_00_gnd.bin"
+
+__map_desert_00_lvl:  @ 08121cce
+	.incbin "assets/backgrounds/maps/desert_00_lvl.bin"
+
+__map_desert_01_lvl:  @ 081224d2
+	.incbin "assets/backgrounds/maps/desert_01_lvl.bin"
+
+__map_desert_02_lvl:  @ 08122cd6
+	.incbin "assets/backgrounds/maps/desert_02_lvl.bin"
+
+__map_desert_03_lvl:  @ 081234da
+	.incbin "assets/backgrounds/maps/desert_03_lvl.bin"
+
+__map_swamp_00_sky:  @ 08123cde
+	.incbin "assets/backgrounds/maps/swamp_00_sky.bin"
+
+__map_swamp_00_gnd:  @ 08123e62
+	.incbin "assets/backgrounds/maps/swamp_00_gnd.bin"
+
+__map_swamp_00_lvl:  @ 08123ee6
+	.incbin "assets/backgrounds/maps/swamp_00_lvl.bin"
+
+__map_swamp_01_lvl:  @ 081246ea
+	.incbin "assets/backgrounds/maps/swamp_01_lvl.bin"
+
+__map_swamp_02_lvl:  @ 08124eee
+	.incbin "assets/backgrounds/maps/swamp_02_lvl.bin"
+
+__map_swamp_03_lvl:  @ 081256f2
+	.incbin "assets/backgrounds/maps/swamp_03_lvl.bin"
+
+background_hanger_plt:  @ 08125ef8
+	.incbin "assets/backgrounds/menu/background_hanger/background_hanger_plt.bin"
+
+background_hanger_num_chars:  @ 081260f8
+	.byte 0xf6, 0x01, 0x00, 0x00
+
+background_hanger_chars:  @ 081260fc
+	.incbin "assets/backgrounds/menu/background_hanger/background_hanger_chars.bin"
+
+background_hanger_map_size_x:  @ 0812de7c
+	.byte 0x1e, 0x00
+
+background_hanger_map_size_y:  @ 0812de7e
+	.byte 0x14, 0x00
+
+background_hanger_map:  @ 0812de80
+	.incbin "assets/backgrounds/menu/background_hanger/background_hanger_map.bin"
+
+background_tournament_small_plt:  @ 0812e330
+	.incbin "assets/backgrounds/menu/background_tournament_small/background_tournament_small_plt.bin"
+
+background_tournament_small_num_chars:  @ 0812e530
+	.byte 0xf9, 0x01, 0x00, 0x00
+
+background_tournament_small_chars:  @ 0812e534
+	.incbin "assets/backgrounds/menu/background_tournament_small/background_tournament_small_chars.bin"
+
+background_tournament_small_map_size_x:  @ 08136374
+	.byte 0x1e, 0x00
+
+background_tournament_small_map_size_y:  @ 08136376
+	.byte 0x14, 0x00
+
+background_tournament_small_map:  @ 08136378
+	.incbin "assets/backgrounds/menu/background_tournament_small/background_tournament_small_map.bin"
+
+mode_select_border_plt:  @ 08136828
+	.incbin "assets/backgrounds/menu/mode_select_border/mode_select_border_plt.bin"
+
+D_08136a08:  @ 08136a08
+	.byte 0x18, 0x7f, 0xff, 0x63, 0xff, 0x33, 0xde, 0x03, 0x3a, 0x03, 0x8c, 0x31, 0xc0, 0x00, 0xff, 0x7f
+	.byte 0xbc, 0x7f, 0x99, 0x7f, 0x76, 0x7f, 0x53, 0x7f, 0xf0, 0x7a, 0x8d
+	.ascii "n\t^eM"
+
+mode_select_border_num_chars:  @ 08136a28
+	.byte 0x14, 0x00, 0x00, 0x00
+
+mode_select_border_chars:  @ 08136a2c
+	.incbin "assets/backgrounds/menu/mode_select_border/mode_select_border_chars.bin"
+
+mode_select_border_map_size_x:  @ 08136f2c
+	.byte 0x0d, 0x00
+
+mode_select_border_map_size_y:  @ 08136f2e
+	.byte 0x0d, 0x00
+
+mode_select_border_map:  @ 08136f30
+	.incbin "assets/backgrounds/menu/mode_select_border/mode_select_border_map.bin"
+
+diddysmall1_plt:  @ 08137082
+	.incbin "assets/backgrounds/menu/diddysmall1/diddysmall1_plt.bin"
+
+diddysmall1_num_chars:  @ 08137282
+	.byte 0xdf, 0x00, 0x00, 0x00
+
+diddysmall1_chars:  @ 08137286
+	.incbin "assets/backgrounds/menu/diddysmall1/diddysmall1_chars.bin"
+
+diddysmall1_map_size_x:  @ 0813aa46
+	.byte 0x16, 0x00
+
+diddysmall1_map_size_y:  @ 0813aa48
+	.byte 0x10, 0x00
+
+diddysmall1_map:  @ 0813aa4a
+	.incbin "assets/backgrounds/menu/diddysmall1/diddysmall1_map.bin"
+
+crankysmall_plt:  @ 0813ad0a
+	.incbin "assets/backgrounds/menu/crankysmall/crankysmall_plt.bin"
+
+crankysmall_num_chars:  @ 0813af0a
+	.byte 0xfe, 0x00, 0x00, 0x00
+
+crankysmall_chars:  @ 0813af0e
+	.incbin "assets/backgrounds/menu/crankysmall/crankysmall_chars.bin"
+
+crankysmall_map:  @ 0813ee8e
+	.incbin "assets/backgrounds/menu/crankysmall/crankysmall_map.bin"
+
+kongsmall_plt:  @ 0813f14e
+	.incbin "assets/backgrounds/menu/kongsmall/kongsmall_plt.bin"
+
+kongsmall_num_chars:  @ 0813f34e
+	.byte 0xca, 0x00, 0x00, 0x00
+
+kongsmall_chars:  @ 0813f352
+	.incbin "assets/backgrounds/menu/kongsmall/kongsmall_chars.bin"
+
+kongsmall_map:  @ 081425d2
+	.incbin "assets/backgrounds/menu/kongsmall/kongsmall_map.bin"
+
+krunchsmall_plt:  @ 08142892
+	.incbin "assets/backgrounds/menu/krunchsmall/krunchsmall_plt.bin"
+
+krunchsmall_num_chars:  @ 08142a92
+	.byte 0x8c, 0x00, 0x00, 0x00
+
+krunchsmall_chars:  @ 08142a96
+	.incbin "assets/backgrounds/menu/krunchsmall/krunchsmall_chars.bin"
+
+krunchsmall_map:  @ 08144d96
+	.incbin "assets/backgrounds/menu/krunchsmall/krunchsmall_map.bin"
+
+kroolsmall_plt:  @ 08145056
+	.incbin "assets/backgrounds/menu/kroolsmall/kroolsmall_plt.bin"
+
+kroolsmall_num_chars:  @ 08145256
+	.byte 0xeb, 0x00, 0x00, 0x00
+
+kroolsmall_chars:  @ 0814525a
+	.incbin "assets/backgrounds/menu/kroolsmall/kroolsmall_chars.bin"
+
+kroolsmall_map:  @ 08148d1a
+	.incbin "assets/backgrounds/menu/kroolsmall/kroolsmall_map.bin"
+
+dixieysmall_plt:  @ 08148fda
+	.incbin "assets/backgrounds/menu/dixieysmall/dixieysmall_plt.bin"
+
+dixieysmall_num_chars:  @ 081491da
+	.byte 0x98, 0x00, 0x00, 0x00
+
+dixieysmall_chars:  @ 081491de
+	.incbin "assets/backgrounds/menu/dixieysmall/dixieysmall_chars.bin"
+
+dixieysmall_map:  @ 0814b7de
+	.incbin "assets/backgrounds/menu/dixieysmall/dixieysmall_map.bin"
+
+background_study_plt:  @ 0814ba9e
+	.incbin "assets/backgrounds/menu/background_study/background_study_plt.bin"
+
+background_study_num_chars:  @ 0814bc9e
+	.byte 0xf3, 0x01, 0x00, 0x00
+
+background_study_chars:  @ 0814bca2
+	.incbin "assets/backgrounds/menu/background_study/background_study_chars.bin"
+
+background_study_map:  @ 08153962
+	.incbin "assets/backgrounds/menu/background_study/background_study_map.bin"
+
+background_dogfight_plt:  @ 08153e12
+	.incbin "assets/backgrounds/menu/background_dogfight/background_dogfight_plt.bin"
+
+background_dogfight_num_chars:  @ 08154012
+	.byte 0xe7, 0x01, 0x00, 0x00
+
+background_dogfight_chars:  @ 08154016
+	.incbin "assets/backgrounds/menu/background_dogfight/background_dogfight_chars.bin"
+
+background_dogfight_map:  @ 0815b9d6
+	.incbin "assets/backgrounds/menu/background_dogfight/background_dogfight_map.bin"
+
+background_time_plt:  @ 0815be86
+	.incbin "assets/backgrounds/menu/background_time/background_time_plt.bin"
+
+background_time_num_chars:  @ 0815c086
+	.byte 0xff, 0x01, 0x00, 0x00
+
+background_time_chars:  @ 0815c08a
+	.incbin "assets/backgrounds/menu/background_time/background_time_chars.bin"
+
+background_time_map:  @ 0816404a
+	.incbin "assets/backgrounds/menu/background_time/background_time_map.bin"
+
+jap_warning_plt:  @ 081644fc
+	.incbin "assets/backgrounds/menu/jap_warning/jap_warning_plt.bin"
+
+D_081646bc:  @ 081646bc
+	.incbin "assets/backgrounds/menu/jap_warning/jap_warning_plt.2.bin"
+
+jap_warning_num_chars:  @ 081646fc
+	.byte 0x5f, 0x00, 0x00, 0x00
+
+jap_warning_chars:  @ 08164700
+	.incbin "assets/backgrounds/menu/jap_warning/jap_warning_chars.bin"
+
+jap_warning_map_size_x:  @ 08165ec0
+	.byte 0x10, 0x00
+
+jap_warning_map_size_y:  @ 08165ec2
+	.byte 0x07, 0x00
+
+jap_warning_map:  @ 08165ec4
+	.incbin "assets/backgrounds/menu/jap_warning/jap_warning_map.bin"
+
+jap_bright_text_data:  @ 08165fa4
+	.incbin "assets/menu_graphics/jap_bright_text_data.bin"
+
+jap_bright_text_data_end:  @ 08166c64
+	.byte 0x1f, 0x7c, 0x1f, 0x7c, 0x1f, 0x7c, 0x1f, 0x7c, 0x1f, 0x7c, 0x1f, 0x7c, 0xfe, 0x7b, 0x7f, 0x6f
+	.byte 0x1f, 0x7c, 0x3d, 0x67, 0x06, 0x11, 0x58, 0x3a, 0x1f, 0x7c, 0x1f, 0x7c, 0x1f, 0x7c, 0x1f, 0x7c
+
+jap_dark_text_plt:  @ 08166c84
+	.byte 0x1f, 0x7c, 0x1f, 0x7c, 0x1f, 0x7c, 0x1f, 0x7c, 0x1f, 0x7c, 0x1f, 0x7c, 0x52, 0x4a, 0x90, 0x31
+	.byte 0x1f, 0x7c, 0xb2, 0x35, 0x42, 0x08, 0x50, 0x25, 0x1f, 0x7c, 0x1f, 0x7c, 0x1f, 0x7c, 0x1f, 0x7c
+
+__pal_introanim:  @ 08166ca4
+	.byte 0x00, 0x00, 0xd6, 0x5a, 0x5b, 0x04, 0x32, 0x00, 0x4a, 0x04, 0x3c, 0x1d, 0x32, 0x1d, 0x5e, 0x36
+	.byte 0x33, 0x3e, 0x7c, 0x63, 0xff, 0x73, 0x63, 0x38, 0x29, 0x41, 0x22, 0x28, 0x11, 0x66, 0x22, 0x08
+
+__pal_introanim2:  @ 08166cc4
+	.byte 0x60, 0x7f, 0xb5, 0x56, 0x53, 0x11, 0xcb, 0x04, 0x15, 0x16, 0xd9, 0x0e, 0x9f, 0x1b, 0x84, 0x0c
+	.byte 0x4a, 0x25, 0xac, 0x05, 0xcb, 0x26, 0x63, 0x06, 0xa1, 0x01, 0x80, 0x00, 0x9a, 0x73, 0x8c, 0x41
+
+__pal_introanim3:  @ 08166ce4
+	.byte 0x00, 0x00, 0x25, 0x04, 0x0c, 0x00, 0x35, 0x00, 0xd3, 0x14, 0x9d, 0x08, 0xb8, 0x2d, 0x8c, 0x08
+	.byte 0xde, 0x25, 0xbf, 0x36, 0xbd, 0x73, 0x21, 0x24, 0xef, 0x4d, 0xca, 0x30, 0x8d, 0x35, 0xd7, 0x5e
+
+__pal_introanim4:  @ 08166d04
+	.byte 0x20, 0x7f, 0xf0, 0x0c, 0xcb, 0x08, 0x86, 0x08, 0xf4, 0x0d, 0xda, 0x12, 0xbe, 0x1b, 0xac, 0x09
+	.byte 0xee, 0x35, 0x81, 0x00, 0x6d, 0x2b, 0xc6, 0x0e, 0x23, 0x06, 0x82, 0x05, 0x13, 0x53, 0x36, 0x73
+
+__pal_bright_text:  @ 08166d24
+	.byte 0x1f, 0x7c, 0xff, 0x7f, 0xbf, 0x77, 0x9f, 0x73, 0x5f, 0x6b, 0x3f, 0x67, 0x1f, 0x63, 0xdf, 0x5a
+	.byte 0xbf, 0x56, 0x9f
+	.asciz "RJ) "
+	.byte 0x1f, 0x7c, 0x1f, 0x7c, 0x1f, 0x7c, 0x1f, 0x7c
+
+__pal_dark_text:  @ 08166d44
+	.byte 0x1f, 0x7c, 0x7b, 0x6f, 0xfb, 0x5e, 0x9b, 0x52, 0x1b, 0x42, 0xbb, 0x35, 0x5b, 0x29, 0xdb, 0x18
+	.byte 0x7b, 0x0c, 0x1b, 0x00, 0xc6, 0x18, 0x60, 0x00, 0x1f, 0x7c, 0x1f, 0x7c, 0x1f, 0x7c, 0x1f, 0x7c
+
+__pal_small_beach_barricade:  @ 08166d64
+	.incbin "assets/palettes/small_beach_barricade.bin"
+
+__pal_handcoin:  @ 08166f64
+	.incbin "assets/palettes/handcoin.bin"
+
+D_08167120:  @ 08167120
+	.incbin "assets/palettes/handcoin.2.bin"
+
+__pal_qmarkcoin:  @ 08167164
+	.incbin "assets/palettes/qmarkcoin.bin"
+
+__pal_select_screen_text2:  @ 08167364
+	.incbin "assets/palettes/select_screen_text2.bin"
+
+__pal_hair_raising_rescue:  @ 08167564
+	.incbin "assets/palettes/hair_raising_rescue.bin"
+
+__pal_small_chickenrun:  @ 08167764
+	.incbin "assets/palettes/small_chickenrun.bin"
+
+__pal_small_not_used:  @ 08167964
+	.incbin "assets/palettes/small_not_used.bin"
+
+__pal_small_crab_beach:  @ 08167b64
+	.incbin "assets/palettes/small_crab_beach.bin"
+
+__pal_small_fishbeach:  @ 08167d64
+	.incbin "assets/palettes/small_fishbeach.bin"
+
+__pal_small_fly_like_the_wind:  @ 08167f64
+	.incbin "assets/palettes/small_fly_like_the_wind.bin"
+
+__pal_small_hatch_match:  @ 08168164
+	.incbin "assets/palettes/small_hatch_match.bin"
+
+__pal_small_haunted:  @ 08168364
+	.incbin "assets/palettes/small_haunted.bin"
+
+__pal_small_jungle_dogfight:  @ 08168564
+	.incbin "assets/palettes/small_jungle_dogfight.bin"
+
+__pal_small_focal_feud:  @ 08168764
+	.incbin "assets/palettes/small_focal_feud.bin"
+
+__pal_small_grubgrab:  @ 08168964
+	.incbin "assets/palettes/small_grubgrab.bin"
+
+__pal_small_krools_darktower:  @ 08168b64
+	.incbin "assets/palettes/small_krools_darktower.bin"
+
+__pal_small_peaceful_passage:  @ 08168d64
+	.incbin "assets/palettes/small_peaceful_passage.bin"
+
+__pal_small_wasteland_wipeout:  @ 08168f64
+	.incbin "assets/palettes/small_wasteland_wipeout.bin"
+
+__pal_coinbronze:  @ 08169164
+	.incbin "assets/palettes/coinbronze.bin"
+
+__pal_coinsilver:  @ 08169364
+	.incbin "assets/palettes/coinsilver.bin"
+
+__pal_coingold:  @ 08169564
+	.incbin "assets/palettes/coingold.bin"
+
+__pal_coinscroll4:  @ 08169764
+	.incbin "assets/palettes/coinscroll4.bin"
+
+__pal_small_snowballsnapshot:  @ 08169964
+	.incbin "assets/palettes/small_snowballsnapshot.bin"
+
+__pal_small_dawn_duel:  @ 08169b64
+	.incbin "assets/palettes/small_dawn_duel.bin"
+
+__pal_small_magma_mainland:  @ 08169d64
+	.incbin "assets/palettes/small_magma_mainland.bin"
+
+__pal_coinscroll5:  @ 08169f64
+	.incbin "assets/palettes/coinscroll5.bin"
+
+tab_levels:  @ 0816a164
+	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	.byte 0x00, 0x00, 0x00, 0x00
+	.word __pal_beach_lvl
+	.word __chr_beach_00_lvl
+	.word __chr_beach_sky
+	.word __map_beach_00_gnd
+	.word __map_beach_00_lvl
+	.word __map_beach_00_sky
+	.word __pal_grad_sky_beach
+	.word obj_beach_00
+	.word __net_beach_00
+	.word __pal_beach_lvl
+	.word __chr_beach_01_lvl
+	.word __chr_beach_sky
+	.word __map_beach_00_gnd
+	.word __map_beach_01_lvl
+	.word __map_beach_00_sky
+	.word __pal_grad_sky_beach
+	.word obj_beach_01
+	.word __net_beach_01
+	.word __pal_beach_lvl
+	.word __chr_beach_02_lvl
+	.word __chr_beach_sky
+	.word __map_beach_00_gnd
+	.word __map_beach_02_lvl
+	.word __map_beach_00_sky
+	.word __pal_grad_sky_beach
+	.word obj_beach_02
+	.word __net_beach_02
+	.word __pal_beach_lvl
+	.word __chr_beach_03_lvl
+	.word __chr_beach_sky
+	.word __map_beach_00_gnd
+	.word __map_beach_03_lvl
+	.word __map_beach_00_sky
+	.word __pal_grad_sky_beach
+	.word obj_beach_03
+	.word __net_beach_03
+	.word __pal_lava_lvl
+	.word __chr_lava_00_lvl
+	.word __chr_lava_sky
+	.word __map_lava_00_gnd
+	.word __map_lava_00_lvl
+	.word __map_lava_00_sky
+	.word __pal_grad_sky_lava
+	.word obj_lava_00
+	.word __net_lava_00
+	.word __pal_lava_lvl
+	.word __chr_lava_01_lvl
+	.word __chr_lava_sky
+	.word __map_lava_00_gnd
+	.word __map_lava_01_lvl
+	.word __map_lava_00_sky
+	.word __pal_grad_sky_lava
+	.word obj_lava_01
+	.word __net_lava_01
+	.word __pal_lava_lvl
+	.word __chr_lava_02_lvl
+	.word __chr_lava_sky
+	.word __map_lava_00_gnd
+	.word __map_lava_02_lvl
+	.word __map_lava_00_sky
+	.word __pal_grad_sky_lava
+	.word obj_lava_02
+	.word __net_lava_02
+	.word __pal_snow_lvl
+	.word __chr_snow_00_lvl
+	.word __chr_snow_sky
+	.word __map_snow_00_gnd
+	.word __map_snow_00_lvl
+	.word __map_snow_00_sky
+	.word __pal_grad_sky_snow
+	.word obj_snow_00
+	.word __net_snow_00
+	.word __pal_snow_lvl
+	.word __chr_snow_01_lvl
+	.word __chr_snow_sky
+	.word __map_snow_00_gnd
+	.word __map_snow_01_lvl
+	.word __map_snow_00_sky
+	.word __pal_grad_sky_snow
+	.word obj_snow_01
+	.word __net_snow_01
+	.word __pal_snow_lvl
+	.word __chr_snow_02_lvl
+	.word __chr_snow_sky
+	.word __map_snow_00_gnd
+	.word __map_snow_02_lvl
+	.word __map_snow_00_sky
+	.word __pal_grad_sky_snow
+	.word obj_snow_02
+	.word __net_snow_02
+	.word __pal_snow_lvl
+	.word __chr_snow_03_lvl
+	.word __chr_snow_sky
+	.word __map_snow_00_gnd
+	.word __map_snow_03_lvl
+	.word __map_snow_00_sky
+	.word __pal_grad_sky_snow
+	.word obj_snow_03
+	.word __net_snow_03
+	.word __pal_keep_lvl
+	.word __chr_keep_00_lvl
+	.word __chr_keep_sky
+	.word __map_keep_00_gnd
+	.word __map_keep_00_lvl
+	.word __map_keep_00_sky
+	.word __pal_grad_sky_keep
+	.word obj_keep_00
+	.word __net_keep_00
+	.word __pal_keep_lvl
+	.word __chr_keep_01_lvl
+	.word __chr_keep_sky
+	.word __map_keep_00_gnd
+	.word __map_keep_01_lvl
+	.word __map_keep_00_sky
+	.word __pal_grad_sky_keep
+	.word obj_keep_01
+	.word __net_keep_01
+	.word __pal_keep_lvl
+	.word __chr_keep_02_lvl
+	.word __chr_keep_sky
+	.word __map_keep_00_gnd
+	.word __map_keep_02_lvl
+	.word __map_keep_00_sky
+	.word __pal_grad_sky_keep
+	.word obj_keep_02
+	.word __net_keep_02
+	.word __pal_keep_lvl
+	.word __chr_keep_03_lvl
+	.word __chr_keep_sky
+	.word __map_keep_00_gnd
+	.word __map_keep_03_lvl
+	.word __map_keep_00_sky
+	.word __pal_grad_sky_keep
+	.word obj_keep_03
+	.word __net_keep_03
+	.word __pal_lake_lvl
+	.word __chr_lake_00_lvl
+	.word __chr_lake_sky
+	.word __map_lake_00_gnd
+	.word __map_lake_00_lvl
+	.word __map_lake_00_sky
+	.word __pal_grad_sky_lake
+	.word obj_lake_00
+	.word __net_lake_00
+	.word __pal_lake_lvl
+	.word __chr_lake_01_lvl
+	.word __chr_lake_sky
+	.word __map_lake_00_gnd
+	.word __map_lake_01_lvl
+	.word __map_lake_00_sky
+	.word __pal_grad_sky_lake
+	.word obj_lake_01
+	.word __net_lake_01
+	.word __pal_lake_lvl
+	.word __chr_lake_02_lvl
+	.word __chr_lake_sky
+	.word __map_lake_00_gnd
+	.word __map_lake_02_lvl
+	.word __map_lake_00_sky
+	.word __pal_grad_sky_lake
+	.word obj_lake_02
+	.word __net_lake_02
+	.word __pal_lake_lvl
+	.word __chr_lake_03_lvl
+	.word __chr_lake_sky
+	.word __map_lake_00_gnd
+	.word __map_lake_03_lvl
+	.word __map_lake_00_sky
+	.word __pal_grad_sky_lake
+	.word obj_lake_03
+	.word __net_lake_03
+	.word __pal_farm_lvl
+	.word __chr_farm_00_lvl
+	.word __chr_farm_sky
+	.word __map_farm_00_gnd
+	.word __map_farm_00_lvl
+	.word __map_farm_00_sky
+	.word __pal_grad_sky_farm
+	.word obj_farm_00
+	.word __net_farm_00
+	.word __pal_farm_lvl
+	.word __chr_farm_01_lvl
+	.word __chr_farm_sky
+	.word __map_farm_00_gnd
+	.word __map_farm_01_lvl
+	.word __map_farm_00_sky
+	.word __pal_grad_sky_farm
+	.word obj_farm_01
+	.word __net_farm_01
+	.word __pal_farm_lvl
+	.word __chr_farm_02_lvl
+	.word __chr_farm_sky
+	.word __map_farm_00_gnd
+	.word __map_farm_02_lvl
+	.word __map_farm_00_sky
+	.word __pal_grad_sky_farm
+	.word obj_farm_02
+	.word __net_farm_02
+	.word __pal_farm_lvl
+	.word __chr_farm_03_lvl
+	.word __chr_farm_sky
+	.word __map_farm_00_gnd
+	.word __map_farm_03_lvl
+	.word __map_farm_00_sky
+	.word __pal_grad_sky_farm
+	.word obj_farm_03
+	.word __net_farm_03
+	.word __pal_farm_lvl
+	.word __chr_farm_04_lvl
+	.word __chr_farm_sky
+	.word __map_farm_00_gnd
+	.word __map_farm_04_lvl
+	.word __map_farm_00_sky
+	.word __pal_grad_sky_farm
+	.word obj_farm_04
+	.word __net_farm_04
+	.word __pal_farm_lvl
+	.word __chr_farm_05_lvl
+	.word __chr_farm_sky
+	.word __map_farm_00_gnd
+	.word __map_farm_05_lvl
+	.word __map_farm_00_sky
+	.word __pal_grad_sky_farm
+	.word obj_farm_05
+	.word __net_farm_05
+	.word __pal_swamp_lvl
+	.word __chr_swamp_00_lvl
+	.word __chr_swamp_sky
+	.word __map_swamp_00_gnd
+	.word __map_swamp_00_lvl
+	.word __map_swamp_00_sky
+	.word __pal_grad_sky_swamp
+	.word obj_swamp_00
+	.word __net_swamp_00
+	.word __pal_swamp_lvl
+	.word __chr_swamp_01_lvl
+	.word __chr_swamp_sky
+	.word __map_swamp_00_gnd
+	.word __map_swamp_01_lvl
+	.word __map_swamp_00_sky
+	.word __pal_grad_sky_swamp
+	.word obj_swamp_01
+	.word __net_swamp_01
+	.word __pal_swamp_lvl
+	.word __chr_swamp_02_lvl
+	.word __chr_swamp_sky
+	.word __map_swamp_00_gnd
+	.word __map_swamp_02_lvl
+	.word __map_swamp_00_sky
+	.word __pal_grad_sky_swamp
+	.word obj_swamp_02
+	.word __net_swamp_02
+	.word __pal_swamp_lvl
+	.word __chr_swamp_03_lvl
+	.word __chr_swamp_sky
+	.word __map_swamp_00_gnd
+	.word __map_swamp_03_lvl
+	.word __map_swamp_00_sky
+	.word __pal_grad_sky_swamp
+	.word obj_swamp_03
+	.word __net_swamp_03
+	.word __pal_haunted_lvl
+	.word __chr_haunted_00_lvl
+	.word __chr_haunted_sky
+	.word __map_haunted_00_gnd
+	.word __map_haunted_00_lvl
+	.word __map_haunted_00_sky
+	.word __pal_grad_sky_haunted
+	.word obj_haunted_00
+	.word __net_haunted_00
+	.word __pal_haunted_lvl
+	.word __chr_haunted_01_lvl
+	.word __chr_haunted_sky
+	.word __map_haunted_00_gnd
+	.word __map_haunted_01_lvl
+	.word __map_haunted_00_sky
+	.word __pal_grad_sky_haunted
+	.word obj_haunted_01
+	.word __net_haunted_01
+	.word __pal_haunted_lvl
+	.word __chr_haunted_02_lvl
+	.word __chr_haunted_sky
+	.word __map_haunted_00_gnd
+	.word __map_haunted_02_lvl
+	.word __map_haunted_00_sky
+	.word __pal_grad_sky_haunted
+	.word obj_haunted_02
+	.word __net_haunted_02
+	.word __pal_haunted_lvl
+	.word __chr_haunted_03_lvl
+	.word __chr_haunted_sky
+	.word __map_haunted_00_gnd
+	.word __map_haunted_03_lvl
+	.word __map_haunted_00_sky
+	.word __pal_grad_sky_haunted
+	.word obj_haunted_03
+	.word __net_haunted_03
+	.word __pal_jungle_lvl
+	.word __chr_jungle_00_lvl
+	.word __chr_jungle_sky
+	.word __map_jungle_00_gnd
+	.word __map_jungle_00_lvl
+	.word __map_jungle_00_sky
+	.word __pal_grad_sky_farm
+	.word obj_jungle_00
+	.word __net_jungle_00
+	.word __pal_jungle_lvl
+	.word __chr_jungle_01_lvl
+	.word __chr_jungle_sky
+	.word __map_jungle_00_gnd
+	.word __map_jungle_01_lvl
+	.word __map_jungle_00_sky
+	.word __pal_grad_sky_farm
+	.word obj_jungle_01
+	.word __net_jungle_01
+	.word __pal_jungle_lvl
+	.word __chr_jungle_02_lvl
+	.word __chr_jungle_sky
+	.word __map_jungle_00_gnd
+	.word __map_jungle_02_lvl
+	.word __map_jungle_00_sky
+	.word __pal_grad_sky_farm
+	.word obj_jungle_02
+	.word __net_jungle_02
+	.word __pal_jungle_lvl
+	.word __chr_jungle_03_lvl
+	.word __chr_jungle_sky
+	.word __map_jungle_00_gnd
+	.word __map_jungle_03_lvl
+	.word __map_jungle_00_sky
+	.word __pal_grad_sky_farm
+	.word obj_jungle_03
+	.word __net_jungle_03
+	.word __pal_desert_lvl
+	.word __chr_desert_00_lvl
+	.word __chr_desert_sky
+	.word __map_desert_00_gnd
+	.word __map_desert_00_lvl
+	.word __map_desert_00_sky
+	.word __pal_grad_sky_desert
+	.word obj_desert_00
+	.word __net_desert_00
+	.word __pal_desert_lvl
+	.word __chr_desert_01_lvl
+	.word __chr_desert_sky
+	.word __map_desert_00_gnd
+	.word __map_desert_01_lvl
+	.word __map_desert_00_sky
+	.word __pal_grad_sky_desert
+	.word obj_desert_01
+	.word __net_desert_01
+	.word __pal_desert_lvl
+	.word __chr_desert_02_lvl
+	.word __chr_desert_sky
+	.word __map_desert_00_gnd
+	.word __map_desert_02_lvl
+	.word __map_desert_00_sky
+	.word __pal_grad_sky_desert
+	.word obj_desert_02
+	.word __net_desert_02
+	.word __pal_desert_lvl
+	.word __chr_desert_03_lvl
+	.word __chr_desert_sky
+	.word __map_desert_00_gnd
+	.word __map_desert_03_lvl
+	.word __map_desert_00_sky
+	.word __pal_grad_sky_desert
+	.word obj_desert_03
+	.word __net_desert_03
+
+tab_sprites:  @ 0816a74c
+	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	.word __spr_diddyframesshort
+	.byte 0x02, 0x00, 0x01, 0x00
+	.word __spr_dixieyframesshort
+	.byte 0x02, 0x00, 0x05, 0x00
+	.word __spr_kongframesshort
+	.byte 0x02, 0x00, 0x06, 0x00
+	.word __spr_krunchframesshort
+	.byte 0x02, 0x00, 0x02, 0x00
+	.word __spr_crankyframesshort
+	.byte 0x02, 0x00, 0x03, 0x00
+	.word __spr_kroolframesshort
+	.byte 0x02, 0x00, 0x04, 0x00
+	.word __spr_palmtree2
+	.byte 0x00, 0x00, 0x0c, 0x00
+	.word __spr_gunhut
+	.byte 0x01, 0x00, 0x0d, 0x00
+	.word __spr_hut
+	.byte 0x00, 0x00, 0x0b, 0x00
+	.word __spr_melon
+	.byte 0x00, 0x00, 0x07, 0x0d
+	.word __spr_mango
+	.byte 0x00, 0x00, 0x08, 0x0d
+	.word __spr_green_missile
+	.byte 0x00, 0x00, 0x5b, 0x00
+	.word __spr_red_missile
+	.byte 0x00, 0x00, 0x5b, 0x00
+	.word __spr_target
+	.byte 0x00, 0x00, 0x5b, 0x00
+	.word __spr_splat
+	.byte 0x00, 0x00, 0x09, 0x0e
+	.word __spr_fire5
+	.word D_08310000
+	.word __spr_snowtree
+	.byte 0x00, 0x00, 0x2d, 0x00
+	.word __spr_snowtree
+	.byte 0x00, 0x00, 0x2e, 0x00
+	.word __spr_igloo
+	.byte 0x00, 0x00, 0x2f, 0x00
+	.word __spr_wigwam
+	.byte 0x00, 0x00, 0x30, 0x00
+	.word __spr_firtree
+	.byte 0x00, 0x00, 0x0a, 0x00
+	.word __spr_hud_flaga
+	.byte 0x00, 0x00, 0x5b, 0x09
+	.word __spr_hud_flagb
+	.byte 0x00, 0x00, 0x5b, 0x09
+	.word __spr_pauseoption
+	.byte 0x00, 0x00, 0x5b, 0x00
+	.word __spr_ghost
+	.byte 0x00, 0x00, 0x10, 0x00
+	.word __spr_pumpkin
+	.byte 0x00, 0x00, 0x11, 0x00
+	.word __spr_skull
+	.byte 0x00, 0x00, 0x12, 0x00
+	.word __spr_deadtree
+	.byte 0x00, 0x00, 0x13, 0x00
+	.word __spr_soul
+	.byte 0x00, 0x00, 0x14, 0x00
+	.word __spr_evilghost
+	.byte 0x01, 0x00, 0x15, 0x00
+	.word __spr_mushroom
+	.byte 0x00, 0x00, 0x16, 0x00
+	.word __spr_farm_tree
+	.byte 0x00, 0x00, 0x17, 0x00
+	.word __spr_farm_chicken
+	.byte 0x00, 0x00, 0x18, 0x0b
+	.word __spr_farm_rabbit
+	.byte 0x00, 0x00, 0x19, 0x00
+	.word __spr_flying_veg
+	.byte 0x00, 0x00, 0x1a, 0x00
+	.word __spr_eggbig
+	.byte 0x00, 0x00, 0x1b, 0x00
+	.word __spr_swamptree2
+	.byte 0x00, 0x00, 0x1e, 0x00
+	.word __spr_swamp_frog_hanging
+	.byte 0x00, 0x00, 0x1f, 0x00
+	.word __spr_swamp_frog_on_pad
+	.byte 0x00, 0x00, 0x1f, 0x00
+	.word __spr_swamp_goo_gun_mon
+	.byte 0x01, 0x00, 0x21, 0x00
+	.word __spr_swamp_target_mon_hit
+	.byte 0x00, 0x00, 0x20, 0x00
+	.word __spr_swamp_target_mon_jump
+	.byte 0x00, 0x00, 0x20, 0x00
+	.word __spr_stonepillar
+	.byte 0x00, 0x00, 0x0e, 0x00
+	.word __spr_jungel_worm_jump
+	.byte 0x00, 0x00, 0x0f, 0x0f
+	.word __spr_candy_head
+	.byte 0x00, 0x00, 0x53, 0x00
+	.word __spr_cranky_head
+	.byte 0x00, 0x00, 0x54, 0x00
+	.word __spr_diddy_head
+	.byte 0x00, 0x00, 0x55, 0x00
+	.word __spr_dixie_head
+	.byte 0x00, 0x00, 0x56, 0x00
+	.word __spr_donkey_head
+	.byte 0x00, 0x00, 0x57, 0x00
+	.word __spr_ghost_head
+	.byte 0x00, 0x00, 0x58, 0x00
+	.word __spr_krool_head
+	.byte 0x00, 0x00, 0x59, 0x00
+	.word __spr_krunch_head
+	.byte 0x00, 0x00, 0x5a, 0x00
+	.word __spr_wpn_popi
+	.byte 0x00, 0x00, 0x35, 0x00
+	.word __spr_wpn_chci
+	.byte 0x00, 0x00, 0x36, 0x00
+	.word __spr_wpn_bobl
+	.byte 0x00, 0x00, 0x37, 0x00
+	.word __spr_wpn_swsw
+	.byte 0x00, 0x00, 0x38, 0x00
+	.word __spr_wpn_prpa
+	.byte 0x00, 0x00, 0x39, 0x00
+	.word __spr_wpn_boro
+	.byte 0x00, 0x00, 0x3a, 0x00
+	.word __spr_wpn_hiha
+	.byte 0x00, 0x00, 0x3b, 0x00
+	.word __spr_wpn_flfl
+	.byte 0x00, 0x00, 0x3c, 0x00
+	.word __spr_wpn_lodo
+	.byte 0x00, 0x00, 0x3d, 0x00
+	.word __spr_wpn_wiwo
+	.byte 0x00, 0x00, 0x3e, 0x00
+	.word __spr_wpn_wiwe
+	.byte 0x00, 0x00, 0x3f, 0x00
+	.word __spr_wpn_pepo
+	.byte 0x00, 0x00, 0x40, 0x00
+	.word __spr_wpn_hoba
+	.byte 0x00, 0x00, 0x41, 0x00
+	.word __spr_wpn_chba
+	.byte 0x00, 0x00, 0x42, 0x00
+	.word __spr_wpn_memi
+	.byte 0x00, 0x00, 0x43, 0x00
+	.word __spr_wpn_mame
+	.byte 0x00, 0x00, 0x44, 0x00
+	.word __spr_wpn_wash
+	.byte 0x00, 0x00, 0x45, 0x00
+	.word __spr_wpn_grgr
+	.byte 0x00, 0x00, 0x48, 0x00
+	.word __spr_wpn_clgr
+	.byte 0x00, 0x00, 0x49, 0x00
+	.word __spr_wpn_baba
+	.byte 0x00, 0x00, 0x4a, 0x00
+	.word __spr_wpn_sisc
+	.byte 0x00, 0x00, 0x4b, 0x00
+	.word __spr_wpn_bubo
+	.byte 0x00, 0x00, 0x46, 0x00
+	.word __spr_wpn_babl
+	.byte 0x00, 0x00, 0x47, 0x00
+	.word __spr_wpn_blbo
+	.byte 0x00, 0x00, 0x4c, 0x00
+	.word __spr_wpn_crco
+	.byte 0x00, 0x00, 0x4d, 0x00
+	.word __spr_wpn_shdi
+	.byte 0x00, 0x00, 0x4e, 0x00
+	.word __spr_wpn_babu
+	.byte 0x00, 0x00, 0x4f, 0x00
+	.word __spr_wpn_rodr
+	.byte 0x00, 0x00, 0x50, 0x00
+	.word __spr_wpn_rere
+	.byte 0x00, 0x00, 0x51, 0x00
+	.word __spr_wpn_chance
+	.byte 0x00, 0x00, 0x52, 0x00
+	.word __spr_shadow_circle
+	.byte 0x00, 0x00, 0x5b, 0x00
+	.word __spr_chance
+	.byte 0x00, 0x00, 0x33, 0x00
+	.word __spr_dkbubble
+	.byte 0x00, 0x00, 0x32, 0x00
+	.word __spr_ballon
+	.byte 0x00, 0x00, 0x34, 0x00
+	.word __spr_start_sign
+	.byte 0x00, 0x00, 0x5b, 0x00
+	.word __spr_start_dot
+	.byte 0x00, 0x00, 0x5b, 0x00
+	.word __spr_star
+	.byte 0x00, 0x00, 0x2a, 0x02
+	.word __spr_pylon2
+	.byte 0x00, 0x00, 0x26, 0x00
+	.word __spr_banana
+	.byte 0x00, 0x00, 0x2a, 0x03
+	.word __spr_banana16
+	.byte 0x00, 0x00, 0x2a, 0x0a
+	.word __spr_mine
+	.byte 0x00, 0x00, 0x1c, 0x00
+	.word __spr_booster
+	.byte 0x01, 0x00, 0x24, 0x00
+	.word __spr_1st
+	.byte 0x00, 0x00, 0x5b, 0x00
+	.word __spr_finallap
+	.byte 0x00, 0x00, 0x5b, 0x00
+	.word __spr_logocoin
+	.byte 0x00, 0x00, 0x25, 0x00
+	.word __spr_lap2
+	.byte 0x00, 0x00, 0x5b, 0x00
+	.word __spr_hud_map_lava_00
+	.byte 0x00, 0x00, 0x5b, 0x00
+	.word __spr_hud_map_lava_01
+	.byte 0x00, 0x00, 0x5b, 0x00
+	.word __spr_hud_map_keep_00
+	.byte 0x00, 0x00, 0x5b, 0x00
+	.word __spr_hud_map_beach_00
+	.byte 0x00, 0x00, 0x5b, 0x00
+	.word __spr_hud_map_beach_01
+	.byte 0x00, 0x00, 0x5b, 0x00
+	.word __spr_hud_map_beach_02
+	.byte 0x00, 0x00, 0x5b, 0x00
+	.word __spr_hud_map_lake_00
+	.byte 0x00, 0x00, 0x5b, 0x00
+	.word __spr_hud_map_lake_01
+	.byte 0x00, 0x00, 0x5b, 0x00
+	.word __spr_hud_map_snow_00
+	.byte 0x00, 0x00, 0x5b, 0x00
+	.word __spr_hud_map_snow_00
+	.byte 0x00, 0x00, 0x5b, 0x00
+	.word __spr_hud_map_farm_00
+	.byte 0x00, 0x00, 0x5b, 0x00
+	.word __spr_hud_map_farm_01
+	.byte 0x00, 0x00, 0x5b, 0x00
+	.word __spr_hud_map_farm_03
+	.byte 0x00, 0x00, 0x5b, 0x00
+	.word __spr_hud_map_haunted_00
+	.byte 0x00, 0x00, 0x5b, 0x00
+	.word __spr_hud_map_haunted_01
+	.byte 0x00, 0x00, 0x5b, 0x00
+	.word __spr_hud_map_haunted_02
+	.byte 0x00, 0x00, 0x5b, 0x00
+	.word __spr_hud_map_arrows
+	.byte 0x00, 0x00, 0x5b, 0x00
+	.word __spr_hud_pos
+	.byte 0x00, 0x00, 0x5b, 0x00
+	.word __spr_hud_digits
+	.byte 0x00, 0x00, 0x5b, 0x00
+	.word __spr_hud_nums
+	.byte 0x00, 0x00, 0x5b, 0x00
+	.word __spr_hud_arrow
+	.byte 0x00, 0x00, 0x5b, 0x00
+	.word __spr_shot_gfx
+	.byte 0x00, 0x00, 0x5b, 0x00
+	.word __spr_go
+	.byte 0x00, 0x00, 0x5b, 0x00
+	.word __spr_getready
+	.byte 0x00, 0x00, 0x5b, 0x00
+	.word __spr_finish
+	.byte 0x00, 0x00, 0x5b, 0x00
+	.word __spr_retire
+	.byte 0x00, 0x00, 0x5b, 0x00
+	.word __spr_hud_counter
+	.byte 0x00, 0x00, 0x26, 0x00
+
+tab_palettes:  @ 0816ab3c
+	.byte 0x00, 0x00, 0x00, 0x00
+	.word __pal_diddyframesshort	@ "J)\t"
+	.word __pal_krunchframesshort
+	.word __pal_crankyframesshort
+	.word __pal_kroolframesshort	@ "k-#"
+	.word __pal_dixieyframesshort
+	.word __pal_kongframesshort
+	.word __pal_melon
+	.word __pal_mango
+	.word __pal_splat
+	.word __pal_firtree
+	.word __pal_hut
+	.word __pal_palmtree2
+	.word __pal_gunhut
+	.word __pal_stonepillar
+	.word __pal_jungel_worm_jump
+	.word __pal_ghost
+	.word __pal_pumpkin
+	.word __pal_skull
+	.word __pal_deadtree
+	.word __pal_soul
+	.word __pal_evilghost
+	.word __pal_mushroom
+	.word __pal_farm_tree
+	.word __pal_farm_chicken
+	.word __pal_farm_rabbit
+	.word __pal_flying_veg
+	.word __pal_eggbig
+	.word __pal_mine
+	.word __pal_mine2
+	.word __pal_swamptree2
+	.word __pal_swamp_frog_on_pad
+	.word __pal_swamp_target_mon
+	.word __pal_swamp_goo_gun_mon
+	.word __pal_tide_anim
+	.word __pal_crab
+	.word __pal_booster
+	.word __pal_logocoin
+	.word __pal_bluepalette
+	.word __pal_pylonblinkpalette
+	.word __pal_orangepalette
+	.word __pal_redpalette
+	.word __pal_yellowpalette
+	.word __pal_greenpalette
+	.word __pal_lake_anim
+	.word __pal_snowtree
+	.word __pal_snowtree
+	.word __pal_igloo
+	.word __pal_wigwam
+	.word __pal_fire5
+	.word __pal_dkbubble
+	.word __pal_chance
+	.word __pal_ballon
+	.word __pal_wpn_popi
+	.word __pal_wpn_chci
+	.word __pal_wpn_bobl
+	.word __pal_wpn_swsw
+	.word __pal_wpn_prpa
+	.word __pal_wpn_boro
+	.word __pal_wpn_hiha
+	.word __pal_wpn_flfl
+	.word __pal_wpn_lodo
+	.word __pal_wpn_wiwo
+	.word __pal_wpn_wiwe
+	.word __pal_wpn_pepo
+	.word __pal_wpn_hoba
+	.word __pal_wpn_chba
+	.word __pal_wpn_memi
+	.word __pal_wpn_mame
+	.word __pal_wpn_wash
+	.word __pal_wpn_bubo
+	.word __pal_wpn_babl
+	.word __pal_wpn_grgr
+	.word __pal_wpn_clgr
+	.word __pal_wpn_baba
+	.word __pal_wpn_sisc
+	.word __pal_wpn_blbo
+	.word __pal_wpn_crco
+	.word __pal_wpn_shdi
+	.word __pal_wpn_babu
+	.word __pal_wpn_rodr
+	.word __pal_wpn_rere
+	.word __pal_wpn_chance
+	.word __pal_candy_head
+	.word __pal_cranky_head
+	.word __pal_diddy_head
+	.word __pal_dixie_head
+	.word __pal_donkey_head
+	.word __pal_ghost_head
+	.word __pal_krool_head
+	.word __pal_krunch_head
+	.word __pal_hud_icons
+
+tab_classes:  @ 0816acac
+	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	.word init_player+1
+	.word act_player+1
+	.word react_player+1
+	.byte 0x00, 0x00, 0x00, 0x00
+	.word init_comp_player+1
+	.word act_comp_player+1
+	.word react_player+1
+	.byte 0x00, 0x00, 0x00, 0x00
+	.word init_camera+1
+	.word act_camera+1
+	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	.word init_static+1
+	.byte 0x00, 0x00, 0x00, 0x00
+	.word react_static+1
+	.byte 0x00, 0x00, 0x00, 0x00
+	.word init_static+1
+	.byte 0x00, 0x00, 0x00, 0x00
+	.word react_palmtree+1
+	.byte 0x00, 0x00, 0x00, 0x00
+	.word init_beach_gun+1
+	.byte 0x00, 0x00, 0x00, 0x00
+	.word react_beach_gun+1
+	.byte 0x00, 0x00, 0x00, 0x00
+	.word init_powerup+1
+	.word act_powerup+1
+	.word react_powerup+1
+	.byte 0x00, 0x00, 0x00, 0x00
+	.word init_start_pos+1
+	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	.word init_starthoop+1
+	.word act_starthoop+1
+	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	.word init_keep_mine+1
+	.word act_keep_mine+1
+	.word react_keep_mine+1
+	.byte 0x00, 0x00, 0x00, 0x00
+	.word init_bouncing_bomb+1
+	.word act_bouncing_bomb+1
+	.word react_bouncing_bomb+1
+	.byte 0x00, 0x00, 0x00, 0x00
+	.word init_beachhut+1
+	.word act_beachhut+1
+	.word react_beachhut+1
+	.byte 0x00, 0x00, 0x00, 0x00
+	.word init_hud_map+1
+	.word act_hud_map+1
+	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	.word init_hud_banana+1
+	.word act_hud_banana+1
+	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	.word init_hud_weapon+1
+	.word act_hud_weapon+1
+	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	.word init_hud_counter+1
+	.word act_hud_counter+1
+	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	.word init_hud_direction+1
+	.word act_hud_direction+1
+	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	.word init_hud_position+1
+	.word act_hud_position+1
+	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	.word init_hud_status+1
+	.word act_hud_status+1
+	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	.word init_bonusitem+1
+	.word act_bonusitem+1
+	.word react_bonusitem+1
+	.byte 0x00, 0x00, 0x00, 0x00
+	.word init_race_monitor+1
+	.word act_race_monitor+1
+	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	.word init_banana+1
+	.byte 0x00, 0x00, 0x00, 0x00
+	.word react_banana+1
+	.byte 0x00, 0x00, 0x00, 0x00
+	.word init_pylon+1
+	.word act_pylon+1
+	.word react_pylon+1
+	.byte 0x00, 0x00, 0x00, 0x00
+	.word init_tideanim+1
+	.word act_tideanim+1
+	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	.word init_groundboost+1
+	.word act_groundboost+1
+	.word react_groundboost+1
+	.byte 0x00, 0x00, 0x00, 0x00
+	.word init_fader+1
+	.word act_fader+1
+	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	.word init_directional_arrow+1
+	.byte 0x00, 0x00, 0x00, 0x00
+	.word react_directional_arrow+1
+	.byte 0x00, 0x00, 0x00, 0x00
+	.word init_static+1
+	.byte 0x00, 0x00, 0x00, 0x00
+	.word react_turbo+1
+	.byte 0x00, 0x00, 0x00, 0x00
+	.word init_pause+1
+	.word act_pause+1
+	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	.word init_weapon_melon+1
+	.word act_weapon_melon+1
+	.word react_weapon_melon+1
+	.byte 0x00, 0x00, 0x00, 0x00
+	.word init_weapon_mango+1
+	.word act_weapon_mango+1
+	.word react_weapon_mango+1
+	.byte 0x00, 0x00, 0x00, 0x00
+	.word init_weapon_cannon+1
+	.word act_weapon_cannon+1
+	.word react_weapon_cannon+1
+	.byte 0x00, 0x00, 0x00, 0x00
+	.word init_weapon_rocket+1
+	.word act_weapon_rocket+1
+	.word react_weapon_rocket+1
+	.byte 0x00, 0x00, 0x00, 0x00
+	.word init_weapon_chain_rocket+1
+	.word act_weapon_chain_rocket+1
+	.word react_weapon_chain_rocket+1
+	.byte 0x00, 0x00, 0x00, 0x00
+	.word init_weapon_grip_grab+1
+	.word act_weapon_grip_grab+1
+	.word react_weapon_grip_grab+1
+	.byte 0x00, 0x00, 0x00, 0x00
+	.word init_weapon_clasp_grasp+1
+	.word act_weapon_clasp_grasp+1
+	.word react_weapon_clasp_grasp+1
+	.byte 0x00, 0x00, 0x00, 0x00
+	.word init_booster+1
+	.word act_booster+1
+	.word react_booster+1
+	.byte 0x00, 0x00, 0x00, 0x00
+	.word init_static+1
+	.byte 0x00, 0x00, 0x00, 0x00
+	.word react_lava_flame+1
+	.byte 0x00, 0x00, 0x00, 0x00
+	.word init_farm_chicken+1
+	.word act_farm_chicken+1
+	.word react_farm_chicken+1
+	.byte 0x00, 0x00, 0x00, 0x00
+	.word init_farm_bunny+1
+	.word act_farm_bunny+1
+	.word react_farm_bunny+1
+	.byte 0x00, 0x00, 0x00, 0x00
+	.word init_farm_jumping_vegetable+1
+	.word act_farm_jumping_vegetable+1
+	.word react_farm_jumping_vegetable+1
+	.byte 0x00, 0x00, 0x00, 0x00
+	.word init_farm_egg_generator+1
+	.word act_farm_egg_generator+1
+	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	.word init_farm_nestpoint+1
+	.word act_farm_nestpoint+1
+	.word react_farm_nestpoint+1
+	.byte 0x00, 0x00, 0x00, 0x00
+	.word init_farm_egg+1
+	.word act_farm_egg+1
+	.word react_farm_egg+1
+	.byte 0x00, 0x00, 0x00, 0x00
+	.word init_farm_egg_monitor+1
+	.word act_farm_egg_monitor+1
+	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	.word init_farm_egg_hud+1
+	.word act_farm_egg_hud+1
+	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	.word init_haunted_ghost+1
+	.word act_haunted_ghost+1
+	.word react_haunted_ghost+1
+	.byte 0x00, 0x00, 0x00, 0x00
+	.word init_happy_soul_hud+1
+	.word act_happy_soul_hud+1
+	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	.word init_happy_soul_monitor+1
+	.word act_happy_soul_monitor+1
+	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	.word init_happy_soul_generator+1
+	.word act_happy_soul_generator+1
+	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+	.word init_happy_soul+1
+	.word act_happy_soul+1
+	.word react_happy_soul+1
+	.byte 0x00, 0x00, 0x00, 0x00
+	.word init_soul_eater+1
+	.word act_soul_eater+1
+	.word react_soul_eater+1
+	.byte 0x00, 0x00, 0x00, 0x00
+	.word init_magic_well+1
+	.word act_magic_well+1
+	.word react_magic_well+1
+	.byte 0x00, 0x00, 0x00, 0x00
+	.word init_jungle_grubhole+1
+	.word act_jungle_grubhole+1
+	.word react_jungle_grubhole+1
+	.byte 0x00, 0x00, 0x00, 0x00
+	.word init_jungle_crowpoint+1
+	.word act_jungle_crowpoint+1
+	.word react_jungle_crowpoint+1
+	.byte 0x00, 0x00, 0x00, 0x00
+	.word init_jungle_royalbird+1
+	.word act_jungle_royalbird+1
+	.word react_jungle_royalbird+1
+	.byte 0x00, 0x00, 0x00, 0x00
+	.word init_swamp_frogpoint+1
+	.word act_swamp_frogpoint+1
+	.word react_swamp_frogpoint+1
+	.byte 0x00, 0x00, 0x00, 0x00
+	.word init_swamp_targetbeast+1
+	.word act_swamp_targetbeast+1
+	.word react_swamp_targetbeast+1
+	.byte 0x00, 0x00, 0x00, 0x00
+	.word init_swamp_lilliepad+1
+	.word act_swamp_lilliepad+1
+	.word react_swamp_lilliepad+1
+	.byte 0x00, 0x00, 0x00, 0x00
+	.word init_swamp_gun+1
+	.word act_swamp_gun+1
+	.word react_swamp_gun+1
+	.byte 0x00, 0x00, 0x00, 0x00
+
+tab_types:  @ 0816b07c
+	.incbin "assets/tables/tab_types.bin"
+
+tab_animations:  @ 0816b20c
+	.byte 0x00, 0x00, 0x00, 0x00
+	.word __ani_diamond
+	.word __ani_star
+	.word __ani_banana
+	.word __ani_mine
+	.word __ani_hut_shot
+	.word __ani_wigwam
+	.word __ani_igloo
+	.word __ani_fire
+	.word __ani_flag
+	.word __ani_hud_banana
+	.word __ani_farm_chicken
+	.word __ani_loop4_16
+	.word __ani_loop4_8
+	.word __ani_splat
+	.word __ani_jungle_worm
+
+__ani_diamond:  @ 0816b24c
+	.byte 0xff, 0x01, 0x05, 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0xff, 0x00, 0xf6, 0xff
+
+__ani_star:  @ 0816b25b
+	.byte 0xff, 0x01, 0x03, 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0xff
+	.byte 0x00, 0xf2, 0xff
+
+__ani_banana:  @ 0816b26e
+	.byte 0xff, 0x01, 0x05, 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0xff, 0x00, 0xf6, 0xff
+
+__ani_mine:  @ 0816b27d
+	.byte 0xff, 0x01, 0x02, 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0xff, 0x00, 0xfd, 0xff
+
+__ani_hut_shot:  @ 0816b28b
+	.byte 0xff, 0x01, 0x01, 0x00, 0x01, 0x02, 0x03, 0xff, 0x03, 0x04, 0x05, 0x06, 0x07, 0x06, 0x05, 0x04
+	.byte 0x03, 0x02, 0x01, 0x00, 0xff, 0x00, 0xfd, 0xff
+
+__ani_igloo:  @ 0816b2a3
+	.byte 0xff, 0x01, 0x01, 0x00, 0x01, 0x02, 0x03, 0xff, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a
+	.byte 0x09, 0x08, 0x07, 0x06, 0x05, 0x04, 0x03, 0x02, 0x01, 0x00, 0xff, 0x00, 0xdf, 0xff
+
+__ani_wigwam:  @ 0816b2c1
+	.byte 0xff, 0x01, 0x01, 0x00, 0x01, 0x02, 0x03, 0xff, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x08
+	.byte 0x07, 0x06, 0x05, 0x04, 0x03, 0x02, 0x01, 0x00, 0xff, 0x00, 0xc3, 0xff
+
+__ani_fire:  @ 0816b2dd
+	.byte 0xff, 0x01, 0x02, 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0xff, 0x00, 0xf6, 0xff
+
+__ani_flag:  @ 0816b2ec
+	.byte 0xff, 0x01, 0x02, 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0xff, 0x00, 0xf6, 0xff
+
+__ani_hud_banana:  @ 0816b2fb
+	.byte 0xff, 0x01, 0x04, 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0xff, 0x00, 0xf6, 0xff
+
+__ani_farm_chicken:  @ 0816b30a
+	.byte 0xff, 0x01, 0x04, 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0xff, 0x00, 0xf6, 0xff
+
+__ani_loop4_8:  @ 0816b319
+	.byte 0xff, 0x01, 0x04, 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0xff, 0x00, 0xf6, 0xff
+
+__ani_loop4_16:  @ 0816b328
+	.byte 0xff, 0x01, 0x04, 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c
+	.byte 0x0d, 0x0e, 0x0f, 0xff, 0x00, 0xee, 0xff
+
+__ani_splat:  @ 0816b33f
+	.byte 0xff, 0x01, 0x02, 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0xff
+	.byte 0x03, 0x0c, 0xff, 0x00, 0xfd, 0xff
+
+__ani_jungle_worm:  @ 0816b355
+	.byte 0xff, 0x01, 0x05, 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x06, 0x05, 0x04, 0x03, 0x02
+	.byte 0x01, 0xff, 0x00, 0xf0, 0xff, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+
+__spr_diddyframesshort:  @ 0816b370
+	.incbin "assets/sprites/diddyframesshort/diddyframesshort.bin"
+
+__spr_diddyframesshort_01:  @ 08178370
+	.incbin "assets/sprites/diddyframesshort/diddyframesshort_01.bin"
+
+__spr_diddyframesshort_02:  @ 0817cd20
+	.incbin "assets/sprites/diddyframesshort/diddyframesshort_02.bin"
+
+__spr_kongframesshort:  @ 0817ebf0
+	.incbin "assets/sprites/kongframesshort/kongframesshort.bin"
+
+__spr_kongframesshort_01:  @ 0818b480
+	.incbin "assets/sprites/kongframesshort/kongframesshort_01.bin"
+
+__spr_kongframesshort_02:  @ 0818fa80
+	.incbin "assets/sprites/kongframesshort/kongframesshort_02.bin"
+
+__spr_dixieyframesshort:  @ 08191a20
+	.incbin "assets/sprites/dixieyframesshort/dixieyframesshort.bin"
+
+__spr_dixieyframesshort_01:  @ 0819cbe0
+	.incbin "assets/sprites/dixieyframesshort/dixieyframesshort_01.bin"
+
+__spr_dixieyframesshort_02:  @ 081a0bf0
+	.incbin "assets/sprites/dixieyframesshort/dixieyframesshort_02.bin"
+
+__spr_krunchframesshort:  @ 081a29c0
+	.incbin "assets/sprites/krunchframesshort/krunchframesshort.bin"
+
+__spr_krunchframesshort_01:  @ 081ad070
+	.incbin "assets/sprites/krunchframesshort/krunchframesshort_01.bin"
+
+__spr_krunchframesshort_02:  @ 081b0dd0
+	.incbin "assets/sprites/krunchframesshort/krunchframesshort_02.bin"
+
+__spr_crankyframesshort:  @ 081b2ac0
+	.incbin "assets/sprites/crankyframesshort/crankyframesshort.bin"
+
+__spr_crankyframesshort_01:  @ 081bea10
+	.incbin "assets/sprites/crankyframesshort/crankyframesshort_01.bin"
+
+__spr_crankyframesshort_02:  @ 081c2e60
+	.incbin "assets/sprites/crankyframesshort/crankyframesshort_02.bin"
+
+__spr_kroolframesshort:  @ 081c4b90
+	.incbin "assets/sprites/kroolframesshort/kroolframesshort.bin"
+
+__spr_kroolframesshort_01:  @ 081d40a0
+	.incbin "assets/sprites/kroolframesshort/kroolframesshort_01.bin"
+
+__spr_kroolframesshort_02:  @ 081d9720
+	.incbin "assets/sprites/kroolframesshort/kroolframesshort_02.bin"
+
+__spr_shadow_circle:  @ 081db7f0
+	.incbin "assets/sprites/shadow_circle/shadow_circle.bin"
+
+__spr_shadow_circle_01:  @ 081dc3c0
+	.incbin "assets/sprites/shadow_circle/shadow_circle_01.bin"
+
+__spr_shadow_circle_02:  @ 081dc9b0
+	.incbin "assets/sprites/shadow_circle/shadow_circle_02.bin"
+
+__spr_banana:  @ 081dccd0
+	.incbin "assets/sprites/banana/banana.bin"
+
+__spr_banana_01:  @ 081de3c0
+	.incbin "assets/sprites/banana/banana_01.bin"
+
+__spr_banana_02:  @ 081decc0
+	.incbin "assets/sprites/banana/banana_02.bin"
+
+__spr_banana16:  @ 081df0e0
+	.incbin "assets/sprites/banana16/banana16.bin"
+
+__spr_banana16_01:  @ 081df500
+	.incbin "assets/sprites/banana16/banana16_01.bin"
+
+__spr_banana16_02:  @ 081df6f0
+	.incbin "assets/sprites/banana16/banana16_02.bin"
+
+__spr_fire5:  @ 081df860
+	.incbin "assets/sprites/fire5/fire5.bin"
+
+__spr_fire5_01:  @ 081e3b00
+	.incbin "assets/sprites/fire5/fire5_01.bin"
+
+__spr_fire5_02:  @ 081e4e50
+	.incbin "assets/sprites/fire5/fire5_02.bin"
+
+__spr_star:  @ 081e5470
+	.incbin "assets/sprites/star/star.bin"
+
+__spr_star_01:  @ 081e8360
+	.incbin "assets/sprites/star/star_01.bin"
+
+__spr_star_02:  @ 081e9430
+	.incbin "assets/sprites/star/star_02.bin"
+
+__spr_start_dot:  @ 081e9ae0
+	.incbin "assets/sprites/start_dot/start_dot.bin"
+
+__spr_start_dot_01:  @ 081e9c90
+	.incbin "assets/sprites/start_dot/start_dot_01.bin"
+
+__spr_start_dot_02:  @ 081e9d50
+	.incbin "assets/sprites/start_dot/start_dot_02.bin"
+
+__spr_start_sign:  @ 081e9db0
+	.incbin "assets/sprites/start_sign/start_sign.bin"
+
+__spr_start_sign_01:  @ 081ea160
+	.incbin "assets/sprites/start_sign/start_sign_01.bin"
+
+__spr_start_sign_02:  @ 081ea290
+	.incbin "assets/sprites/start_sign/start_sign_02.bin"
+
+__spr_mine:  @ 081ea310
+	.incbin "assets/sprites/mine/mine.bin"
+
+__spr_mine_01:  @ 081eb450
+	.incbin "assets/sprites/mine/mine_01.bin"
+
+__spr_mine_02:  @ 081eba10
+	.incbin "assets/sprites/mine/mine_02.bin"
+
+__spr_eggbig:  @ 081ebcb0
+	.incbin "assets/sprites/eggbig/eggbig.bin"
+
+__spr_eggbig_01:  @ 081ec7c0
+	.incbin "assets/sprites/eggbig/eggbig_01.bin"
+
+__spr_eggbig_02:  @ 081ecb90
+	.incbin "assets/sprites/eggbig/eggbig_02.bin"
+
+__spr_gunhut:  @ 081eccf0
+	.incbin "assets/sprites/gunhut/gunhut.bin"
+
+__spr_gunhut_01:  @ 081f3b90
+	.incbin "assets/sprites/gunhut/gunhut_01.bin"
+
+__spr_gunhut_02:  @ 081f5e40
+	.incbin "assets/sprites/gunhut/gunhut_02.bin"
+
+__spr_1st:  @ 081f6990
+	.incbin "assets/sprites/1st/1st.bin"
+
+__spr_1st_01:  @ 081f6f00
+	.incbin "assets/sprites/1st/1st_01.bin"
+
+__spr_1st_02:  @ 081f70b0
+	.incbin "assets/sprites/1st/1st_02.bin"
+
+__spr_finallap:  @ 081f7150
+	.incbin "assets/sprites/finallap/finallap.bin"
+
+__spr_finallap_01:  @ 081f77d0
+	.incbin "assets/sprites/finallap/finallap_01.bin"
+
+__spr_finallap_02:  @ 081f79e0
+	.incbin "assets/sprites/finallap/finallap_02.bin"
+
+__spr_finish:  @ 081f7aa0
+	.incbin "assets/sprites/finish/finish.bin"
+
+__spr_finish_01:  @ 081f7f60
+	.incbin "assets/sprites/finish/finish_01.bin"
+
+__spr_finish_02:  @ 081f8100
+	.incbin "assets/sprites/finish/finish_02.bin"
+
+__spr_getready:  @ 081f81b0
+	.incbin "assets/sprites/getready/getready.bin"
+
+__spr_getready_01:  @ 081f8850
+	.incbin "assets/sprites/getready/getready_01.bin"
+
+__spr_getready_02:  @ 081f8a70
+	.incbin "assets/sprites/getready/getready_02.bin"
+
+__spr_go:  @ 081f8b30
+	.incbin "assets/sprites/go/go.bin"
+
+__spr_go_01:  @ 081f8e90
+	.incbin "assets/sprites/go/go_01.bin"
+
+__spr_go_02:  @ 081f8fc0
+	.incbin "assets/sprites/go/go_02.bin"
+
+__spr_lap2:  @ 081f9040
+	.incbin "assets/sprites/lap2/lap2.bin"
+
+__spr_lap2_01:  @ 081f9490
+	.incbin "assets/sprites/lap2/lap2_01.bin"
+
+__spr_lap2_02:  @ 081f9670
+	.incbin "assets/sprites/lap2/lap2_02.bin"
+
+__spr_logocoin:  @ 081f9720
+	.incbin "assets/sprites/logocoin/logocoin.bin"
+
+__spr_logocoin_01:  @ 081fbfb0
+	.incbin "assets/sprites/logocoin/logocoin_01.bin"
+
+__spr_logocoin_02:  @ 081fcd50
+	.incbin "assets/sprites/logocoin/logocoin_02.bin"
+
+__spr_hut:  @ 081fd240
+	.incbin "assets/sprites/hut/hut.bin"
+
+__spr_hut_01:  @ 081fe990
+	.incbin "assets/sprites/hut/hut_01.bin"
+
+__spr_hut_02:  @ 081ff210
+	.incbin "assets/sprites/hut/hut_02.bin"
+
+__spr_palmtree2:  @ 081ff5b0
+	.incbin "assets/sprites/palmtree2/palmtree2.bin"
+
+__spr_palmtree2_01:  @ 081ffba0
+	.incbin "assets/sprites/palmtree2/palmtree2_01.bin"
+
+__spr_palmtree2_02:  @ 081ffd80
+	.incbin "assets/sprites/palmtree2/palmtree2_02.bin"
+
+__spr_pylon2:  @ 081ffe50
+	.incbin "assets/sprites/pylon2/pylon2.bin"
+
+__spr_pylon2_01:  @ 08200560
+	.incbin "assets/sprites/pylon2/pylon2_01.bin"
+
+__spr_pylon2_02:  @ 082007a0
+	.incbin "assets/sprites/pylon2/pylon2_02.bin"
+
+__spr_igloo:  @ 08200870
+	.incbin "assets/sprites/igloo/igloo.bin"
+
+__spr_igloo_01:  @ 08203800
+	.incbin "assets/sprites/igloo/igloo_01.bin"
+
+__spr_igloo_02:  @ 082046f0
+	.incbin "assets/sprites/igloo/igloo_02.bin"
+
+__spr_wigwam:  @ 08204bc0
+	.incbin "assets/sprites/wigwam/wigwam.bin"
+
+__spr_wigwam_01:  @ 08206350
+	.incbin "assets/sprites/wigwam/wigwam_01.bin"
+
+__spr_wigwam_02:  @ 08206c10
+	.incbin "assets/sprites/wigwam/wigwam_02.bin"
+
+__spr_pauseoption:  @ 08207040
+	.incbin "assets/sprites/pauseoption/pauseoption.bin"
+
+__spr_pauseoption_01:  @ 082082b0
+	.incbin "assets/sprites/pauseoption/pauseoption_01.bin"
+
+__spr_pauseoption_02:  @ 08208870
+	.incbin "assets/sprites/pauseoption/pauseoption_02.bin"
+
+__spr_retire:  @ 08208a60
+	.incbin "assets/sprites/retire/retire.bin"
+
+__spr_retire_01:  @ 08208fd0
+	.incbin "assets/sprites/retire/retire_01.bin"
+
+__spr_retire_02:  @ 08209180
+	.incbin "assets/sprites/retire/retire_02.bin"
+
+__spr_snowtree:  @ 08209240
+	.incbin "assets/sprites/snowtree/snowtree.bin"
+
+__spr_snowtree_01:  @ 08209c40
+	.incbin "assets/sprites/snowtree/snowtree_01.bin"
+
+__spr_snowtree_02:  @ 08209f80
+	.incbin "assets/sprites/snowtree/snowtree_02.bin"
+
+__spr_skull:  @ 0820a0b0
+	.incbin "assets/sprites/skull/skull.bin"
+
+__spr_skull_01:  @ 0820a640
+	.incbin "assets/sprites/skull/skull_01.bin"
+
+__spr_skull_02:  @ 0820a860
+	.incbin "assets/sprites/skull/skull_02.bin"
+
+__spr_pumpkin:  @ 0820a920
+	.incbin "assets/sprites/pumpkin/pumpkin.bin"
+
+__spr_pumpkin_01:  @ 0820af50
+	.incbin "assets/sprites/pumpkin/pumpkin_01.bin"
+
+__spr_pumpkin_02:  @ 0820b140
+	.incbin "assets/sprites/pumpkin/pumpkin_02.bin"
+
+__spr_deadtree:  @ 0820b200
+	.incbin "assets/sprites/deadtree/deadtree.bin"
+
+__spr_deadtree_01:  @ 0820b940
+	.incbin "assets/sprites/deadtree/deadtree_01.bin"
+
+__spr_deadtree_02:  @ 0820bb50
+	.incbin "assets/sprites/deadtree/deadtree_02.bin"
+
+__spr_ghost:  @ 0820bc30
+	.incbin "assets/sprites/ghost/ghost.bin"
+
+__spr_ghost_01:  @ 0820c090
+	.incbin "assets/sprites/ghost/ghost_01.bin"
+
+__spr_ghost_02:  @ 0820c220
+	.incbin "assets/sprites/ghost/ghost_02.bin"
+
+__spr_farm_tree:  @ 0820c2d0
+	.incbin "assets/sprites/farm_tree/farm_tree.bin"
+
+__spr_farm_tree_01:  @ 0820cc80
+	.incbin "assets/sprites/farm_tree/farm_tree_01.bin"
+
+__spr_farm_tree_02:  @ 0820cf80
+	.incbin "assets/sprites/farm_tree/farm_tree_02.bin"
+
+__spr_farm_chicken:  @ 0820d0b0
+	.incbin "assets/sprites/farm_chicken/farm_chicken.bin"
+
+__spr_farm_chicken_01:  @ 0820ed30
+	.incbin "assets/sprites/farm_chicken/farm_chicken_01.bin"
+
+__spr_farm_chicken_02:  @ 0820f760
+	.incbin "assets/sprites/farm_chicken/farm_chicken_02.bin"
+
+__spr_farm_rabbit:  @ 0820fb50
+	.incbin "assets/sprites/farm_rabbit/farm_rabbit.bin"
+
+__spr_farm_rabbit_01:  @ 08210b00
+	.incbin "assets/sprites/farm_rabbit/farm_rabbit_01.bin"
+
+__spr_farm_rabbit_02:  @ 08211100
+	.incbin "assets/sprites/farm_rabbit/farm_rabbit_02.bin"
+
+__spr_flying_veg:  @ 082113d0
+	.incbin "assets/sprites/flying_veg/flying_veg.bin"
+
+__spr_flying_veg_01:  @ 08212d30
+	.incbin "assets/sprites/flying_veg/flying_veg_01.bin"
+
+__spr_flying_veg_02:  @ 08213640
+	.incbin "assets/sprites/flying_veg/flying_veg_02.bin"
+
+__spr_evilghost:  @ 082139d0
+	.incbin "assets/sprites/evilghost/evilghost.bin"
+
+__spr_evilghost_01:  @ 0821a0f0
+	.incbin "assets/sprites/evilghost/evilghost_01.bin"
+
+__spr_evilghost_02:  @ 0821c090
+	.incbin "assets/sprites/evilghost/evilghost_02.bin"
+
+__spr_mushroom:  @ 0821caf0
+	.incbin "assets/sprites/mushroom/mushroom.bin"
+
+__spr_mushroom_01:  @ 0821d000
+	.incbin "assets/sprites/mushroom/mushroom_01.bin"
+
+__spr_mushroom_02:  @ 0821d1b0
+	.incbin "assets/sprites/mushroom/mushroom_02.bin"
+
+__spr_soul:  @ 0821d270
+	.incbin "assets/sprites/soul/soul.bin"
+
+__spr_soul_01:  @ 0821d590
+	.incbin "assets/sprites/soul/soul_01.bin"
+
+__spr_soul_02:  @ 0821d6d0
+	.incbin "assets/sprites/soul/soul_02.bin"
+
+__spr_swamp_frog_hanging:  @ 0821d750
+	.incbin "assets/sprites/swamp_frog_hanging/swamp_frog_hanging.bin"
+
+__spr_swamp_frog_hanging_01:  @ 0821da70
+	.incbin "assets/sprites/swamp_frog_hanging/swamp_frog_hanging_01.bin"
+
+__spr_swamp_frog_hanging_02:  @ 0821dbb0
+	.incbin "assets/sprites/swamp_frog_hanging/swamp_frog_hanging_02.bin"
+
+__spr_swamp_frog_on_pad:  @ 0821dc30
+	.incbin "assets/sprites/swamp_frog_on_pad/swamp_frog_on_pad.bin"
+
+__spr_swamp_frog_on_pad_01:  @ 0821e140
+	.incbin "assets/sprites/swamp_frog_on_pad/swamp_frog_on_pad_01.bin"
+
+__spr_swamp_frog_on_pad_02:  @ 0821e310
+	.incbin "assets/sprites/swamp_frog_on_pad/swamp_frog_on_pad_02.bin"
+
+__spr_swamp_goo_gun_mon:  @ 0821e3c0
+	.incbin "assets/sprites/swamp_goo_gun_mon/swamp_goo_gun_mon.bin"
+
+__spr_swamp_goo_gun_mon_01:  @ 08224770
+	.incbin "assets/sprites/swamp_goo_gun_mon/swamp_goo_gun_mon_01.bin"
+
+__spr_swamp_goo_gun_mon_02:  @ 08226690
+	.incbin "assets/sprites/swamp_goo_gun_mon/swamp_goo_gun_mon_02.bin"
+
+__spr_swamp_target_mon_jump:  @ 08227110
+	.incbin "assets/sprites/swamp_target_mon_jump/swamp_target_mon_jump.bin"
+
+__spr_swamp_target_mon_jump_01:  @ 08228dc0
+	.incbin "assets/sprites/swamp_target_mon_jump/swamp_target_mon_jump_01.bin"
+
+__spr_swamp_target_mon_jump_02:  @ 08229730
+	.incbin "assets/sprites/swamp_target_mon_jump/swamp_target_mon_jump_02.bin"
+
+__spr_swamp_target_mon_hit:  @ 08229aa0
+	.incbin "assets/sprites/swamp_target_mon_hit/swamp_target_mon_hit.bin"
+
+__spr_swamp_target_mon_hit_01:  @ 0822b360
+	.incbin "assets/sprites/swamp_target_mon_hit/swamp_target_mon_hit_01.bin"
+
+__spr_swamp_target_mon_hit_02:  @ 0822bc10
+	.incbin "assets/sprites/swamp_target_mon_hit/swamp_target_mon_hit_02.bin"
+
+__spr_jungel_worm_jump:  @ 0822bf60
+	.incbin "assets/sprites/jungel_worm_jump/jungel_worm_jump.bin"
+
+__spr_jungel_worm_jump_01:  @ 0822d970
+	.incbin "assets/sprites/jungel_worm_jump/jungel_worm_jump_01.bin"
+
+__spr_jungel_worm_jump_02:  @ 0822e260
+	.incbin "assets/sprites/jungel_worm_jump/jungel_worm_jump_02.bin"
+
+__spr_mango:  @ 0822e630
+	.incbin "assets/sprites/mango/mango.bin"
+
+__spr_mango_01:  @ 08230920
+	.incbin "assets/sprites/mango/mango_01.bin"
+
+__spr_mango_02:  @ 08231530
+	.incbin "assets/sprites/mango/mango_02.bin"
+
+__spr_melon:  @ 08231980
+	.incbin "assets/sprites/melon/melon.bin"
+
+__spr_melon_01:  @ 08234100
+	.incbin "assets/sprites/melon/melon_01.bin"
+
+__spr_melon_02:  @ 08234db0
+	.incbin "assets/sprites/melon/melon_02.bin"
+
+__spr_red_missile:  @ 082351f0
+	.incbin "assets/sprites/red_missile/red_missile.bin"
+
+__spr_red_missile_01:  @ 082353f0
+	.incbin "assets/sprites/red_missile/red_missile_01.bin"
+
+__spr_red_missile_02:  @ 082354b0
+	.incbin "assets/sprites/red_missile/red_missile_02.bin"
+
+__spr_green_missile:  @ 08235510
+	.incbin "assets/sprites/green_missile/green_missile.bin"
+
+__spr_green_missile_01:  @ 08235710
+	.incbin "assets/sprites/green_missile/green_missile_01.bin"
+
+__spr_green_missile_02:  @ 082357d0
+	.incbin "assets/sprites/green_missile/green_missile_02.bin"
+
+__spr_booster:  @ 08235830
+	.incbin "assets/sprites/booster/booster.bin"
+
+__spr_booster_01:  @ 08239740
+	.incbin "assets/sprites/booster/booster_01.bin"
+
+__spr_booster_02:  @ 0823af90
+	.incbin "assets/sprites/booster/booster_02.bin"
+
+__spr_splat:  @ 0823b880
+	.incbin "assets/sprites/splat/splat.bin"
+
+__spr_splat_01:  @ 0823d400
+	.incbin "assets/sprites/splat/splat_01.bin"
+
+__spr_splat_02:  @ 0823ddf0
+	.incbin "assets/sprites/splat/splat_02.bin"
+
+__spr_candy_head:  @ 0823e280
+	.incbin "assets/sprites/candy_head/candy_head.bin"
+
+__spr_candy_head_01:  @ 0823e3e0
+	.incbin "assets/sprites/candy_head/candy_head_01.bin"
+
+__spr_candy_head_02:  @ 0823e490
+	.incbin "assets/sprites/candy_head/candy_head_02.bin"
+
+__spr_cranky_head:  @ 0823e4f0
+	.incbin "assets/sprites/cranky_head/cranky_head.bin"
+
+__spr_cranky_head_01:  @ 0823e660
+	.incbin "assets/sprites/cranky_head/cranky_head_01.bin"
+
+__spr_cranky_head_02:  @ 0823e710
+	.incbin "assets/sprites/cranky_head/cranky_head_02.bin"
+
+__spr_diddy_head:  @ 0823e770
+	.incbin "assets/sprites/diddy_head/diddy_head.bin"
+
+__spr_diddy_head_01:  @ 0823e8e0
+	.incbin "assets/sprites/diddy_head/diddy_head_01.bin"
+
+__spr_diddy_head_02:  @ 0823e990
+	.incbin "assets/sprites/diddy_head/diddy_head_02.bin"
+
+__spr_dixie_head:  @ 0823e9f0
+	.incbin "assets/sprites/dixie_head/dixie_head.bin"
+
+__spr_dixie_head_01:  @ 0823eb50
+	.incbin "assets/sprites/dixie_head/dixie_head_01.bin"
+
+__spr_dixie_head_02:  @ 0823ec00
+	.incbin "assets/sprites/dixie_head/dixie_head_02.bin"
+
+__spr_donkey_head:  @ 0823ec60
+	.incbin "assets/sprites/donkey_head/donkey_head.bin"
+
+__spr_donkey_head_01:  @ 0823edc0
+	.incbin "assets/sprites/donkey_head/donkey_head_01.bin"
+
+__spr_donkey_head_02:  @ 0823ee70
+	.incbin "assets/sprites/donkey_head/donkey_head_02.bin"
+
+__spr_ghost_head:  @ 0823eed0
+	.incbin "assets/sprites/ghost_head/ghost_head.bin"
+
+__spr_ghost_head_01:  @ 0823f040
+	.incbin "assets/sprites/ghost_head/ghost_head_01.bin"
+
+__spr_ghost_head_02:  @ 0823f0f0
+	.incbin "assets/sprites/ghost_head/ghost_head_02.bin"
+
+__spr_krool_head:  @ 0823f150
+	.incbin "assets/sprites/krool_head/krool_head.bin"
+
+__spr_krool_head_01:  @ 0823f2b0
+	.incbin "assets/sprites/krool_head/krool_head_01.bin"
+
+__spr_krool_head_02:  @ 0823f360
+	.incbin "assets/sprites/krool_head/krool_head_02.bin"
+
+__spr_krunch_head:  @ 0823f3c0
+	.incbin "assets/sprites/krunch_head/krunch_head.bin"
+
+__spr_krunch_head_01:  @ 0823f510
+	.incbin "assets/sprites/krunch_head/krunch_head_01.bin"
+
+__spr_krunch_head_02:  @ 0823f5c0
+	.incbin "assets/sprites/krunch_head/krunch_head_02.bin"
+
+__spr_dkbubble:  @ 0823f620
+	.incbin "assets/sprites/dkbubble/dkbubble.bin"
+
+__spr_dkbubble_01:  @ 0823fc90
+	.incbin "assets/sprites/dkbubble/dkbubble_01.bin"
+
+__spr_dkbubble_02:  @ 0823fe90
+	.incbin "assets/sprites/dkbubble/dkbubble_02.bin"
+
+__spr_ballon:  @ 0823ff50
+	.incbin "assets/sprites/ballon/ballon.bin"
+
+__spr_ballon_01:  @ 082403e0
+	.incbin "assets/sprites/ballon/ballon_01.bin"
+
+__spr_ballon_02:  @ 082405b0
+	.incbin "assets/sprites/ballon/ballon_02.bin"
+
+__spr_chance:  @ 08240670
+	.incbin "assets/sprites/chance/chance.bin"
+
+__spr_chance_01:  @ 08246ca0
+	.incbin "assets/sprites/chance/chance_01.bin"
+
+__spr_chance_02:  @ 08248c30
+	.incbin "assets/sprites/chance/chance_02.bin"
+
+__spr_firtree:  @ 08249600
+	.incbin "assets/sprites/firtree/firtree.bin"
+
+__spr_firtree_01:  @ 0824a0f0
+	.incbin "assets/sprites/firtree/firtree_01.bin"
+
+__spr_firtree_02:  @ 0824a420
+	.incbin "assets/sprites/firtree/firtree_02.bin"
+
+__spr_swamptree2:  @ 0824a550
+	.incbin "assets/sprites/swamptree2/swamptree2.bin"
+
+__spr_swamptree2_01:  @ 0824adc0
+	.incbin "assets/sprites/swamptree2/swamptree2_01.bin"
+
+__spr_swamptree2_02:  @ 0824b070
+	.incbin "assets/sprites/swamptree2/swamptree2_02.bin"
+
+__spr_stonepillar:  @ 0824b160
+	.incbin "assets/sprites/stonepillar/stonepillar.bin"
+
+__spr_stonepillar_01:  @ 0824b910
+	.incbin "assets/sprites/stonepillar/stonepillar_01.bin"
+
+__spr_stonepillar_02:  @ 0824bb50
+	.incbin "assets/sprites/stonepillar/stonepillar_02.bin"
+
+__spr_target:  @ 0824bc60
+	.incbin "assets/sprites/target/target.bin"
+
+__spr_target_01:  @ 0824cbd0
+	.incbin "assets/sprites/target/target_01.bin"
+
+__spr_target_02:  @ 0824d0c0
+	.incbin "assets/sprites/target/target_02.bin"
+
+__spr_hud_map_lava_00:  @ 0824d2b0
+	.incbin "assets/sprites/hud_map_lava/hud_map_lava_00.bin"
+
+__spr_hud_map_lava_01:  @ 0824d720
+	.incbin "assets/sprites/hud_map_lava/hud_map_lava_01.bin"
+
+__spr_hud_map_keep_00:  @ 0824dc70
+	.incbin "assets/sprites/hud_map_keep/hud_map_keep_00.bin"
+
+__spr_hud_map_beach_00:  @ 0824dcc0
+	.incbin "assets/sprites/hud_map_beach/hud_map_beach_00.bin"
+
+__spr_hud_map_beach_01:  @ 0824e180
+	.incbin "assets/sprites/hud_map_beach/hud_map_beach_01.bin"
+
+__spr_hud_map_beach_02:  @ 0824e6b0
+	.incbin "assets/sprites/hud_map_beach/hud_map_beach_02.bin"
+
+__spr_hud_map_lake_00:  @ 0824ea40
+	.incbin "assets/sprites/hud_map_lake/hud_map_lake_00.bin"
+
+__spr_hud_map_lake_01:  @ 0824ede0
+	.incbin "assets/sprites/hud_map_lake/hud_map_lake_01.bin"
+
+__spr_hud_map_snow_00:  @ 0824f310
+	.incbin "assets/sprites/hud_map_snow/hud_map_snow_00.bin"
+
+__spr_hud_map_snow_01:  @ 0824f730
+	.incbin "assets/sprites/hud_map_snow/hud_map_snow_01.bin"
+
+__spr_hud_map_farm_00:  @ 0824faa0
+	.incbin "assets/sprites/hud_map_farm/hud_map_farm_00.bin"
+
+__spr_hud_map_farm_01:  @ 0824fe80
+	.incbin "assets/sprites/hud_map_farm/hud_map_farm_01.bin"
+
+__spr_hud_map_farm_03:  @ 082503f0
+	.incbin "assets/sprites/hud_map_farm/hud_map_farm_03.bin"
+
+__spr_hud_map_haunted_00:  @ 08250880
+	.incbin "assets/sprites/hud_map_haunted/hud_map_haunted_00.bin"
+
+__spr_hud_map_haunted_01:  @ 08250cc0
+	.incbin "assets/sprites/hud_map_haunted/hud_map_haunted_01.bin"
+
+__spr_hud_map_haunted_02:  @ 082512e0
+	.incbin "assets/sprites/hud_map_haunted/hud_map_haunted_02.bin"
+
+__spr_hud_map_arrows:  @ 082516b0
+	.incbin "assets/sprites/hud_map_arrows/hud_map_arrows.bin"
+
+__pal_hud_icons:  @ 082518f0
+	.byte 0x00, 0x7c, 0x00, 0x00, 0x7b, 0x6f, 0x6a, 0x31, 0x93, 0x5a, 0xff, 0x7f, 0x00, 0x02, 0xc0, 0x02
+	.byte 0x80, 0x03, 0x17, 0x00, 0x1e, 0x00, 0xff, 0x41, 0x8d, 0x01, 0xff, 0x03, 0xde, 0x06, 0xff, 0x01
+
+__spr_hud_flaga:  @ 08251910
+	.incbin "assets/sprites/hud_flaga/hud_flaga.bin"
+
+__spr_hud_flagb:  @ 08252900
+	.incbin "assets/sprites/hud_flagb/hud_flagb.bin"
+
+__spr_hud_arrow:  @ 08253830
+	.incbin "assets/sprites/hud_arrow/hud_arrow.bin"
+
+__spr_hud_pos:  @ 08253c70
+	.incbin "assets/sprites/hud_pos/hud_pos.bin"
+
+__spr_hud_nums:  @ 082543a0
+	.incbin "assets/sprites/hud_nums/hud_nums.bin"
+
+__spr_hud_digits:  @ 08254bf0
+	.incbin "assets/sprites/hud_digits/hud_digits.bin"
+
+__spr_hud_counter:  @ 08254fb0
+	.incbin "assets/sprites/hud_counter/hud_counter.bin"
+
+__spr_shot_gfx:  @ 08255380
+	.incbin "assets/sprites/shot_gfx/shot_gfx.bin"
+
+__pal_wpn_pepo:  @ 082556a0
+	.byte 0xd6, 0x7d, 0x10, 0x00, 0xff, 0x03, 0x10, 0x7e, 0xad, 0x7d, 0xb2, 0x11, 0xbc, 0x1a, 0x4d, 0x0d
+	.byte 0xf4, 0x11, 0x37, 0x12, 0xc9, 0x24, 0xff, 0x4b, 0x9a, 0x16, 0xfe, 0x1a, 0x5f, 0x1f, 0xbf, 0x2b
+
+__pal_wpn_wash:  @ 082556c0
+	.byte 0xf6, 0x7f, 0x10, 0x00, 0xff, 0x03, 0x10, 0x7e, 0xad, 0x7d, 0xf1, 0x08, 0xfb, 0x0d, 0xac, 0x04
+	.byte 0x33, 0x09, 0x76, 0x09, 0x68, 0x10, 0x3e, 0x27, 0xd9, 0x09, 0x3d, 0x0e, 0x9e, 0x0e, 0xfe, 0x16
+
+__pal_wpn_memi:  @ 082556e0
+	.byte 0x1f, 0x2c, 0x10, 0x00, 0xff, 0x03, 0x10, 0x7e, 0xad, 0x7d, 0xa6, 0x0f, 0xe4, 0x0a, 0xa4, 0x05
+	.byte 0x2d, 0x27, 0xfb, 0x63, 0xe5, 0x09, 0x63, 0x05, 0xaa, 0x1e, 0xf5, 0x4b, 0x86, 0x0e, 0xa0, 0x00
+
+__pal_wpn_mame:  @ 08255700
+	.byte 0xff, 0x7f, 0x10, 0x00, 0xff, 0x03, 0x10, 0x7e, 0xad, 0x7d, 0x00, 0x00, 0x10, 0x00, 0x1f, 0x00
+	.byte 0x7f, 0x12, 0x5f, 0x1b, 0xff, 0x03, 0xd9, 0x03, 0x57, 0x03, 0xef, 0x02, 0xa8, 0x02, 0xe9, 0x01
+
+__pal_wpn_hoba:  @ 08255720
+	.byte 0x05, 0x7c, 0x10, 0x00, 0xff, 0x03, 0x10, 0x7e, 0xad, 0x7d, 0x63, 0x0c, 0xfe, 0x7b, 0xf1, 0x47
+	.byte 0xe4, 0x13, 0xa5, 0x12, 0x06, 0x11, 0x9d, 0x2b, 0x7b, 0x16, 0x79, 0x01, 0xd0, 0x00, 0x90, 0x15
+
+__pal_wpn_chba:  @ 08255740
+	.byte 0x00, 0x7c, 0x10, 0x00, 0xff, 0x03, 0x10, 0x7e, 0xad, 0x7d, 0x63, 0x0c, 0x8d, 0x31, 0xdf, 0x7b
+	.byte 0x3f, 0x46, 0x9f, 0x10, 0xb6, 0x08, 0x8a, 0x04, 0x9f, 0x2b, 0xdc, 0x05, 0x95, 0x09, 0x4f, 0x0d
+
+__pal_wpn_bubo:  @ 08255760
+	.byte 0x3c, 0x2e, 0x10, 0x00, 0xff, 0x03, 0x10, 0x7e, 0xad, 0x7d, 0x63, 0x0c, 0xff, 0x7f, 0xfb, 0x6f
+	.byte 0x4a, 0x3d, 0x59, 0x7f, 0x94, 0x5e, 0xe0, 0x02, 0xf3, 0x4f, 0xe0, 0x03, 0xef, 0x3f, 0x40, 0x03
+
+__pal_wpn_babl:  @ 08255780
+	.byte 0xf6, 0x2f, 0x10, 0x00, 0xff, 0x03, 0x10, 0x7e, 0xad, 0x7d, 0x63, 0x0c, 0xff, 0x7f, 0x7f, 0x6f
+	.byte 0x4a, 0x3d, 0x59, 0x7f, 0x94, 0x5e, 0x18, 0x00, 0xdf, 0x5a, 0xff, 0x24, 0xff, 0x41, 0x1b, 0x00
+
+__pal_wpn_grgr:  @ 082557a0
+	.byte 0xdf, 0x7c, 0x10, 0x00, 0xff, 0x03, 0x10, 0x7e, 0xad, 0x7d, 0x63, 0x0c, 0xe6, 0x13, 0xf5, 0x53
+	.byte 0xff, 0x7f, 0x3d, 0x67, 0xc8, 0x09, 0x01
+	.ascii "\n?~?~?~?~"
+
+__pal_wpn_clgr:  @ 082557c0
+	.byte 0xdf, 0x02, 0x10, 0x00, 0xff, 0x03, 0x10, 0x7e, 0xad, 0x7d, 0x63, 0x0c, 0x9f, 0x10, 0x9f, 0x52
+	.byte 0xff, 0x7f, 0x3d, 0x67, 0x51, 0x00, 0xd5, 0x00
+	.ascii "?~?~?~?~"
+
+__pal_wpn_baba:  @ 082557e0
+	.byte 0xdf, 0x02, 0x10, 0x00, 0xff, 0x03, 0x10, 0x7e, 0xad, 0x7d, 0x00, 0x00, 0xff, 0x7f, 0xff, 0x5f
+	.byte 0xff, 0x03, 0xdf, 0x01, 0x94
+	.ascii "~1~?~?~?~?~"
+
+__pal_wpn_sisc:  @ 08255800
+	.byte 0xe0, 0x03, 0x10, 0x00, 0xff, 0x03, 0x10, 0x7e, 0xad, 0x7d, 0x00, 0x00, 0xff, 0x7f, 0xdf, 0x39
+	.byte 0x1f, 0x00, 0x0f, 0x00, 0x94
+	.ascii "~1~?~?~?~?~"
+
+__spr_wpn_pepo:  @ 08255820
+	.incbin "assets/sprites/wpn_pepo/wpn_pepo.bin"
+
+__spr_wpn_wash:  @ 08255a50
+	.incbin "assets/sprites/wpn_wash/wpn_wash.bin"
+
+__spr_wpn_memi:  @ 08255c80
+	.incbin "assets/sprites/wpn_memi/wpn_memi.bin"
+
+__spr_wpn_mame:  @ 08255eb0
+	.incbin "assets/sprites/wpn_mame/wpn_mame.bin"
+
+__spr_wpn_hoba:  @ 082560e0
+	.incbin "assets/sprites/wpn_hoba/wpn_hoba.bin"
+
+__spr_wpn_chba:  @ 08256310
+	.incbin "assets/sprites/wpn_chba/wpn_chba.bin"
+
+__spr_wpn_bubo:  @ 08256540
+	.incbin "assets/sprites/wpn_bubo/wpn_bubo.bin"
+
+__spr_wpn_babl:  @ 08256760
+	.incbin "assets/sprites/wpn_babl/wpn_babl.bin"
+
+__spr_wpn_grgr:  @ 08256990
+	.incbin "assets/sprites/wpn_grgr/wpn_grgr.bin"
+
+__spr_wpn_clgr:  @ 08256bb0
+	.incbin "assets/sprites/wpn_clgr/wpn_clgr.bin"
+
+__spr_wpn_baba:  @ 08256dd0
+	.incbin "assets/sprites/wpn_baba/wpn_baba.bin"
+
+__spr_wpn_sisc:  @ 08257000
+	.incbin "assets/sprites/wpn_sisc/wpn_sisc.bin"
+
+__pal_wpn_popi:  @ 08257230
+	.byte 0x3f, 0x7e, 0x10, 0x00, 0xff, 0x03, 0xa0, 0x03, 0x00, 0x03, 0x9f, 0x5e, 0xbf, 0x0c, 0xed, 0x0c
+	.byte 0x76, 0x1d, 0xfd, 0x29, 0xdf, 0x3a, 0xbf, 0x4b, 0x00, 0x00, 0xce, 0x39, 0x39, 0x67, 0xff, 0x7f
+
+__pal_wpn_chci:  @ 08257250
+	.byte 0x19, 0x3c, 0x10, 0x00, 0xff, 0x03, 0xa0, 0x03, 0x00, 0x03, 0x00, 0x00, 0x6f, 0x18, 0xf7, 0x28
+	.byte 0x7f, 0x2d, 0x51, 0x25, 0x18, 0x3a, 0xbe, 0x4a, 0x5f, 0x5f, 0x94, 0x52, 0xff, 0x03, 0xff, 0x7f
+
+__pal_wpn_bobl:  @ 08257270
+	.byte 0xa0, 0x57, 0x10, 0x00, 0xff, 0x03, 0xa0, 0x03, 0x00, 0x03, 0x00, 0x00, 0xac, 0x0c, 0xf1, 0x18
+	.byte 0x78, 0x25, 0xff, 0x35, 0xbf, 0x46, 0x52, 0x4a, 0xb5, 0x56, 0x18, 0x63, 0x7b, 0x6f, 0xff, 0x7f
+
+__pal_wpn_swsw:  @ 08257290
+	.byte 0xc0, 0x55, 0x10, 0x00, 0xff, 0x03, 0xa0, 0x03, 0x00, 0x03, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f
+	.byte 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f
+
+__pal_wpn_prpa:  @ 082572b0
+	.byte 0xf5, 0x27, 0x10, 0x00, 0xff, 0x03, 0xa0, 0x03, 0x00, 0x03, 0x4e, 0x7e, 0x1f, 0x00, 0x00, 0x00
+	.byte 0xff, 0x03, 0xe4, 0x19, 0x43, 0x16, 0xe6, 0x22, 0x6c, 0x43, 0x71, 0x42, 0x18, 0x63, 0xff, 0x7f
+
+__pal_wpn_boro:  @ 082572d0
+	.byte 0xe2, 0x7d, 0x10, 0x00, 0xff, 0x03, 0xa0, 0x03, 0x00, 0x03, 0x1f, 0x7f, 0x1f, 0x7f, 0x1f, 0x7f
+	.byte 0x1f, 0x7f, 0x1f, 0x7f, 0x1f, 0x7f, 0x1f, 0x7f, 0x00, 0x00, 0x1a, 0x00, 0x7d, 0x16, 0xff, 0x03
+
+__pal_wpn_hiha:  @ 082572f0
+	.byte 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f
+	.byte 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f
+
+__pal_wpn_flfl:  @ 08257310
+	.byte 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f
+	.byte 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f
+
+__pal_wpn_lodo:  @ 08257330
+	.byte 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f
+	.byte 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f
+
+__pal_wpn_wiwo:  @ 08257350
+	.byte 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f
+	.byte 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f
+
+__pal_wpn_wiwe:  @ 08257370
+	.byte 0x80, 0x72, 0x10, 0x00, 0xff, 0x03, 0xa0, 0x03, 0x00, 0x03, 0xff, 0x7f, 0x48, 0x35, 0xb3, 0x56
+	.byte 0x7b, 0x6f, 0x89, 0x35, 0x2f, 0x4e, 0x00, 0x00, 0xcb, 0x41, 0x52, 0x1e, 0xb5, 0x2a, 0xde, 0x37
+
+__spr_wpn_popi:  @ 08257390
+	.incbin "assets/sprites/wpn_popi/wpn_popi.bin"
+
+__spr_wpn_chci:  @ 082575b0
+	.incbin "assets/sprites/wpn_chci/wpn_chci.bin"
+
+__spr_wpn_bobl:  @ 082577e0
+	.incbin "assets/sprites/wpn_bobl/wpn_bobl.bin"
+
+__spr_wpn_swsw:  @ 08257a00
+	.incbin "assets/sprites/wpn_swsw/wpn_swsw.bin"
+
+__spr_wpn_prpa:  @ 08257c30
+	.incbin "assets/sprites/wpn_prpa/wpn_prpa.bin"
+
+__spr_wpn_boro:  @ 08257e60
+	.incbin "assets/sprites/wpn_boro/wpn_boro.bin"
+
+__spr_wpn_hiha:  @ 08257fc0
+	.incbin "assets/sprites/wpn_hiha/wpn_hiha.bin"
+
+__spr_wpn_flfl:  @ 082581f0
+	.incbin "assets/sprites/wpn_flfl/wpn_flfl.bin"
+
+__spr_wpn_lodo:  @ 08258420
+	.incbin "assets/sprites/wpn_lodo/wpn_lodo.bin"
+
+__spr_wpn_wiwo:  @ 08258650
+	.incbin "assets/sprites/wpn_wiwo/wpn_wiwo.bin"
+
+__spr_wpn_wiwe:  @ 08258880
+	.incbin "assets/sprites/wpn_wiwe/wpn_wiwe.bin"
+
+__pal_wpn_blbo:  @ 08258ab0
+	.byte 0x3f, 0x7e, 0x10, 0x00, 0xff, 0x03, 0x1d, 0x00, 0x19, 0x00, 0x16, 0x00, 0x12, 0x00, 0x0e, 0x00
+	.byte 0x0b, 0x00, 0x06, 0x00, 0xef, 0x3d, 0x18, 0x63, 0xff, 0x7f, 0x20, 0x03, 0xe0, 0x03, 0xf8, 0x63
+
+__pal_wpn_crco:  @ 08258ad0
+	.byte 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f
+	.byte 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f
+
+__pal_wpn_shdi:  @ 08258af0
+	.byte 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f
+	.byte 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f
+
+__pal_wpn_babu:  @ 08258b10
+	.byte 0xce, 0x05, 0xff, 0x03, 0x15, 0x1f, 0xf9, 0x07, 0xf0, 0x06, 0xf4, 0x03, 0x0c, 0x7f, 0x0c, 0x7f
+	.byte 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f
+
+__pal_wpn_rodr:  @ 08258b30
+	.byte 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f
+	.byte 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f
+
+__pal_wpn_rere:  @ 08258b50
+	.byte 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f
+	.byte 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f
+
+__pal_wpn_chance:  @ 08258b70
+	.byte 0xe0, 0x7f, 0x10, 0x00, 0xff, 0x03, 0x1d, 0x00, 0x19, 0x00, 0xff, 0x7f, 0x00, 0x00, 0xff, 0x7f
+	.byte 0xe0, 0x7f, 0xe0, 0x3d, 0x00, 0x00, 0x12, 0x00, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f, 0x0c, 0x7f
+
+__spr_wpn_blbo:  @ 08258b90
+	.incbin "assets/sprites/wpn_blbo/wpn_blbo.bin"
+
+__spr_wpn_crco:  @ 08258dc0
+	.incbin "assets/sprites/wpn_crco/wpn_crco.bin"
+
+__spr_wpn_shdi:  @ 08258ff0
+	.incbin "assets/sprites/wpn_shdi/wpn_shdi.bin"
+
+__spr_wpn_babu:  @ 08259220
+	.incbin "assets/sprites/wpn_babu/wpn_babu.bin"
+
+__spr_wpn_rodr:  @ 08259450
+	.incbin "assets/sprites/wpn_rodr/wpn_rodr.bin"
+
+__spr_wpn_rere:  @ 08259680
+	.incbin "assets/sprites/wpn_rere/wpn_rere.bin"
+
+__spr_wpn_chance:  @ 082598b0
+	.incbin "assets/sprites/wpn_chance/wpn_chance.bin"
+
+__pal_grad_sky_lava:  @ 08259ae0
+	.incbin "assets/palettes/grad_sky_lava.bin"
+
+__pal_grad_sky_snow:  @ 08259be0
+	.incbin "assets/palettes/grad_sky_snow.bin"
+
+__pal_grad_sky_beach:  @ 08259ce0
+	.incbin "assets/palettes/grad_sky_beach.bin"
+
+__pal_grad_sky_keep:  @ 08259de0
+	.incbin "assets/palettes/grad_sky_keep.bin"
+
+__pal_grad_sky_lake:  @ 08259ee0
+	.incbin "assets/palettes/grad_sky_lake.bin"
+
+__pal_grad_sky_farm:  @ 08259fe0
+	.incbin "assets/palettes/grad_sky_farm.bin"
+
+__pal_grad_sky_haunted:  @ 0825a0e0
+	.incbin "assets/palettes/grad_sky_haunted.bin"
+
+__pal_grad_sky_desert:  @ 0825a1e0
+	.incbin "assets/palettes/grad_sky_desert.bin"
+
+__pal_grad_sky_swamp:  @ 0825a2e0
+	.incbin "assets/palettes/grad_sky_swamp.bin"
+
+__pal_tide_anim:  @ 0825a3e0
+	.incbin "assets/palettes/tide_anim.bin"
+
+__pal_lake_anim:  @ 0825a5e0
+	.incbin "assets/palettes/lake_anim.bin"
+
+__pal_bluepalette:  @ 0825a7e0
+	.byte 0xe1, 0x07, 0x00, 0x00, 0x00, 0x18, 0x00, 0x30, 0x00, 0x48, 0x00, 0x60, 0x00, 0x7c, 0xc6, 0x7c
+	.byte 0x8c, 0x7d, 0x52, 0x7e, 0x18, 0x7f, 0xff, 0x7f, 0x11, 0x00, 0x1f, 0x00, 0x1a, 0x7c, 0xec, 0x08
+
+__pal_orangepalette:  @ 0825a800
+	.byte 0x00, 0x00, 0x00, 0x00, 0x46, 0x00, 0xac, 0x00, 0x12, 0x01, 0x78, 0x01, 0xdf, 0x01, 0x3f, 0x16
+	.byte 0x9f, 0x2e, 0x1f, 0x47, 0x7f, 0x5f, 0xff, 0x77, 0x7f, 0x03, 0xff, 0x3b, 0x1f, 0x00, 0xff, 0x07
+
+__pal_redpalette:  @ 0825a820
+	.byte 0x00, 0x00, 0x00, 0x00, 0x06, 0x00, 0x0c, 0x00, 0x12, 0x00, 0x18, 0x00, 0x1f, 0x00, 0xdf, 0x18
+	.byte 0x9f, 0x31, 0x5f, 0x4a, 0x1f, 0x63, 0xff, 0x7f, 0xbf, 0x02, 0xdf, 0x01, 0x1f, 0x01, 0xbf, 0x02
+
+__pal_yellowpalette:  @ 0825a840
+	.byte 0x00, 0x7c, 0x00, 0x00, 0xc6, 0x00, 0x8c, 0x01, 0x18, 0x03, 0xff, 0x7f, 0xff, 0x63, 0xff, 0x4b
+	.byte 0xff, 0x1b, 0x52, 0x02, 0xff, 0x03, 0xff, 0x33, 0xbf, 0x02, 0xdf, 0x01, 0x1f, 0x01, 0xbf, 0x02
+
+__pal_greenpalette:  @ 0825a860
+	.byte 0x1f, 0x00, 0x00, 0x00, 0xc0, 0x00, 0x80, 0x01, 0x40, 0x02, 0x00, 0x03, 0xe0, 0x03, 0xe6, 0x1b
+	.byte 0xec, 0x33, 0xf2, 0x4b, 0xf8, 0x63, 0xff, 0x7f, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+
+__pal_pylonblinkpalette:  @ 0825a880
+	.byte 0xe1, 0x07, 0x00, 0x00, 0x00, 0x18, 0x00, 0x30, 0x00, 0x48, 0x00, 0x60, 0x00, 0x7c, 0xc6, 0x7c
+	.byte 0x8c, 0x7d, 0x52, 0x7e, 0x18, 0x7f, 0xff, 0x7f, 0x11, 0x00, 0xff, 0x7f, 0x1a, 0x7c, 0xec, 0x08
+
+__pal_diddyframesshort:  @ 0825a8a0
+	.byte 0x4a, 0x29, 0x09, 0x00, 0x13, 0x00, 0xde, 0x7b, 0x5d, 0x04, 0x1e, 0x1d, 0x12, 0x1d, 0x5e, 0x3e
+	.byte 0xa9, 0x0c, 0x4a, 0x31, 0x31, 0x4a, 0xe7, 0x68, 0xd6, 0x6e, 0x10, 0x7e, 0x22, 0x40, 0x01, 0x10
+
+__pal_kongframesshort:  @ 0825a8c0
+	.byte 0xe0, 0x03, 0x7d, 0x04, 0x26, 0x00, 0x4b, 0x00, 0x70, 0x00, 0x96, 0x00, 0xbf, 0x11, 0x77, 0x0d
+	.byte 0xbc, 0x16, 0x8e, 0x05, 0xde, 0x13, 0x9b, 0x77, 0x20, 0x0c, 0xed, 0x4d, 0x84, 0x38, 0x64, 0x6c
+
+__pal_dixieyframesshort:  @ 0825a8e0
+	.byte 0xe0, 0x03, 0x03, 0x00, 0x14, 0x00, 0x1d, 0x00, 0xff, 0x7f, 0x2b, 0x00, 0x3c, 0x3e, 0x52, 0x19
+	.byte 0x9f, 0x3f, 0x52, 0x06, 0xbd, 0x07, 0x32, 0x4a, 0xf9, 0x66, 0x5e, 0x41, 0xd7, 0x28, 0x8c, 0x14
+
+__pal_krunchframesshort:  @ 0825a900
+	.byte 0x80, 0x7e, 0x3b, 0x00, 0x8a, 0x08, 0x9b, 0x09, 0x10, 0x06, 0x5a, 0x03, 0xff, 0x07, 0xd5, 0x06
+	.byte 0xfe, 0x1f, 0xac, 0x01, 0xfe, 0x5f, 0xd1, 0x17, 0xe7, 0x01, 0xeb, 0x0a, 0x43, 0x01, 0x20, 0x00
+
+__pal_crankyframesshort:  @ 0825a920
+	.byte 0x29, 0x25, 0xde, 0x7b, 0x9b, 0x29, 0x2f, 0x1d, 0x17, 0x05, 0x44, 0x04, 0xce, 0x08, 0x9e, 0x05
+	.byte 0x5e, 0x22, 0x9c, 0x1b, 0xe5, 0x12, 0xa5, 0x20, 0x84, 0x78, 0x43, 0x50, 0xf0, 0x45, 0x99, 0x62
+
+__pal_kroolframesshort:  @ 0825a940
+	.byte 0x6b, 0x2d, 0x23, 0x00, 0x10, 0x11, 0x96, 0x1d, 0xcb, 0x0c, 0x78, 0x16, 0x3d, 0x17, 0xbe, 0x2f
+	.byte 0xef, 0x0d, 0x02, 0x05, 0x22, 0x02, 0xc3, 0x06, 0xcb, 0x2b, 0x4f, 0x46, 0xfd, 0x7f, 0xf5, 0x6a
+
+__pal_fire5:  @ 0825a960
+	.byte 0x00, 0x7c, 0x1d, 0x00, 0x3f, 0x00, 0xff, 0x01, 0x1f, 0x02, 0x7f, 0x02, 0x1f, 0x03, 0xff, 0x03
+	.byte 0x16, 0x00, 0x19, 0x00, 0x7f, 0x03, 0x9f, 0x01, 0x38, 0x00, 0x19, 0x00, 0x1b, 0x00, 0x9b, 0x00
+
+__pal_mine:  @ 0825a980
+	.byte 0x00, 0x00, 0x6c, 0x2d, 0xf0, 0x3d, 0x1d, 0x00, 0x19, 0x5b, 0x94, 0x4a, 0xff, 0x7b, 0xd7, 0x7f
+	.byte 0x20, 0x08, 0xd1, 0x76, 0xeb, 0x5d, 0x06, 0x35, 0x82, 0x34, 0x05, 0x75, 0xc7, 0x1c, 0x44, 0x0c
+
+__pal_mine2:  @ 0825a9a0
+	.byte 0x00, 0x7c, 0xfd, 0x3d, 0x3d, 0x04, 0xff, 0x7f, 0x50, 0x52, 0xd5, 0x5e, 0x78, 0x7b, 0xed, 0x4d
+	.byte 0xd3, 0x7a, 0x0d, 0x6e, 0x28, 0x35, 0x69, 0x51, 0x42, 0x0c, 0xa5, 0x18, 0x2e, 0x08, 0x3a, 0x29
+
+__pal_eggbig:  @ 0825a9c0
+	.byte 0xff, 0x7f, 0x39, 0x67, 0xff, 0x7f, 0x60, 0x64, 0x60, 0x74, 0x80, 0x7c, 0x40, 0x44, 0x40, 0x58
+	.byte 0x20, 0x58, 0x01, 0x30, 0x87, 0x78, 0x02, 0x14, 0x8e, 0x48, 0x0f, 0x2c, 0x14, 0x34, 0x1e, 0x4c
+
+__pal_gunhut:  @ 0825a9e0
+	.byte 0xe0, 0x7c, 0x00, 0x00, 0x77, 0x01, 0xdc, 0x01, 0x31, 0x01, 0x0c, 0x05, 0x7d, 0x06, 0xff, 0x1a
+	.byte 0x37, 0x0a, 0xfe, 0x02, 0xa6, 0x00, 0xf2, 0x05, 0x9f, 0x1f, 0x17, 0x03, 0xfd, 0x03, 0xcb, 0x01
+
+__pal_crab:  @ 0825aa00
+	.byte 0xe0, 0x07, 0x00, 0x00, 0x06, 0x00, 0x0c, 0x00, 0x12, 0x00, 0x18, 0x00, 0x1f, 0x00, 0xdf, 0x18
+	.byte 0x9f, 0x31, 0x5f, 0x4a, 0x1f, 0x63, 0xff, 0x7f, 0xbf, 0x02, 0xdf, 0x01, 0x1f, 0x01, 0xbf, 0x02
+
+__pal_logocoin:  @ 0825aa20
+	.byte 0x1f, 0x0c, 0xff, 0x7f, 0xfa, 0x01, 0x91, 0x09, 0xc8, 0x04, 0xda, 0x0a, 0x7b, 0x2f, 0x41, 0x10
+	.byte 0x36, 0x7f, 0xb2, 0x7a, 0xa4, 0x2c, 0x07, 0x39, 0x27, 0x51, 0xcd, 0x55, 0x0e, 0x76, 0x47, 0x75
+
+__pal_hut:  @ 0825aa40
+	.byte 0xe0, 0x03, 0x00, 0x00, 0xae, 0x35, 0x95, 0x52, 0x52, 0x1d, 0xee, 0x10, 0x23, 0x00, 0xcc, 0x0c
+	.byte 0x2f, 0x19, 0x12, 0x3e, 0x86, 0x08, 0x66, 0x00, 0xc9, 0x0c, 0x0c, 0x11, 0xa8, 0x00, 0x64, 0x00
+
+__pal_palmtree2:  @ 0825aa60
+	.byte 0x1f, 0x00, 0x45, 0x00, 0xef, 0x04, 0x32, 0x09, 0xab, 0x00, 0x74, 0x0d, 0x9d, 0x2e, 0xd7, 0x11
+	.byte 0x3a, 0x1a, 0x20, 0x00, 0x60, 0x01, 0xe0, 0x01, 0x40, 0x02, 0xc0, 0x02, 0x62, 0x0b, 0xab, 0x2f
+
+__pal_igloo:  @ 0825aa80
+	.byte 0x00, 0x00, 0xff, 0x7f, 0xf1, 0x7f, 0xe9, 0x7f, 0xe4, 0x7f, 0x62, 0x7f, 0xc0, 0x7e, 0x20, 0x7e
+	.byte 0xc0, 0x7d, 0x60, 0x7d, 0xe0, 0x7c, 0xa0, 0x6c, 0x40, 0x5c, 0x00, 0x18, 0x00, 0x34, 0x00, 0x48
+
+__pal_wigwam:  @ 0825aaa0
+	.byte 0xe0, 0x03, 0x01, 0x00, 0x2b, 0x25, 0x1c, 0x00, 0xff, 0x7f, 0x28, 0x00, 0x55, 0x46, 0x56, 0x01
+	.byte 0xdb, 0x01, 0x3f, 0x02, 0xec, 0x00, 0x39, 0x5f, 0xcc
+	.ascii "/ x!(cL"
+
+__pal_snowtree:  @ 0825aac0
+	.byte 0x1e, 0x7c, 0x8a, 0x04, 0x52, 0x15, 0x55, 0x16, 0xc6, 0x0d, 0x81, 0x05, 0xac, 0x32, 0xfe, 0x7b
+	.byte 0xa0, 0x04, 0x97, 0x6b, 0xa4, 0x29, 0xe9, 0x35, 0xf1, 0x56, 0x49, 0x52, 0x90, 0x7f, 0xab, 0x76
+
+__pal_skull:  @ 0825aae0
+	.byte 0x00, 0x00, 0xcb, 0x18, 0xff, 0x7f, 0x1f, 0x00, 0x29, 0x00, 0x23, 0x00, 0xa9, 0x04, 0x3c, 0x5b
+	.byte 0xd6, 0x4e, 0x8d, 0x4d, 0x09, 0x31, 0x2d, 0x41, 0x6e, 0x3d, 0x0e, 0x35, 0xd5, 0x49, 0xa7, 0x18
+
+__pal_pumpkin:  @ 0825ab00
+	.byte 0x00, 0x00, 0x9a, 0x21, 0x3d, 0x36, 0x8b, 0x04, 0x46, 0x00, 0xf0, 0x04, 0x55, 0x09, 0xba, 0x09
+	.byte 0x1e, 0x0e, 0x7f, 0x12, 0x1f, 0x17, 0xbf, 0x1f, 0x05, 0x1c, 0x4c, 0x40, 0xdb, 0x78, 0x01, 0x04
+
+__pal_deadtree:  @ 0825ab20
+	.byte 0xff, 0x7f, 0x1e, 0x00, 0xc8, 0x7f, 0x05, 0x7f, 0x84, 0x7e, 0xe4, 0x7d, 0x44, 0x7d, 0x82, 0x78
+	.byte 0xa4, 0x64, 0x22, 0x60, 0x02, 0x4c, 0x01, 0x20, 0x02, 0x38, 0x02, 0x28, 0x01, 0x10, 0x07, 0x04
+
+__pal_ghost:  @ 0825ab40
+	.byte 0x00, 0x00, 0x42, 0x08, 0x0c, 0x00, 0x1e, 0x00, 0xff, 0x7f, 0xff, 0x18, 0x5f, 0x42, 0xdd, 0x7f
+	.byte 0x7a, 0x7f, 0x17, 0x77, 0x0f, 0x5e, 0x08, 0x25, 0xad, 0x41, 0x31, 0x62, 0x73, 0x66, 0xb5, 0x6e
+
+__pal_farm_tree:  @ 0825ab60
+	.byte 0x00, 0x7c, 0x3f, 0x00, 0xae, 0x00, 0x15, 0x01, 0x5a, 0x01, 0x9d, 0x05, 0xc7, 0x12, 0x46, 0x07
+	.byte 0x46, 0x07, 0x00, 0x01, 0x80, 0x01, 0x02, 0x02, 0xc4, 0x02, 0x16, 0x2c, 0xbd, 0x4d, 0x1f, 0x24
+
+__pal_farm_chicken:  @ 0825ab80
+	.byte 0x00, 0x7c, 0x18, 0x00, 0x1f, 0x21, 0x1f, 0x00, 0xbf, 0x10, 0x8f, 0x0d, 0x63, 0x08, 0x18, 0x63
+	.byte 0xf7, 0x02, 0xff, 0x1f, 0xff, 0x03, 0x51, 0x02, 0xff, 0x7f, 0x11, 0x7c, 0x60, 0x4a, 0x80, 0x6f
+
+__pal_farm_rabbit:  @ 0825aba0
+	.byte 0xe0, 0x03, 0x00, 0x00, 0xff, 0x7f, 0x6c, 0x25, 0x5c, 0x57, 0x32, 0x36, 0xdf, 0x67, 0xf7, 0x46
+	.byte 0x25, 0x14, 0x0d, 0x34, 0xd3, 0x4d, 0x13, 0x4c, 0x18, 0x60, 0x3c, 0x70, 0xff, 0x7c, 0x5f, 0x7c
+
+__pal_flying_veg:  @ 0825abc0
+	.byte 0x00, 0x7c, 0x7e, 0x04, 0x75, 0x00, 0x6c, 0x00, 0x7e, 0x05, 0x95, 0x01, 0x9e, 0x06, 0x6d, 0x01
+	.byte 0x75, 0x02, 0x5d, 0x03, 0xdf, 0x0b, 0x21, 0x00, 0x89, 0x1f, 0x61, 0x03, 0x80, 0x01, 0x80, 0x02
+
+__pal_evilghost:  @ 0825abe0
+	.byte 0x00, 0x00, 0x3c, 0x04, 0xfe, 0x7f, 0xfa, 0x7f, 0x78, 0x77, 0xf5, 0x6a, 0x51, 0x5a, 0x93, 0x62
+	.byte 0x8b, 0x45, 0xcd, 0x4d, 0x83, 0x2c, 0x00, 0x00, 0xc6, 0x30, 0x08, 0x39, 0x4a, 0x41, 0x10, 0x56
+
+__pal_mushroom:  @ 0825ac00
+	.byte 0x00, 0x00, 0x4b, 0x29, 0x2c, 0x04, 0x16, 0x00, 0x1b, 0x00, 0xea, 0x18, 0xc6, 0x14, 0x4a, 0x1d
+	.byte 0xc5, 0x00, 0xe6, 0x08, 0x07, 0x15, 0xa3, 0x00, 0x28, 0x29, 0xcd, 0x51, 0x6b, 0x35, 0x8c, 0x41
+
+__pal_soul:  @ 0825ac20
+	.byte 0x00, 0x00, 0x3c, 0x04, 0xfe, 0x7f, 0xfa, 0x7f, 0x78, 0x77, 0xf5, 0x6a, 0x51, 0x5a, 0x93, 0x62
+	.byte 0x8b, 0x45, 0xcd, 0x4d, 0x83, 0x2c, 0x00, 0x00, 0xc6, 0x30, 0x08, 0x39, 0x4a, 0x41, 0x10, 0x56
+
+__pal_swamp_frog_on_pad:  @ 0825ac40
+	.byte 0x00, 0x7c, 0xfd, 0x6f, 0x79, 0x5f, 0x16, 0x53, 0x92, 0x42, 0x2f, 0x36, 0xab, 0x29, 0x48, 0x1d
+	.byte 0xe0, 0x03, 0x40, 0x03, 0xc0, 0x02, 0x20, 0x02, 0xa0, 0x01, 0x00, 0x01, 0x80, 0x00, 0x00, 0x00
+
+__pal_swamp_goo_gun_mon:  @ 0825ac60
+	.byte 0x00, 0x7c, 0xde, 0x7b, 0xdd, 0x03, 0xd7, 0x03, 0xd1, 0x03, 0xcb, 0x03, 0xc5, 0x03, 0xe0, 0x03
+	.byte 0x60, 0x03, 0xe0, 0x02, 0x80, 0x02, 0x00, 0x02, 0x80, 0x01, 0x20, 0x01, 0xa0, 0x00, 0x40, 0x00
+
+__pal_jungel_worm_jump:  @ 0825ac80
+	.byte 0x00, 0x7c, 0x01, 0x00, 0xff, 0x7f, 0x2e, 0x05, 0xb4, 0x01, 0x3a, 0x02, 0xbf, 0x02, 0x5f, 0x07
+	.byte 0xff, 0x0f, 0x66, 0x28, 0xcc, 0x50, 0x0f, 0x61, 0x73, 0x75, 0xaa, 0x40, 0x79, 0x76, 0x13, 0x52
+
+__pal_mango:  @ 0825aca0
+	.byte 0x00, 0x00, 0x38, 0x00, 0x9e, 0x01, 0xcc, 0x00, 0x94, 0x01, 0xde, 0x02, 0xbf, 0x07, 0xb4, 0x02
+	.byte 0x94, 0x0b, 0x09, 0x02, 0xe8, 0x02, 0x87, 0x13, 0x40, 0x01, 0x00, 0x02, 0xa0, 0x02, 0x01, 0x07
+
+__pal_melon:  @ 0825acc0
+	.byte 0x00, 0x7c, 0x40, 0x00, 0x60, 0x01, 0xe0, 0x01, 0x61, 0x06, 0xc2, 0x0a, 0xe4, 0x12, 0x66, 0x1b
+	.byte 0xcb, 0x2f, 0x83, 0x11, 0xe6, 0x1d, 0x8a, 0x2e, 0xee, 0x3e, 0xb4, 0x57, 0x22, 0x0d, 0xc0, 0x04
+
+__pal_booster:  @ 0825ace0
+	.byte 0x00, 0x00, 0x00, 0x00, 0x46, 0x00, 0xac, 0x00, 0x12, 0x01, 0x78, 0x01, 0xdf, 0x01, 0x3f, 0x16
+	.byte 0x9f, 0x2e, 0x1f, 0x47, 0x7f, 0x5f, 0xff, 0x77, 0x7f, 0x03, 0xff, 0x3b, 0x1f, 0x00, 0xff, 0x07
+
+__pal_splat:  @ 0825ad00
+	.byte 0x00, 0x00, 0x80, 0x00, 0x20, 0x01, 0x80, 0x01, 0x00, 0x02, 0xa0, 0x02, 0x00, 0x03, 0x60, 0x03
+	.byte 0xc1, 0x07, 0xf4, 0x53, 0xef, 0x3f, 0xeb, 0x2f, 0xe7, 0x1f, 0xe5, 0x17, 0xe3, 0x0f, 0xe0, 0x03
+
+__pal_candy_head:  @ 0825ad20
+	.byte 0x02, 0x7c, 0x00, 0x00, 0xe0, 0x7f, 0xff, 0x7f, 0xbe, 0x7a, 0xde, 0x79, 0x7e, 0x71, 0x3f, 0x5b
+	.byte 0xbe, 0x4a, 0x3e, 0x42, 0xbd, 0x3d, 0xb9, 0x30, 0x11, 0x25, 0xdf, 0x23, 0xda, 0x1e, 0xd1, 0x1d
+
+__pal_cranky_head:  @ 0825ad40
+	.byte 0xe0, 0x7f, 0x00, 0x00, 0xe0, 0x03, 0xaf, 0x45, 0xff, 0x7f, 0x6f, 0x35, 0xcc, 0x1c, 0x97, 0x35
+	.byte 0x98, 0x52, 0x53, 0x56, 0xdc, 0x39, 0xdd, 0x5a, 0x5e, 0x46, 0x31, 0x21, 0xd6, 0x6e, 0x7b, 0x7f
+
+__pal_diddy_head:  @ 0825ad60
+	.byte 0x00, 0x7c, 0x00, 0x00, 0xe0, 0x1b, 0xdb, 0x45, 0x76, 0x31, 0x3e, 0x25, 0xda, 0x18, 0x93, 0x14
+	.byte 0xbf, 0x42, 0x5e, 0x32, 0xfc, 0x29, 0x54, 0x21, 0x8b, 0x04, 0x68, 0x04, 0xff, 0x7f, 0xd6, 0x56
+
+__pal_dixie_head:  @ 0825ad80
+	.byte 0x00, 0x7c, 0x00, 0x00, 0xe0, 0x7f, 0xff, 0x7b, 0xf6, 0x5e, 0x8c, 0x31, 0x5f, 0x53, 0xbe, 0x4a
+	.byte 0x5c, 0x3a, 0xd6, 0x31, 0xcc, 0x18, 0xfc, 0x26, 0x1f, 0x52, 0xbe, 0x4d, 0x5f, 0x49, 0xf5, 0x34
+
+__pal_donkey_head:  @ 0825ada0
+	.byte 0x00, 0x7c, 0x00, 0x00, 0xe0, 0x7f, 0xdf, 0x3e, 0x5f, 0x36, 0xdd, 0x2d, 0xda, 0x2d, 0x37, 0x25
+	.byte 0x7a, 0x18, 0x77, 0x14, 0xcd, 0x6d, 0xae, 0x04, 0xce, 0x18, 0x8b, 0x08, 0xca, 0x1c, 0x7b, 0x73
+
+__pal_ghost_head:  @ 0825adc0
+	.byte 0x00, 0x7c, 0x00, 0x00, 0xe0, 0x4a, 0xff, 0x7f, 0xdb, 0x67, 0xdb, 0x5b, 0x58, 0x5f, 0x37, 0x57
+	.byte 0xd4, 0x4a, 0x72, 0x46, 0x0e, 0x36, 0x08, 0x21, 0x5b, 0x7b, 0x18, 0x6f, 0xb6, 0x66, 0xad, 0x41
+
+__pal_krool_head:  @ 0825ade0
+	.byte 0x00, 0x7c, 0x00, 0x00, 0x1f, 0x00, 0xbe, 0x7b, 0x11, 0x7b, 0x2a, 0x7e, 0x8d, 0x4d, 0x32, 0x5b
+	.byte 0xa5, 0x2f, 0x62, 0x0f, 0xc1, 0x0e, 0x81, 0x1e, 0x02, 0x26, 0x40, 0x0d, 0x70, 0x31, 0x4b, 0x08
+
+__pal_krunch_head:  @ 0825ae00
+	.byte 0x00, 0x7c, 0x82, 0x10, 0x1f, 0x00, 0x76, 0x47, 0x6d, 0x0f, 0xeb, 0x2a, 0x89, 0x0e, 0x29, 0x0a
+	.byte 0xa9, 0x25, 0x25, 0x05, 0xfa, 0x17, 0xf5, 0x1f, 0xd0, 0x0a, 0xdf, 0x7f, 0xb4, 0x62, 0xcd, 0x49
+
+__pal_dkbubble:  @ 0825ae20
+	.byte 0x00, 0x00, 0x05, 0x00, 0x0b, 0x00, 0x18, 0x00, 0x1f, 0x00, 0x31, 0x00, 0x3f, 0x42, 0xdf, 0x0c
+	.byte 0xb8, 0x04, 0x9f, 0x19, 0x3f, 0x2e, 0x1f, 0x02, 0xdf, 0x6f, 0x9f, 0x3f, 0xdf, 0x1f, 0xdf, 0x03
+
+__pal_ballon:  @ 0825ae40
+	.byte 0x00, 0x00, 0x1e, 0x00, 0x75, 0x04, 0xfd, 0x02, 0xff, 0x03, 0xb5, 0x7f, 0x46, 0x7f, 0xa6, 0x7e
+	.byte 0xa9, 0x7e, 0xea, 0x59, 0xc3, 0x79, 0x06, 0x7e, 0xe1, 0x48, 0x42, 0x65, 0x0d, 0x3d, 0x6e, 0x14
+
+__pal_chance:  @ 0825ae60
+	.byte 0x00, 0x00, 0xfd, 0x2b, 0xfe, 0x67, 0xc4, 0x00, 0xa8, 0x05, 0xac, 0x0e, 0xf1, 0x1b, 0x40, 0x00
+	.byte 0xf0, 0x43, 0xe1, 0x09, 0xe8, 0x2b, 0xab, 0x32, 0xc1, 0x0e, 0xe8, 0x25, 0xc0, 0x04, 0x40, 0x09
+
+__pal_firtree:  @ 0825ae80
+	.byte 0x00, 0x00, 0x66, 0x08, 0x2f, 0x19, 0x9d, 0x3e, 0xf7, 0x29, 0x7f, 0x53, 0x40, 0x00, 0x80, 0x00
+	.byte 0xc0, 0x00, 0x00, 0x01, 0x60, 0x01, 0xe0, 0x01, 0x60, 0x02, 0xe0, 0x02, 0x60, 0x03, 0xe0, 0x03
+
+__pal_swamptree2:  @ 0825aea0
+	.byte 0xc1, 0x7b, 0x00, 0x00, 0x02, 0x00, 0x69, 0x08, 0x46, 0x04, 0x24, 0x00, 0xab, 0x0c, 0x68, 0x04
+	.byte 0xcd, 0x0c, 0x54, 0x19, 0x31, 0x15, 0x96, 0x1d, 0xee, 0x0c, 0x0f, 0x11, 0xfa, 0x25, 0xa9, 0x08
+
+__pal_stonepillar:  @ 0825aec0
+	.byte 0x1f, 0x00, 0x00, 0x00, 0xa5, 0x14, 0x6b, 0x2d, 0xce, 0x39, 0x7b, 0x6f, 0x80, 0x00, 0x47, 0x1d
+	.byte 0x43, 0x0d, 0x40, 0x01, 0x21, 0x06, 0x71, 0x46, 0x67, 0x1e, 0x8c, 0x32, 0xd5, 0x56, 0xc1, 0x06
+
+__pal_swamp_target_mon:  @ 0825aee0
+	.incbin "assets/palettes/swamp_target_mon.bin"
+
+obj_beach_00:  @ 0825af60
+	.incbin "assets/objects/obj_beach_00.bin"
+
+obj_beach_01:  @ 0825b250
+	.incbin "assets/objects/obj_beach_01.bin"
+
+obj_beach_02:  @ 0825b520
+	.incbin "assets/objects/obj_beach_02.bin"
+
+obj_beach_03:  @ 0825b610
+	.byte 0x0a, 0x00, 0x08, 0x02, 0x00, 0x00, 0xc8, 0x03, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00
+
+obj_keep_00:  @ 0825b620
+	.incbin "assets/objects/obj_keep_00.bin"
+
+obj_keep_01:  @ 0825b730
+	.incbin "assets/objects/obj_keep_01.bin"
+
+obj_keep_02:  @ 0825b770
+	.byte 0x0a, 0x00, 0xe0, 0x01, 0x00, 0x00, 0xa8, 0x03, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00
+
+obj_keep_03:  @ 0825b780
+	.byte 0x0a, 0x00, 0xe0, 0x01, 0x00, 0x00, 0x70, 0x03, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00
+
+obj_lava_00:  @ 0825b790
+	.incbin "assets/objects/obj_lava_00.bin"
+
+obj_lava_01:  @ 0825ba30
+	.incbin "assets/objects/obj_lava_01.bin"
+
+obj_lava_02:  @ 0825bad0
+	.byte 0x0a, 0x00, 0xe8, 0x01, 0x00, 0x00, 0xc8, 0x03, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00
+
+obj_snow_00:  @ 0825bae0
+	.incbin "assets/objects/obj_snow_00.bin"
+
+obj_snow_01:  @ 0825bd40
+	.incbin "assets/objects/obj_snow_01.bin"
+
+obj_snow_02:  @ 0825be20
+	.byte 0x0a, 0x00, 0xf8, 0x01, 0x00, 0x00, 0xb8, 0x03, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00
+
+obj_snow_03:  @ 0825be30
+	.byte 0x0a, 0x00, 0x08, 0x02, 0x00, 0x00, 0xb0, 0x03, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00
+
+obj_lake_00:  @ 0825be40
+	.incbin "assets/objects/obj_lake_00.bin"
+
+obj_lake_01:  @ 0825bf00
+	.incbin "assets/objects/obj_lake_01.bin"
+
+obj_lake_02:  @ 0825bfa0
+	.byte 0x0a, 0x00, 0xf0, 0x01, 0x00, 0x00, 0x90, 0x03, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00
+
+obj_lake_03:  @ 0825bfb0
+	.byte 0x0a, 0x00, 0x18, 0x02, 0x00, 0x00, 0x60, 0x03, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00
+
+obj_farm_00:  @ 0825bfc0
+	.incbin "assets/objects/obj_farm_00.bin"
+
+obj_farm_01:  @ 0825c390
+	.incbin "assets/objects/obj_farm_01.bin"
+
+obj_farm_02:  @ 0825c500
+	.byte 0x0a, 0x00, 0x00, 0x02, 0x00, 0x00, 0x88, 0x03, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00
+
+obj_farm_03:  @ 0825c510
+	.incbin "assets/objects/obj_farm_03.bin"
+
+obj_farm_04:  @ 0825c5d0
+	.byte 0x0a, 0x00, 0xe0, 0x01, 0x00, 0x00, 0x78, 0x03, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00
+
+obj_farm_05:  @ 0825c5e0
+	.incbin "assets/objects/obj_farm_05.bin"
+
+obj_haunted_00:  @ 0825c620
+	.incbin "assets/objects/obj_haunted_00.bin"
+
+obj_haunted_01:  @ 0825c8f0
+	.incbin "assets/objects/obj_haunted_01.bin"
+
+obj_haunted_02:  @ 0825cbf0
+	.incbin "assets/objects/obj_haunted_02.bin"
+
+obj_haunted_03:  @ 0825ceb0
+	.byte 0x0a, 0x00, 0xd8, 0x01, 0x00, 0x00, 0x18, 0x03, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00
+
+obj_swamp_00:  @ 0825cec0
+	.incbin "assets/objects/obj_swamp_00.bin"
+
+obj_swamp_01:  @ 0825d0a0
+	.incbin "assets/objects/obj_swamp_01.bin"
+
+obj_swamp_02:  @ 0825d220
+	.byte 0x0a, 0x00, 0x00, 0x02, 0x00, 0x00, 0x80, 0x03, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00
+
+obj_swamp_03:  @ 0825d230
+	.byte 0x0a, 0x00, 0x18, 0x02, 0x00, 0x00, 0x88, 0x03, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00
+
+obj_jungle_00:  @ 0825d240
+	.incbin "assets/objects/obj_jungle_00.bin"
+
+obj_jungle_01:  @ 0825d470
+	.byte 0x0a, 0x00, 0xe8, 0x01, 0x00, 0x00, 0x98, 0x03, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00
+
+obj_jungle_02:  @ 0825d480
+	.byte 0x0a, 0x00, 0x18, 0x02, 0x00, 0x00, 0x70, 0x03, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00
+
+obj_jungle_03:  @ 0825d490
+	.byte 0x0a, 0x00, 0xf8, 0x01, 0x00, 0x00, 0x88, 0x03, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00
+
+obj_desert_00:  @ 0825d4a0
+	.byte 0x0a, 0x00, 0xf0, 0x01, 0x00, 0x00, 0xc8, 0x03, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00
+
+obj_desert_01:  @ 0825d4b0
+	.byte 0x0a, 0x00, 0xf8, 0x01, 0x00, 0x00, 0x90, 0x03, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00
+
+obj_desert_02:  @ 0825d4c0
+	.byte 0x0a, 0x00, 0x00, 0x02, 0x00, 0x00, 0xb0, 0x03, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00
+
+obj_desert_03:  @ 0825d4d0
+	.byte 0x0a, 0x00, 0xf0, 0x01, 0x00, 0x00, 0xa0, 0x03, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00
+
+__net_beach_00:  @ 0825d4e0
+	.incbin "assets/ai_networks/beach_00.bin"
+
+__net_beach_01:  @ 0825da92
+	.incbin "assets/ai_networks/beach_01.bin"
+
+__net_beach_02:  @ 0825dd50
+	.byte 0x01, 0x00, 0x04, 0x00, 0x03, 0x00, 0x01, 0x00, 0xc0, 0x02, 0x00, 0x00, 0x00, 0x03, 0x01, 0x00
+	.byte 0x60, 0x02, 0x00, 0x00, 0x80, 0x00, 0x01, 0x00, 0x60, 0x00, 0x00, 0x00, 0x40, 0x01, 0x01, 0x00
+	.byte 0xc0, 0x02, 0x00, 0x00, 0x00, 0x03
+
+__net_beach_03:  @ 0825dd76
+	.byte 0x00, 0x00
+
+__net_keep_00:  @ 0825dd78
+	.byte 0x01, 0x00, 0x04, 0x00, 0x03, 0x00, 0x01, 0x00, 0xd8, 0x01, 0x00, 0x00, 0x28, 0x03, 0x01, 0x00
+	.byte 0x88, 0x00, 0x00, 0x00, 0xd0, 0x00, 0x01, 0x00, 0x58, 0x03, 0x00, 0x00, 0xa0, 0x00, 0x01, 0x00
+	.byte 0xd8, 0x01, 0x00, 0x00, 0x28, 0x03
+
+__net_keep_01:  @ 0825dd9e
+	.byte 0x01, 0x00, 0x04, 0x00, 0x03, 0x00, 0x01, 0x00, 0xd0, 0x02, 0x00, 0x00, 0x30, 0x03, 0x01, 0x00
+	.byte 0x70, 0x03, 0x00, 0x00, 0xa8, 0x00, 0x01, 0x00, 0x98, 0x00, 0x00, 0x00, 0x20, 0x01, 0x01, 0x00
+	.byte 0xd0, 0x02, 0x00, 0x00, 0x30, 0x03
+
+__net_keep_02:  @ 0825ddc4
+	.byte 0x01, 0x00, 0x04, 0x00, 0x03, 0x00, 0x01, 0x00, 0x38, 0x03, 0x00, 0x00, 0x50, 0x00, 0x01, 0x00
+	.byte 0x40, 0x00, 0x00, 0x00, 0x60, 0x02, 0x01, 0x00, 0x30, 0x03, 0x00, 0x00, 0xa8, 0x03, 0x01, 0x00
+	.byte 0x38, 0x03, 0x00, 0x00, 0x50, 0x00
+
+__net_keep_03:  @ 0825ddea
+	.byte 0x01, 0x00, 0x04, 0x00, 0x03, 0x00, 0x01, 0x00, 0x68, 0x03, 0x00, 0x00, 0x40, 0x00, 0x01, 0x00
+	.byte 0x90, 0x00, 0x00, 0x00, 0xe8, 0x00, 0x01, 0x00, 0xa0, 0x02, 0x00, 0x00, 0x30, 0x03, 0x01, 0x00
+	.byte 0x68, 0x03, 0x00, 0x00, 0x40, 0x00
+
+__net_lava_00:  @ 0825de10
+	.incbin "assets/ai_networks/lava_00.bin"
+
+__net_lava_01:  @ 0825e366
+	.byte 0x01, 0x00, 0x04, 0x00, 0x03, 0x00, 0x01, 0x00, 0x20, 0x03, 0x00, 0x00, 0x28, 0x03, 0x01, 0x00
+	.byte 0x10, 0x01, 0x00, 0x00, 0xd0, 0x02, 0x01, 0x00, 0x10, 0x02, 0x00, 0x00, 0x90, 0x00, 0x01, 0x00
+	.byte 0x20, 0x03, 0x00, 0x00, 0x28, 0x03
+
+__net_lava_02:  @ 0825e38c
+	.byte 0x01, 0x00, 0x04, 0x00, 0x03, 0x00, 0x01, 0x00, 0xe8, 0x00, 0x00, 0x00, 0x18, 0x03, 0x01, 0x00
+	.byte 0x00, 0x02, 0x00, 0x00, 0xb0, 0x00, 0x01, 0x00, 0x40, 0x03, 0x00, 0x00, 0x10, 0x03, 0x01, 0x00
+	.byte 0xe8, 0x00, 0x00, 0x00, 0x18, 0x03
+
+__net_snow_00:  @ 0825e3b2
+	.incbin "assets/ai_networks/snow_00.bin"
+
+__net_snow_01:  @ 0825e94c
+	.incbin "assets/ai_networks/snow_01.bin"
+
+__net_snow_02:  @ 0825ec5a
+	.byte 0x01, 0x00, 0x04, 0x00, 0x03, 0x00, 0x01, 0x00, 0xe0, 0x01, 0x00, 0x00, 0xc0, 0x00, 0x01, 0x00
+	.byte 0x20, 0x03, 0x00, 0x00, 0x30, 0x03, 0x01, 0x00, 0xd0, 0x00, 0x00, 0x00, 0x08, 0x03, 0x01, 0x00
+	.byte 0xe0, 0x01, 0x00, 0x00, 0xc0, 0x00
+
+__net_snow_03:  @ 0825ec80
+	.byte 0x01, 0x00, 0x04, 0x00, 0x03, 0x00, 0x01, 0x00, 0x00, 0x01, 0x00, 0x00, 0xe8, 0x00, 0x01, 0x00
+	.byte 0x18, 0x03, 0x00, 0x00, 0xd8, 0x00, 0x01, 0x00, 0xf8, 0x01, 0x00, 0x00, 0x10, 0x03, 0x01, 0x00
+	.byte 0x00, 0x01, 0x00, 0x00, 0xe8, 0x00
+
+__net_lake_00:  @ 0825eca6
+	.byte 0x01, 0x00, 0x04, 0x00, 0x03, 0x00, 0x01, 0x00, 0x58, 0x03, 0x00, 0x00, 0x00, 0x03, 0x01, 0x00
+	.byte 0x18, 0x02, 0x00, 0x00, 0x68, 0x00, 0x01, 0x00, 0x40, 0x00, 0x00, 0x00, 0x00, 0x03, 0x01, 0x00
+	.byte 0x58, 0x03, 0x00, 0x00, 0x00, 0x03
+
+__net_lake_01:  @ 0825eccc
+	.byte 0x01, 0x00, 0x04, 0x00, 0x03, 0x00, 0x01, 0x00, 0x48, 0x03, 0x00, 0x00, 0x10, 0x03, 0x01, 0x00
+	.byte 0xa0, 0x02, 0x00, 0x00, 0x88, 0x00, 0x01, 0x00, 0xb8, 0x00, 0x00, 0x00, 0x88, 0x02, 0x01, 0x00
+	.byte 0x48, 0x03, 0x00, 0x00, 0x10, 0x03
+
+__net_lake_02:  @ 0825ecf2
+	.byte 0x01, 0x00, 0x04, 0x00, 0x03, 0x00, 0x01, 0x00, 0x30, 0x03, 0x00, 0x00, 0xd0, 0x03, 0x01, 0x00
+	.byte 0x18, 0x03, 0x00, 0x00, 0x68, 0x00, 0x01, 0x00, 0xc8, 0x00, 0x00, 0x00, 0xd0, 0x01, 0x01, 0x00
+	.byte 0x30, 0x03, 0x00, 0x00, 0xd0, 0x03
+
+__net_lake_03:  @ 0825ed18
+	.byte 0x01, 0x00, 0x04, 0x00, 0x03, 0x00, 0x01, 0x00, 0x40, 0x03, 0x00, 0x00, 0x58, 0x03, 0x01, 0x00
+	.byte 0x60, 0x03, 0x00, 0x00, 0x68, 0x00, 0x01, 0x00, 0x28, 0x00, 0x00, 0x00, 0xb8, 0x00, 0x01, 0x00
+	.byte 0x40, 0x03, 0x00, 0x00, 0x58, 0x03
+
+__net_farm_00:  @ 0825ed3e
+	.incbin "assets/ai_networks/farm_00.bin"
+
+__net_farm_01:  @ 0825f328
+	.byte 0x01, 0x00, 0x04, 0x00, 0x06, 0x00, 0x01, 0x00, 0x60, 0x00, 0x01, 0x00, 0x88, 0x03, 0x01, 0x00
+	.byte 0x08, 0x00, 0x06, 0x00, 0x98, 0x02, 0x01, 0x00, 0x48, 0x00, 0x01, 0x00, 0x58, 0x00, 0x01, 0x00
+	.byte 0x98, 0x01, 0x06, 0x00, 0x10, 0x00, 0x01, 0x00, 0x10, 0x02, 0x01, 0x00, 0xf8, 0x01, 0x01, 0x00
+	.byte 0x78, 0x01, 0x07, 0x00, 0x90, 0x03, 0x01, 0x00, 0x60, 0x00, 0x01, 0x00, 0x88, 0x03
+
+__net_farm_02:  @ 0825f366
+	.byte 0x01, 0x00, 0x04, 0x00, 0x03, 0x00, 0x01, 0x00, 0xf0, 0x01, 0x00, 0x00, 0x50, 0x00, 0x01, 0x00
+	.byte 0x40, 0x00, 0x00, 0x00, 0xd0, 0x02, 0x01, 0x00, 0x50, 0x03, 0x00, 0x00, 0xa0, 0x01, 0x01, 0x00
+	.byte 0xf0, 0x01, 0x00, 0x00, 0x50, 0x00
+
+__net_farm_03:  @ 0825f38c
+	.byte 0x00, 0x00
+
+__net_farm_04:  @ 0825f38e
+	.byte 0x01, 0x00, 0x04, 0x00, 0x03, 0x00, 0x01, 0x00, 0x70, 0x00, 0x00, 0x00, 0x30, 0x01, 0x01, 0x00
+	.byte 0x30, 0x03, 0x00, 0x00, 0x48, 0x03, 0x01, 0x00, 0xa8, 0x03, 0x00, 0x00, 0x78, 0x00, 0x01, 0x00
+	.byte 0x70, 0x00, 0x00, 0x00, 0x30, 0x01
+
+__net_farm_05:  @ 0825f3b4
+	.incbin "assets/ai_networks/farm_05.bin"
+
+__net_haunted_00:  @ 0825f896
+	.incbin "assets/ai_networks/haunted_00.bin"
+
+__net_haunted_01:  @ 0825feb4
+	.byte 0x00, 0x00
+
+__net_haunted_02:  @ 0825feb6
+	.byte 0x01, 0x00, 0x04, 0x00, 0x03, 0x00, 0x01, 0x00, 0x88, 0x00, 0x00, 0x00, 0x08, 0x01, 0x01, 0x00
+	.byte 0x90, 0x03, 0x00, 0x00, 0xd8, 0x01, 0x01, 0x00, 0xb8, 0x00, 0x00, 0x00, 0x18, 0x03, 0x01, 0x00
+	.byte 0x88, 0x00, 0x00, 0x00, 0x08, 0x01
+
+__net_haunted_03:  @ 0825fedc
+	.byte 0x01, 0x00, 0x04, 0x00, 0x03, 0x00, 0x01, 0x00, 0xa0, 0x00, 0x00, 0x00, 0xa8, 0x00, 0x01, 0x00
+	.byte 0x88, 0x03, 0x00, 0x00, 0x88, 0x01, 0x01, 0x00, 0xd0, 0x00, 0x00, 0x00, 0x28, 0x03, 0x01, 0x00
+	.byte 0xa0, 0x00, 0x00, 0x00, 0xa8, 0x00
+
+__net_swamp_00:  @ 0825ff02
+	.byte 0x01, 0x00, 0x04, 0x00, 0x03, 0x00, 0x01, 0x00, 0x70, 0x00, 0x00, 0x00, 0x30, 0x02, 0x01, 0x00
+	.byte 0x80, 0x03, 0x00, 0x00, 0xc0, 0x03, 0x01, 0x00, 0xa8, 0x03, 0x00, 0x00, 0xd8, 0x00, 0x01, 0x00
+	.byte 0x70, 0x00, 0x00, 0x00, 0x30, 0x02
+
+__net_swamp_01:  @ 0825ff28
+	.byte 0x01, 0x00, 0x04, 0x00, 0x03, 0x00, 0x01, 0x00, 0x90, 0x00, 0x00, 0x00, 0x18, 0x01, 0x01, 0x00
+	.byte 0x68, 0x02, 0x00, 0x00, 0x80, 0x03, 0x01, 0x00, 0x80, 0x03, 0x00, 0x00, 0xd0, 0x00, 0x01, 0x00
+	.byte 0x90, 0x00, 0x00, 0x00, 0x18, 0x01
+
+__net_swamp_02:  @ 0825ff4e
+	.byte 0x01, 0x00, 0x04, 0x00, 0x03, 0x00, 0x01, 0x00, 0x50, 0x03, 0x00, 0x00, 0xb0, 0x00, 0x01, 0x00
+	.byte 0x68, 0x00, 0x00, 0x00, 0x70, 0x02, 0x01, 0x00, 0x18, 0x03, 0x00, 0x00, 0x70, 0x03, 0x01, 0x00
+	.byte 0x50, 0x03, 0x00, 0x00, 0xb0, 0x00
+
+__net_swamp_03:  @ 0825ff74
+	.byte 0x01, 0x00, 0x04, 0x00, 0x03, 0x00, 0x01, 0x00, 0xc8, 0x00, 0x00, 0x00, 0x98, 0x00, 0x01, 0x00
+	.byte 0xa8, 0x03, 0x00, 0x00, 0x20, 0x02, 0x01, 0x00, 0xd0, 0x00, 0x00, 0x00, 0x00, 0x03, 0x01, 0x00
+	.byte 0xc8, 0x00, 0x00, 0x00, 0x98, 0x00
+
+__net_jungle_00:  @ 0825ff9a
+	.byte 0x01, 0x00, 0x04, 0x00, 0x03, 0x00, 0x01, 0x00, 0xa0, 0x00, 0x00, 0x00, 0x48, 0x03, 0x01, 0x00
+	.byte 0xd8, 0x00, 0x00, 0x00, 0x80, 0x02, 0x01, 0x00, 0x88, 0x01, 0x00, 0x00, 0x30, 0x03, 0x01, 0x00
+	.byte 0xa0, 0x00, 0x00, 0x00, 0x48, 0x03
+
+__net_jungle_01:  @ 0825ffc0
+	.byte 0x01, 0x00, 0x04, 0x00, 0x03, 0x00, 0x01, 0x00, 0xa0, 0x00, 0x00, 0x00, 0xa8, 0x00, 0x01, 0x00
+	.byte 0x78, 0x03, 0x00, 0x00, 0x20, 0x02, 0x01, 0x00, 0xf8, 0x00, 0x00, 0x00, 0x98, 0x03, 0x01, 0x00
+	.byte 0xa0, 0x00, 0x00, 0x00, 0xa8, 0x00
+
+__net_jungle_02:  @ 0825ffe6
+	.byte 0x01, 0x00, 0x04, 0x00, 0x03, 0x00, 0x01, 0x00, 0x50, 0x00, 0x00, 0x00, 0xd0, 0x00, 0x01, 0x00
+	.byte 0x58, 0x02, 0x00, 0x00, 0x60, 0x03, 0x01, 0x00, 0x20, 0x03, 0x00, 0x00, 0xa8, 0x00, 0x01, 0x00
+	.byte 0x50, 0x00, 0x00, 0x00, 0xd0, 0x00
+
+__net_jungle_03:  @ 0826000c
+	.byte 0x01, 0x00, 0x04, 0x00, 0x03, 0x00, 0x01, 0x00, 0x98, 0x03, 0x00, 0x00, 0xc0, 0x03, 0x01, 0x00
+	.byte 0x00, 0x03, 0x00, 0x00, 0x80, 0x00, 0x01, 0x00, 0x30, 0x00, 0x00, 0x00, 0x28, 0x02, 0x01, 0x00
+	.byte 0x98, 0x03, 0x00, 0x00, 0xc0, 0x03
+
+__net_desert_00:  @ 08260032
+	.byte 0x01, 0x00, 0x04, 0x00, 0x03, 0x00, 0x01, 0x00, 0x60, 0x00, 0x00, 0x00, 0x10, 0x02, 0x01, 0x00
+	.byte 0x20, 0x03, 0x00, 0x00, 0x88, 0x03, 0x01, 0x00, 0x78, 0x03, 0x00, 0x00, 0x88, 0x00, 0x01, 0x00
+	.byte 0x60, 0x00, 0x00, 0x00, 0x10, 0x02
+
+__net_desert_01:  @ 08260058
+	.byte 0x01, 0x00, 0x04, 0x00, 0x03, 0x00, 0x01, 0x00, 0x98, 0x00, 0x00, 0x00, 0x18, 0x01, 0x01, 0x00
+	.byte 0xf8, 0x02, 0x00, 0x00, 0x60, 0x03, 0x01, 0x00, 0x48, 0x03, 0x00, 0x00, 0xa8, 0x00, 0x01, 0x00
+	.byte 0x98, 0x00, 0x00, 0x00, 0x18, 0x01
+
+__net_desert_02:  @ 0826007e
+	.byte 0x01, 0x00, 0x04, 0x00, 0x03, 0x00, 0x01, 0x00, 0x80, 0x00, 0x00, 0x00, 0xc0, 0x01
+	.word irq_dispatch+0x1
+	.byte 0x00, 0x00, 0x70, 0x03, 0x01, 0x00, 0x40, 0x03, 0x00, 0x00, 0xa0, 0x00, 0x01, 0x00, 0x80, 0x00
+	.byte 0x00, 0x00, 0xc0, 0x01
+
+__net_desert_03:  @ 082600a4
+	.byte 0x01, 0x00, 0x04, 0x00, 0x03, 0x00, 0x01, 0x00, 0xd0, 0x00, 0x00, 0x00, 0x40, 0x02, 0x01, 0x00
+	.byte 0x00, 0x03, 0x00, 0x00, 0x28, 0x03, 0x01, 0x00, 0x08, 0x03, 0x00, 0x00, 0x80, 0x00, 0x01, 0x00
+	.byte 0xd0, 0x00, 0x00, 0x00, 0x40, 0x02, 0x00, 0x00
+
+D_082600cc:  @ 082600cc
+	.asciz "ASSERTION FAILED  FILE=[%s] LINE=[%d]  EXP=[%s] \n"
+	.byte 0x00, 0x00
+
+D_08260100:  @ 08260100
+	.asciz "WARING FILE=[%s] LINE=[%d]  EXP=[%s] \n"
+	.byte 0x00, 0xcc, 0x00, 0x26, 0x08, 0x00, 0x01, 0x26, 0x08, 0x43, 0x00, 0x00, 0x00
+
+blanks.12:  @ 08260134  const const char[16]  (lib/newlib/libc/stdio/vfprintf.c)
+	.ascii "                "
+
+zeroes.13:  @ 08260144  const const char[16]  (lib/newlib/libc/stdio/vfprintf.c)
+	.ascii "0000000000000000"
+
+D_08260154:  @ 08260154
+	.byte 0x49, 0x6e, 0x66, 0x00
+
+D_08260158:  @ 08260158
+	.byte 0x4e, 0x61, 0x4e, 0x00
+
+D_0826015c:  @ 0826015c
+	.asciz "0123456789abcdef"
+	.byte 0x00, 0x00, 0x00
+
+D_08260170:  @ 08260170
+	.asciz "(null)"
+	.byte 0x00
+
+D_08260178:  @ 08260178
+	.asciz "0123456789ABCDEF"
+	.byte 0x00, 0x00, 0x00
+
+D_0826018c:  @ 0826018c
+	.asciz "bug in vfprintf: bad base"
+	.byte 0x00, 0x00
+
+D_082601a8:  @ 082601a8
+	.byte 0x30, 0x00, 0x00, 0x00
+
+D_082601ac:  @ 082601ac
+	.byte 0x2e, 0x00, 0x00, 0x00
+
+D_082601b0:  @ 082601b0
+	.asciz "Infinity"
+	.byte 0x00, 0x00, 0x00
+
+D_082601bc:  @ 082601bc
+	.byte 0x4e, 0x61, 0x4e, 0x00
+
+D_082601c0:  @ 082601c0
+	.byte 0x30, 0x00, 0x00, 0x00
+
+lconv:  @ 082601c4  const structure lconv  (lib/newlib/libc/locale/locale.c)
+	.word D_082601f8
+	.word D_082601f4
+	.word D_082601f4
+	.word D_082601f4
+	.word D_082601f4
+	.word D_082601f4
+	.word D_082601f4
+	.word D_082601f4
+	.word D_082601f4
+	.word D_082601f4
+	.byte 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff
+
+D_082601f4:  @ 082601f4
+	.byte 0x00, 0x00, 0x00, 0x00
+
+D_082601f8:  @ 082601f8
+	.byte 0x2e, 0x00, 0x00, 0x00
+
+D_082601fc:  @ 082601fc
+	.byte 0x43, 0x00, 0x00, 0x00
+
+p05.27:  @ 08260200  const const int[3]  (lib/newlib/libc/stdlib/mprec.c)
+	.byte 0x05, 0x00, 0x00, 0x00, 0x19, 0x00, 0x00, 0x00, 0x7d, 0x00, 0x00, 0x00
+
+__mprec_tens:  @ 0826020c  const const double[25]  (lib/newlib/libc/stdlib/mprec.c)
+	.incbin "assets/tables/mprec/__mprec_tens.bin"
+
+__mprec_bigtens:  @ 082602d4  const const double[5]  (lib/newlib/libc/stdlib/mprec.c)
+	.byte 0x79, 0xc3, 0x41, 0x43, 0x00, 0x80, 0xe0, 0x37, 0xb5, 0xb8, 0x93, 0x46, 0x17, 0x6e, 0x05, 0xb5
+	.byte 0x03, 0x4f, 0x38, 0x4d, 0xf5, 0xf9, 0x3f, 0xe9, 0x48, 0x77, 0x82, 0x5a, 0x32, 0x1d, 0x30, 0xf9
+	.byte 0xdd, 0x4f, 0x15, 0x75, 0x3c, 0xbf, 0x73, 0x7f
+
+__mprec_tinytens:  @ 082602fc  const const double[5]  (lib/newlib/libc/stdlib/mprec.c)
+	.byte 0xb2, 0xd2, 0x9c, 0x3c, 0xbc, 0x89, 0xd8, 0x97, 0x23, 0xf6, 0x49, 0x39, 0x33, 0xa7, 0xa8, 0xd5
+	.byte 0xfd, 0x0f, 0xa5, 0x32, 0x3d, 0xa7, 0xf4, 0x44, 0x08, 0xba, 0x5b, 0x25, 0x9d, 0x97, 0x8c, 0xcf
+	.byte 0x28, 0x06, 0xc8, 0x0a, 0x43, 0x6f, 0xac, 0x64
+
+D_08260324:  @ 08260324
+	.byte 0x3a, 0x74, 0x74, 0x00
+
+D_08260328:  @ 08260328
+	.asciz "_sbrk: Heap and stack collision\n"
+	.byte 0x00, 0x00, 0x00

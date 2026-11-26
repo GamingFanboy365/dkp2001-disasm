@@ -1,0 +1,134 @@
+/* romtest: run a GBA ROM headlessly in mGBA with scripted input and report
+ * a hash of the screen at fixed frames. Two ROMs that behave identically give
+ * identical hash lists, which is how relocated / patched builds are checked
+ * against the original.
+ *
+ *   romtest ROM FRAMES EVERY [--ppm PREFIX] [FRAME:KEY[:HOLD] ...]
+ *
+ * KEY is one of A B SELECT START RIGHT LEFT UP DOWN R L. HOLD defaults to 6
+ * frames. With --ppm, each checkpoint is also written to PREFIX_<frame>.ppm.
+ * With RAM_OUT=path in the environment, EWRAM (256 KiB) then IWRAM (32 KiB)
+ * are written there after the last frame.
+ * Build: see tools/romtest/README.md.
+ */
+#include <mgba/flags.h>
+#include <mgba/core/core.h>
+#include <mgba/core/log.h>
+#include <mgba-util/image.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdint.h>
+
+struct press { unsigned frame, hold; int key; };
+
+/* Count stores to ROM (the game writing to data the linker put in ROM),
+ * and drop everything else mGBA logs. */
+static unsigned rom_stores;
+static void quiet_log(struct mLogger* logger, int category, enum mLogLevel level, const char* format, va_list args) {
+	(void) logger; (void) category; (void) level; (void) args;
+	if (strstr(format, "Unimplemented memory Store")) {
+		++rom_stores;
+	}
+}
+static struct mLogger quiet = { .log = quiet_log };
+
+static int key_bit(const char* name) {
+	static const char* names[] = { "A", "B", "SELECT", "START", "RIGHT", "LEFT", "UP", "DOWN", "R", "L" };
+	for (int i = 0; i < 10; ++i) {
+		if (!strcmp(name, names[i])) {
+			return i;
+		}
+	}
+	return -1;
+}
+
+int main(int argc, char** argv) {
+	if (argc < 4) {
+		fprintf(stderr, "usage: %s ROM FRAMES EVERY [--ppm PREFIX] [FRAME:KEY[:HOLD] ...]\n", argv[0]);
+		return 2;
+	}
+	const char* rom = argv[1];
+	unsigned frames = strtoul(argv[2], NULL, 0);
+	unsigned every = strtoul(argv[3], NULL, 0);
+	const char* ppm = NULL;
+	struct press presses[256];
+	int npress = 0;
+	for (int i = 4; i < argc; ++i) {
+		if (!strcmp(argv[i], "--ppm") && i + 1 < argc) {
+			ppm = argv[++i];
+			continue;
+		}
+		char key[16] = { 0 };
+		unsigned f = 0, hold = 6;
+		if (sscanf(argv[i], "%u:%15[A-Z]:%u", &f, key, &hold) < 2 || key_bit(key) < 0 || npress == 256) {
+			fprintf(stderr, "bad press '%s'\n", argv[i]);
+			return 2;
+		}
+		presses[npress++] = (struct press) { f, hold, key_bit(key) };
+	}
+
+	mLogSetDefaultLogger(&quiet);
+	struct mCore* core = mCoreFind(rom);
+	if (!core || !core->init(core)) {
+		fprintf(stderr, "cannot open %s\n", rom);
+		return 1;
+	}
+	mCoreInitConfig(core, NULL);
+	unsigned w, h;
+	core->baseVideoSize(core, &w, &h);
+	mColor* buf = calloc(w * h, BYTES_PER_PIXEL);
+	core->setVideoBuffer(core, buf, w);
+	core->setAudioBufferSize(core, 2048);
+	if (!mCoreLoadFile(core, rom)) {
+		fprintf(stderr, "cannot load %s\n", rom);
+		return 1;
+	}
+	core->reset(core);
+
+	for (unsigned frame = 1; frame <= frames; ++frame) {
+		uint32_t keys = 0;
+		for (int i = 0; i < npress; ++i) {
+			if (frame >= presses[i].frame && frame < presses[i].frame + presses[i].hold) {
+				keys |= 1u << presses[i].key;
+			}
+		}
+		core->setKeys(core, keys);
+		core->runFrame(core);
+		if (every && frame % every == 0) {
+			uint64_t hash = 1469598103934665603ull;
+			for (unsigned p = 0; p < w * h; ++p) {
+				uint32_t c = (uint32_t) buf[p] & 0xFFFFFF;
+				hash = (hash ^ c) * 1099511628211ull;
+			}
+			printf("%6u %016llx\n", frame, (unsigned long long) hash);
+			if (ppm) {
+				char path[512];
+				snprintf(path, sizeof(path), "%s_%06u.ppm", ppm, frame);
+				FILE* f = fopen(path, "wb");
+				if (f) {
+					fprintf(f, "P6\n%u %u\n255\n", w, h);
+					for (unsigned p = 0; p < w * h; ++p) {
+						uint32_t c = (uint32_t) buf[p];
+						unsigned char rgb[3] = { c & 0xFF, (c >> 8) & 0xFF, (c >> 16) & 0xFF };
+						fwrite(rgb, 1, 3, f);
+					}
+					fclose(f);
+				}
+			}
+		}
+	}
+	printf("stores-to-rom %u\n", rom_stores);
+	const char* ram_out = getenv("RAM_OUT");
+	if (ram_out) { /* EWRAM then IWRAM, as seen by the CPU */
+		FILE* f = fopen(ram_out, "wb");
+		if (f) {
+			for (uint32_t a = 0x02000000; a < 0x02040000; a += 4) { uint32_t v = core->busRead32(core, a); fwrite(&v, 4, 1, f); }
+			for (uint32_t a = 0x03000000; a < 0x03008000; a += 4) { uint32_t v = core->busRead32(core, a); fwrite(&v, 4, 1, f); }
+			fclose(f);
+		}
+	}
+	core->deinit(core);
+	free(buf);
+	return 0;
+}
