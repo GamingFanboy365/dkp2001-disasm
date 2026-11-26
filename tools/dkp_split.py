@@ -1004,7 +1004,16 @@ def main():
         shutil.rmtree(tmp, ignore_errors=True)
         print(f"assets/ written to {repo}")
         return
-    generate(args[0], args[1] if len(args) > 1 else repo)
+    out = args[1] if len(args) > 1 else repo
+    if os.path.abspath(out) != repo:  # the verification build needs these
+        import shutil
+        os.makedirs(out, exist_ok=True)
+        for f in ("Makefile", "ld_script.ld", "dkp.sha1"):
+            shutil.copy(os.path.join(repo, f), out)
+        shutil.copytree(os.path.join(repo, "tools"), os.path.join(out, "tools"), dirs_exist_ok=True,
+                        ignore=shutil.ignore_patterns("romtest", "__pycache__"))
+        os.makedirs(os.path.join(out, "assets"), exist_ok=True)
+    generate(args[0], out)
 
 
 def generate(elf_path, out):
