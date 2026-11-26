@@ -10,5 +10,6 @@ get_text:  @ 08005c68
 	ldr	r0, [r3, r0]
 	pop	{pc}
 	movs	r0, r0
+	.balign 4
 _08005c74:
 	.word english_table

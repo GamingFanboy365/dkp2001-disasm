@@ -4,6 +4,7 @@
 	.arm
 _start:
 	b start_vector
+	.balign 4
 	.word 0x51aeff24
 	.word 0x21a29a69
 	.word 0x0a82843d
@@ -63,6 +64,7 @@ start_vector:  @ 080000c0
 	mov	lr, pc
 	bx	r1
 	b start_vector
+	.balign 4
 _080000e8:
 	.word 0x03007fa0
 _080000ec:

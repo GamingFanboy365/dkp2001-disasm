@@ -16,6 +16,7 @@ multi_interrupt:  @ 08011d08
 	ldr	r1, _08011d20	@ =errorcount
 	b L_08011d56
 	movs	r0, r0
+	.balign 4
 _08011d1c:
 	.word 0x04000128
 _08011d20:
@@ -30,6 +31,7 @@ L_08011d24:
 	bne L_08011d38
 	ldr	r0, _08011d34	@ =0x04000122
 	b L_08011d3a
+	.balign 4
 _08011d34:
 	.word 0x04000122
 @ src/title/multi.c:40
@@ -44,6 +46,7 @@ L_08011d3a:
 	beq L_08011d54
 	ldr	r1, _08011d50	@ =unreperrorcount
 	b L_08011d56
+	.balign 4
 _08011d48:
 	.word 0x04000120
 _08011d4c:
@@ -109,6 +112,7 @@ L_08011da6:
 	pop	{r4, r5}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _08011dac:
 	.word transfercount
 _08011db0:
@@ -185,6 +189,7 @@ L_08011e22:
 	pop	{r4, r5}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _08011e28:
 	.word sys_irq_table
 _08011e2c:

@@ -102,6 +102,7 @@ L_0805dd62:
 	pop	{r4, r5, r6}
 	pop	{r1}
 	bx	r1
+	.balign 4
 _0805dd88:
 	.word 0x007fffff
 _0805dd8c:
@@ -145,6 +146,7 @@ L_0805ddcc:
 	bls L_0805ddcc
 	str	r0, [r3, #8]
 	b L_0805ddf8
+	.balign 4
 _0805ddd8:
 	.word 0x3fffffff
 L_0805dddc:
@@ -230,6 +232,7 @@ L_0805de58:
 	beq L_0805de32
 	ldr	r0, _0805de68	@ =B_0200e350
 	b L_0805df8c
+	.balign 4
 _0805de68:
 	.word B_0200e350
 L_0805de6c:
@@ -377,6 +380,7 @@ L_0805df4e:
 	bls L_0805df4e
 	b L_0805df70
 	movs	r0, r0
+	.balign 4
 _0805df64:
 	.word 0x3ffffffe
 L_0805df68:
@@ -525,6 +529,7 @@ L_0805e07a:
 	ldr	r0, _0805e080	@ =B_0200e350
 	b L_0805e152
 	movs	r0, r0
+	.balign 4
 _0805e080:
 	.word B_0200e350
 L_0805e084:
@@ -654,6 +659,7 @@ L_0805e152:
 	pop	{r4, r5, r6, r7}
 	pop	{r1}
 	bx	r1
+	.balign 4
 _0805e164:
 	.word 0x3fffffff
 __divsf3:
@@ -718,6 +724,7 @@ L_0805e1ca:
 	ldr	r1, _0805e1d8	@ =B_0200e350
 	b L_0805e248
 	movs	r0, r0
+	.balign 4
 _0805e1d8:
 	.word B_0200e350
 L_0805e1dc:
@@ -1225,6 +1232,7 @@ L_0805e54c:
 	bne L_0805e564
 	ldr	r0, _0805e560	@ =0xcf000000
 	b L_0805e58a
+	.balign 4
 _0805e560:
 	.word 0xcf000000
 L_0805e564:
@@ -1254,6 +1262,7 @@ L_0805e58a:
 	add	sp, #16
 	pop	{r1}
 	bx	r1
+	.balign 4
 _0805e590:
 	.word 0x3fffffff
 __fixsfsi:
@@ -1292,6 +1301,7 @@ L_0805e5c8:
 	beq L_0805e5f6
 	adds	r1, #1
 	b L_0805e5f6
+	.balign 4
 _0805e5d4:
 	.word 0x7fffffff
 L_0805e5d8:

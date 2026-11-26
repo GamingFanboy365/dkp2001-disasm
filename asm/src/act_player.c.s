@@ -28,6 +28,7 @@ L_08008722:
 	ldr	r0, [r0, #0]
 	mov	pc, r0
 	movs	r0, r0
+	.balign 4
 _08008738:
 	.word L_0800873c
 L_0800873c:
@@ -96,6 +97,7 @@ L_0800876a:
 	pop	{r4, r5}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _0800879c:
 	.word spr_info
 @ src/act_player.c:116
@@ -182,6 +184,7 @@ L_080087ba:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _08008828:
 	.word D_0806f640	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _0800882c:
@@ -242,6 +245,7 @@ act_player:  @ 08008850
 	beq L_080088ae
 	b L_08008b60
 	movs	r0, r0
+	.balign 4
 _08008890:
 	.word plr_ctrl
 _08008894:
@@ -345,6 +349,7 @@ L_0800891c:
 	bge L_0800891c
 @ src/act_player.c:204
 	b L_08008b72
+	.balign 4
 _0800892c:
 	.word sys_flags
 _08008930:
@@ -371,6 +376,7 @@ L_08008942:
 @ src/act_player.c:212
 	b L_08008b72
 	movs	r0, r0
+	.balign 4
 _08008954:
 	.word players
 @ src/act_player.c:220
@@ -412,6 +418,7 @@ L_0800897e:
 @ src/act_player.c:236
 	b L_080089ac
 	movs	r0, r0
+	.balign 4
 _08008994:
 	.word sys_flags
 _08008998:
@@ -484,6 +491,7 @@ L_080089f4:
 	mov	sl, r3
 	b L_08008b32
 	movs	r0, r0
+	.balign 4
 _08008a0c:
 	.word plr_ctrl
 _08008a10:
@@ -504,6 +512,7 @@ L_08008a26:
 @ src/act_player.c:259
 	b L_08008b32
 	movs	r0, r0
+	.balign 4
 _08008a2c:
 	.word sys_flags
 @ src/act_player.c:260
@@ -528,6 +537,7 @@ L_08008a30:
 	str	r2, [r1, #0]
 @ src/act_player.c:265
 	b L_08008aaa
+	.balign 4
 _08008a50:
 	.word 0xffffc000
 _08008a54:
@@ -572,6 +582,7 @@ L_08008a7c:
 	bge L_08008aaa
 @ src/act_player.c:276
 	b L_08008aa8
+	.balign 4
 _08008a94:
 	.word 0xffffc000
 L_08008a98:
@@ -614,6 +625,7 @@ L_08008aaa:
 @ src/act_player.c:288
 	b L_08008b30
 	movs	r0, r0
+	.balign 4
 _08008ad4:
 	.word 0xffffc000
 _08008ad8:
@@ -659,6 +671,7 @@ L_08008b02:
 @ src/act_player.c:299
 	b L_08008b30
 	movs	r0, r0
+	.balign 4
 _08008b1c:
 	.word 0xffffc000
 L_08008b20:
@@ -755,6 +768,7 @@ L_08008b9c:
 	pop	{r4, r5, r6, r7}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _08008bb4:
 	.word D_0806f640	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _08008bb8:
@@ -801,6 +815,7 @@ L_08008bfc:
 	cmp	r0, #2
 	beq L_08008c26
 	b L_08008c2e
+	.balign 4
 _08008c08:
 	.word D_0806f640	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _08008c0c:
@@ -841,6 +856,7 @@ get_player_head:  @ 08008c34
 	ldr	r0, [r0, #0]
 	mov	pc, r0
 	movs	r0, r0
+	.balign 4
 _08008c48:
 	.word L_08008c4c
 L_08008c4c:
@@ -935,7 +951,7 @@ L_08008cb4:
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
 L_08008cd0:
-	ldr	r2, [pc, #40]
+	ldr	r2, _08008cfc	@ =player_voice_fx
 @ src/act_player.c:399
 	lsls	r1, r5, #2
 	ldrh	r0, [r4, #0]
@@ -953,12 +969,14 @@ L_08008ce8:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _08008cf0:
 	.word D_0806f640	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _08008cf4:
 	.word D_0806f670	@ "src/act_player.c"
 _08008cf8:
 	.word D_0806f824	@ "OV_PLAYER_CHARACTER(o)<6"
+_08008cfc:
 	.word player_voice_fx
 @ src/act_player.c:389
 
@@ -1001,7 +1019,7 @@ L_08008d2a:
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
 L_08008d46:
-	ldr	r2, [pc, #40]
+	ldr	r2, _08008d70	@ =player_voice_fx
 @ src/act_player.c:399
 	lsls	r1, r5, #2
 	ldrh	r0, [r4, #0]
@@ -1017,10 +1035,12 @@ L_08008d46:
 	pop	{r4, r5}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _08008d64:
 	.word D_0806f640	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _08008d68:
 	.word D_0806f670	@ "src/act_player.c"
 _08008d6c:
 	.word D_0806f824	@ "OV_PLAYER_CHARACTER(o)<6"
+_08008d70:
 	.word player_voice_fx

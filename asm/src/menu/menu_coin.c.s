@@ -41,6 +41,7 @@ menu_coin_init:  @ 080138d4
 	pop	{r4}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _08013918:
 	.word 0x040000d4
 _0801391c:
@@ -77,6 +78,7 @@ menu_coin_kill:  @ 0801393c
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _0801394c:
 	.word coin_handle
 @ src/menu/menu_coin.c:76
@@ -107,6 +109,7 @@ menu_coin_flip:  @ 08013950
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _08013980:
 	.word coin_handle
 _08013984:

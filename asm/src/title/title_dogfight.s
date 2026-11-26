@@ -298,6 +298,7 @@ fight_sel_down:  @ 08004c4e
 	strb	r1, [r0, #0]
 	bl set_fight_pal
 	pop	{pc}
+	.balign 4
 _08004c60:
 	.word LOCAL_MEM
 _08004c64:
@@ -390,6 +391,7 @@ init_dogfight:  @ 08004ce8
 	str	r1, [r0, #0]
 	str	r1, [r0, #4]
 	str	r1, [r0, #8]
+	.balign 4
 	.word 0x610160c1
 	str	r1, [r0, #20]
 	ldr	r0, _08004e60	@ =0x04000000
@@ -548,6 +550,7 @@ icon_scatter_poss:  @ 08004e18
 	lsls	r2, r4, #4
 	movs	r0, r0
 	lsls	r4, r6, #2
+	.balign 4
 _08004e48:
 	.word LOCAL_MEM+0x1
 _08004e4c:

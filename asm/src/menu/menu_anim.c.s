@@ -93,6 +93,7 @@ L_08012cc6:
 	pop	{r4, r5, r6, r7}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _08012cd4:
 	.word menu_anim_handles
 _08012cd8:
@@ -114,6 +115,7 @@ L_08012ce2:
 @ src/menu/menu_anim.c:53
 	bx	lr
 	movs	r0, r0
+	.balign 4
 _08012cf0:
 	.word menu_anim_handles
 @ src/menu/menu_anim.c:56
@@ -170,6 +172,7 @@ L_08012d3a:
 	pop	{r4, r5, r6}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _08012d48:
 	.word menu_anim_handles
 _08012d4c:
@@ -191,6 +194,7 @@ L_08012d56:
 @ src/menu/menu_anim.c:118
 	bx	lr
 	movs	r0, r0
+	.balign 4
 _08012d64:
 	.word menu_anim_handles
 @ src/menu/menu_anim.c:121
@@ -266,6 +270,7 @@ L_08012da0:
 @ src/menu/menu_anim.c:142
 	b L_08012de8
 	movs	r0, r0
+	.balign 4
 _08012dd0:
 	.word menu_anim_handles
 _08012dd4:
@@ -300,6 +305,7 @@ L_08012dfe:
 	pop	{r4, r5, r6, r7}
 	pop	{r1}
 	bx	r1
+	.balign 4
 _08012e0c:
 	.word D_08070574	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _08012e10:
@@ -339,6 +345,7 @@ L_08012e42:
 	pop	{r4}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _08012e4c:
 	.word menu_anim_handles
 _08012e50:
@@ -360,6 +367,7 @@ menu_anim_set_frame:  @ 08012e5c
 @ src/menu/menu_anim.c:164
 	bx	lr
 	movs	r0, r0
+	.balign 4
 _08012e6c:
 	.word menu_anim_handles
 @ src/menu/menu_anim.c:168
@@ -374,6 +382,7 @@ menu_anim_get_frame:  @ 08012e70
 	asrs	r0, r0, #21
 @ src/menu/menu_anim.c:169
 	bx	lr
+	.balign 4
 _08012e80:
 	.word menu_anim_handles
 @ src/menu/menu_anim.c:178
@@ -388,6 +397,7 @@ menu_anim_set_fromdata_handle:  @ 08012e84
 @ src/menu/menu_anim.c:179
 	bx	lr
 	movs	r0, r0
+	.balign 4
 _08012e94:
 	.word menu_anim_handles
 @ src/menu/menu_anim.c:188
@@ -402,6 +412,7 @@ menu_anim_set_work1_handle:  @ 08012e98
 @ src/menu/menu_anim.c:189
 	bx	lr
 	movs	r0, r0
+	.balign 4
 _08012ea8:
 	.word menu_anim_handles
 @ src/menu/menu_anim.c:193
@@ -416,6 +427,7 @@ menu_anim_set_work2_handle:  @ 08012eac
 @ src/menu/menu_anim.c:194
 	bx	lr
 	movs	r0, r0
+	.balign 4
 _08012ebc:
 	.word menu_anim_handles
 @ src/menu/menu_anim.c:173
@@ -430,6 +442,7 @@ menu_anim_set_callback_handle:  @ 08012ec0
 @ src/menu/menu_anim.c:174
 	bx	lr
 	movs	r0, r0
+	.balign 4
 _08012ed0:
 	.word menu_anim_handles
 @ src/menu/menu_anim.c:197
@@ -492,6 +505,7 @@ L_08012f24:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _08012f2c:
 	.word menu_anim_handles
 _08012f30:
@@ -510,5 +524,6 @@ menu_anim_set_mode_handle:  @ 08012f3c
 	strh	r1, [r0, #4]
 @ src/menu/menu_anim.c:184
 	bx	lr
+	.balign 4
 _08012f48:
 	.word menu_anim_handles

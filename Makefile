@@ -19,8 +19,12 @@ endif
 ifdef SHIFT_DATA
 ASFLAGS += --defsym SHIFT_DATA=$(SHIFT_DATA)
 endif
+# Bug fixes are in the source behind ".ifdef FIXES"; see FIXES.md.
+ifdef FIXES
+ASFLAGS += --defsym FIXES=1
+endif
 
-.PHONY: all compare clean shifted
+.PHONY: all compare clean shifted fixed patch
 
 ifeq ($(wildcard assets)$(filter clean,$(MAKECMDGOALS)),)
 $(error assets/ is missing. Extract it from your own copy of the game: python3 tools/dkp_split.py path/to/Diddy_Kong_Pilot_2001.elf --assets-only)
@@ -30,6 +34,13 @@ all: $(BUILD)/dkp.gba
 
 compare: build/dkp.gba
 	@sha1sum -c dkp.sha1
+
+# The fixed ROM, and an IPS patch from the original to it.
+fixed:
+	@$(MAKE) --no-print-directory BUILD=build_fixed FIXES=1 build_fixed/dkp.gba
+
+patch: build/dkp.gba fixed
+	python3 tools/make_ips.py create build/dkp.gba build_fixed/dkp.gba build_fixed/dkp2001_fixes.ips
 
 shifted:
 	@$(MAKE) --no-print-directory BUILD=build_shift_c$(SHIFT_CODE)_d$(SHIFT_DATA) build_shift_c$(SHIFT_CODE)_d$(SHIFT_DATA)/dkp.gba
@@ -50,4 +61,4 @@ $(BUILD)/dkp.gba: $(BUILD)/dkp.elf
 	$(OBJCOPY) -O binary $< $@
 
 clean:
-	rm -rf build build_shift_*
+	rm -rf build build_shift_* build_fixed

@@ -233,6 +233,7 @@ big_font_sizes:  @ 080058e8
 	lsrs	r4, r1, #16
 	lsrs	r4, r1, #16
 	movs	r4, r1
+	.balign 4
 _0800591c:
 	.word big_font_sizes
 _08005920:

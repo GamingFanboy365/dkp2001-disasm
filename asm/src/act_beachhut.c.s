@@ -33,6 +33,7 @@ L_0800d7ea:
 	ldr	r0, [r0, #0]
 	mov	pc, r0
 	movs	r0, r0
+	.balign 4
 _0800d804:
 	.word D_0806fe40	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _0800d808:
@@ -115,6 +116,7 @@ L_0800d878:
 	pop	{r4, r5, r6}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _0800d8b0:
 	.word spr_info
 @ src/act_beachhut.c:61
@@ -153,6 +155,7 @@ L_0800d8e6:
 	pop	{r4, r5}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _0800d8ec:
 	.word D_0806fe40	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _0800d8f0:
@@ -195,6 +198,7 @@ L_0800d92a:
 	beq L_0800d952
 	b L_0800d95a
 	movs	r0, r0
+	.balign 4
 _0800d938:
 	.word D_0806fe40	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _0800d93c:

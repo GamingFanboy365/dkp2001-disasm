@@ -12,6 +12,7 @@ menu_image_init:  @ 08013630
 @ src/menu/menu_image.c:148
 	bx	lr
 	movs	r0, r0
+	.balign 4
 _0801363c:
 	.word current_image
 @ src/menu/menu_image.c:156
@@ -77,6 +78,7 @@ L_08013690:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _08013698:
 	.word current_image
 _0801369c:

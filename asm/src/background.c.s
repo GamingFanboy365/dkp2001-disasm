@@ -334,6 +334,7 @@ L_08007160:
 	pop	{r4, r5, r6, r7}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _080071a8:
 	.word 0x04000208
 _080071ac:
@@ -400,6 +401,7 @@ bg_done:  @ 08007200
 	strh	r0, [r2, #0]
 @ src/background.c:88
 	bx	lr
+	.balign 4
 _0800721c:
 	.word 0x04000208
 _08007220:
@@ -459,6 +461,7 @@ irq_vblank_background:  @ 08007230
 	pop	{r4, r5, r6}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _08007274:
 	.word hdma_buffer
 _08007278:
@@ -497,6 +500,7 @@ irq_hblank_background:  @ 08007288
 @ src/background.c:73
 L_080072ae:
 	bx	lr
+	.balign 4
 _080072b0:
 	.word 0x04000006
 _080072b4:

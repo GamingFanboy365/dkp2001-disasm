@@ -23,6 +23,7 @@ menu_oam_init:  @ 08012f4c
 @ src/menu/menu_oam.c:20
 	add	sp, #4
 	bx	lr
+	.balign 4
 _08012f6c:
 	.word 0x0000f8f8
 _08012f70:
@@ -58,6 +59,7 @@ menu_oam_get_size:  @ 08012f78
 	pop	{r1}
 	bx	r1
 	movs	r0, r0
+	.balign 4
 _08012fa8:
 	.word oam_sizes.6
 @ src/menu/menu_oam.c:34
@@ -81,6 +83,7 @@ menu_oam_kill:  @ 08012fac
 @ src/menu/menu_oam.c:36
 	add	sp, #4
 	bx	lr
+	.balign 4
 _08012fcc:
 	.word 0x0000f8f8
 _08012fd0:

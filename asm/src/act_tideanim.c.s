@@ -51,6 +51,7 @@ L_0800e79a:
 	movs	r0, #112
 @ src/act_tideanim.c:36
 	b L_0800e802
+	.balign 4
 _0800e7cc:
 	.word D_08070078	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _0800e7d0:
@@ -158,6 +159,7 @@ L_0800e826:
 @ src/act_tideanim.c:61
 	b L_0800e89a
 	movs	r0, r0
+	.balign 4
 _0800e87c:
 	.word D_08070078	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _0800e880:

@@ -46,6 +46,7 @@ L_08008322:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _08008340:
 	.word spr_firstfree
 _08008344:
@@ -150,6 +151,7 @@ L_080083ba:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _080083d4:
 	.word sys_oam
 _080083d8:
@@ -176,6 +178,7 @@ L_080083fc:
 	pop	{r0}
 @ src/sprite.c:213
 	bx	r0
+	.balign 4
 _08008400:
 	.word D_0806f5f4	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _08008404:
@@ -238,6 +241,7 @@ L_08008454:
 @ src/sprite.c:181
 	adds	r0, r7, #0
 	b L_08008472
+	.balign 4
 _08008460:
 	.word spr_numleft
 _08008464:
@@ -286,6 +290,7 @@ L_08008482:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _080084a0:
 	.word spr_numleft
 _080084a4:
@@ -332,6 +337,7 @@ L_080084d4:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _080084e4:
 	.word spr_info
 _080084e8:

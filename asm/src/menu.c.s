@@ -35,6 +35,7 @@ L_08007bc2:
 @ src/menu.c:140
 	b L_08007c3c
 	movs	r0, r0
+	.balign 4
 _08007bd4:
 	.word cursor_x
 @ src/menu.c:142
@@ -48,6 +49,7 @@ L_08007bd8:
 @ src/menu.c:143
 	adds	r1, r0, #0
 	b L_08007c3c
+	.balign 4
 _08007be8:
 	.word cursor_x
 _08007bec:
@@ -59,6 +61,7 @@ L_08007bf0:
 	str	r0, [r1, #0]
 @ src/menu.c:146
 	b L_08007c3c
+	.balign 4
 _08007bf8:
 	.word cursor_x
 @ src/menu.c:148
@@ -75,6 +78,7 @@ L_08007bfc:
 	adds	r1, r2, #0
 	b L_08007c3c
 	movs	r0, r0
+	.balign 4
 _08007c10:
 	.word cursor_x
 _08007c14:
@@ -118,6 +122,7 @@ L_08007c4e:
 	pop	{r4, r5}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _08007c54:
 	.word cursor_y
 _08007c58:
@@ -145,6 +150,7 @@ draw_options:  @ 08007c60
 	ldr	r4, [r0, #0]
 @ src/menu.c:163
 	b L_08007c94
+	.balign 4
 _08007c7c:
 	.word cursor_x
 _08007c80:
@@ -200,6 +206,7 @@ L_08007c94:
 @ src/menu.c:163
 	b L_08007cf4
 	movs	r0, r0
+	.balign 4
 _08007cd8:
 	.word cursor_x
 _08007cdc:
@@ -417,6 +424,7 @@ L_08007e16:
 @ src/menu.c:163
 	b L_08007e94
 	movs	r0, r0
+	.balign 4
 _08007e38:
 	.word 0x04000208
 _08007e3c:
@@ -540,6 +548,7 @@ L_08007ec8:
 	pop	{r4, r5, r6, r7}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _08007f08:
 	.word cursor_x
 _08007f0c:
@@ -597,6 +606,7 @@ menu_process:  @ 08007f38
 @ src/menu.c:327
 	b L_08007f88
 	movs	r0, r0
+	.balign 4
 _08007f68:
 	.word menu
 _08007f6c:
@@ -637,6 +647,7 @@ L_08007f8a:
 @ src/menu.c:334
 	b L_08008066
 	movs	r0, r0
+	.balign 4
 _08007fa8:
 	.word menu_entries_num
 _08007fac:
@@ -684,6 +695,7 @@ L_08007fd6:
 @ src/menu.c:341
 	b L_08008062
 	movs	r0, r0
+	.balign 4
 _08007ff4:
 	.word level_num
 _08007ff8:
@@ -708,6 +720,7 @@ L_0800800c:
 @ src/menu.c:351
 	b L_08008062
 	movs	r0, r0
+	.balign 4
 _08008014:
 	.word level_num
 _08008018:
@@ -729,6 +742,7 @@ L_0800801c:
 @ src/menu.c:356
 	b L_08008062
 	movs	r0, r0
+	.balign 4
 _08008034:
 	.word CHAR_SELECTED
 @ src/menu.c:357
@@ -748,6 +762,7 @@ L_0800803e:
 	strb	r0, [r1, #0]
 @ src/menu.c:362
 	b L_08008062
+	.balign 4
 _0800804c:
 	.word CHAR_SELECTED
 @ src/menu.c:363
@@ -773,5 +788,6 @@ L_08008066:
 	pop	{r4}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _0800806c:
 	.word sys_flags

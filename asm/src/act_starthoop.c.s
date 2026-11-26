@@ -323,6 +323,7 @@ L_0800d426:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _0800d5f4:
 	.word D_0806fd98	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _0800d5f8:
@@ -358,7 +359,7 @@ act_starthoop:  @ 0800d610
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
 L_0800d634:
-	ldr	r0, [pc, #124]
+	ldr	r0, _0800d6b4	@ =sys_flags
 @ src/act_starthoop.c:120
 	ldr	r0, [r0, #0]
 	movs	r1, #4
@@ -427,12 +428,14 @@ L_0800d672:
 	bl race_complete_lap
 @ src/act_starthoop.c:140
 	b L_0800d6ea
+	.balign 4
 _0800d6a8:
 	.word D_0806fd98	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _0800d6ac:
 	.word D_0806fdc8	@ "src/act_starthoop.c"
 _0800d6b0:
 	.word D_0806fddc	@ "o != NULL"
+_0800d6b4:
 	.word sys_flags
 _0800d6b8:
 	.word D_083e35d8

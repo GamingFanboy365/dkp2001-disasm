@@ -500,6 +500,7 @@ plot_backok_icons:  @ 080034e2
 	movs	r3, #3
 	bl sprite_plot
 	pop	{pc}
+	.balign 4
 _08003530:
 	.word 0x07000000
 _08003534:
@@ -805,6 +806,7 @@ plot_balloon_icon:  @ 08003758
 	orrs	r3, r4
 	bl rotsc_sprite_plot
 	pop	{r4, r5, r6, r7, pc}
+	.balign 4
 _08003784:
 	.word OBJ_ATTR_0
 _08003788:
@@ -1116,6 +1118,7 @@ VRAMbase_table:  @ 080039bc
 	lsls	r1, r0, #24
 state_jt:  @ 080039e0
 	.space 8
+	.balign 4
 	.word title_pick_gametype+1
 	.word title_zoom_diddy+1
 	.word char_select+1
@@ -1183,9 +1186,11 @@ mode_anim_frames:  @ 08003a58
 	lsls	r7, r7, #3
 	.space 16
 	movs	r0, r0
+	.balign 4
 	.word 0x03020100
 	lsls	r4, r0, #20
 	lsls	r6, r0, #28
+	.balign 4
 	.word 0x0b0a0908
 	lsrs	r2, r1, #4
 	lsls	r0, r1, #28
@@ -1215,6 +1220,7 @@ mode_anim_frames:  @ 08003a58
 	lsrs	r2, r1, #12
 	lsrs	r2, r1, #4
 	lsls	r0, r1, #28
+	.balign 4
 	.word 0x03040506
 	lsls	r2, r0, #4
 	lsls	r7, r7, #3
@@ -1225,6 +1231,7 @@ level_list:  @ 08003b18
 	movs	r0, r0
 	movs	r0, r1
 	movs	r0, r0
+	.balign 4
 	.word 0x00000005
 	.word 0x0000001e
 	movs	r1, r0
@@ -1247,6 +1254,7 @@ mode_anim_framenums:  @ 08003b40
 	asrs	r4, r1, #24
 	asrs	r6, r2, #24
 	movs	r0, r0
+	.balign 4
 _08003b48:
 	.word GAME_MODE
 _08003b4c:

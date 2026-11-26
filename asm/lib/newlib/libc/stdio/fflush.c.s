@@ -16,6 +16,7 @@ fflush:  @ 0805ada4
 	ldr	r1, _0805adbc	@ =fflush+1
 	bl _fwalk
 	b L_0805ae36
+	.balign 4
 _0805adb8:
 	.word _impure_ptr
 _0805adbc:
@@ -60,6 +61,7 @@ L_0805adda:
 	ldr	r0, [r4, #20]
 	b L_0805ae14
 	movs	r0, r0
+	.balign 4
 _0805ae00:
 	.word _impure_ptr
 @ lib/newlib/libc/stdio/fflush.c:92

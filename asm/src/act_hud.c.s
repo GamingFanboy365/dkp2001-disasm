@@ -34,6 +34,7 @@ L_08009fa2:
 	adds	r0, r0, r1
 	ldr	r0, [r0, #0]
 	mov	pc, r0
+	.balign 4
 _08009fb8:
 	.word D_0806f9f0	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _08009fbc:
@@ -292,6 +293,7 @@ L_0800a07a:
 	bl obj_add_draw
 @ src/act_hud.c:152
 	b L_0800a16e
+	.balign 4
 _0800a15c:
 	.word tab_sprites
 _0800a160:
@@ -341,6 +343,7 @@ L_0800a19a:
 	beq L_0800a1c6
 	b L_0800a238
 	movs	r0, r0
+	.balign 4
 _0800a1b0:
 	.word D_0806f9f0	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _0800a1b4:
@@ -366,6 +369,7 @@ L_0800a1c6:
 @ src/act_hud.c:172
 	b L_0800a236
 	movs	r0, r0
+	.balign 4
 _0800a1d8:
 	.word sys_flags
 @ src/act_hud.c:175
@@ -388,6 +392,7 @@ L_0800a1dc:
 @ src/act_hud.c:180
 	b L_0800a238
 	movs	r0, r0
+	.balign 4
 _0800a1f8:
 	.word 0xfffffc80
 _0800a1fc:
@@ -411,6 +416,7 @@ L_0800a204:
 @ src/act_hud.c:189
 	b L_0800a236
 	movs	r0, r0
+	.balign 4
 _0800a218:
 	.word sys_flags
 @ src/act_hud.c:192
@@ -427,6 +433,7 @@ L_0800a21c:
 @ src/act_hud.c:194
 	b L_0800a238
 	movs	r0, r0
+	.balign 4
 _0800a230:
 	.word 0x0000f9ff
 @ src/act_hud.c:195
@@ -505,6 +512,7 @@ L_0800a272:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _0800a298:
 	.word spr_list
 _0800a29c:
@@ -592,6 +600,7 @@ L_0800a2be:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _0800a328:
 	.word D_0806f9f0	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _0800a32c:
@@ -620,7 +629,7 @@ act_hud_counter:  @ 0800a340
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
 L_0800a35a:
-	ldr	r2, [pc, #84]
+	ldr	r2, _0800a3b0	@ =monitor
 @ src/act_hud.c:271
 	ldr	r0, [r2, #0]
 	adds	r1, r0, #0
@@ -665,6 +674,7 @@ L_0800a388:
 	ldr	r0, [r0, #0]
 	mov	pc, r0
 	movs	r0, r0
+	.balign 4
 _0800a3a0:
 	.word D_0806f9f0	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _0800a3a4:
@@ -673,6 +683,7 @@ _0800a3a8:
 	.word 0x0000010d
 _0800a3ac:
 	.word D_0806fa30	@ "o != NULL"
+_0800a3b0:
 	.word monitor
 _0800a3b4:
 	.word spr_info
@@ -731,6 +742,7 @@ L_0800a3f2:
 @ src/act_hud.c:304
 	b L_0800a450
 	movs	r0, r0
+	.balign 4
 _0800a410:
 	.word 0x000003ff
 @ src/act_hud.c:305
@@ -773,6 +785,7 @@ L_0800a42e:
 	str	r1, [r4, #32]
 @ src/act_hud.c:323
 	b L_0800a450
+	.balign 4
 _0800a444:
 	.word 0xffffd400
 _0800a448:
@@ -825,6 +838,7 @@ L_0800a474:
 	ldr	r0, [r0, #0]
 	mov	pc, r0
 	movs	r0, r0
+	.balign 4
 _0800a498:
 	.word D_0806f9f0	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _0800a49c:
@@ -855,6 +869,7 @@ L_0800a4c0:
 	ands	r0, r2
 @ src/act_hud.c:356
 	b L_0800a54e
+	.balign 4
 _0800a4d4:
 	.word spr_info
 _0800a4d8:
@@ -876,6 +891,7 @@ L_0800a4dc:
 	movs	r0, #1
 @ src/act_hud.c:364
 	b L_0800a552
+	.balign 4
 _0800a4f4:
 	.word spr_info
 _0800a4f8:
@@ -899,6 +915,7 @@ L_0800a4fc:
 @ src/act_hud.c:372
 	b L_0800a554
 	movs	r0, r0
+	.balign 4
 _0800a518:
 	.word spr_info
 _0800a51c:
@@ -920,6 +937,7 @@ L_0800a520:
 	movs	r0, #1
 @ src/act_hud.c:380
 	b L_0800a552
+	.balign 4
 _0800a538:
 	.word spr_info
 @ src/act_hud.c:385
@@ -950,6 +968,7 @@ L_0800a554:
 	beq L_0800a584
 	b L_0800a5a8
 	movs	r0, r0
+	.balign 4
 _0800a564:
 	.word spr_info
 @ src/act_hud.c:396
@@ -968,6 +987,7 @@ L_0800a568:
 	bl obj_add_draw
 @ src/act_hud.c:400
 	b L_0800a5a8
+	.balign 4
 _0800a580:
 	.word monitor
 @ src/act_hud.c:403
@@ -999,6 +1019,7 @@ L_0800a5a8:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _0800a5b0:
 	.word monitor
 @ src/act_hud.c:429
@@ -1018,7 +1039,7 @@ act_hud_position:  @ 0800a5b4
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
 L_0800a5d0:
-	ldr	r0, [pc, #80]
+	ldr	r0, _0800a624	@ =monitor
 @ src/act_hud.c:432
 	ldr	r3, [r0, #0]
 	ldr	r1, [r3, #80]
@@ -1062,12 +1083,14 @@ L_0800a60c:
 	ldr	r0, [r0, #0]
 	mov	pc, r0
 	movs	r0, r0
+	.balign 4
 _0800a618:
 	.word D_0806f9f0	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _0800a61c:
 	.word D_0806fa20	@ "src/act_hud.c"
 _0800a620:
 	.word D_0806fa30	@ "o != NULL"
+_0800a624:
 	.word monitor
 _0800a628:
 	.word L_0800a62c
@@ -1112,6 +1135,7 @@ L_0800a65e:
 	strh	r0, [r1, #12]
 @ src/act_hud.c:452
 	b L_0800a888
+	.balign 4
 _0800a680:
 	.word spr_info
 @ src/act_hud.c:455
@@ -1177,6 +1201,7 @@ L_0800a6c0:
 @ src/act_hud.c:478
 	b L_0800a888
 	movs	r0, r0
+	.balign 4
 _0800a6dc:
 	.word spr_info
 @ src/act_hud.c:481
@@ -1202,6 +1227,7 @@ L_0800a6fa:
 @ src/act_hud.c:486
 	b L_0800a888
 	movs	r0, r0
+	.balign 4
 _0800a700:
 	.word 0x0000efff
 @ src/act_hud.c:489
@@ -1228,10 +1254,11 @@ L_0800a704:
 	cmp	r0, #2
 	beq L_0800a73c
 	b L_0800a75c
+	.balign 4
 _0800a728:
 	.word 0xffffe000
 L_0800a72c:
-	ldr	r0, [pc, #8]
+	ldr	r0, _0800a738	@ =spr_info
 @ src/act_hud.c:498
 	lsls	r1, r4, #4
 	adds	r1, r1, r0
@@ -1239,6 +1266,8 @@ L_0800a72c:
 	strh	r0, [r1, #10]
 @ src/act_hud.c:499
 	b L_0800a75c
+	.balign 4
+_0800a738:
 	.word spr_info
 @ src/act_hud.c:501
 L_0800a73c:
@@ -1266,6 +1295,7 @@ L_0800a75c:
 	bl anim_get
 @ src/act_hud.c:509
 	b L_0800a888
+	.balign 4
 _0800a768:
 	.word spr_info
 @ src/act_hud.c:512
@@ -1291,6 +1321,7 @@ L_0800a786:
 @ src/act_hud.c:517
 	b L_0800a888
 	movs	r0, r0
+	.balign 4
 _0800a78c:
 	.word 0x000003ff
 @ src/act_hud.c:518
@@ -1359,6 +1390,7 @@ L_0800a7d0:
 @ src/act_hud.c:545
 	b L_0800a888
 	movs	r0, r0
+	.balign 4
 _0800a7e8:
 	.word 0xffffe000
 _0800a7ec:
@@ -1397,6 +1429,7 @@ L_0800a7f0:
 	strh	r0, [r4, #12]
 @ src/act_hud.c:559
 	b L_0800a888
+	.balign 4
 _0800a824:
 	.word spr_info
 @ src/act_hud.c:562
@@ -1420,6 +1453,7 @@ L_0800a832:
 @ src/act_hud.c:567
 	b L_0800a888
 	movs	r0, r0
+	.balign 4
 _0800a844:
 	.word 0xfffffc80
 _0800a848:
@@ -1443,6 +1477,7 @@ L_0800a850:
 @ src/act_hud.c:575
 	b L_0800a888
 	movs	r0, r0
+	.balign 4
 _0800a864:
 	.word 0x0000efff
 @ src/act_hud.c:581
@@ -1462,6 +1497,7 @@ L_0800a868:
 	str	r0, [r5, #36]
 @ src/act_hud.c:584
 	b L_0800a888
+	.balign 4
 _0800a880:
 	.word 0xfffffc80
 @ src/act_hud.c:585
@@ -1506,6 +1542,7 @@ L_0800a8ba:
 	adds	r0, r0, r1
 	ldr	r0, [r0, #0]
 	mov	pc, r0
+	.balign 4
 _0800a8c4:
 	.word D_0806f9f0	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _0800a8c8:
@@ -1532,6 +1569,7 @@ L_0800a8e8:
 	cmp	r0, #1
 	beq L_0800a90a
 	b L_0800a9fc
+	.balign 4
 _0800a8fc:
 	.word monitor
 L_0800a900:
@@ -1609,6 +1647,7 @@ L_0800a94a:
 	bl obj_setup_sprite
 @ src/act_hud.c:636
 	b L_0800a9fc
+	.balign 4
 _0800a970:
 	.word sys_flags
 @ src/act_hud.c:639
@@ -1644,6 +1683,7 @@ L_0800a99e:
 @ src/act_hud.c:650
 	b L_0800a9fc
 	movs	r0, r0
+	.balign 4
 _0800a9a8:
 	.word sys_flags
 @ src/act_hud.c:654
@@ -1655,6 +1695,7 @@ L_0800a9ac:
 	beq L_0800a9fc
 @ src/act_hud.c:659
 	b L_0800a9d6
+	.balign 4
 _0800a9b8:
 	.word monitor
 @ src/act_hud.c:663
@@ -1666,6 +1707,7 @@ L_0800a9bc:
 	beq L_0800a9fc
 @ src/act_hud.c:668
 	b L_0800a9d6
+	.balign 4
 _0800a9c8:
 	.word monitor
 @ src/act_hud.c:672
@@ -1685,6 +1727,7 @@ L_0800a9d6:
 @ src/act_hud.c:677
 	b L_0800a9fc
 	movs	r0, r0
+	.balign 4
 _0800a9e4:
 	.word monitor
 @ src/act_hud.c:681
@@ -1706,6 +1749,7 @@ L_0800a9fc:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _0800aa04:
 	.word monitor
 @ src/act_hud.c:692
@@ -1824,6 +1868,7 @@ L_0800aa28:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _0800aac8:
 	.word D_0806f9f0	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _0800aacc:
@@ -1853,7 +1898,7 @@ act_hud_banana:  @ 0800aae0
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
 L_0800aafc:
-	ldr	r0, [pc, #108]
+	ldr	r0, _0800ab6c	@ =players
 @ src/act_hud.c:740
 	ldr	r0, [r0, #0]
 	adds	r0, #128
@@ -1909,6 +1954,7 @@ L_0800ab46:
 	beq L_0800ab82
 	b L_0800abf0
 	movs	r0, r0
+	.balign 4
 _0800ab5c:
 	.word D_0806f9f0	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _0800ab60:
@@ -1917,6 +1963,7 @@ _0800ab64:
 	.word 0x000002e2
 _0800ab68:
 	.word D_0806fa30	@ "o != NULL"
+_0800ab6c:
 	.word players
 _0800ab70:
 	.word spr_info
@@ -1959,6 +2006,7 @@ L_0800ab90:
 @ src/act_hud.c:766
 	b L_0800abf0
 	movs	r0, r0
+	.balign 4
 _0800abac:
 	.word 0xfffffc80
 _0800abb0:
@@ -2005,6 +2053,7 @@ L_0800abcc:
 	str	r1, [r7, #36]
 @ src/act_hud.c:785
 	b L_0800abf0
+	.balign 4
 _0800abe8:
 	.word 0x00009fff
 @ src/act_hud.c:786
@@ -2041,6 +2090,7 @@ L_0800ac12:
 	pop	{r4}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _0800ac1c:
 	.word D_0806f9f0	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _0800ac20:
@@ -2096,6 +2146,7 @@ L_0800ac46:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _0800ac78:
 	.word D_0806f9f0	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _0800ac7c:
@@ -2150,6 +2201,7 @@ L_0800aca4:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _0800acd4:
 	.word D_0806f9f0	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _0800acd8:

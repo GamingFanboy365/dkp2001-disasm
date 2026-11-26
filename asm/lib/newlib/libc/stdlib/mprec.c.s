@@ -185,6 +185,7 @@ L_0805bd62:
 	pop	{r4, r5, r6, r7}
 	pop	{r1}
 	bx	r1
+	.balign 4
 _0805bd70:
 	.word 0x0000ffff
 @ lib/newlib/libc/stdlib/mprec.c:194
@@ -341,6 +342,7 @@ L_0805be36:
 	movs	r0, #32
 	b L_0805be52
 	movs	r0, r0
+	.balign 4
 _0805be4c:
 	.word 0xffff0000
 L_0805be50:
@@ -444,6 +446,7 @@ L_0805beb6:
 	movs	r0, #32
 	b L_0805bed4
 	movs	r0, r0
+	.balign 4
 _0805becc:
 	.word 0x0000ffff
 @ lib/newlib/libc/stdlib/mprec.c:308
@@ -690,6 +693,7 @@ L_0805c022:
 	cmp	r2, #0
 	ble L_0805c046
 	b L_0805c03e
+	.balign 4
 _0805c030:
 	.word 0x0000ffff
 L_0805c034:
@@ -766,6 +770,7 @@ L_0805c08a:
 @ lib/newlib/libc/stdlib/mprec.c:434
 	b L_0805c0cc
 	movs	r0, r0
+	.balign 4
 _0805c0ac:
 	.word p05.27
 _0805c0b0:
@@ -1132,6 +1137,7 @@ L_0805c294:
 	bcc L_0805c294
 @ lib/newlib/libc/stdlib/mprec.c:622
 	b L_0805c2ba
+	.balign 4
 _0805c2b0:
 	.word 0x0000ffff
 @ lib/newlib/libc/stdlib/mprec.c:623
@@ -1176,6 +1182,7 @@ _ulp:
 	movs	r4, #0
 @ lib/newlib/libc/stdlib/mprec.c:650
 	b L_0805c31e
+	.balign 4
 _0805c2ec:
 	.word 0x7ff00000
 _0805c2f0:
@@ -1266,6 +1273,7 @@ _b2d:
 	subs	r5, #4
 	ldr	r1, [r5, #0]
 	b L_0805c376
+	.balign 4
 _0805c370:
 	.word 0x3ff00000
 L_0805c374:
@@ -1313,6 +1321,7 @@ L_0805c394:
 	ldr	r2, [r5, #0]
 	b L_0805c3be
 	movs	r0, r0
+	.balign 4
 _0805c3b8:
 	.word 0x3ff00000
 L_0805c3bc:
@@ -1345,6 +1354,7 @@ L_0805c3d4:
 	pop	{r4, r5, r6, r7}
 	pop	{r2}
 	bx	r2
+	.balign 4
 _0805c3e4:
 	.word 0x3ff00000
 @ lib/newlib/libc/stdlib/mprec.c:759
@@ -1412,6 +1422,7 @@ L_0805c426:
 @ lib/newlib/libc/stdlib/mprec.c:801
 	b L_0805c45c
 	movs	r0, r0
+	.balign 4
 _0805c450:
 	.word 0x000fffff
 _0805c454:
@@ -1465,6 +1476,7 @@ L_0805c484:
 	str	r0, [r3, #0]
 @ lib/newlib/libc/stdlib/mprec.c:884
 	b L_0805c4bc
+	.balign 4
 _0805c49c:
 	.word 0xfffffbcd
 @ lib/newlib/libc/stdlib/mprec.c:887
@@ -1496,6 +1508,7 @@ L_0805c4bc:
 	pop	{r1}
 	bx	r1
 	movs	r0, r0
+	.balign 4
 _0805c4d0:
 	.word 0xfffffbce
 @ lib/newlib/libc/stdlib/mprec.c:903
@@ -1566,6 +1579,7 @@ _mprec_log10:
 	ldr	r0, [r1, #0]
 	ldr	r1, [r1, #4]
 	b L_0805c55e
+	.balign 4
 _0805c540:
 	.word 0x3ff00000
 _0805c544:
@@ -1591,6 +1605,7 @@ L_0805c55e:
 	pop	{r4}
 	pop	{r2}
 	bx	r2
+	.balign 4
 _0805c564:
 	.word 0x40240000
 _0805c568:

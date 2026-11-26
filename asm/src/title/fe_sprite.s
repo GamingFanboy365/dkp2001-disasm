@@ -510,6 +510,7 @@ sprite_size_lookup:  @ 08005fd8
 	movs	r0, r0
 	lsls	r0, r0, #16
 	movs	r0, r0
+	.balign 4
 _08006008:
 	.word sprite_size_lookup
 _0800600c:

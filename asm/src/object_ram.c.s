@@ -95,6 +95,7 @@ L_0300251c:
 	ldr	r3, [ip, #20]
 	str	r3, [r1, #20]
 	b L_03002584
+	.balign 4
 _03002568:
 	.word op_mask
 _0300256c:
@@ -242,6 +243,7 @@ L_03002768:
 	ldr	r5, [r5, #4]
 	cmp	r5, #0
 	b L_03002784
+	.balign 4
 _03002774:
 	.word object_hit_hash
 _03002778:

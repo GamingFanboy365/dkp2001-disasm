@@ -45,6 +45,7 @@ L_0800fb2e:
 	pop	{r4}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _0800fb58:
 	.word D_0807020c	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _0800fb5c:
@@ -101,6 +102,7 @@ L_0800fbb0:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _0800fbb8:
 	.word D_0807020c	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _0800fbbc:

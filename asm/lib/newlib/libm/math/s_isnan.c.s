@@ -21,6 +21,7 @@ isnan:  @ 0805c590
 @ lib/newlib/libm/math/s_isnan.c:120
 	bx	lr
 	movs	r0, r0
+	.balign 4
 _0805c5a8:
 	.word 0x7fffffff
 _0805c5ac:

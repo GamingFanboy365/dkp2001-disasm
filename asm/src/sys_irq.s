@@ -53,5 +53,6 @@ L_030000b4:
 	strh	r0, [r3, #2]
 	ldr	r0, [r2]
 	bx	r0
+	.balign 4
 _030000c0:
 	.word sys_irq_table

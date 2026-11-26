@@ -31,5 +31,6 @@ L_0805ccf0:
 	pop	{r4, r5}
 	pop	{r1}
 	bx	r1
+	.balign 4
 _0805ccf8:
 	.word errno

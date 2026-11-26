@@ -100,6 +100,7 @@ L_08008d8e:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _08008e10:
 	.word D_0806f840	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _08008e14:
@@ -289,6 +290,7 @@ L_08008ec4:
 	lsls	r3, r3, #4
 	str	r3, [sp, #48]
 	b L_080090d6
+	.balign 4
 _08008f4c:
 	.word ai_network
 _08008f50:
@@ -426,6 +428,7 @@ L_0800901c:
 	str	r4, [r3, #0]
 @ src/act_comp_player.c:174
 	b L_0800907c
+	.balign 4
 _0800902c:
 	.word __ptr_ram_sqrt	@ "(-"
 _08009030:
@@ -482,6 +485,7 @@ L_0800907c:
 	str	r1, [r2, #0]
 @ src/act_comp_player.c:191
 	b L_080090c6
+	.balign 4
 _08009084:
 	.word ai_network
 L_08009088:
@@ -664,6 +668,7 @@ L_08009170:
 @ src/act_comp_player.c:303
 	b L_080091e0
 	movs	r0, r0
+	.balign 4
 _080091c0:
 	.word __ptr_ram_divide
 _080091c4:
@@ -753,6 +758,7 @@ L_08009246:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _08009258:
 	.word 0xffff0000
 _0800925c:
@@ -833,6 +839,7 @@ L_080092b4:
 @ src/act_comp_player.c:357
 	b L_080092d6
 	movs	r0, r0
+	.balign 4
 _080092cc:
 	.word players
 L_080092d0:
@@ -964,6 +971,7 @@ L_08009388:
 	ldr	r0, [r0, #0]
 	mov	pc, r0
 	movs	r0, r0
+	.balign 4
 _080093a8:
 	.word 0xffffff00
 _080093ac:
@@ -1168,6 +1176,7 @@ L_080094d6:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _080094e8:
 	.word 0xfffff000
 _080094ec:
@@ -1196,6 +1205,7 @@ act_comp_player:  @ 080094f0
 	cmp	r0, #0
 	beq L_08009522
 	b L_0800957e
+	.balign 4
 _08009514:
 	.word plr_ctrl
 L_08009518:
@@ -1225,6 +1235,7 @@ L_08009522:
 @ src/act_comp_player.c:486
 	b L_0800957e
 	movs	r0, r0
+	.balign 4
 _08009540:
 	.word sys_flags
 _08009544:

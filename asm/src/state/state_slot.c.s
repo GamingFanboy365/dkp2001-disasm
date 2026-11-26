@@ -19,6 +19,7 @@ L_080148d8:
 @ src/state/state_slot.c:41
 	bx	lr
 	movs	r0, r0
+	.balign 4
 _080148e4:
 	.word slots
 @ src/state/state_slot.c:53

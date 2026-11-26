@@ -32,6 +32,7 @@ L_0805c6d0:
 @ lib/newlib/libc/string/strcmp.c:88
 	movs	r0, #0
 	b L_0805c70c
+	.balign 4
 _0805c6e0:
 	.word 0xfefefeff
 _0805c6e4:

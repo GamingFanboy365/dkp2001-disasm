@@ -37,6 +37,7 @@ L_0805c60a:
 	pop	{r1}
 	bx	r1
 	movs	r0, r0
+	.balign 4
 _0805c614:
 	.word 0xffffefff
 @ lib/newlib/libc/stdio/stdio.c:56
@@ -77,6 +78,7 @@ L_0805c63a:
 	pop	{r1}
 	bx	r1
 	movs	r0, r0
+	.balign 4
 _0805c658:
 	.word 0xffffefff
 @ lib/newlib/libc/stdio/stdio.c:70
@@ -103,6 +105,7 @@ __sseek:
 	ands	r0, r2
 	strh	r0, [r5, #12]
 	b L_0805c696
+	.balign 4
 _0805c684:
 	.word 0xffffefff
 @ lib/newlib/libc/stdio/stdio.c:79

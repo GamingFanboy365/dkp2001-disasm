@@ -767,6 +767,7 @@ midi_commands:  @ 080152b4
 	muleq	r0, r8, r2
 	.inst 0x000002b4
 	andeq	r0, r0, r8, asr #5
+	.balign 4
 
 midi_commands_end:  @ 080152e8
 	.word audio_precalc_buff
@@ -1206,6 +1207,7 @@ L_0801566c:
 	rsbmi	r1, r1, #0
 	rsbcs	r0, r0, #0
 	bx	lr
+	.balign 4
 _08015800:
 	.word audio_chan_sizexmax_polyphony
 _08015804:
@@ -1497,6 +1499,7 @@ L_08015ba8:
 	lsr	sl, sl, #24
 	orr	r7, sl, r4, lsl #8
 	bx	lr
+	.balign 4
 _08015be8:
 	.word audio_fx_vol
 _08015bec:
@@ -1775,7 +1778,7 @@ L_08015e00:
 	pop	{r0, r1}
 	.hword 0xefff	@ undefined on ARMv4T
 L_08015e08:
-	ldr	r2, [pc, #352]
+	ldr	r2, _08015f6c	@ =audio_num_tracks
 	str	r3, [r2, #0]
 	ldr	r1, [r0, #4]
 	ldr	r2, _08015f70	@ =audio_ppqn
@@ -1854,6 +1857,7 @@ L_08015e60:
 	pop	{r4, r5, r6, r7}
 	pop	{r1}
 	bx	r1
+	.balign 4
 _08015eac:
 	.word audio_new_tune
 _08015eb0:
@@ -1950,6 +1954,7 @@ _08015f64:
 	.word L_08015e00+1
 _08015f68:
 	.word print_text+1
+_08015f6c:
 	.word audio_num_tracks
 _08015f70:
 	.word audio_ppqn
@@ -2058,7 +2063,7 @@ L_08016018:
 	pop	{r0, r1}
 	.hword 0xefff	@ undefined on ARMv4T
 L_08016020:
-	ldr	r5, [pc, #572]
+	ldr	r5, _08016260	@ =audio_chan_fx
 	movs	r3, #0
 	ldr	r6, _08016264	@ =audio_chan_sizexmax_fx
 	ldr	r6, [r6, #0]
@@ -2363,6 +2368,7 @@ audio_new_fx:  @ 08016230
 audio_new_fx_with_dur:  @ 08016234
 	b set_new_fx_common
 	movs	r0, r0
+	.balign 4
 _08016238:
 	.word audio_pitchbend+0x38
 _0801623c:
@@ -2383,6 +2389,7 @@ _08016258:
 	.word L_08016018+1
 _0801625c:
 	.word print_text+1
+_08016260:
 	.word audio_chan_fx
 _08016264:
 	.word audio_chan_sizexmax_fx
@@ -2510,7 +2517,7 @@ L_08016318:
 	beq L_0801634e
 	.hword 0xefff	@ undefined on ARMv4T
 L_0801634e:
-	ldr	r7, [pc, #520]
+	ldr	r7, _08016558	@ =audio_timer_ref
 	str	r2, [r7, #0]
 	ldr	r7, _0801655c	@ =audio_freq_mult
 	str	r3, [r7, #0]
@@ -2735,6 +2742,7 @@ L_080164b6:
 	ldr	r0, _080165bc	@ =too_many_notes_on_1_voice_ERR_ret
 	bx	r0
 	movs	r0, r0
+	.balign 4
 L_080164c4:
 	.word AE_too_many_notes_on_chan_0
 	.word AE_too_many_notes_on_chan_1
@@ -2794,6 +2802,7 @@ _08016550:
 	.word 0x00c78032
 _08016554:
 	.word 0x00000160
+_08016558:
 	.word audio_timer_ref
 _0801655c:
 	.word audio_freq_mult

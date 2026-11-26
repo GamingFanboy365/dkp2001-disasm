@@ -26,6 +26,7 @@ std:  @ 0805ae3c
 	pop	{r4}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _0805ae68:
 	.word __sread+1
 _0805ae6c:
@@ -125,6 +126,7 @@ L_0805af18:
 	pop	{r1}
 	bx	r1
 	movs	r0, r0
+	.balign 4
 _0805af20:
 	.word 0x0000ffff
 _cleanup_r:
@@ -133,6 +135,7 @@ _cleanup_r:
 	bl _fwalk
 	pop	{r0}
 	bx	r0
+	.balign 4
 _0805af30:
 	.word fflush+1
 _cleanup:
@@ -143,6 +146,7 @@ _cleanup:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _0805af44:
 	.word _impure_ptr
 __sinit:
@@ -191,5 +195,6 @@ __sinit:
 	pop	{r4, r5}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _0805afa8:
 	.word _cleanup_r+1

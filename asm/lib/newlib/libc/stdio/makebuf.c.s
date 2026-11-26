@@ -74,6 +74,7 @@ L_0805b56a:
 @ lib/newlib/libc/stdio/makebuf.c:77
 	b L_0805b59c
 	movs	r0, r0
+	.balign 4
 _0805b58c:
 	.word __sseek+1
 @ lib/newlib/libc/stdio/makebuf.c:79
@@ -145,5 +146,6 @@ L_0805b5ee:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _0805b5f8:
 	.word _cleanup_r+1

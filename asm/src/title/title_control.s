@@ -460,6 +460,7 @@ centering_text2:  @ 0800556e
 	cmp	r0, #51
 	movs	r4, #44
 	lsls	r7, r7, #3
+	.balign 4
 _08005588:
 	.word OBJ_ATTR_0
 _0800558c:

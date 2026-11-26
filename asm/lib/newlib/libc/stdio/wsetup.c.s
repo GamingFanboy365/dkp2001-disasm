@@ -39,6 +39,7 @@ L_08059eb6:
 	negs	r0, r0
 	b L_08059f42
 	movs	r0, r0
+	.balign 4
 _08059ed4:
 	.word _impure_ptr
 @ lib/newlib/libc/stdio/wsetup.c:46

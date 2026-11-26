@@ -176,6 +176,7 @@ L_08006ee6:
 	pop	{r1}
 	bx	r1
 	movs	r0, r0
+	.balign 4
 _08006f18:
 	.word left
 _08006f1c:
@@ -242,6 +243,7 @@ L_08006f58:
 	pop	{r4, r5, r6}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _08006f80:
 	.word left
 _08006f84:

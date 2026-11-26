@@ -60,6 +60,7 @@ L_0805ce08:
 	pop	{r4, r5, r6, r7}
 	pop	{r2}
 	bx	r2
+	.balign 4
 _0805ce38:
 	.word 0x0000ffff
 __umodsi3:

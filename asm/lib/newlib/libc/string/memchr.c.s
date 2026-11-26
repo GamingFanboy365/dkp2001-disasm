@@ -80,6 +80,7 @@ L_0805bba6:
 @ lib/newlib/libc/string/memchr.c:134
 	b L_0805bbc0
 	movs	r0, r0
+	.balign 4
 _0805bbac:
 	.word 0xfefefeff
 _0805bbb0:

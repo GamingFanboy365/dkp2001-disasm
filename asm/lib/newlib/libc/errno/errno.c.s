@@ -9,5 +9,6 @@ __errno:
 @ lib/newlib/libc/errno/errno.c:14
 	bx	lr
 	movs	r0, r0
+	.balign 4
 _0805ccc8:
 	.word _impure_ptr

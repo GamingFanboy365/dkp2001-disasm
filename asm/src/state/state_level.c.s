@@ -21,6 +21,7 @@ state_level_init:  @ 08014888
 @ src/state/state_level.c:33
 	add	sp, #4
 	bx	lr
+	.balign 4
 _080148a4:
 	.word 0x040000d4
 _080148a8:
@@ -58,5 +59,6 @@ state_level_set_award:  @ 080148c0
 @ src/state/state_level.c:51
 	bx	lr
 	movs	r0, r0
+	.balign 4
 _080148cc:
 	.word levels

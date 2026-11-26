@@ -24,6 +24,15 @@ L_0800d722:
 @ src/act_startpos.c:31
 	cmp	r4, #3
 	ble L_0800d73c
+	.ifdef FIXES
+	@ FIX "farm-start-slots": the Farm 02 slot's level has six start positions
+	@ (slots 0-5) but there are only four racers, so slot 4 failed the
+	@ "idx < 4" assert and the race hung on a black screen. Skip the extra
+	@ start positions (just free the object, as the function does at the end).
+fix_farm_start_slots:
+	b	init_start_pos_done
+	.fill 18 - (. - fix_farm_start_slots), 1, 0	@ same size as the original (keeps the patch small)
+	.else
 	ldr	r0, _0800d7b4	@ =D_0806fde8
 	ldr	r1, _0800d7b8	@ =D_0806fe18
 	ldr	r3, _0800d7c0	@ =D_0806fe38
@@ -31,8 +40,9 @@ L_0800d722:
 	bl AGBPrintf
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
+	.endif
 L_0800d73c:
-	ldr	r1, [pc, #132]
+	ldr	r1, _0800d7c4	@ =players
 @ src/act_startpos.c:33
 	lsls	r0, r4, #2
 	adds	r0, r0, r1
@@ -90,6 +100,7 @@ L_0800d73c:
 	subs	r0, r0, r1
 	str	r0, [r5, #40]
 @ src/act_startpos.c:40
+init_start_pos_done:
 	adds	r0, r6, #0
 	bl obj_free
 @ src/act_startpos.c:41
@@ -97,6 +108,7 @@ L_0800d73c:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _0800d7b4:
 	.word D_0806fde8	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _0800d7b8:
@@ -105,6 +117,7 @@ _0800d7bc:
 	.word D_0806fe2c	@ "o != NULL"
 _0800d7c0:
 	.word D_0806fe38	@ "idx < 4"
+_0800d7c4:
 	.word players
 _0800d7c8:
 	.word D_083e35e0

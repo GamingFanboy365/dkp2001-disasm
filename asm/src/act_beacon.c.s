@@ -20,6 +20,7 @@ L_0800d128:
 	pop	{r0}
 @ src/act_beacon.c:30
 	bx	r0
+	.balign 4
 _0800d12c:
 	.word D_0806fce0	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _0800d130:
@@ -44,6 +45,7 @@ L_0800d150:
 	pop	{r0}
 @ src/act_beacon.c:35
 	bx	r0
+	.balign 4
 _0800d154:
 	.word D_0806fce0	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _0800d158:
@@ -82,6 +84,7 @@ L_0800d190:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _0800d198:
 	.word D_0806fce0	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _0800d19c:

@@ -479,6 +479,7 @@ ram_diff_angle:  @ 03002e68
 	tst	r0, #-2147483648
 	addne	r0, r0, #65536
 	bx	lr
+	.balign 4
 _03002e80:
 	.word tab_sin
 _03002e84:

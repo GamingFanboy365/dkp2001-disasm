@@ -106,6 +106,7 @@ L_08058d9c:
 	pop	{r1}
 	bx	r1
 	movs	r0, r0
+	.balign 4
 _08058dac:
 	.word 0xfffffba8
 @ lib/newlib/libc/stdio/vfprintf.c:260
@@ -182,6 +183,7 @@ L_08058e1e:
 	movs	r0, #1
 	negs	r0, r0
 	bl L_08059d18
+	.balign 4
 _08058e30:
 	.word 0xfffffde0
 _08058e34:
@@ -340,6 +342,7 @@ L_08058f24:
 	ldr	r0, [r0, #0]
 	mov	pc, r0
 	movs	r0, r0
+	.balign 4
 _08058f30:
 	.word _impure_ptr
 _08058f34:
@@ -453,6 +456,7 @@ L_080590b0:
 @ lib/newlib/libc/stdio/vfprintf.c:434
 	b L_08058f0e
 	movs	r0, r0
+	.balign 4
 _080590b8:
 	.word 0x000001c9
 @ lib/newlib/libc/stdio/vfprintf.c:436
@@ -488,6 +492,7 @@ L_080590da:
 	strb	r0, [r1, #0]
 @ lib/newlib/libc/stdio/vfprintf.c:454
 	b L_08058f0e
+	.balign 4
 _080590e4:
 	.word 0x000001c9
 @ lib/newlib/libc/stdio/vfprintf.c:456
@@ -697,6 +702,7 @@ L_080591fe:
 @ lib/newlib/libc/stdio/vfprintf.c:526
 	b L_080594ea
 	movs	r0, r0
+	.balign 4
 _08059204:
 	.word 0x000001c9
 @ lib/newlib/libc/stdio/vfprintf.c:533
@@ -762,6 +768,7 @@ L_0805925e:
 @ lib/newlib/libc/stdio/vfprintf.c:551
 	b L_080595ee
 	.space 2
+	.balign 4
 _08059268:
 	.word 0x00000000
 _0805926c:
@@ -784,6 +791,7 @@ L_08059278:
 	movs	r3, #3
 @ lib/newlib/libc/stdio/vfprintf.c:556
 	b L_080595ee
+	.balign 4
 _0805928c:
 	.word D_08260158	@ "NaN"
 @ lib/newlib/libc/stdio/vfprintf.c:559
@@ -941,6 +949,7 @@ L_0805936a:
 	strb	r0, [r1, #0]
 @ lib/newlib/libc/stdio/vfprintf.c:591
 	b L_080595f2
+	.balign 4
 _08059374:
 	.word 0x000001c9
 @ lib/newlib/libc/stdio/vfprintf.c:599
@@ -1043,6 +1052,7 @@ L_080593f4:
 	str	r1, [sp, #488]
 @ lib/newlib/libc/stdio/vfprintf.c:627
 	b L_080594e2
+	.balign 4
 _08059410:
 	.word D_0826015c	@ "0123456789abcdef"
 @ lib/newlib/libc/stdio/vfprintf.c:629
@@ -1082,6 +1092,7 @@ L_08059444:
 	adds	r3, r6, #0
 @ lib/newlib/libc/stdio/vfprintf.c:643
 	b L_080595e6
+	.balign 4
 _08059448:
 	.word D_08260170	@ "(null)"
 @ lib/newlib/libc/stdio/vfprintf.c:646
@@ -1137,6 +1148,7 @@ L_08059492:
 	str	r0, [sp, #528]
 @ lib/newlib/libc/stdio/vfprintf.c:658
 	b L_080594a0
+	.balign 4
 _08059498:
 	.word D_08260178	@ "0123456789ABCDEF"
 @ lib/newlib/libc/stdio/vfprintf.c:660
@@ -1161,6 +1173,7 @@ L_080594a0:
 	subs	r0, #4
 	ldrh	r4, [r0, #0]
 	b L_080594ce
+	.balign 4
 _080594c0:
 	.word D_0826015c	@ "0123456789abcdef"
 L_080594c4:
@@ -1232,6 +1245,7 @@ L_08059510:
 @ lib/newlib/libc/stdio/vfprintf.c:719
 	b L_080595ee
 	movs	r0, r0
+	.balign 4
 _0805952c:
 	.word 0x000001c9
 _08059530:
@@ -1387,6 +1401,7 @@ L_080595fc:
 	str	r4, [sp, #524]
 	b L_08059624
 	movs	r0, r0
+	.balign 4
 _08059610:
 	.word 0x000001c9
 @ lib/newlib/libc/stdio/vfprintf.c:753
@@ -1496,6 +1511,7 @@ L_080596a4:
 @ lib/newlib/libc/stdio/vfprintf.c:763
 	b L_08059708
 	movs	r0, r0
+	.balign 4
 _080596d0:
 	.word blanks.12	@ "                0000000000000000Inf"
 _080596d4:
@@ -1693,6 +1709,7 @@ L_0805982a:
 @ lib/newlib/libc/stdio/vfprintf.c:780
 	b L_08059c40
 	movs	r0, r0
+	.balign 4
 _08059830:
 	.word zeroes.13	@ "0000000000000000Inf"
 @ lib/newlib/libc/stdio/vfprintf.c:781
@@ -1814,6 +1831,7 @@ L_080598f8:
 	adds	r0, r0, r4
 @ lib/newlib/libc/stdio/vfprintf.c:789
 	b L_08059c2e
+	.balign 4
 _08059904:
 	.word 0x00000000
 _08059908:
@@ -1946,6 +1964,7 @@ L_080599d6:
 @ lib/newlib/libc/stdio/vfprintf.c:794
 	b L_08059c38
 	movs	r0, r0
+	.balign 4
 _080599f4:
 	.word D_082601a8
 _080599f8:
@@ -2052,6 +2071,7 @@ L_08059aa2:
 	adds	r0, #1
 @ lib/newlib/libc/stdio/vfprintf.c:799
 	b L_08059c2e
+	.balign 4
 _08059ab0:
 	.word zeroes.13	@ "0000000000000000Inf"
 _08059ab4:
@@ -2114,6 +2134,7 @@ L_08059b10:
 	subs	r1, r1, r0
 @ lib/newlib/libc/stdio/vfprintf.c:805
 	b L_08059c26
+	.balign 4
 _08059b1c:
 	.word D_082601ac
 @ lib/newlib/libc/stdio/vfprintf.c:806
@@ -2181,6 +2202,7 @@ L_08059b6a:
 @ lib/newlib/libc/stdio/vfprintf.c:812
 	b L_08059c04
 	.space 2
+	.balign 4
 _08059b90:
 	.word 0x00000000
 _08059b94:
@@ -2237,6 +2259,7 @@ L_08059bd8:
 	ldr	r0, [sp, #480]
 @ lib/newlib/libc/stdio/vfprintf.c:815
 	b L_08059c16
+	.balign 4
 _08059bf4:
 	.word zeroes.13	@ "0000000000000000Inf"
 @ lib/newlib/libc/stdio/vfprintf.c:816
@@ -2375,6 +2398,7 @@ L_08059cda:
 @ lib/newlib/libc/stdio/vfprintf.c:401
 	bl L_08058e80
 	movs	r0, r0
+	.balign 4
 _08059ce8:
 	.word blanks.12	@ "                0000000000000000Inf"
 @ lib/newlib/libc/stdio/vfprintf.c:833
@@ -2571,6 +2595,7 @@ L_08059e00:
 	pop	{r1}
 	bx	r1
 	.space 2
+	.balign 4
 _08059e1c:
 	.word 0x00000000
 _08059e20:

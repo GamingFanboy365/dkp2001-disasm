@@ -33,7 +33,7 @@ L_080072da:
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
 L_080072f8:
-	ldr	r1, [pc, #72]
+	ldr	r1, _08007344	@ =tab_types
 @ src/object.c:77
 	ldrh	r0, [r4, #2]
 	lsls	r0, r0, #2
@@ -75,6 +75,7 @@ L_0800732c:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _08007334:
 	.word D_0806f1e0	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _08007338:
@@ -83,6 +84,7 @@ _0800733c:
 	.word D_0806f220	@ "o != NULL"
 _08007340:
 	.word D_0806f22c	@ "~OV_FLAGS(o) & OF_ACT"
+_08007344:
 	.word tab_types
 _08007348:
 	.word tab_classes
@@ -140,6 +142,7 @@ L_08007398:
 	str	r0, [r1, #4]
 @ src/object.c:101
 	b L_080073d6
+	.balign 4
 _080073a4:
 	.word D_0806f1e0	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _080073a8:
@@ -172,6 +175,7 @@ L_080073d6:
 	pop	{r4, r5}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _080073dc:
 	.word object_process_list
 _080073e0:
@@ -234,6 +238,7 @@ L_08007436:
 @ src/object.c:132
 	b L_08007464
 	movs	r0, r0
+	.balign 4
 _08007444:
 	.word D_0806f1e0	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _08007448:
@@ -263,6 +268,7 @@ L_08007464:
 	pop	{r4}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _08007470:
 	.word object_draw_list
 @ src/object.c:144
@@ -296,7 +302,7 @@ L_0800748e:
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
 L_080074ac:
-	ldr	r1, [pc, #100]
+	ldr	r1, _08007514	@ =tab_types
 @ src/object.c:152
 	ldrh	r0, [r4, #2]
 	lsls	r0, r0, #2
@@ -353,6 +359,7 @@ L_080074fe:
 	pop	{r4}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _08007504:
 	.word D_0806f1e0	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _08007508:
@@ -361,6 +368,7 @@ _0800750c:
 	.word D_0806f220	@ "o != NULL"
 _08007510:
 	.word D_0806f2a8	@ "~OV_FLAGS(o) & OF_REACT"
+_08007514:
 	.word tab_types
 _08007518:
 	.word tab_classes
@@ -382,7 +390,7 @@ obj_free:  @ 08007520
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
 L_0800753a:
-	ldr	r1, [pc, #104]
+	ldr	r1, _080075a4	@ =tab_types
 @ src/object.c:214
 	ldrh	r0, [r4, #2]
 	lsls	r0, r0, #2
@@ -442,12 +450,14 @@ L_0800757c:
 	str	r0, [r1, #20]
 @ src/object.c:174
 	b L_080075bc
+	.balign 4
 _08007598:
 	.word D_0806f1e0	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _0800759c:
 	.word D_0806f210	@ "src/object.c"
 _080075a0:
 	.word D_0806f220	@ "o != NULL"
+_080075a4:
 	.word tab_types
 _080075a8:
 	.word tab_classes
@@ -496,6 +506,7 @@ L_080075d8:
 	pop	{r4}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _080075f0:
 	.word object_hit_hash
 _080075f4:
@@ -549,6 +560,7 @@ L_08007638:
 	movs	r0, #2
 @ src/object.c:259
 	b L_0800765e
+	.balign 4
 _0800764c:
 	.word D_0806f1e0	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _08007650:
@@ -684,6 +696,7 @@ L_08007718:
 	pop	{r4, r5, r6, r7}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _08007724:
 	.word spr_info
 _08007728:
@@ -795,6 +808,7 @@ L_080077da:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _080077e8:
 	.word D_0806f1e0	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _080077ec:
@@ -853,7 +867,7 @@ L_08007834:
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
 L_0800784a:
-	ldr	r2, [pc, #32]
+	ldr	r2, _0800786c	@ =object_free_list
 @ src/object.c:189
 	ldr	r1, [r2, #0]
 	cmp	r1, #0
@@ -866,6 +880,7 @@ L_0800784a:
 @ src/object.c:196
 	adds	r4, r1, #0
 	b L_08007872
+	.balign 4
 _0800785c:
 	.word D_0806f1e0	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _08007860:
@@ -874,6 +889,7 @@ _08007864:
 	.word D_0806f2d8	@ "type > 0"
 _08007868:
 	.word D_0806f2e4	@ "type < OBJ_NUM"
+_0800786c:
 	.word object_free_list
 @ src/object.c:199
 L_08007870:
@@ -936,6 +952,7 @@ L_080078b6:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _080078c8:
 	.word tab_types
 _080078cc:
@@ -989,6 +1006,7 @@ obj_calc_bcylinder:  @ 080078d0
 L_08007918:
 	bx	lr
 	movs	r0, r0
+	.balign 4
 _0800791c:
 	.word spr_info
 _08007920:
@@ -1067,6 +1085,7 @@ L_08007980:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _08007994:
 	.word objectv
 _08007998:
@@ -1112,7 +1131,7 @@ L_080079d2:
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
 L_080079e8:
-	ldr	r2, [pc, #24]
+	ldr	r2, _08007a04	@ =object_free_list
 @ src/object.c:189
 	ldr	r1, [r2, #0]
 	cmp	r1, #0
@@ -1120,6 +1139,7 @@ L_080079e8:
 @ src/object.c:199
 	movs	r0, #0
 	b L_08007a10
+	.balign 4
 _080079f4:
 	.word D_0806f1e0	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _080079f8:
@@ -1128,6 +1148,7 @@ _080079fc:
 	.word D_0806f2d8	@ "type > 0"
 _08007a00:
 	.word D_0806f2e4	@ "type < OBJ_NUM"
+_08007a04:
 	.word object_free_list
 @ src/object.c:193
 L_08007a08:
@@ -1160,7 +1181,7 @@ obj_initialise:  @ 08007a18
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
 L_08007a34:
-	ldr	r1, [pc, #56]
+	ldr	r1, _08007a70	@ =tab_types
 @ src/object.c:318
 	ldrh	r0, [r4, #2]
 	lsls	r0, r0, #2
@@ -1190,12 +1211,14 @@ L_08007a5c:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _08007a64:
 	.word D_0806f1e0	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _08007a68:
 	.word D_0806f210	@ "src/object.c"
 _08007a6c:
 	.word D_0806f220	@ "o != NULL"
+_08007a70:
 	.word tab_types
 _08007a74:
 	.word tab_classes
@@ -1237,6 +1260,7 @@ L_08007aa6:
 	pop	{r4}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _08007aac:
 	.word object_process_list
 _08007ab0:
@@ -1298,6 +1322,7 @@ L_08007b02:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _08007b10:
 	.word D_0806f1e0	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _08007b14:
@@ -1353,6 +1378,7 @@ L_08007b5a:
 @ src/object.c:174
 	b L_08007b90
 	movs	r0, r0
+	.balign 4
 _08007b70:
 	.word D_0806f1e0	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _08007b74:
@@ -1384,5 +1410,6 @@ L_08007b9a:
 	pop	{r4}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _08007ba0:
 	.word object_hit_hash

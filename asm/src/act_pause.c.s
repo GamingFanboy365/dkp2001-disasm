@@ -18,7 +18,7 @@ act_pause:  @ 0800fdb0
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
 L_0800fdca:
-	ldr	r6, [pc, #80]
+	ldr	r6, _0800fe1c	@ =op_mask
 @ src/act_pause.c:39
 	ldr	r4, [r6, #0]
 	movs	r7, #4
@@ -58,12 +58,14 @@ L_0800fdca:
 	bl audio_new_fx
 @ src/act_pause.c:46
 	b L_0800fe4a
+	.balign 4
 _0800fe10:
 	.word D_080702c8	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _0800fe14:
 	.word D_080702f8	@ "src/act_pause.c"
 _0800fe18:
 	.word D_08070308	@ "o != NULL"
+_0800fe1c:
 	.word op_mask
 _0800fe20:
 	.word spr_info
@@ -120,6 +122,7 @@ L_0800fe4a:
 	bl audio_new_fx_with_dur
 @ src/act_pause.c:71
 	b L_0800fede
+	.balign 4
 _0800fe80:
 	.word sys_joytrg
 _0800fe84:
@@ -131,6 +134,7 @@ L_0800fe88:
 	movs	r2, #16
 @ src/act_pause.c:59
 	b L_0800fe9a
+	.balign 4
 _0800fe90:
 	.word sys_flags
 @ src/act_pause.c:61
@@ -143,6 +147,7 @@ L_0800fe9a:
 	str	r1, [r0, #0]
 @ src/act_pause.c:62
 	b L_0800fede
+	.balign 4
 _0800fea0:
 	.word sys_flags
 @ src/act_pause.c:72
@@ -185,6 +190,7 @@ L_0800fede:
 	pop	{r4, r5, r6, r7}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _0800fee4:
 	.word sys_flags
 _0800fee8:
@@ -220,6 +226,7 @@ L_0800ff06:
 	pop	{r4}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _0800ff1c:
 	.word D_080702c8	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _0800ff20:

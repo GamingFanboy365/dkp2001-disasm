@@ -23,6 +23,7 @@ strlen:  @ 0805c714
 	bics	r0, r1
 	ldr	r3, _0805c734	@ =0x80808080
 	b L_0805c740
+	.balign 4
 _0805c730:
 	.word 0xfefefeff
 _0805c734:

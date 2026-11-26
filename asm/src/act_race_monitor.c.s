@@ -41,6 +41,7 @@ calculate_race_positions:  @ 0800dfac
 L_0800dfe0:
 	subs	r1, r1, r3
 	b L_0800dff4
+	.balign 4
 _0800dfe4:
 	.word monitor
 @ src/act_race_monitor.c:40
@@ -520,6 +521,7 @@ L_0800e252:
 	subs	r2, r0, r2
 	b L_0800e2b0
 	movs	r0, r0
+	.balign 4
 _0800e270:
 	.word monitor
 @ src/act_race_monitor.c:34
@@ -595,6 +597,7 @@ L_0800e2c6:
 	subs	r2, r0, r2
 	b L_0800e330
 	movs	r0, r0
+	.balign 4
 _0800e2e4:
 	.word D_0806ffac	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _0800e2e8:
@@ -676,6 +679,7 @@ L_0800e346:
 	subs	r2, r0, r2
 	b L_0800e3b0
 	movs	r0, r0
+	.balign 4
 _0800e364:
 	.word D_0806ffac	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _0800e368:
@@ -737,7 +741,7 @@ L_0800e3b0:
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
 L_0800e3c6:
-	ldr	r2, [pc, #80]
+	ldr	r2, _0800e418	@ =monitor
 @ src/act_race_monitor.c:117
 	ldr	r0, [r2, #0]
 	adds	r0, #106
@@ -778,12 +782,14 @@ L_0800e3c6:
 	pop	{r4, r5, r6, r7}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _0800e40c:
 	.word D_0806ffac	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _0800e410:
 	.word D_0806ffdc	@ "src/act_race_monitor.c"
 _0800e414:
 	.word D_08070044	@ "compare_position(order[2], order[3])<=0"
+_0800e418:
 	.word monitor
 @ src/act_race_monitor.c:126
 
@@ -953,6 +959,7 @@ L_0800e4ea:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _0800e540:
 	.word D_0806ffac	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _0800e544:
@@ -1014,6 +1021,7 @@ L_0800e580:
 	adds	r0, r0, r1
 	ldr	r0, [r0, #0]
 	mov	pc, r0
+	.balign 4
 _0800e5a4:
 	.word D_0806ffac	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _0800e5a8:
@@ -1040,6 +1048,7 @@ L_0800e5cc:
 	ldr	r2, _0800e5d8	@ =sys_flags
 @ src/act_race_monitor.c:197
 	b L_0800e5f4
+	.balign 4
 _0800e5d8:
 	.word sys_flags
 @ src/act_race_monitor.c:199
@@ -1068,6 +1077,7 @@ L_0800e5f4:
 @ src/act_race_monitor.c:205
 	b L_0800e652
 	movs	r0, r0
+	.balign 4
 _0800e600:
 	.word sys_flags
 _0800e604:
@@ -1090,6 +1100,7 @@ L_0800e608:
 @ src/act_race_monitor.c:212
 	b L_0800e652
 	movs	r0, r0
+	.balign 4
 _0800e624:
 	.word sys_flags
 _0800e628:
@@ -1123,6 +1134,7 @@ L_0800e652:
 	pop	{r4, r5}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _0800e658:
 	.word 0x0000fffe
 @ src/act_race_monitor.c:231
@@ -1256,6 +1268,7 @@ L_0800e72e:
 	pop	{r4, r5, r6, r7}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _0800e734:
 	.word monitor
 _0800e738:
@@ -1296,6 +1309,7 @@ race_fail_player:  @ 0800e748
 	str	r1, [r0, #0]
 @ src/act_race_monitor.c:288
 	bx	lr
+	.balign 4
 _0800e774:
 	.word op_mask
 _0800e778:

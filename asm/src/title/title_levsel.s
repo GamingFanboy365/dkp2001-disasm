@@ -103,6 +103,7 @@ L_08004f58:
 	cmp	r7, #0
 	bne L_08004f84
 	adds	r6, #16
+	.balign 4
 L_08004f84:
 	.word 0x2f143704
 	blt L_08004f58
@@ -211,6 +212,7 @@ lev_sel_up:  @ 0800503a
 	bmi L_08005056
 	strb	r1, [r0, #0]
 	lsls	r1, r1, #2
+	.balign 4
 	.word 0x50532300
 	movs	r0, #42
 	movs	r1, #64
@@ -343,10 +345,12 @@ pylon_racing_text:  @ 08005139
 	cmp	r6, #43
 	.hword 0xfe2d	@ undefined on ARMv4T
 	.byte 0x31
+	.balign 4
 	.word 0x2d282220
 	.byte 0x26
 	lsls	r7, r7, #3
 	.space 1
+	.balign 4
 _08005148:
 	.word OBJ_ATTR_0
 _0800514c:

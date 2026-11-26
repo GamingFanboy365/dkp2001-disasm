@@ -535,6 +535,7 @@ L_08004482:
 	strb	r3, [r0, #1]
 L_0800449a:
 	pop	{pc}
+	.balign 4
 _0800449c:
 	.word LOCAL_MEM+0x1
 _080044a0:
@@ -1134,6 +1135,7 @@ init_story:  @ 08004826
 	strh	r1, [r0, #0]
 	pop	{pc}
 	movs	r0, r0
+	.balign 4
 _0800490c:
 	.word LOCAL_MEM+0x1b
 _08004910:

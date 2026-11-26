@@ -28,6 +28,7 @@ L_08011e8c:
 	ldr	r0, [r0, #0]
 	mov	pc, r0
 	movs	r0, r0
+	.balign 4
 _08011e98:
 	.word local_level
 _08011e9c:
@@ -65,6 +66,7 @@ L_08011ec8:
 	subs	r4, #1
 @ src/menu/menu_main.c:134
 	b L_08011ef8
+	.balign 4
 _08011ee8:
 	.word sys_joytrg
 @ src/menu/menu_main.c:136
@@ -98,6 +100,7 @@ L_08011ef8:
 @ src/menu/menu_main.c:145
 	b L_08011f30
 	movs	r0, r0
+	.balign 4
 _08011f20:
 	.word sys_joytrg
 @ src/menu/menu_main.c:147
@@ -129,6 +132,7 @@ L_08011f30:
 	str	r0, [r1, #0]
 @ src/menu/menu_main.c:158
 	b L_08011f90
+	.balign 4
 _08011f50:
 	.word local_level
 _08011f54:
@@ -144,6 +148,7 @@ L_08011f5c:
 @ src/menu/menu_main.c:166
 	b L_08011f78
 	movs	r0, r0
+	.balign 4
 _08011f68:
 	.word 0x04000054
 _08011f6c:
@@ -160,6 +165,7 @@ L_08011f78:
 @ src/menu/menu_main.c:171
 	b L_08011f90
 	movs	r0, r0
+	.balign 4
 _08011f80:
 	.word 0x04000054
 _08011f84:
@@ -181,6 +187,7 @@ L_08011f90:
 	subs	r0, r1, #1
 	str	r0, [r4, #0]
 	b L_0801213c
+	.balign 4
 _08011fa0:
 	.word 0x04000054
 _08011fa4:
@@ -200,6 +207,7 @@ L_08011fb4:
 	ldr	r0, [r0, #0]
 	mov	pc, r0
 	movs	r0, r0
+	.balign 4
 _08011fc0:
 	.word menu_main_state
 _08011fc4:
@@ -236,6 +244,7 @@ L_08011fec:
 	str	r0, [r4, #0]
 @ src/menu/menu_main.c:192
 	b L_0801213c
+	.balign 4
 _0801200c:
 	.word 0x04000050
 @ src/menu/menu_main.c:195
@@ -277,6 +286,7 @@ L_08012036:
 @ src/menu/menu_main.c:209
 	b L_0801213c
 	movs	r0, r0
+	.balign 4
 _08012048:
 	.word sys_joytrg
 _0801204c:
@@ -308,6 +318,7 @@ L_08012058:
 @ src/menu/menu_main.c:218
 	b L_0801213c
 	movs	r0, r0
+	.balign 4
 _0801207c:
 	.word menu_main_state
 _08012080:
@@ -321,6 +332,7 @@ L_08012084:
 	str	r0, [r1, #0]
 @ src/menu/menu_main.c:223
 	b L_0801213c
+	.balign 4
 _08012090:
 	.word menu_main_state
 @ src/menu/menu_main.c:226
@@ -353,6 +365,7 @@ L_0801209c:
 	bl audio_halt_tune
 @ src/menu/menu_main.c:238
 	b L_0801213c
+	.balign 4
 _080120bc:
 	.word 0x04000050
 _080120c0:
@@ -377,6 +390,7 @@ L_080120c4:
 	str	r0, [r3, #0]
 @ src/menu/menu_main.c:245
 	b L_0801213c
+	.balign 4
 _080120e0:
 	.word 0x04000050
 _080120e4:
@@ -406,6 +420,7 @@ L_080120e8:
 @ src/menu/menu_main.c:262
 	b L_08012148
 	movs	r0, r0
+	.balign 4
 _08012110:
 	.word game_level
 _08012114:
@@ -429,6 +444,7 @@ L_08012124:
 	strb	r0, [r1, #0]
 @ src/menu/menu_main.c:275
 	b L_08012148
+	.balign 4
 _08012138:
 	.word TITLE_STATE
 @ src/menu/menu_main.c:282
@@ -526,6 +542,7 @@ L_080121c4:
 	pop	{r4, r5, r6, r7}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _080121cc:
 	.word jap_warning_map_size_x
 _080121d0:
@@ -627,6 +644,7 @@ L_08012270:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _08012278:
 	.word 0x04000208
 _0801227c:

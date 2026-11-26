@@ -25,6 +25,7 @@ _setlocale_r:
 @ lib/newlib/libc/locale/locale.c:120
 	movs	r0, #0
 	b L_0805b4de
+	.balign 4
 _0805b4d0:
 	.word D_082601fc
 _0805b4d4:
@@ -42,6 +43,7 @@ L_0805b4de:
 	pop	{r4, r5, r6}
 	pop	{r1}
 	bx	r1
+	.balign 4
 _0805b4e4:
 	.word D_082601fc
 @ lib/newlib/libc/locale/locale.c:178
@@ -49,6 +51,7 @@ _localeconv_r:
 	ldr	r0, _0805b4ec	@ =lconv
 @ lib/newlib/libc/locale/locale.c:179
 	bx	lr
+	.balign 4
 _0805b4ec:
 	.word lconv
 @ lib/newlib/libc/locale/locale.c:187
@@ -65,6 +68,7 @@ setlocale:  @ 0805b4f0
 @ lib/newlib/libc/locale/locale.c:189
 	pop	{r1}
 	bx	r1
+	.balign 4
 _0805b504:
 	.word _impure_ptr
 @ lib/newlib/libc/locale/locale.c:194
@@ -79,5 +83,6 @@ localeconv:  @ 0805b508
 	pop	{r1}
 	bx	r1
 	movs	r0, r0
+	.balign 4
 _0805b518:
 	.word _impure_ptr

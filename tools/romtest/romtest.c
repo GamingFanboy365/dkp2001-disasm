@@ -22,13 +22,46 @@
 
 struct press { unsigned frame, hold; int key; };
 
-/* Count stores to ROM (the game writing to data the linker put in ROM),
- * and drop everything else mGBA logs. */
+/* Count stores to ROM (the game writing to data the linker put in ROM).
+ * With PROBLEMS=1 in the environment, also collect every error/warning mGBA
+ * reports (bad memory accesses, undefined instructions, ...) with the PC that
+ * caused it, and print them de-duplicated at the end. */
 static unsigned rom_stores;
+static struct mCore* g_core;
+static int collect_problems;
+#define MAX_PROBLEMS 512
+static struct { char msg[96]; uint32_t pc; unsigned count, first_frame; } problems[MAX_PROBLEMS];
+static int nproblems;
+static unsigned cur_frame;
 static void quiet_log(struct mLogger* logger, int category, enum mLogLevel level, const char* format, va_list args) {
-	(void) logger; (void) category; (void) level; (void) args;
+	(void) logger; (void) category;
 	if (strstr(format, "Unimplemented memory Store")) {
 		++rom_stores;
+	}
+	if (!collect_problems || !(level & (mLOG_FATAL | mLOG_ERROR | mLOG_WARN | mLOG_GAME_ERROR | mLOG_STUB))) {
+		return;
+	}
+	char msg[96];
+	vsnprintf(msg, sizeof(msg), format, args);
+	uint32_t pc = 0;
+	if (g_core) {
+		int32_t v = 0;
+		if (g_core->readRegister(g_core, "pc", &v)) {
+			pc = (uint32_t) v;
+		}
+	}
+	for (int i = 0; i < nproblems; ++i) {
+		if (problems[i].pc == pc && !strcmp(problems[i].msg, msg)) {
+			++problems[i].count;
+			return;
+		}
+	}
+	if (nproblems < MAX_PROBLEMS) {
+		strcpy(problems[nproblems].msg, msg);
+		problems[nproblems].pc = pc;
+		problems[nproblems].count = 1;
+		problems[nproblems].first_frame = cur_frame;
+		++nproblems;
 	}
 }
 static struct mLogger quiet = { .log = quiet_log };
@@ -69,7 +102,9 @@ int main(int argc, char** argv) {
 	}
 
 	mLogSetDefaultLogger(&quiet);
+	collect_problems = getenv("PROBLEMS") != NULL;
 	struct mCore* core = mCoreFind(rom);
+	g_core = core;
 	if (!core || !core->init(core)) {
 		fprintf(stderr, "cannot open %s\n", rom);
 		return 1;
@@ -94,6 +129,7 @@ int main(int argc, char** argv) {
 			}
 		}
 		core->setKeys(core, keys);
+		cur_frame = frame;
 		core->runFrame(core);
 		if (every && frame % every == 0) {
 			uint64_t hash = 1469598103934665603ull;
@@ -119,6 +155,9 @@ int main(int argc, char** argv) {
 		}
 	}
 	printf("stores-to-rom %u\n", rom_stores);
+	for (int i = 0; i < nproblems; ++i) {
+		printf("problem pc=%08x frame=%u count=%u %s\n", problems[i].pc, problems[i].first_frame, problems[i].count, problems[i].msg);
+	}
 	const char* ram_out = getenv("RAM_OUT");
 	if (ram_out) { /* EWRAM then IWRAM, as seen by the CPU */
 		FILE* f = fopen(ram_out, "wb");

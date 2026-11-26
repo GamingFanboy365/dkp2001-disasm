@@ -53,6 +53,7 @@ L_0800ff42:
 	pop	{r4, r5}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _0800ff80:
 	.word D_08070314	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _0800ff84:
@@ -79,6 +80,7 @@ L_0800ffa8:
 	pop	{r0}
 @ src/act_beach.c:40
 	bx	r0
+	.balign 4
 _0800ffac:
 	.word D_08070314	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _0800ffb0:
@@ -117,6 +119,7 @@ L_0800ffe8:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _0800fff0:
 	.word D_08070314	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _0800fff4:

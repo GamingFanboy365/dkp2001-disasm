@@ -141,6 +141,7 @@ L_080137a8:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _080137b8:
 	.word background_hanger_num_chars
 _080137bc:

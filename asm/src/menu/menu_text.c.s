@@ -56,6 +56,7 @@ menu_text_init:  @ 080122bc
 @ src/menu/menu_text.c:117
 	b L_08012386
 	movs	r0, r0
+	.balign 4
 _08012310:
 	.word max_oams
 _08012314:
@@ -176,6 +177,7 @@ L_08012386:
 	add	sp, #4
 	bx	lr
 	movs	r0, r0
+	.balign 4
 _080123e4:
 	.word 0x040000d4
 _080123e8:
@@ -343,6 +345,7 @@ L_080124f6:
 	blt L_080124e6
 @ src/menu/menu_text.c:181
 	b L_08012598
+	.balign 4
 _08012504:
 	.word handles+0x84
 _08012508:
@@ -409,6 +412,7 @@ L_08012518:
 @ src/menu/menu_text.c:177
 	b L_08012598
 	movs	r0, r0
+	.balign 4
 _08012580:
 	.word oam_templates
 _08012584:
@@ -500,6 +504,7 @@ L_080125f0:
 L_08012618:
 	b L_0801265e
 	movs	r0, r0
+	.balign 4
 _0801261c:
 	.word oams
 _08012620:
@@ -557,6 +562,7 @@ L_0801266a:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _0801267c:
 	.word oams
 _08012680:
@@ -620,6 +626,7 @@ L_0801269c:
 	str	r2, [r5, #0]
 @ src/menu/menu_text.c:248
 	b L_080126de
+	.balign 4
 _080126d0:
 	.word handles
 @ src/menu/menu_text.c:230
@@ -715,6 +722,7 @@ L_0801275e:
 	add	sp, #16
 	bx	r3
 	movs	r0, r0
+	.balign 4
 _0801276c:
 	.word D_080704e0	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _08012770:
@@ -747,6 +755,7 @@ menu_text_draw:  @ 08012784
 	ldr	r0, [r2, #8]
 @ src/menu/menu_text.c:205
 	bx	lr
+	.balign 4
 _080127a4:
 	.word 0x040000d4
 _080127a8:
@@ -801,6 +810,7 @@ L_080127cc:
 	pop	{r4, r5}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _080127fc:
 	.word handles
 _08012800:
@@ -882,6 +892,7 @@ L_08012880:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _08012888:
 	.word handles
 _0801288c:
@@ -939,6 +950,7 @@ L_080128e0:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _080128e8:
 	.word handles
 _080128ec:
@@ -998,6 +1010,7 @@ L_0801293e:
 	pop	{r4, r5, r6}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _08012944:
 	.word handles
 _08012948:
@@ -1049,6 +1062,7 @@ L_08012990:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _08012998:
 	.word handles
 _0801299c:
@@ -1096,6 +1110,7 @@ L_080129de:
 	pop	{r4, r5}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _080129e4:
 	.word handles
 _080129e8:
@@ -1147,6 +1162,7 @@ L_08012a30:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _08012a38:
 	.word handles
 _08012a3c:
@@ -1194,6 +1210,7 @@ L_08012a7e:
 	pop	{r4, r5}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _08012a84:
 	.word handles
 _08012a88:
@@ -1245,6 +1262,7 @@ L_08012ad0:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _08012ad8:
 	.word handles
 _08012adc:
@@ -1292,6 +1310,7 @@ L_08012b1e:
 	pop	{r4, r5}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _08012b24:
 	.word handles
 _08012b28:
@@ -1348,6 +1367,7 @@ L_08012b78:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _08012b80:
 	.word handles
 _08012b84:
@@ -1394,6 +1414,7 @@ L_08012bb6:
 @ src/menu/menu_text.c:451
 	asrs	r0, r0, #29
 	b L_08012be0
+	.balign 4
 _08012bcc:
 	.word handles
 _08012bd0:
@@ -1454,6 +1475,7 @@ L_08012c12:
 	str	r0, [r1, #0]
 @ src/menu/menu_text.c:426
 	b L_08012c42
+	.balign 4
 _08012c28:
 	.word handles
 _08012c2c:

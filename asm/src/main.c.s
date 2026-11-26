@@ -42,6 +42,7 @@ read_keys:  @ 08006094
 	strh	r3, [r2, #0]
 @ src/main.c:143
 	b L_080060f0
+	.balign 4
 _080060cc:
 	.word 0x04000130
 _080060d0:
@@ -88,6 +89,7 @@ L_080060f0:
 	strh	r0, [r2, #0]
 @ src/main.c:153
 	b L_08006128
+	.balign 4
 _08006110:
 	.word joytrg_a_delay
 _08006114:
@@ -130,6 +132,7 @@ L_08006128:
 	strh	r0, [r2, #0]
 @ src/main.c:163
 	b L_08006164
+	.balign 4
 _0800614c:
 	.word joytrg_b_delay
 _08006150:
@@ -172,6 +175,7 @@ L_08006164:
 	strh	r0, [r2, #0]
 @ src/main.c:173
 	b L_080061a0
+	.balign 4
 _08006188:
 	.word joytrg_l_delay
 _0800618c:
@@ -196,6 +200,7 @@ L_080061a0:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _080061a8:
 	.word joytrg_r_delay
 @ src/main.c:213
@@ -406,6 +411,7 @@ L_080062d2:
 	orrs	r0, r2
 @ src/main.c:323
 	b L_080063b6
+	.balign 4
 _08006308:
 	.word sys_flags
 _0800630c:
@@ -584,6 +590,7 @@ L_08006418:
 	pop	{r4, r5, r6}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _08006448:
 	.word 0xfffffdff
 _0800644c:
@@ -636,6 +643,7 @@ irq_vblank_default:  @ 08006480
 L_08006498:
 	pop	{r0}
 	bx	r0
+	.balign 4
 _0800649c:
 	.word sys_irq_flag
 _080064a0:
@@ -653,6 +661,7 @@ main_audio_off:  @ 080064a4
 @ src/main.c:100
 	pop	{r0}
 	bx	r0
+	.balign 4
 _080064b4:
 	.word audio_stopped
 @ src/main.c:104
@@ -663,6 +672,7 @@ main_audio_on:  @ 080064b8
 	str	r0, [r1, #0]
 @ src/main.c:105
 	bx	lr
+	.balign 4
 _080064c0:
 	.word audio_stopped
 @ src/main.c:80
@@ -686,6 +696,7 @@ vblank_common_start:  @ 080064c4
 L_080064dc:
 	pop	{r0}
 	bx	r0
+	.balign 4
 _080064e0:
 	.word sys_irq_flag
 _080064e4:

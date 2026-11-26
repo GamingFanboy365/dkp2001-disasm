@@ -35,6 +35,7 @@ vsprintf:  @ 08058cdc
 	pop	{r4, r5}
 	pop	{r1}
 	bx	r1
+	.balign 4
 _08058d0c:
 	.word 0x7fffffff
 _08058d10:

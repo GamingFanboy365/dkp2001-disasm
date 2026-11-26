@@ -17,6 +17,7 @@ campan_addpt:  @ 0800c794
 @ src/camera_pan.c:79
 	movs	r0, #0
 	b L_0800c838
+	.balign 4
 _0800c7a8:
 	.word num_pts
 @ src/camera_pan.c:81
@@ -56,6 +57,7 @@ L_0800c7ac:
 	movs	r1, #128
 	b L_0800c804
 	movs	r0, r0
+	.balign 4
 _0800c7ec:
 	.word pts
 _0800c7f0:
@@ -179,6 +181,7 @@ L_0800c8a0:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _0800c8ac:
 	.word num_pts
 _0800c8b0:
@@ -303,6 +306,7 @@ L_0800c964:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _0800c980:
 	.word num_pts
 _0800c984:
@@ -395,6 +399,7 @@ L_0800ca18:
 	pop	{r4, r5, r6, r7}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _0800ca28:
 	.word D_0806fba8	@ "\n\t.global label_here\n\n"
 _0800ca2c:
@@ -473,6 +478,7 @@ campan_getrawpt:  @ 0800ca50
 	movs	r0, #1
 	b L_0800caba
 	movs	r0, r0
+	.balign 4
 _0800caac:
 	.word get_pts
 _0800cab0:
@@ -515,6 +521,7 @@ campan_getpt:  @ 0800cac0
 	movs	r0, #0
 	b L_0800cc3e
 	movs	r0, r0
+	.balign 4
 _0800caec:
 	.word cur_pt
 _0800caf0:
@@ -530,6 +537,7 @@ L_0800caf8:
 	bl AGBPrintf
 @ src/camera_pan.c:193
 	b L_0800cb12
+	.balign 4
 _0800cb04:
 	.word D_0806fc40	@ "Not enough points for a path\n"
 @ src/camera_pan.c:195
@@ -627,6 +635,7 @@ L_0800cb28:
 	add	r0, r8
 	ldr	r0, [r0, #0]
 	mov	pc, r0
+	.balign 4
 _0800cbb4:
 	.word cur_pt
 _0800cbb8:
@@ -728,6 +737,7 @@ L_0800cc3e:
 	pop	{r1}
 	bx	r1
 	movs	r0, r0
+	.balign 4
 _0800cc50:
 	.word cur_seg_pt
 _0800cc54:
@@ -764,7 +774,7 @@ L_0800cc7e:
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
 L_0800cc90:
-	ldr	r1, [pc, #872]
+	ldr	r1, _0800cffc	@ =cur_seg_pt
 @ src/camera_pan.c:283
 	movs	r0, #0
 	str	r0, [r1, #0]
@@ -1191,7 +1201,7 @@ L_0800cc90:
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
 L_0800cfb4:
-	ldr	r2, [pc, #44]
+	ldr	r2, _0800cfe4	@ =cur_pt
 @ src/camera_pan.c:324
 	ldr	r1, [r2, #0]
 	lsls	r0, r1, #3
@@ -1218,6 +1228,7 @@ L_0800cfd4:
 	pop	{r4, r5, r6, r7}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _0800cfe4:
 	.word cur_pt
 _0800cfe8:
@@ -1230,6 +1241,7 @@ _0800cff4:
 	.word 0x00000119
 _0800cff8:
 	.word D_0806fca4	@ "cur_pt >= 1 && cur_pt + 2 < num_pts"
+_0800cffc:
 	.word cur_seg_pt
 _0800d000:
 	.word pts
@@ -1270,6 +1282,7 @@ L_0800d034:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _0800d03c:
 	.word num_pts
 _0800d040:
@@ -1284,6 +1297,7 @@ campan_init2:  @ 0800d048
 	str	r0, [r1, #0]
 @ src/camera_pan.c:72
 	bx	lr
+	.balign 4
 _0800d050:
 	.word get_pts
 @ src/camera_pan.c:189
@@ -1304,6 +1318,7 @@ campan_start:  @ 0800d054
 @ src/camera_pan.c:198
 	movs	r0, #1
 	b L_0800d07c
+	.balign 4
 _0800d06c:
 	.word num_pts
 _0800d070:
@@ -1318,6 +1333,7 @@ L_0800d074:
 L_0800d07c:
 	pop	{r1}
 	bx	r1
+	.balign 4
 _0800d080:
 	.word D_0806fc40	@ "Not enough points for a path\n"
 @ src/camera_pan.c:100
@@ -1344,6 +1360,7 @@ L_0800d09a:
 	movs	r0, #0
 	b L_0800d0c2
 	movs	r0, r0
+	.balign 4
 _0800d0a4:
 	.word num_pts
 _0800d0a8:
@@ -1412,6 +1429,7 @@ L_0800d100:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _0800d108:
 	.word 0xffff0000
 _0800d10c:

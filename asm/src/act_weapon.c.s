@@ -75,6 +75,7 @@ L_0801001a:
 	pop	{r4, r5}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _08010070:
 	.word D_0807036c	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _08010074:
@@ -117,6 +118,7 @@ L_080100a6:
 	beq L_080100d2
 	b L_08010140
 	movs	r0, r0
+	.balign 4
 _080100bc:
 	.word D_0807036c	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _080100c0:
@@ -142,6 +144,7 @@ L_080100d2:
 @ src/act_weapon.c:117
 	b L_0801013e
 	movs	r0, r0
+	.balign 4
 _080100e4:
 	.word sys_flags
 @ src/act_weapon.c:120
@@ -164,6 +167,7 @@ L_080100e8:
 	str	r1, [r4, #32]
 @ src/act_weapon.c:125
 	b L_08010140
+	.balign 4
 _08010104:
 	.word 0x000003ff
 @ src/act_weapon.c:126
@@ -185,6 +189,7 @@ L_0801010c:
 @ src/act_weapon.c:134
 	b L_0801013e
 	movs	r0, r0
+	.balign 4
 _08010120:
 	.word sys_flags
 @ src/act_weapon.c:137
@@ -199,6 +204,7 @@ L_08010124:
 	str	r0, [r4, #32]
 @ src/act_weapon.c:139
 	b L_08010140
+	.balign 4
 _08010134:
 	.word 0xffffc000
 _08010138:
@@ -254,6 +260,7 @@ L_08010164:
 	ldr	r1, _08010194	@ =tab_weapons
 @ src/act_weapon.c:156
 	b L_080101a4
+	.balign 4
 _08010188:
 	.word players
 _0801018c:
@@ -299,6 +306,7 @@ L_080101a4:
 	strh	r0, [r4, #2]
 @ src/act_weapon.c:161
 	b L_080101ec
+	.balign 4
 _080101d8:
 	.word tab_character_weapons
 _080101dc:
@@ -328,6 +336,7 @@ L_080101f8:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _08010204:
 	.word spr_list
 @ src/act_weapon.c:172
@@ -391,6 +400,7 @@ L_08010222:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _08010270:
 	.word D_0807036c	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _08010274:
@@ -462,6 +472,7 @@ L_0801029a:
 	pop	{r4, r5, r6}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _080102ec:
 	.word D_0807036c	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _080102f0:
@@ -486,7 +497,7 @@ act_weapon_melon:  @ 080102fc
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
 L_08010316:
-	ldr	r2, [pc, #56]
+	ldr	r2, _08010350	@ =spr_info
 @ src/act_weapon.c:217
 	adds	r1, r4, #0
 	adds	r1, #68
@@ -513,12 +524,14 @@ L_08010334:
 	adds	r0, r0, r1
 	ldr	r0, [r0, #0]
 	mov	pc, r0
+	.balign 4
 _08010344:
 	.word D_0807036c	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _08010348:
 	.word D_0807039c	@ "src/act_weapon.c"
 _0801034c:
 	.word D_080703b0	@ "o != NULL"
+_08010350:
 	.word spr_info
 _08010354:
 	.word L_08010358
@@ -632,6 +645,7 @@ L_080103e0:
 @ src/act_weapon.c:265
 	b L_0801041e
 	movs	r0, r0
+	.balign 4
 _080103f4:
 	.word 0xfffffd00
 @ src/act_weapon.c:269
@@ -662,6 +676,7 @@ L_0801041e:
 	pop	{r4, r5}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _08010424:
 	.word spr_info
 _08010428:
@@ -734,6 +749,7 @@ L_0801044c:
 	pop	{r4, r5, r6}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _080104a0:
 	.word D_0807036c	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _080104a4:
@@ -760,7 +776,7 @@ act_weapon_mango:  @ 080104b0
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
 L_080104ce:
-	ldr	r2, [pc, #60]
+	ldr	r2, _0801050c	@ =spr_info
 @ src/act_weapon.c:353
 	adds	r1, r5, #0
 	adds	r1, #68
@@ -787,6 +803,7 @@ L_080104ec:
 	adds	r0, r0, r1
 	ldr	r0, [r0, #0]
 	mov	pc, r0
+	.balign 4
 _080104fc:
 	.word D_0807036c	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _08010500:
@@ -795,6 +812,7 @@ _08010504:
 	.word 0x0000015f
 _08010508:
 	.word D_080703b0	@ "o != NULL"
+_0801050c:
 	.word spr_info
 _08010510:
 	.word L_08010514
@@ -905,6 +923,7 @@ L_0801059c:
 @ src/act_weapon.c:401
 	b L_080105d6
 	movs	r0, r0
+	.balign 4
 _080105ac:
 	.word 0xfffffd00
 @ src/act_weapon.c:405
@@ -945,6 +964,7 @@ L_080105e2:
 L_080105e8:
 	b L_08010604
 	movs	r0, r0
+	.balign 4
 _080105ec:
 	.word spr_info
 _080105f0:
@@ -976,6 +996,7 @@ L_08010604:
 	lsls	r6, r0, #2
 	b L_08010622
 	movs	r0, r0
+	.balign 4
 _0801061c:
 	.word 0x000002ee
 L_08010620:
@@ -1109,6 +1130,7 @@ L_080106f8:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _08010704:
 	.word 0x00000ca8
 _08010708:
@@ -1156,6 +1178,7 @@ L_08010742:
 	str	r0, [r4, #84]
 @ src/act_weapon.c:487
 	b L_08010832
+	.balign 4
 _08010754:
 	.word D_0807036c	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _08010758:
@@ -1278,6 +1301,7 @@ L_08010760:
 	bl audio_new_fx_with_dur
 @ src/act_weapon.c:524
 	b L_08010832
+	.balign 4
 _08010824:
 	.word D_083e3608
 _08010828:
@@ -1371,6 +1395,7 @@ L_0801085e:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _080108bc:
 	.word D_0807036c	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _080108c0:
@@ -1412,6 +1437,7 @@ L_080108f4:
 L_08010900:
 	b L_08010be4
 	movs	r0, r0
+	.balign 4
 _08010904:
 	.word D_0807036c	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _08010908:
@@ -1591,6 +1617,7 @@ L_08010a1a:
 @ src/act_weapon.c:628
 	b L_08010be4
 	movs	r0, r0
+	.balign 4
 _08010a20:
 	.word object_process_list
 _08010a24:
@@ -1672,6 +1699,7 @@ L_08010a5c:
 	bl obj_free
 @ src/act_weapon.c:656
 	b L_08010c1a
+	.balign 4
 _08010aa4:
 	.word 0x000003ff
 _08010aa8:
@@ -1806,6 +1834,7 @@ L_08010b1e:
 @ src/act_weapon.c:684
 	b L_08010bd4
 	movs	r0, r0
+	.balign 4
 _08010b8c:
 	.word D_083e3614
 _08010b90:
@@ -1899,6 +1928,7 @@ L_08010c1a:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _08010c2c:
 	.word D_083e3608
 _08010c30:
@@ -1978,6 +2008,7 @@ L_08010c58:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _08010cb0:
 	.word D_0807036c	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _08010cb4:
@@ -2017,6 +2048,7 @@ L_08010ce4:
 	b L_08010e34
 L_08010cf2:
 	b L_08010fee
+	.balign 4
 _08010cf4:
 	.word D_0807036c	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _08010cf8:
@@ -2204,6 +2236,7 @@ L_08010e1a:
 @ src/act_weapon.c:818
 	b L_08010fee
 	movs	r0, r0
+	.balign 4
 _08010e20:
 	.word object_process_list
 _08010e24:
@@ -2287,6 +2320,7 @@ L_08010e60:
 	bl obj_free
 @ src/act_weapon.c:846
 	b L_080110a2
+	.balign 4
 _08010ea8:
 	.word 0x000003ff
 _08010eac:
@@ -2423,6 +2457,7 @@ L_08010f24:
 	asrs	r0, r0, #8
 @ src/act_weapon.c:874
 	b L_08010fda
+	.balign 4
 _08010f94:
 	.word D_083e3614
 _08010f98:
@@ -2588,6 +2623,7 @@ L_080110a2:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _080110b4:
 	.word D_083e3608
 _080110b8:
@@ -2689,6 +2725,7 @@ L_080110e2:
 	pop	{r4, r5}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _08011160:
 	.word D_0807036c	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _08011164:
@@ -2736,6 +2773,7 @@ L_080111aa:
 	mov	sl, r0
 	b L_080114b2
 	movs	r0, r0
+	.balign 4
 _080111b4:
 	.word D_0807036c	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _080111b8:
@@ -2919,6 +2957,7 @@ L_080112d4:
 	str	r1, [r7, #96]
 @ src/act_weapon.c:1048
 	b L_080114b2
+	.balign 4
 _080112d8:
 	.word object_process_list
 _080112dc:
@@ -3166,6 +3205,7 @@ L_080113ba:
 	bl obj_free
 	b L_080114b2
 	movs	r0, r0
+	.balign 4
 _0801147c:
 	.word 0x000003ff
 _08011480:
@@ -3279,6 +3319,7 @@ L_0801152c:
 	pop	{r4, r5, r6, r7}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _0801153c:
 	.word spr_info
 _08011540:
@@ -3331,6 +3372,7 @@ L_08011578:
 	str	r0, [r4, #84]
 @ src/act_weapon.c:291
 	b L_080115b4
+	.balign 4
 _08011594:
 	.word D_0807036c	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _08011598:
@@ -3402,6 +3444,7 @@ L_080115f0:
 	str	r0, [r4, #84]
 @ src/act_weapon.c:462
 	b L_0801162c
+	.balign 4
 _0801160c:
 	.word D_0807036c	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _08011610:
@@ -3451,6 +3494,7 @@ L_0801164e:
 	pop	{r4}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _0801165c:
 	.word D_0807036c	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _08011660:
@@ -3491,6 +3535,7 @@ L_0801169e:
 @ src/act_weapon.c:533
 	pop	{r0}
 	bx	r0
+	.balign 4
 _080116a4:
 	.word D_0807036c	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _080116a8:
@@ -3555,6 +3600,7 @@ L_08011710:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _08011718:
 	.word D_0807036c	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _0801171c:
@@ -3617,6 +3663,7 @@ L_08011782:
 	pop	{r4, r5}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _08011788:
 	.word D_0807036c	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _0801178c:
@@ -3679,6 +3726,7 @@ L_080117f0:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _080117f8:
 	.word D_0807036c	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _080117fc:

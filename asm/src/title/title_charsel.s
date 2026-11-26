@@ -91,6 +91,7 @@ L_08003cfc:
 	ldrb	r1, [r0, #0]
 	adds	r1, #2
 	cmp	r1, #64
+	.balign 4
 	.word 0x7001dc04
 	lsrs	r1, r1, #2
 	ldr	r0, _08004010	@ =0x04000054
@@ -340,6 +341,7 @@ init_charsel:  @ 08003e68
 	ldr	r0, _08004020	@ =0x04000050
 	ldr	r1, _080040e4	@ =LOCAL_MEM
 	ldr	r2, _08004010	@ =0x04000054
+	.balign 4
 	.word 0x245023bf
 	strh	r3, [r0, #0]
 	strb	r4, [r1, #0]
@@ -347,6 +349,7 @@ init_charsel:  @ 08003e68
 	strh	r4, [r2, #0]
 	pop	{pc}
 	.space 2
+	.balign 4
 
 char_sprites:  @ 08003ef0
 	.word clr_cranky_frames
@@ -463,6 +466,7 @@ arrow_poss:  @ 08003fb0
 	movs	r0, r0
 	movs	r5, r6
 	movs	r0, r0
+	.balign 4
 _08003fe8:
 	.word OBJ_ATTR_0
 _08003fec:

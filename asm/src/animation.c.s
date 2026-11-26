@@ -110,6 +110,7 @@ L_0800854e:
 @ src/animation.c:56
 	b L_080085a0
 	movs	r0, r0
+	.balign 4
 _08008594:
 	.word anim_blockv
 _08008598:
@@ -129,10 +130,11 @@ L_080085a0:
 @ src/animation.c:38
 	b L_080085be
 	movs	r0, r0
+	.balign 4
 _080085b0:
 	.word 0xffff8000
 L_080085b4:
-	ldr	r0, [pc, #20]
+	ldr	r0, _080085cc	@ =spr_info
 @ src/animation.c:57
 	lsls	r1, r5, #4
 	adds	r1, r1, r0
@@ -147,6 +149,8 @@ L_080085be:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
+_080085cc:
 	.word spr_info
 @ src/animation.c:63
 
@@ -177,6 +181,7 @@ L_080085f4:
 @ src/animation.c:67
 	bx	lr
 	movs	r0, r0
+	.balign 4
 _080085fc:
 	.word spr_info
 _08008600:
@@ -244,6 +249,7 @@ L_0800863a:
 	ldr	r0, [r0, #0]
 	mov	pc, r0
 	movs	r0, r0
+	.balign 4
 _08008660:
 	.word op_mask
 _08008664:
@@ -359,6 +365,7 @@ anim_init:  @ 080086ec
 @ src/animation.c:26
 	add	sp, #4
 	bx	lr
+	.balign 4
 _08008708:
 	.word 0x040000d4
 _0800870c:

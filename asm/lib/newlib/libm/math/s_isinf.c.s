@@ -23,6 +23,7 @@ isinf:  @ 0805c56c
 	subs	r0, r0, r3
 @ lib/newlib/libm/math/s_isinf.c:24
 	bx	lr
+	.balign 4
 _0805c588:
 	.word 0x7fffffff
 _0805c58c:

@@ -180,6 +180,7 @@ L_080065f2:
 	movs	r0, #78
 @ src/game.c:128
 	b L_0800666e
+	.balign 4
 _08006610:
 	.word 0x04000050
 _08006614:
@@ -225,6 +226,7 @@ L_0800665c:
 	movs	r0, #73
 @ src/game.c:131
 	b L_0800666e
+	.balign 4
 _08006664:
 	.word monitor
 @ src/game.c:133
@@ -326,6 +328,7 @@ L_08006700:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _08006714:
 	.word monitor
 _08006718:
@@ -592,6 +595,7 @@ L_08006892:
 @ src/game.c:339
 	b L_080069bc
 	movs	r0, r0
+	.balign 4
 _080068cc:
 	.word sl_base
 _080068d0:
@@ -691,6 +695,7 @@ L_08006930:
 	bl menu_spline_init
 	b L_080069bc
 	movs	r0, r0
+	.balign 4
 _0800697c:
 	.word sys_oam_start
 _08006980:
@@ -735,6 +740,7 @@ L_080069bc:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _080069c8:
 	.word D_0806f1b4	@ "%s: restart\n"
 _080069cc:

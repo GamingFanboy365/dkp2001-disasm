@@ -58,6 +58,7 @@ set_camera_from_player:  @ 080095b4
 	ldr	r0, [r0, #36]
 	mov	r8, r0
 	b L_0800966a
+	.balign 4
 _08009618:
 	.word D_083e34e8	@ "h."
 @ src/act_camera.c:90
@@ -221,6 +222,7 @@ L_080096b0:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _08009744:
 	.word D_083e34e8	@ "h."
 _08009748:
@@ -361,6 +363,7 @@ L_08009820:
 	pop	{r4, r5, r6, r7}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _08009830:
 	.word __ptr_ram_cos
 _08009834:
@@ -477,6 +480,7 @@ L_08009862:
 	mov	r3, sl
 	bl AGBPrintf
 	b L_0800992a
+	.balign 4
 _08009910:
 	.word sys_joytrg
 _08009914:
@@ -585,6 +589,7 @@ L_0800999c:
 @ src/act_camera.c:225
 	b L_08009ad6
 	movs	r0, r0
+	.balign 4
 _080099cc:
 	.word D_0806f8bc	@ "Cannot add any more points\n"
 _080099d0:
@@ -658,6 +663,7 @@ L_08009a2c:
 @ src/act_camera.c:239
 	b L_08009ad4
 	movs	r0, r0
+	.balign 4
 _08009a40:
 	.word 0xffffe000
 _08009a44:
@@ -757,6 +763,7 @@ L_08009ad6:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _08009aec:
 	.word __ptr_ram_sin
 _08009af0:
@@ -842,6 +849,7 @@ L_08009b12:
 @ src/act_camera.c:285
 	b L_08009ba6
 	movs	r0, r0
+	.balign 4
 _08009b78:
 	.word D_0806f8d8	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _08009b7c:
@@ -872,6 +880,7 @@ L_08009ba6:
 	pop	{r4}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _08009bac:
 	.word SPLINE_EDIT
 @ src/act_camera.c:374
@@ -1060,6 +1069,7 @@ L_08009c34:
 	pop	{r4, r5, r6, r7}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _08009d00:
 	.word D_0806f8d8	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _08009d04:
@@ -1113,6 +1123,7 @@ L_08009d44:
 @ src/act_camera.c:311
 	b L_08009da6
 	movs	r0, r0
+	.balign 4
 _08009d60:
 	.word D_0806f8d8	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _08009d64:
@@ -1132,6 +1143,7 @@ L_08009d70:
 	bl user_control_camera
 @ src/act_camera.c:304
 	b L_08009da6
+	.balign 4
 _08009d80:
 	.word SPLINE_EDIT
 @ src/act_camera.c:305
@@ -1142,6 +1154,7 @@ L_08009d84:
 	bl set_camera_from_player
 @ src/act_camera.c:307
 	b L_08009da6
+	.balign 4
 _08009d90:
 	.word players
 @ src/act_camera.c:313
@@ -1158,6 +1171,7 @@ L_08009da6:
 @ src/act_camera.c:317
 	pop	{r0}
 	bx	r0
+	.balign 4
 _08009dac:
 	.word D_0806f8d8	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _08009db0:

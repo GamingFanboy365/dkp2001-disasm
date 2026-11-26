@@ -34,6 +34,7 @@ L_0800d97a:
 @ src/act_bonusitem.c:33
 	b L_0800d9ae
 	movs	r0, r0
+	.balign 4
 _0800d994:
 	.word D_0806fe9c	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _0800d998:
@@ -84,6 +85,7 @@ L_0800d9ae:
 	pop	{r4, r5, r6}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _0800d9e8:
 	.word spr_info
 @ src/act_bonusitem.c:47
@@ -102,7 +104,7 @@ act_bonusitem:  @ 0800d9ec
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
 L_0800da06:
-	ldr	r1, [pc, #60]
+	ldr	r1, _0800da44	@ =spr_info
 @ src/act_bonusitem.c:50
 	adds	r0, r5, #0
 	adds	r0, #68
@@ -136,12 +138,14 @@ L_0800da32:
 	pop	{r4, r5}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _0800da38:
 	.word D_0806fe9c	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _0800da3c:
 	.word D_0806fecc	@ "src/act_bonusitem.c"
 _0800da40:
 	.word D_0806fee0	@ "o != NULL"
+_0800da44:
 	.word spr_info
 @ src/act_bonusitem.c:63
 
@@ -203,6 +207,7 @@ L_0800daa8:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _0800dab0:
 	.word D_0806fe9c	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _0800dab4:

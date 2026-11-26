@@ -361,6 +361,7 @@ L_030022e4:
 	strh	r2, [r1]
 @ src/background_ram.c:220
 	b L_030023b8
+	.balign 4
 _03002390:
 	.word vtab_bd
 _03002394:
@@ -416,6 +417,7 @@ L_030023b8:
 @ src/background_ram.c:247
 	rsb	lr, r0, lr
 	b L_0300240c
+	.balign 4
 _03002408:
 	.word pal_bg
 @ src/background_ram.c:150

@@ -33,5 +33,6 @@ L_0805cc26:
 	pop	{r1}
 	bx	r1
 	movs	r0, r0
+	.balign 4
 _0805cc30:
 	.word errno

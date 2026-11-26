@@ -21,6 +21,7 @@ abort:  @ 0805ccfc
 	mov	r8, r3
 	bx	lr
 	movs	r0, r0
+	.balign 4
 _0805cd18:
 	.word 0x00020022
 @ lib/newlib/libc/sys/arm/libcfunc.c:39

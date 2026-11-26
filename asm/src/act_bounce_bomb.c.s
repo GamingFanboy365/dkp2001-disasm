@@ -47,6 +47,7 @@ L_0800c6ae:
 	pop	{r4, r5}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _0800c6e0:
 	.word D_0806fb48	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _0800c6e4:
@@ -98,6 +99,7 @@ L_0800c720:
 @ src/act_bounce_bomb.c:43
 	b L_0800c746
 	movs	r0, r0
+	.balign 4
 _0800c734:
 	.word D_0806fb48	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _0800c738:
@@ -146,6 +148,7 @@ L_0800c77c:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _0800c784:
 	.word D_0806fb48	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _0800c788:

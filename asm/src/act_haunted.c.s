@@ -48,6 +48,7 @@ L_0800b8f6:
 	bl spr_fix_shadow
 @ src/act_haunted.c:53
 	b L_0800b9a0
+	.balign 4
 _0800b928:
 	.word D_0806faec	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _0800b92c:
@@ -136,6 +137,7 @@ L_0800b9a0:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _0800b9c4:
 	.word spr_info
 @ src/act_haunted.c:85
@@ -218,6 +220,7 @@ L_0800b9e2:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _0800ba60:
 	.word D_0806faec	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _0800ba64:
@@ -302,6 +305,7 @@ L_0800ba8e:
 	pop	{r4}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _0800baec:
 	.word D_0806faec	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _0800baf0:
@@ -361,6 +365,7 @@ L_0800bb20:
 @ src/act_haunted.c:154
 	b L_0800bb96
 	movs	r0, r0
+	.balign 4
 _0800bb44:
 	.word sys_flags
 _0800bb48:
@@ -387,6 +392,7 @@ L_0800bb50:
 	str	r0, [r5, #80]
 @ src/act_haunted.c:162
 	b L_0800bb96
+	.balign 4
 _0800bb6c:
 	.word sys_flags
 @ src/act_haunted.c:167
@@ -418,6 +424,7 @@ L_0800bb96:
 	pop	{r4, r5}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _0800bb9c:
 	.word 0x0000fffe
 @ src/act_haunted.c:182
@@ -593,6 +600,7 @@ L_0800bbc0:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _0800bca8:
 	.word D_0806faec	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _0800bcac:
@@ -741,6 +749,7 @@ L_0800bce8:
 	ldrb	r7, [r5, #0]
 @ src/act_haunted.c:296
 	b L_0800bdbe
+	.balign 4
 _0800bd98:
 	.word sys_flags
 _0800bd9c:
@@ -779,6 +788,7 @@ L_0800bdbe:
 	pop	{r1}
 	bx	r1
 	movs	r0, r0
+	.balign 4
 _0800bdd0:
 	.word spr_info
 _0800bdd4:
@@ -835,6 +845,7 @@ act_happy_soul_hud:  @ 0800bdd8
 @ src/act_haunted.c:327
 	b L_0800be3a
 	movs	r0, r0
+	.balign 4
 _0800be28:
 	.word monitor
 _0800be2c:
@@ -909,6 +920,7 @@ L_0800be3a:
 	strh	r0, [r4, #12]
 @ src/act_haunted.c:347
 	b L_0800beb4
+	.balign 4
 _0800bea0:
 	.word spr_info
 _0800bea4:
@@ -955,6 +967,7 @@ L_0800beb4:
 	pop	{r4, r5, r6, r7}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _0800beec:
 	.word spr_list
 _0800bef0:
@@ -978,6 +991,7 @@ L_0800bf04:
 	ldr	r0, [r0, #0]
 	mov	pc, r0
 	movs	r0, r0
+	.balign 4
 _0800bf10:
 	.word L_0800bf14
 L_0800bf14:
@@ -1006,6 +1020,7 @@ L_0800bf28:
 @ src/act_haunted.c:415
 	b L_0800c0d6
 	movs	r0, r0
+	.balign 4
 _0800bf48:
 	.word spr_info
 @ src/act_haunted.c:416
@@ -1077,6 +1092,7 @@ L_0800bf5a:
 	str	r0, [r7, #52]
 @ src/act_haunted.c:432
 	b L_0800c0d6
+	.balign 4
 _0800bfc8:
 	.word sys_counter
 _0800bfcc:
@@ -1163,6 +1179,7 @@ L_0800c036:
 	str	r1, [r7, #52]
 @ src/act_haunted.c:468
 	b L_0800c0d6
+	.balign 4
 _0800c040:
 	.word spr_info
 _0800c044:
@@ -1185,6 +1202,7 @@ L_0800c04c:
 	strh	r0, [r1, #6]
 @ src/act_haunted.c:475
 	b L_0800c0d6
+	.balign 4
 _0800c064:
 	.word spr_info
 @ src/act_haunted.c:476
@@ -1207,6 +1225,7 @@ L_0800c068:
 @ src/act_haunted.c:481
 	b L_0800c0d6
 	movs	r0, r0
+	.balign 4
 _0800c088:
 	.word monitor
 @ src/act_haunted.c:489
@@ -1265,6 +1284,7 @@ L_0800c0d6:
 	pop	{r4, r5, r6, r7}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _0800c0e0:
 	.word 0xfffffd00
 _0800c0e4:
@@ -1321,6 +1341,7 @@ init_soul_eater:  @ 0800c0ec
 	pop	{r4, r5}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _0800c138:
 	.word spr_info
 @ src/act_haunted.c:563
@@ -1449,6 +1470,7 @@ L_0800c1f4:
 @ src/act_haunted.c:600
 	b L_0800c2ec
 	movs	r0, r0
+	.balign 4
 _0800c1fc:
 	.word 0x00007fff
 _0800c200:
@@ -1540,6 +1562,7 @@ L_0800c288:
 	ldr	r0, _0800c2a8	@ =D_083e35c8
 	mov	sl, r0
 	b L_0800c2ee
+	.balign 4
 _0800c298:
 	.word D_083e35d0
 _0800c29c:
@@ -1564,6 +1587,7 @@ L_0800c2b0:
 	ldr	r1, _0800c2c8	@ =D_083e35c8
 	mov	sl, r1
 	b L_0800c2ee
+	.balign 4
 _0800c2c0:
 	.word D_083e35c4
 _0800c2c4:
@@ -1641,6 +1665,7 @@ L_0800c2ee:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _0800c348:
 	.word D_083e35c4
 _0800c34c:
@@ -1685,6 +1710,7 @@ react_magic_well:  @ 0800c358
 @ src/act_haunted.c:708
 	b L_0800c428
 	movs	r0, r0
+	.balign 4
 _0800c390:
 	.word monitor
 @ src/act_haunted.c:713
@@ -1763,6 +1789,7 @@ L_0800c404:
 	beq L_0800c3ac
 @ src/act_haunted.c:733
 	b L_0800c428
+	.balign 4
 _0800c410:
 	.word object_process_list
 _0800c414:
@@ -1819,6 +1846,7 @@ L_0800c462:
 	beq L_0800c48a
 	b L_0800c492
 	movs	r0, r0
+	.balign 4
 _0800c470:
 	.word D_0806faec	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _0800c474:
@@ -1913,6 +1941,7 @@ L_0800c4f6:
 	pop	{r4, r5}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _0800c4fc:
 	.word monitor
 @ src/act_haunted.c:393
@@ -1958,6 +1987,7 @@ init_happy_soul:  @ 0800c500
 	pop	{r4, r5}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _0800c544:
 	.word spr_info
 @ src/act_haunted.c:509
@@ -2007,6 +2037,7 @@ L_0800c55a:
 	bl obj_remove_hit
 @ src/act_haunted.c:525
 	b L_0800c5b8
+	.balign 4
 _0800c590:
 	.word monitor
 @ src/act_haunted.c:530
@@ -2168,6 +2199,7 @@ L_0800c682:
 	pop	{r4, r5, r6, r7}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _0800c68c:
 	.word D_083e35c4
 _0800c690:

@@ -31,6 +31,7 @@ L_0800d1c2:
 	beq L_0800d1ea
 	b L_0800d206
 	movs	r0, r0
+	.balign 4
 _0800d1d8:
 	.word D_0806fd3c	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _0800d1dc:
@@ -98,6 +99,7 @@ L_0800d206:
 	pop	{r4, r5, r6}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _0800d244:
 	.word spr_info
 @ src/act_powerup.c:57
@@ -126,6 +128,7 @@ L_0800d262:
 	beq L_0800d2b4
 	b L_0800d2e4
 	movs	r0, r0
+	.balign 4
 _0800d274:
 	.word D_0806fd3c	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _0800d278:
@@ -165,6 +168,7 @@ L_0800d292:
 	bl obj_add_draw
 @ src/act_powerup.c:70
 	b L_0800d2e4
+	.balign 4
 _0800d2b0:
 	.word spr_info
 @ src/act_powerup.c:72
@@ -205,6 +209,7 @@ L_0800d2e4:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _0800d2ec:
 	.word spr_info
 @ src/act_powerup.c:84
@@ -284,6 +289,7 @@ L_0800d346:
 	beq L_0800d38a
 	b L_0800d3c6
 	movs	r0, r0
+	.balign 4
 _0800d374:
 	.word D_0806fd3c	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _0800d378:
@@ -311,6 +317,7 @@ L_0800d38a:
 	adds	r0, #1
 	b L_0800d3ae
 	movs	r0, r0
+	.balign 4
 _0800d3a8:
 	.word sys_joycnt
 L_0800d3ac:

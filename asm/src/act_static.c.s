@@ -18,7 +18,7 @@ init_static:  @ 08009de4
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
 L_08009dfe:
-	ldr	r0, [pc, #92]
+	ldr	r0, _08009e5c	@ =0x00001001
 @ src/act_static.c:29
 	strh	r0, [r4, #0]
 @ src/act_static.c:31
@@ -68,12 +68,14 @@ L_08009e0c:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _08009e50:
 	.word D_0806f994	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _08009e54:
 	.word D_0806f9c4	@ "src/act_static.c"
 _08009e58:
 	.word D_0806f9d8	@ "o != NULL"
+_08009e5c:
 	.word 0x00001001
 _08009e60:
 	.word tab_types
@@ -111,6 +113,7 @@ L_08009e98:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _08009ea0:
 	.word D_0806f994	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _08009ea4:
@@ -155,6 +158,7 @@ L_08009ee2:
 	beq L_08009f0a
 	b L_08009f12
 	movs	r0, r0
+	.balign 4
 _08009ef0:
 	.word D_0806f994	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _08009ef4:
@@ -234,6 +238,7 @@ L_08009f68:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _08009f70:
 	.word D_0806f994	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _08009f74:

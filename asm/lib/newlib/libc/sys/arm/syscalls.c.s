@@ -11,6 +11,7 @@ findslot:  @ 0805c75c
 @ lib/newlib/libc/sys/arm/syscalls.c:40
 	ldr	r2, _0805c764	@ =openfiles
 	b L_0805c770
+	.balign 4
 _0805c764:
 	.word openfiles
 @ lib/newlib/libc/sys/arm/syscalls.c:39
@@ -45,6 +46,7 @@ remap_handle:  @ 0805c77c
 @ lib/newlib/libc/sys/arm/syscalls.c:65
 	ldr	r0, _0805c794	@ =monitor_stdin
 	b L_0805c7be
+	.balign 4
 _0805c790:
 	.word _impure_ptr
 _0805c794:
@@ -60,6 +62,7 @@ L_0805c798:
 	ldr	r0, _0805c7a8	@ =monitor_stdout
 	b L_0805c7be
 	movs	r0, r0
+	.balign 4
 _0805c7a8:
 	.word monitor_stdout
 @ lib/newlib/libc/sys/arm/syscalls.c:68
@@ -82,6 +85,7 @@ L_0805c7be:
 L_0805c7c0:
 	bx	lr
 	movs	r0, r0
+	.balign 4
 _0805c7c4:
 	.word monitor_stderr
 @ lib/newlib/libc/sys/arm/syscalls.c:76
@@ -155,6 +159,7 @@ L_0805c80a:
 	pop	{r4, r5}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _0805c828:
 	.word D_08260324	@ ":tt"
 _0805c82c:
@@ -294,6 +299,7 @@ L_0805c8f0:
 	pop	{r1}
 	bx	r1
 	movs	r0, r0
+	.balign 4
 _0805c8f8:
 	.word openfiles
 @ lib/newlib/libc/sys/arm/syscalls.c:190
@@ -384,6 +390,7 @@ L_0805c974:
 	pop	{r4, r5, r6, r7}
 	pop	{r1}
 	bx	r1
+	.balign 4
 _0805c980:
 	.word openfiles
 @ lib/newlib/libc/sys/arm/syscalls.c:245
@@ -472,6 +479,7 @@ L_0805ca02:
 	pop	{r4, r5, r6, r7}
 	pop	{r1}
 	bx	r1
+	.balign 4
 _0805ca08:
 	.word openfiles
 @ lib/newlib/libc/sys/arm/syscalls.c:293
@@ -570,6 +578,7 @@ L_0805ca64:
 	adds	r0, #32
 	b L_0805caa2
 	movs	r0, r0
+	.balign 4
 _0805ca98:
 	.word openfiles
 L_0805ca9c:
@@ -630,6 +639,7 @@ L_0805cae4:
 	pop	{r1}
 	bx	r1
 	movs	r0, r0
+	.balign 4
 _0805caf8:
 	.word openfiles
 @ lib/newlib/libc/sys/arm/syscalls.c:374
@@ -660,6 +670,7 @@ _exit:
 	mov	r8, r3
 	bx	lr
 	movs	r0, r0
+	.balign 4
 _0805cb28:
 	.word 0x00020026
 @ lib/newlib/libc/sys/arm/syscalls.c:393
@@ -680,6 +691,7 @@ _kill:
 	mov	r8, r3
 	bx	lr
 	movs	r0, r0
+	.balign 4
 _0805cb48:
 	.word 0x00020026
 @ lib/newlib/libc/sys/arm/syscalls.c:405
@@ -724,6 +736,7 @@ L_0805cb76:
 	pop	{r4, r5, r6}
 	pop	{r1}
 	bx	r1
+	.balign 4
 _0805cb84:
 	.word heap_end.63
 _0805cb88:

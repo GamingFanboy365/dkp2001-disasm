@@ -97,6 +97,7 @@ L_0800808a:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _08008118:
 	.word ptcl_data
 _0800811c:
@@ -179,6 +180,7 @@ L_08008188:
 	movs	r0, #128
 	lsls	r0, r0, #4
 	ands	r0, r1
+	.balign 4
 	.word 0xd00f2800
 @ src/particle.c:120
 	movs	r0, #0
@@ -189,6 +191,7 @@ L_08008188:
 	str	r0, [r3, #16]
 @ src/particle.c:122
 	b L_080081c8
+	.balign 4
 _080081a4:
 	.word op_mask
 _080081a8:
@@ -378,6 +381,7 @@ L_080082ac:
 	pop	{r4, r5, r6, r7}
 	pop	{r1}
 	bx	r1
+	.balign 4
 _080082cc:
 	.word ptcl_data
 @ src/particle.c:84
@@ -390,6 +394,7 @@ ptcl_new:  @ 080082d0
 @ src/particle.c:87
 	movs	r0, #0
 	b L_080082f4
+	.balign 4
 _080082dc:
 	.word ptcl_sp
 @ src/particle.c:85
@@ -408,6 +413,7 @@ L_080082e0:
 L_080082f4:
 	bx	lr
 	movs	r0, r0
+	.balign 4
 _080082f8:
 	.word ptcl_sv
 _080082fc:

@@ -19,6 +19,7 @@ L_080069de:
 	adds	r0, r0, r1
 	ldr	r0, [r0, #0]
 	mov	pc, r0
+	.balign 4
 _080069e8:
 	.word logo_state
 _080069ec:
@@ -40,6 +41,7 @@ L_08006a0c:
 @ src/title_logo.c:94
 	b L_08006b58
 	movs	r0, r0
+	.balign 4
 _08006a18:
 	.word 0x04000054
 _08006a1c:
@@ -55,6 +57,7 @@ L_08006a20:
 @ src/title_logo.c:99
 	b L_08006b58
 	movs	r0, r0
+	.balign 4
 _08006a30:
 	.word 0x04000054
 _08006a34:
@@ -144,6 +147,7 @@ L_08006aae:
 @ src/title_logo.c:124
 	b L_08006b58
 	movs	r0, r0
+	.balign 4
 _08006ac4:
 	.word logo_timer
 _08006ac8:
@@ -257,6 +261,7 @@ L_08006b70:
 	str	r0, [r3, #0]
 @ src/title_logo.c:166
 	b L_08006d82
+	.balign 4
 _08006b7c:
 	.word logo_timer
 _08006b80:
@@ -290,6 +295,7 @@ L_08006bae:
 	adds	r0, r0, r1
 	ldr	r0, [r0, #0]
 	mov	pc, r0
+	.balign 4
 _08006bb8:
 	.word logo_state
 _08006bbc:
@@ -385,6 +391,7 @@ L_08006be0:
 	ldr	r0, [r1, #8]
 @ src/title_logo.c:194
 	b L_08006d76
+	.balign 4
 _08006c6c:
 	.word 0x04000050
 _08006c70:
@@ -489,6 +496,7 @@ L_08006ca8:
 	ldr	r0, [r1, #8]
 @ src/title_logo.c:224
 	b L_08006d76
+	.balign 4
 _08006d28:
 	.word 0x040000d4
 _08006d2c:
@@ -552,6 +560,7 @@ L_08006d82:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _08006d8c:
 	.word sys_mode
 _08006d90:
@@ -609,6 +618,7 @@ logo_init:  @ 08006d94
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _08006de4:
 	.word 0x04000208
 _08006de8:

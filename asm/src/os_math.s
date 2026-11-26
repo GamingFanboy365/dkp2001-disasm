@@ -8,6 +8,7 @@ __divsi3:
 __udivsi3:
 	ldr	r2, _08002fa8	@ =ram_divide
 	bx	r2
+	.balign 4
 _08002fa8:
 	.word ram_divide
 __modsi3:

@@ -218,6 +218,10 @@ MIDI files.
   - 11: end of track
   `export_preview.py` writes them out as standard MIDI files.
 
+## Bug fixes
+
+See [FIXES.md](FIXES.md): `make fixed` builds the fixed ROM and `make patch` makes an IPS patch.
+
 ## Bugs found so far
 
 - **Jungle 03: computer players read past their waypoint network.** `ai_steer` (act_comp_player.c)

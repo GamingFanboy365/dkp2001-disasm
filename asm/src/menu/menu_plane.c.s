@@ -164,6 +164,7 @@ L_080130ce:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _080130ec:
 	.word diddysmall1_map_size_x
 _080130f0:
@@ -283,6 +284,7 @@ menu_plane_init:  @ 0801313c
 	pop	{r4, r5, r6}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _080131c8:
 	.word 0x0400000c
 _080131cc:
@@ -395,6 +397,7 @@ menu_plane_process:  @ 0801321c
 	mov	r8, r4
 	b L_08013300
 	movs	r0, r0
+	.balign 4
 _080132ac:
 	.word xp_actual
 _080132b0:
@@ -618,6 +621,7 @@ L_08013300:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _0801346c:
 	.word scaleinc
 _08013470:
@@ -681,6 +685,7 @@ menu_plane_draw:  @ 080134c8
 	ldr	r2, _080134e8	@ =0x00005b88
 	b L_080134f0
 	movs	r0, r0
+	.balign 4
 _080134e0:
 	.word count.21
 _080134e4:
@@ -697,6 +702,7 @@ L_080134f0:
 @ src/menu/menu_plane.c:194
 	bx	lr
 	movs	r0, r0
+	.balign 4
 _080134f8:
 	.word 0x0400000c
 _080134fc:
@@ -743,6 +749,7 @@ menu_plane_set_level:  @ 08013504
 	bl __subsf3
 	b L_08013578
 	movs	r0, r0
+	.balign 4
 _0801354c:
 	.word yp_target
 _08013550:
@@ -772,6 +779,7 @@ L_08013578:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _08013584:
 	.word xp_target
 _08013588:
@@ -796,6 +804,7 @@ L_080135a2:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _080135a8:
 	.word current_plane
 @ src/menu/menu_plane.c:270
@@ -826,6 +835,7 @@ menu_plane_zoomout:  @ 080135ac
 	ldr	r0, _080135f8	@ =0x43480000
 	b L_08013600
 	movs	r0, r0
+	.balign 4
 _080135d8:
 	.word scaleinc
 _080135dc:
@@ -865,6 +875,7 @@ L_08013600:
 	pop	{r4}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _08013618:
 	.word xp_target
 _0801361c:

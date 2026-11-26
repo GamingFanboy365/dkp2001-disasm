@@ -26,6 +26,7 @@ L_0805cf14:
 	orrs	r1, r3
 	b L_0805cfec
 	movs	r0, r0
+	.balign 4
 _0805cf28:
 	.word 0x000007ff
 _0805cf2c:
@@ -66,6 +67,7 @@ L_0805cf52:
 	movs	r5, #0
 	b L_0805cfe2
 	movs	r0, r0
+	.balign 4
 _0805cf70:
 	.word 0xfffffc02
 L_0805cf74:
@@ -84,6 +86,7 @@ L_0805cf88:
 	movs	r4, #0
 	movs	r5, #0
 	b L_0805cff0
+	.balign 4
 _0805cf90:
 	.word 0x000003ff
 _0805cf94:
@@ -109,6 +112,7 @@ L_0805cf98:
 	movs	r0, #128
 	movs	r1, #0
 	b L_0805cfc8
+	.balign 4
 _0805cfc0:
 	.word 0x000003ff
 L_0805cfc4:
@@ -173,6 +177,7 @@ L_0805cff0:
 	pop	{r4, r5, r6, r7}
 	pop	{r2}
 	bx	r2
+	.balign 4
 _0805d034:
 	.word 0x1fffffff
 _0805d038:
@@ -240,6 +245,7 @@ L_0805d09a:
 	cmp	r5, r7
 	bls L_0805d09a
 	b L_0805d0ec
+	.balign 4
 _0805d0b4:
 	.word 0xfffffc02
 _0805d0b8:
@@ -255,6 +261,7 @@ L_0805d0bc:
 	str	r0, [r6, #0]
 	b L_0805d110
 	movs	r0, r0
+	.balign 4
 _0805d0d0:
 	.word 0x000007ff
 L_0805d0d4:
@@ -296,6 +303,7 @@ L_0805d110:
 	pop	{r4, r5, r6, r7}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _0805d118:
 	.word 0xfffffc01
 _0805d11c:
@@ -353,6 +361,7 @@ L_0805d16a:
 	ldr	r0, _0805d17c	@ =thenan.3
 	b L_0805d380
 	movs	r0, r0
+	.balign 4
 _0805d17c:
 	.word thenan.3
 L_0805d180:
@@ -589,6 +598,7 @@ L_0805d306:
 	asrs	r3, r2, #31
 	b L_0805d2f0
 	movs	r0, r0
+	.balign 4
 _0805d32c:
 	.word 0x0fffffff
 L_0805d330:
@@ -643,6 +653,7 @@ L_0805d380:
 	pop	{r4, r5, r6, r7}
 	pop	{r1}
 	bx	r1
+	.balign 4
 _0805d390:
 	.word 0x1fffffff
 __adddf3:
@@ -769,6 +780,7 @@ L_0805d482:
 	ldr	r0, _0805d488	@ =thenan.3
 	b L_0805d68a
 	movs	r0, r0
+	.balign 4
 _0805d488:
 	.word thenan.3
 L_0805d48c:
@@ -1053,6 +1065,7 @@ L_0805d68a:
 	pop	{r2}
 	bx	r2
 	movs	r0, r0
+	.balign 4
 _0805d6a0:
 	.word 0x00000000
 _0805d6a4:
@@ -1126,6 +1139,7 @@ L_0805d716:
 L_0805d720:
 	ldr	r1, _0805d724	@ =thenan.3
 	b L_0805d824
+	.balign 4
 _0805d724:
 	.word thenan.3
 L_0805d728:
@@ -1275,6 +1289,7 @@ L_0805d824:
 	pop	{r2}
 	bx	r2
 	.space 2
+	.balign 4
 _0805d834:
 	.word 0x00000000
 _0805d838:
@@ -1742,6 +1757,7 @@ L_0805db68:
 	ldr	r0, _0805db80	@ =0xc1e00000
 	b L_0805dbc4
 	movs	r0, r0
+	.balign 4
 _0805db80:
 	.word 0xc1e00000
 _0805db84:
@@ -1785,6 +1801,7 @@ L_0805dbc4:
 	pop	{r4, r5}
 	pop	{r2}
 	bx	r2
+	.balign 4
 _0805dbcc:
 	.word 0x0fffffff
 __fixdfsi:
@@ -1825,6 +1842,7 @@ L_0805dc06:
 	adds	r1, #1
 	b L_0805dc3c
 	movs	r0, r0
+	.balign 4
 _0805dc14:
 	.word 0x7fffffff
 L_0805dc18:
@@ -1927,5 +1945,6 @@ L_0805dcc4:
 	pop	{r4, r5}
 	pop	{r1}
 	bx	r1
+	.balign 4
 _0805dcd8:
 	.word 0x3fffffff

@@ -23,5 +23,6 @@ state_main_init:  @ 08014868
 @ src/state/state_main.c:44
 	pop	{r0}
 	bx	r0
+	.balign 4
 _08014884:
 	.word state_main

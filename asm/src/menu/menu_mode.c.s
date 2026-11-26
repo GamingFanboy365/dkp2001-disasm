@@ -29,6 +29,7 @@ menu_mode_init:  @ 08013990
 	movs	r1, #3
 	bl menu_text_set_font_handle
 	b L_080139cc
+	.balign 4
 _080139bc:
 	.word current_language
 _080139c0:
@@ -112,6 +113,7 @@ L_080139cc:
 	bl menu_text_set_font_handle
 	b L_08013a70
 	movs	r0, r0
+	.balign 4
 _08013a5c:
 	.word mode_x
 _08013a60:
@@ -270,6 +272,7 @@ L_08013b54:
 	pop	{r4, r5, r6, r7}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _08013b78:
 	.word select_x_start
 _08013b7c:
@@ -403,6 +406,7 @@ L_08013c3a:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _08013c78:
 	.word select_counts
 _08013c7c:
@@ -472,6 +476,7 @@ L_08013cce:
 	movs	r1, #4
 	bl menu_text_set_font_handle
 	b L_08013d04
+	.balign 4
 _08013cec:
 	.word current_mode
 _08013cf0:
@@ -642,6 +647,7 @@ L_08013dec:
 	adds	r7, r4, #0
 	b L_08013ec4
 	movs	r0, r0
+	.balign 4
 _08013e1c:
 	.word select_x_start
 _08013e20:
@@ -706,6 +712,7 @@ L_08013e7e:
 	mov	r3, r9
 	lsls	r7, r3, #2
 	b L_08013ec4
+	.balign 4
 _08013e90:
 	.word current_character
 _08013e94:
@@ -845,6 +852,7 @@ L_08013f76:
 	bl menu_text_set_font_handle
 	b L_08013fdc
 	movs	r0, r0
+	.balign 4
 _08013f9c:
 	.word current_character
 _08013fa0:
@@ -955,6 +963,7 @@ L_0801404a:
 	adds	r0, r7, r0
 @ src/menu/menu_mode.c:449
 	b L_080140b8
+	.balign 4
 _08014068:
 	.word menu_text_wobble_x_callback+1
 _0801406c:
@@ -1013,6 +1022,7 @@ L_080140c0:
 	pop	{r4, r5, r6, r7}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _080140d0:
 	.word text_difficulty_handle
 _080140d4:
@@ -1060,6 +1070,7 @@ L_0801410e:
 	pop	{r4}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _08014120:
 	.word flipped
 _08014124:
@@ -1100,6 +1111,7 @@ menu_mode_get_num_selects:  @ 0801414c
 	ldr	r0, [r1, #0]
 	b L_0801416e
 	movs	r0, r0
+	.balign 4
 _08014160:
 	.word current_mode
 _08014164:
@@ -1112,6 +1124,7 @@ L_08014168:
 @ src/menu/menu_mode.c:467
 L_0801416e:
 	bx	lr
+	.balign 4
 _08014170:
 	.word select_counts
 @ src/menu/menu_mode.c:470
@@ -1145,6 +1158,7 @@ L_08014190:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _080141a0:
 	.word select_x
 _080141a4:
@@ -1159,6 +1173,7 @@ menu_mode_flipping:  @ 080141ac
 	str	r0, [r1, #0]
 @ src/menu/menu_mode.c:481
 	bx	lr
+	.balign 4
 _080141b4:
 	.word flipped
 @ src/menu/menu_mode.c:484
@@ -1192,6 +1207,7 @@ menu_mode_selected:  @ 080141b8
 	pop	{r1}
 	bx	r1
 	movs	r0, r0
+	.balign 4
 _080141ec:
 	.word D_084d7edc
 _080141f0:
@@ -1220,6 +1236,7 @@ menu_mode_get_level:  @ 080141f4
 	ldr	r0, [r1, #0]
 	b L_08014252
 	movs	r0, r0
+	.balign 4
 _0801421c:
 	.word current_mode
 _08014220:
@@ -1237,6 +1254,7 @@ L_0801422c:
 @ src/menu/menu_mode.c:504
 	b L_08014248
 	movs	r0, r0
+	.balign 4
 _08014238:
 	.word select_indices
 _0801423c:
@@ -1258,6 +1276,7 @@ L_08014252:
 @ src/menu/menu_mode.c:519
 	bx	lr
 	movs	r0, r0
+	.balign 4
 _08014258:
 	.word select_indices
 _0801425c:
@@ -1290,6 +1309,7 @@ L_0801427c:
 	strb	r5, [r2, #0]
 	b L_08014290
 	movs	r0, r0
+	.balign 4
 _08014288:
 	.word select_strings
 @ src/menu/menu_mode.c:530

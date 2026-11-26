@@ -93,6 +93,7 @@ L_08059f9c:
 	ldr	r4, [sp, #16]
 	b L_08059ffe
 	movs	r0, r0
+	.balign 4
 _08059ff8:
 	.word 0x0000ffff
 L_08059ffc:
@@ -165,6 +166,7 @@ L_0805a030:
 	bne L_0805a096
 	b L_0805a086
 	movs	r0, r0
+	.balign 4
 _0805a080:
 	.word 0x0000ffff
 L_0805a084:
@@ -231,6 +233,7 @@ L_0805a0e0:
 	ands	r1, r0
 	str	r1, [sp, #64]
 	b L_0805a0fe
+	.balign 4
 _0805a0f8:
 	.word 0x7fffffff
 L_0805a0fc:
@@ -271,6 +274,7 @@ L_0805a138:
 	str	r1, [r2, #0]
 	b L_0805a178
 	movs	r0, r0
+	.balign 4
 _0805a140:
 	.word 0x7ff00000
 _0805a144:
@@ -303,6 +307,7 @@ L_0805a178:
 	mov	r0, r9
 	bl L_0805ad92
 	.space 2
+	.balign 4
 _0805a180:
 	.word 0x00000000
 _0805a184:
@@ -343,6 +348,7 @@ L_0805a18c:
 	ldr	r6, [sp, #8]
 	b L_0805a23c
 	movs	r0, r0
+	.balign 4
 _0805a1d0:
 	.word 0x000fffff
 _0805a1d4:
@@ -370,6 +376,7 @@ L_0805a1dc:
 	adds	r0, r2, #0
 	orrs	r4, r0
 	b L_0805a216
+	.balign 4
 _0805a204:
 	.word 0x00000432
 _0805a208:
@@ -478,6 +485,7 @@ L_0805a2d6:
 	str	r2, [sp, #16]
 	str	r4, [sp, #52]
 	b L_0805a32c
+	.balign 4
 _0805a2e8:
 	.word 0x41f00000
 _0805a2ec:
@@ -558,6 +566,7 @@ L_0805a368:
 	adds	r0, r0, r1
 	ldr	r0, [r0, #0]
 	mov	pc, r0
+	.balign 4
 _0805a37c:
 	.word L_0805a380
 L_0805a380:
@@ -714,6 +723,7 @@ L_0805a494:
 	str	r1, [sp, #68]
 	b L_0805a4fc
 	movs	r0, r0
+	.balign 4
 _0805a4a8:
 	.word __mprec_tens
 _0805a4ac:
@@ -837,6 +847,7 @@ L_0805a588:
 	b L_0805aafa
 L_0805a5a2:
 	b L_0805a778
+	.balign 4
 _0805a5a4:
 	.word __mprec_tens
 _0805a5a8:
@@ -882,6 +893,7 @@ L_0805a5d0:
 	mov	r8, r1
 	b L_0805a62c
 	movs	r0, r0
+	.balign 4
 _0805a600:
 	.word __mprec_tens
 _0805a604:
@@ -950,6 +962,7 @@ L_0805a682:
 	blt L_0805a60c
 	b L_0805a778
 	movs	r0, r0
+	.balign 4
 _0805a690:
 	.word 0x40240000
 _0805a694:
@@ -974,6 +987,7 @@ L_0805a6a0:
 	movs	r2, #1
 	mov	r8, r2
 	b L_0805a6d8
+	.balign 4
 _0805a6c0:
 	.word __mprec_tens
 L_0805a6c4:
@@ -1054,6 +1068,7 @@ L_0805a756:
 	beq L_0805a756
 	b L_0805a8b2
 	movs	r0, r0
+	.balign 4
 _0805a768:
 	.word 0x40240000
 _0805a76c:
@@ -1122,6 +1137,7 @@ L_0805a7c6:
 L_0805a7e4:
 	b L_0805ab02
 	movs	r0, r0
+	.balign 4
 _0805a7e8:
 	.word __mprec_tens
 _0805a7ec:
@@ -1225,6 +1241,7 @@ L_0805a8b2:
 	movs	r0, #1
 	add	r9, r0
 	b L_0805ad72
+	.balign 4
 _0805a8b8:
 	.word 0x40240000
 _0805a8bc:
@@ -1254,6 +1271,7 @@ L_0805a8c8:
 	mov	r8, r3
 	b L_0805a928
 	movs	r0, r0
+	.balign 4
 _0805a8f0:
 	.word 0x00000433
 L_0805a8f4:
@@ -1393,6 +1411,7 @@ L_0805a9c8:
 	movs	r3, #1
 	str	r3, [sp, #60]
 	b L_0805aa04
+	.balign 4
 _0805a9f8:
 	.word 0x000fffff
 _0805a9fc:

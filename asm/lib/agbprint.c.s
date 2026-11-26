@@ -66,6 +66,7 @@ AGBPrintInit:  @ 0805886c
 	pop	{r4, r7}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _080588e8:
 	.word 0x09fe20f8
 _080588ec:
@@ -138,6 +139,7 @@ AGBPutcInternal:  @ 080588f4
 	orrs	r3, r2
 	adds	r1, r3, #0
 	b L_08058994
+	.balign 4
 _08058974:
 	.word 0x09fe20f8
 _08058978:
@@ -239,6 +241,7 @@ L_08058a30:
 	pop	{r7}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _08058a38:
 	.word 0x04000204
 _08058a3c:
@@ -270,6 +273,7 @@ L_08058a64:
 	bne L_08058a78
 	b L_08058a8a
 	movs	r0, r0
+	.balign 4
 _08058a70:
 	.word 0x09fe20f8
 _08058a74:
@@ -382,6 +386,7 @@ L_08058b32:
 	cmp	r1, r0
 	bne L_08058b60
 	b L_08058b74
+	.balign 4
 _08058b48:
 	.word 0x09fe2ffe
 _08058b4c:
@@ -478,6 +483,7 @@ AGBAssert:  @ 08058bd8
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
 	.hword 0xe007	@ b.n	0x1b442
+	.balign 4
 _08058c00:
 	.word D_082600cc	@ "ASSERTION FAILED  FILE=[%s] LINE=[%d]  EXP=[%s] \n"
 L_08058c04:
@@ -490,6 +496,7 @@ L_08058c04:
 	pop	{r7}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _08058c18:
 	.word D_08260100	@ "WARING FILE=[%s] LINE=[%d]  EXP=[%s] \n"
 

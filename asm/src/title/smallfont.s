@@ -390,6 +390,7 @@ small_font_sizes:  @ 08005ba4
 	lsrs	r0, r1, #32
 	movs	r0, r1
 	movs	r0, r0
+	.balign 4
 _08005c18:
 	.word small_font_sizes
 _08005c1c:

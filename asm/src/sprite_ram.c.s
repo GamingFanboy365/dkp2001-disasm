@@ -66,6 +66,7 @@ L_03000174:
 	add	lr, lr, r2
 @ src/sprite_ram.c:104
 	b L_030001e8
+	.balign 4
 _030001a8:
 	.word sl_start
 _030001ac:
@@ -150,6 +151,7 @@ L_0300025c:
 	ldr	r3, _03000280	@ =sl_base
 	str	r2, [r3]
 	b L_03000284
+	.balign 4
 _03000278:
 	.word tab_palettes
 _0300027c:
@@ -263,6 +265,7 @@ L_0300036c:
 	lsl	r3, lr, #1
 	ldrh	r0, [r2, r3]
 	b L_03000398
+	.balign 4
 _0300037c:
 	.word sls
 _03000380:
@@ -662,6 +665,7 @@ L_0300071c:
 L_0300074c:
 	mov	r2, ip
 	b L_030007b4
+	.balign 4
 _03000754:
 	.word camera
 _03000758:
@@ -1038,6 +1042,7 @@ L_03000a58:
 	bne L_03000a58
 @ src/sprite_ram.c:507
 	b L_03000c60
+	.balign 4
 _03000b24:
 	.word pl_right
 _03000b28:
@@ -1425,6 +1430,7 @@ L_03000e7c:
 	bne L_03000e7c
 @ src/sprite_ram.c:597
 	b L_0300104c
+	.balign 4
 _03000f44:
 	.word oam_z
 _03000f48:
@@ -1772,6 +1778,7 @@ L_03001088:
 	str	r2, [fp, #-720]
 @ src/sprite_ram.c:699
 	b L_03001348
+	.balign 4
 _030012dc:
 	.word oam_z
 _030012e0:
@@ -2300,6 +2307,7 @@ L_03001788:
 	str	r7, [fp, #-616]
 @ src/sprite_ram.c:847
 	b L_03001a94
+	.balign 4
 _03001840:
 	.word frx
 _03001844:
@@ -2623,6 +2631,7 @@ L_03001b20:
 L_03001b50:
 	mov	r3, r0
 	b L_03001bc8
+	.balign 4
 _03001b58:
 	.word spr_info
 _03001b5c:
@@ -2923,6 +2932,7 @@ L_03001e10:
 	add	lr, lr, #1
 @ src/sprite_ram.c:999
 	b L_03001e5c
+	.balign 4
 _03001e30:
 	.word pl_right
 _03001e34:
@@ -3047,6 +3057,7 @@ L_03001f24:
 @ src/sprite_ram.c:1034
 	cmp	r7, r1
 	b L_03001f54
+	.balign 4
 _03001f4c:
 	.word sys_oam_start
 _03001f50:

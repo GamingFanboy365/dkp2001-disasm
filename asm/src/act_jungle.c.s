@@ -51,6 +51,7 @@ L_08011b12:
 	pop	{r4}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _08011b4c:
 	.word D_0807045c	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _08011b50:
@@ -96,6 +97,7 @@ L_08011b90:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _08011b98:
 	.word D_0807045c	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _08011b9c:
@@ -153,6 +155,7 @@ L_08011bc2:
 	pop	{r4}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _08011bfc:
 	.word D_0807045c	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _08011c00:
@@ -198,6 +201,7 @@ L_08011c40:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _08011c48:
 	.word D_0807045c	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _08011c4c:
@@ -255,6 +259,7 @@ L_08011c72:
 	pop	{r4}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _08011cac:
 	.word D_0807045c	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _08011cb0:
@@ -300,6 +305,7 @@ L_08011cf0:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _08011cf8:
 	.word D_0807045c	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _08011cfc:

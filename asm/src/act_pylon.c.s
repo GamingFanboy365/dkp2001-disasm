@@ -48,6 +48,7 @@ L_0800dbc2:
 	movs	r0, #80
 	b L_0800dc0e
 	movs	r0, r0
+	.balign 4
 _0800dbf8:
 	.word D_0806ff54	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _0800dbfc:
@@ -99,6 +100,7 @@ L_0800dc0e:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _0800dc54:
 	.word spr_info
 @ src/act_pylon.c:60
@@ -122,7 +124,7 @@ act_pylon:  @ 0800dc58
 	bl AGBPrintFlush
 	.hword 0xefff	@ undefined on ARMv4T
 L_0800dc7c:
-	ldr	r0, [pc, #84]
+	ldr	r0, _0800dcd4	@ =SPLINE_EDIT
 @ src/act_pylon.c:68
 	ldrb	r0, [r0, #0]
 	cmp	r0, #0
@@ -170,12 +172,14 @@ L_0800dcb6:
 	bne L_0800dcb6
 @ src/act_pylon.c:79
 	b L_0800dd0a
+	.balign 4
 _0800dcc8:
 	.word D_0806ff54	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _0800dccc:
 	.word D_0806ff84	@ "src/act_pylon.c"
 _0800dcd0:
 	.word D_0806ff94	@ "o != NULL"
+_0800dcd4:
 	.word SPLINE_EDIT
 _0800dcd8:
 	.word sys_counter
@@ -486,6 +490,7 @@ L_0800decc:
 @ src/act_pylon.c:144
 	b L_0800df12
 	movs	r0, r0
+	.balign 4
 _0800deec:
 	.word spr_info
 _0800def0:
@@ -574,6 +579,7 @@ L_0800df76:
 	beq L_0800df9e
 	b L_0800dfa6
 	movs	r0, r0
+	.balign 4
 _0800df84:
 	.word D_0806ff54	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _0800df88:

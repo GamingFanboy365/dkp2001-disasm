@@ -101,6 +101,7 @@ player_collide:  @ 0800e8a0
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _0800e94c:
 	.word D_083e35fc
 _0800e950:
@@ -225,6 +226,7 @@ L_0800ea00:
 	pop	{r4, r5, r6, r7}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _0800ea20:
 	.word D_083e35f0
 _0800ea24:
@@ -276,6 +278,7 @@ L_0800ea5a:
 	str	r0, [r6, #60]
 @ src/plane.c:232
 	b L_0800eab4
+	.balign 4
 _0800ea74:
 	.word D_08070118	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _0800ea78:
@@ -321,6 +324,7 @@ L_0800eab4:
 	ldr	r0, _0800eabc	@ =0xfffe0000
 @ src/plane.c:238
 	b L_0800eb0a
+	.balign 4
 _0800eab8:
 	.word 0xfffffeff
 _0800eabc:
@@ -395,6 +399,7 @@ L_0800eb0c:
 	str	r0, [r6, #60]
 @ src/plane.c:251
 	b L_0800eb5c
+	.balign 4
 _0800eb24:
 	.word 0xfffffeff
 _0800eb28:
@@ -436,6 +441,7 @@ L_0800eb5c:
 	ldr	r0, _0800eb64	@ =0xfffe0000
 @ src/plane.c:257
 	b L_0800ebb2
+	.balign 4
 _0800eb60:
 	.word 0xfffffeff
 _0800eb64:
@@ -531,6 +537,7 @@ L_0800ebca:
 @ src/plane.c:284
 	b L_0800ec04
 	movs	r0, r0
+	.balign 4
 _0800ebf0:
 	.word 0xfffffeff
 _0800ebf4:
@@ -615,6 +622,7 @@ L_0800ec58:
 	lsls	r0, r0, #1
 	adds	r1, r3, r0
 	b L_0800ec78
+	.balign 4
 _0800ec70:
 	.word sys_flags
 L_0800ec74:
@@ -655,6 +663,7 @@ L_0800eca0:
 	adds	r0, r3, r0
 	b L_0800ece8
 	movs	r0, r0
+	.balign 4
 _0800ecb4:
 	.word sys_flags
 L_0800ecb8:
@@ -708,6 +717,7 @@ L_0800ecf4:
 	ldr	r0, [r0, #0]
 	mov	pc, r0
 	movs	r0, r0
+	.balign 4
 _0800ed00:
 	.word L_0800ed04
 L_0800ed04:
@@ -748,6 +758,7 @@ L_0800ed26:
 	str	r0, [r6, #64]
 @ src/plane.c:338
 	b L_0800f40c
+	.balign 4
 _0800ed50:
 	.word sys_counter
 _0800ed54:
@@ -775,6 +786,7 @@ L_0800ed5c:
 @ src/plane.c:344
 	b L_0800f40c
 	movs	r0, r0
+	.balign 4
 _0800ed7c:
 	.word 0x0000089a
 _0800ed80:
@@ -807,6 +819,7 @@ L_0800ed9a:
 @ src/plane.c:362
 L_0800edaa:
 	b L_0800eee4
+	.balign 4
 _0800edac:
 	.word 0xfffff800
 _0800edb0:
@@ -951,6 +964,7 @@ L_0800ee7c:
 L_0800ee8c:
 	b L_0800eed6
 	movs	r0, r0
+	.balign 4
 _0800ee90:
 	.word 0xffff8550
 _0800ee94:
@@ -1062,6 +1076,7 @@ L_0800ef3a:
 @ src/plane.c:429
 	b L_0800ef54
 	movs	r0, r0
+	.balign 4
 _0800ef44:
 	.word 0x0000ffff
 @ src/plane.c:430
@@ -1111,6 +1126,7 @@ L_0800ef8e:
 @ src/plane.c:438
 	b L_0800efb0
 	movs	r0, r0
+	.balign 4
 _0800ef98:
 	.word 0x0000ffff
 _0800ef9c:
@@ -1168,6 +1184,7 @@ L_0800efc6:
 @ src/plane.c:455
 	b L_0800f006
 	movs	r0, r0
+	.balign 4
 _0800effc:
 	.word 0x0000ffff
 @ src/plane.c:456
@@ -1211,6 +1228,7 @@ L_0800f02a:
 	lsls	r0, r0, #1
 	adds	r2, r2, r0
 	b L_0800f046
+	.balign 4
 _0800f040:
 	.word sys_flags
 L_0800f044:
@@ -1232,6 +1250,7 @@ L_0800f046:
 	muls	r0, r1
 	b L_0800f078
 	movs	r0, r0
+	.balign 4
 _0800f064:
 	.word boost_pow
 L_0800f068:
@@ -1304,6 +1323,7 @@ L_0800f0a4:
 	str	r4, [r6, #120]
 @ src/plane.c:491
 	b L_0800f0f0
+	.balign 4
 _0800f0d8:
 	.word boost_pow
 _0800f0dc:
@@ -1377,6 +1397,7 @@ L_0800f116:
 @ src/plane.c:498
 	b L_0800f1a0
 	movs	r0, r0
+	.balign 4
 _0800f150:
 	.word 0x00000fff
 _0800f154:
@@ -1509,6 +1530,7 @@ L_0800f1fc:
 	strh	r3, [r1, #0]
 @ src/plane.c:530
 	b L_0800f3f2
+	.balign 4
 _0800f224:
 	.word 0x00000fff
 _0800f228:
@@ -1551,6 +1573,7 @@ L_0800f250:
 @ src/plane.c:540
 	b L_0800f3ea
 	movs	r0, r0
+	.balign 4
 _0800f264:
 	.word 0xfff7ffff
 @ src/plane.c:546
@@ -1571,6 +1594,7 @@ L_0800f278:
 	ldr	r0, [r0, #0]
 	mov	pc, r0
 	movs	r0, r0
+	.balign 4
 _0800f284:
 	.word L_0800f288
 L_0800f288:
@@ -1706,6 +1730,7 @@ L_0800f350:
 @ src/plane.c:629
 	b L_0800f3ca
 	movs	r0, r0
+	.balign 4
 _0800f364:
 	.word boost_dur
 @ src/plane.c:99
@@ -1730,6 +1755,7 @@ L_0800f376:
 	strb	r0, [r1, #0]
 @ src/plane.c:635
 	b L_0800f3ca
+	.balign 4
 _0800f388:
 	.word boost_dur
 @ src/plane.c:642
@@ -1810,6 +1836,7 @@ L_0800f3f2:
 	strh	r0, [r5, #0]
 @ src/plane.c:699
 	b L_0800f40c
+	.balign 4
 _0800f3f8:
 	.word 0x00020008
 _0800f3fc:
@@ -1855,6 +1882,7 @@ L_0800f40c:
 	ldrsh	r4, [r6, r1]
 @ src/plane.c:713
 	b L_0800f458
+	.balign 4
 _0800f444:
 	.word 0xfffbffff
 _0800f448:
@@ -2107,6 +2135,7 @@ L_0800f5a8:
 @ src/plane.c:788
 	b L_0800f5e8
 	movs	r0, r0
+	.balign 4
 _0800f5d4:
 	.word D_083e35f0
 _0800f5d8:
@@ -2142,6 +2171,7 @@ L_0800f5ea:
 	str	r1, [r6, #80]
 @ src/plane.c:801
 	b L_0800f6b6
+	.balign 4
 _0800f608:
 	.word 0x000001c7
 @ src/plane.c:803
@@ -2153,6 +2183,7 @@ L_0800f60c:
 @ src/plane.c:804
 	ldr	r0, _0800f618	@ =0xfffff800
 	b L_0800f628
+	.balign 4
 _0800f618:
 	.word 0xfffff800
 @ src/plane.c:806
@@ -2212,6 +2243,7 @@ L_0800f668:
 	ldr	r7, [r6, #104]
 	b L_0800f6b6
 	movs	r0, r0
+	.balign 4
 _0800f67c:
 	.word D_083e35f8	@ "h."
 _0800f680:
@@ -2244,6 +2276,7 @@ L_0800f696:
 @ src/plane.c:824
 	b L_0800f6b6
 	movs	r0, r0
+	.balign 4
 _0800f6b0:
 	.word 0xffffff00
 @ src/plane.c:825
@@ -2272,6 +2305,7 @@ L_0800f6b6:
 @ src/plane.c:838
 	b L_0800f6f6
 	movs	r0, r0
+	.balign 4
 _0800f6d8:
 	.word 0x000003bf
 L_0800f6dc:
@@ -2378,6 +2412,7 @@ L_0800f77a:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _0800f78c:
 	.word 0x00000fff
 _0800f790:
@@ -2418,6 +2453,7 @@ L_0800f7ba:
 	pop	{r1}
 	bx	r1
 	movs	r0, r0
+	.balign 4
 _0800f7cc:
 	.word D_083e35f8	@ "h."
 @ src/plane.c:145
@@ -2508,6 +2544,7 @@ L_0800f7e4:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _0800f868:
 	.word D_083e35fc
 _0800f86c:
@@ -2544,5 +2581,6 @@ L_0800f888:
 	pop	{r4, r5}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _0800f8a0:
 	.word boost_dur

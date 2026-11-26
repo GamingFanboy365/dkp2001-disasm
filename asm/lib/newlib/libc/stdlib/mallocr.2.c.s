@@ -77,6 +77,7 @@ L_0805b656:
 	str	r2, [r1, #4]
 @ lib/newlib/libc/stdlib/mallocr.c:2155
 	b L_0805b728
+	.balign 4
 _0805b670:
 	.word __malloc_av_
 _0805b674:
@@ -169,6 +170,7 @@ L_0805b6b0:
 @ lib/newlib/libc/stdlib/mallocr.c:2196
 	b L_0805b740
 	movs	r0, r0
+	.balign 4
 _0805b6f8:
 	.word __malloc_current_mallinfo
 _0805b6fc:
@@ -227,6 +229,7 @@ L_0805b740:
 	pop	{r4, r5, r6, r7}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _0805b750:
 	.word __malloc_current_mallinfo
 _0805b754:
@@ -304,6 +307,7 @@ L_0805b7aa:
 @ lib/newlib/libc/stdlib/mallocr.c:2341
 	b L_0805bb02
 	movs	r0, r0
+	.balign 4
 _0805b7c8:
 	.word 0x000001f7
 _0805b7cc:
@@ -364,6 +368,7 @@ L_0805b81a:
 	mov	ip, r0
 	b L_0805b834
 	movs	r0, r0
+	.balign 4
 _0805b82c:
 	.word 0x00000554
 L_0805b830:
@@ -396,6 +401,7 @@ L_0805b834:
 	add	ip, r0
 @ lib/newlib/libc/stdlib/mallocr.c:2360
 	b L_0805b87e
+	.balign 4
 _0805b858:
 	.word __malloc_av_
 @ lib/newlib/libc/stdlib/mallocr.c:2363
@@ -470,6 +476,7 @@ L_0805b88e:
 @ lib/newlib/libc/stdlib/mallocr.c:2393
 	b L_0805bb02
 	movs	r0, r0
+	.balign 4
 _0805b8c0:
 	.word __malloc_av_+0x8
 @ lib/newlib/libc/stdlib/mallocr.c:2396
@@ -507,6 +514,7 @@ L_0805b8da:
 	adds	r6, r0, r3
 	ldr	r4, [r6, #8]
 	b L_0805b988
+	.balign 4
 _0805b8fc:
 	.word 0x000001ff
 L_0805b900:
@@ -551,6 +559,7 @@ L_0805b93a:
 	adds	r2, r0, #0
 	adds	r2, #124
 	b L_0805b94e
+	.balign 4
 _0805b948:
 	.word 0x00000554
 L_0805b94c:
@@ -571,6 +580,7 @@ L_0805b94e:
 	orrs	r0, r1
 	str	r0, [r7, #4]
 	b L_0805b988
+	.balign 4
 _0805b96c:
 	.word __malloc_av_
 L_0805b970:
@@ -622,6 +632,7 @@ L_0805b998:
 	mov	ip, r0
 @ lib/newlib/libc/stdlib/mallocr.c:2426
 	b L_0805b9c4
+	.balign 4
 _0805b9bc:
 	.word __malloc_av_
 @ lib/newlib/libc/stdlib/mallocr.c:2428
@@ -728,6 +739,7 @@ L_0805ba3c:
 	beq L_0805ba3c
 @ lib/newlib/libc/stdlib/mallocr.c:2506
 	b L_0805b9d2
+	.balign 4
 _0805ba4c:
 	.word __malloc_av_
 @ lib/newlib/libc/stdlib/mallocr.c:2490
@@ -777,6 +789,7 @@ L_0805ba8e:
 @ lib/newlib/libc/stdlib/mallocr.c:2536
 	movs	r0, #0
 	b L_0805bb0c
+	.balign 4
 _0805ba98:
 	.word __malloc_av_
 @ lib/newlib/libc/stdlib/mallocr.c:2365
@@ -868,5 +881,6 @@ L_0805bb0c:
 	pop	{r4, r5, r6, r7}
 	pop	{r1}
 	bx	r1
+	.balign 4
 _0805bb1c:
 	.word __malloc_av_

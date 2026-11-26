@@ -102,6 +102,7 @@ L_0800575e:
 	str	r4, [r0, #0]
 	str	r5, [r1, #0]
 	pop	{r4, r5, r6, r7, pc}
+	.balign 4
 _08005764:
 	.word sin_tab
 _08005768:

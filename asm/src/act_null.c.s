@@ -20,6 +20,7 @@ L_08009dd4:
 	pop	{r0}
 @ src/act_null.c:24
 	bx	r0
+	.balign 4
 _08009dd8:
 	.word D_0806f948	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _08009ddc:

@@ -34,6 +34,7 @@ L_080142c6:
 @ src/menu/menu_spline.c:52
 	b L_08014340
 	movs	r0, r0
+	.balign 4
 _080142d8:
 	.word B_0200df40
 @ src/menu/menu_spline.c:54
@@ -47,6 +48,7 @@ L_080142dc:
 @ src/menu/menu_spline.c:55
 	adds	r1, r0, #0
 	b L_08014340
+	.balign 4
 _080142ec:
 	.word B_0200df40
 _080142f0:
@@ -58,6 +60,7 @@ L_080142f4:
 	str	r0, [r1, #0]
 @ src/menu/menu_spline.c:58
 	b L_08014340
+	.balign 4
 _080142fc:
 	.word B_0200df40
 @ src/menu/menu_spline.c:60
@@ -74,6 +77,7 @@ L_08014300:
 	adds	r1, r2, #0
 	b L_08014340
 	movs	r0, r0
+	.balign 4
 _08014314:
 	.word B_0200df40
 _08014318:
@@ -117,6 +121,7 @@ L_08014352:
 	pop	{r4, r5}
 	pop	{r0}
 	bx	r0
+	.balign 4
 _08014358:
 	.word B_0200df44
 _0801435c:
@@ -321,6 +326,7 @@ L_08014482:
 	ldr	r7, _080144f4	@ =B_0200df40
 	b L_0801473e
 	movs	r0, r0
+	.balign 4
 _080144a8:
 	.word 0x04000208
 _080144ac:
@@ -553,6 +559,7 @@ L_08014616:
 	bl draw_dec
 @ src/menu/menu_spline.c:99
 	b L_08014646
+	.balign 4
 _0801462c:
 	.word 0x4066c16b
 _08014630:
@@ -619,6 +626,7 @@ L_0801468a:
 	bl draw_dec
 @ src/menu/menu_spline.c:99
 	b L_080146be
+	.balign 4
 _080146a0:
 	.word 0x00007fff
 _080146a4:
@@ -766,6 +774,7 @@ L_0801474e:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _080147b4:
 	.word 0x4066c16b
 _080147b8:
@@ -812,6 +821,7 @@ menu_spline_process:  @ 080147f4
 @ src/menu/menu_spline.c:223
 L_08014802:
 	pop	{r0}
+	.balign 4
 	.word 0x00004700
 _08014808:
 	.word sys_joytrg

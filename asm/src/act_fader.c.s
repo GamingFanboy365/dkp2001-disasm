@@ -32,6 +32,7 @@ L_0800fa1e:
 @ src/act_fader.c:39
 	b L_0800fa48
 	movs	r0, r0
+	.balign 4
 _0800fa34:
 	.word D_080701c0	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _0800fa38:
@@ -62,6 +63,7 @@ L_0800fa48:
 @ src/act_fader.c:44
 	b L_0800fa7e
 	movs	r0, r0
+	.balign 4
 _0800fa64:
 	.word 0x04000050
 _0800fa68:
@@ -103,6 +105,7 @@ L_0800fa7e:
 @ src/act_fader.c:55
 	b L_0800facc
 	movs	r0, r0
+	.balign 4
 _0800faa8:
 	.word 0x04000054
 _0800faac:
@@ -163,6 +166,7 @@ L_0800faee:
 	pop	{r0}
 	bx	r0
 	movs	r0, r0
+	.balign 4
 _0800fb08:
 	.word D_080701c0	@ "ASSERTION FAILED FILE=[%s] LINE=[%i] EXP=[%s]\n"
 _0800fb0c:

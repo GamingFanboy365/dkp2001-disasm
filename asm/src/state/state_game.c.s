@@ -10,5 +10,6 @@ state_game_init:  @ 080148f4
 	strh	r0, [r1, #0]
 @ src/state/state_game.c:32
 	bx	lr
+	.balign 4
 _080148fc:
 	.word game
