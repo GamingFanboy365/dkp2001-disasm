@@ -1277,7 +1277,7 @@ L_08007a10:
 	pop	{r4}
 	pop	{r1}
 	bx	r1
-	.space 2
+	.balign 4, 0	@ alignment padding
 @ src/object.c:312
 
 obj_initialise:  @ 08007a18

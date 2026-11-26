@@ -483,33 +483,22 @@ loadpalloop:  @ 08005fb4
 	lsls	r1, r1, #10
 	strh	r1, [r0, #0]
 	pop	{r4, r5, r6, r7, pc}
-	.space 2
+	.balign 4, 0	@ alignment padding
 
 sprite_size_lookup:  @ 08005fd8
-	movs	r0, r4
-	movs	r0, r0
-	lsls	r0, r0, #2
-	movs	r0, r0
-	lsls	r0, r0, #8
-	movs	r0, r0
-	lsrs	r0, r0, #32
-	movs	r0, r0
-	lsls	r0, r0, #1
-	movs	r0, r0
-	lsls	r0, r0, #2
-	movs	r0, r0
-	lsls	r0, r0, #4
-	movs	r0, r0
-	lsls	r0, r0, #16
-	movs	r0, r0
-	lsls	r0, r0, #1
-	movs	r0, r0
-	lsls	r0, r0, #2
-	movs	r0, r0
-	lsls	r0, r0, #4
-	movs	r0, r0
-	lsls	r0, r0, #16
-	movs	r0, r0
+	@ data (was decoded as instructions)
+	.word	0x00000020
+	.word	0x00000080
+	.word	0x00000200
+	.word	0x00000800
+	.word	0x00000040
+	.word	0x00000080
+	.word	0x00000100
+	.word	0x00000400
+	.word	0x00000040
+	.word	0x00000080
+	.word	0x00000100
+	.word	0x00000400
 	.balign 4
 _08006008:
 	.word sprite_size_lookup

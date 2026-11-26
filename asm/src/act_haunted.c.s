@@ -1833,7 +1833,7 @@ L_0800c428:
 	pop	{r4, r5, r6, r7}
 	pop	{r0}
 	bx	r0
-	.space 2
+	.balign 4, 0	@ alignment padding
 @ src/act_haunted.c:96
 
 react_haunted_ghost:  @ 0800c430
@@ -2105,7 +2105,7 @@ L_0800c5b8:
 	pop	{r4, r5, r6, r7}
 	pop	{r0}
 	bx	r0
-	.space 2
+	.balign 4, 0	@ alignment padding
 @ src/act_haunted.c:654
 
 react_soul_eater:  @ 0800c5c0

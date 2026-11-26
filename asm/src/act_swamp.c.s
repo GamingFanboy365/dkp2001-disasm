@@ -70,7 +70,7 @@ _08011884:
 
 act_swamp_frogpoint:  @ 08011888
 	bx	lr
-	.space 2
+	.balign 4, 0	@ alignment padding
 @ src/act_swamp.c:44
 
 react_swamp_frogpoint:  @ 0801188c
@@ -312,7 +312,7 @@ _080119d4:
 
 act_swamp_lilliepad:  @ 080119d8
 	bx	lr
-	.space 2
+	.balign 4, 0	@ alignment padding
 @ src/act_swamp.c:87
 
 react_swamp_lilliepad:  @ 080119dc

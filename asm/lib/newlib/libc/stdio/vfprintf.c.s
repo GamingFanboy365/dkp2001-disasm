@@ -767,7 +767,7 @@ L_0805925e:
 	movs	r3, #3
 @ lib/newlib/libc/stdio/vfprintf.c:551
 	b L_080595ee
-	.space 2
+	.balign 4, 0	@ alignment padding
 	.balign 4
 _08059268:
 	.word 0x00000000
@@ -2201,7 +2201,7 @@ L_08059b6a:
 	adds	r0, r0, r1
 @ lib/newlib/libc/stdio/vfprintf.c:812
 	b L_08059c04
-	.space 2
+	.balign 4, 0	@ alignment padding
 	.balign 4
 _08059b90:
 	.word 0x00000000
@@ -2594,7 +2594,7 @@ L_08059e00:
 	pop	{r4, r5, r6, r7}
 	pop	{r1}
 	bx	r1
-	.space 2
+	.balign 4, 0	@ alignment padding
 	.balign 4
 _08059e1c:
 	.word 0x00000000

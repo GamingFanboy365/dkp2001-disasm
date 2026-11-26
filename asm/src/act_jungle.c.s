@@ -70,7 +70,7 @@ _08011b58:
 
 act_jungle_grubhole:  @ 08011b5c
 	bx	lr
-	.space 2
+	.balign 4, 0	@ alignment padding
 @ src/act_jungle.c:44
 
 react_jungle_grubhole:  @ 08011b60
@@ -192,7 +192,7 @@ _08011c08:
 
 act_jungle_crowpoint:  @ 08011c0c
 	bx	lr
-	.space 2
+	.balign 4, 0	@ alignment padding
 @ src/act_jungle.c:68
 
 react_jungle_crowpoint:  @ 08011c10
@@ -314,7 +314,7 @@ _08011cb8:
 
 act_jungle_royalbird:  @ 08011cbc
 	bx	lr
-	.space 2
+	.balign 4, 0	@ alignment padding
 @ src/act_jungle.c:92
 
 react_jungle_royalbird:  @ 08011cc0

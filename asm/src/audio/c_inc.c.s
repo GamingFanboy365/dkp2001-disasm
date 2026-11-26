@@ -11,7 +11,7 @@ audio_init_sound:  @ 08011e4c
 @ src/audio/code/audioc.c:269
 	pop	{r0}
 	bx	r0
-	.space 2
+	.balign 4, 0	@ alignment padding
 @ src/audio/code/audioc.c:272
 
 audio_vsync:  @ 08011e58
@@ -21,7 +21,7 @@ audio_vsync:  @ 08011e58
 @ src/audio/code/audioc.c:283
 	pop	{r0}
 	bx	r0
-	.space 2
+	.balign 4, 0	@ alignment padding
 @ src/audio/code/audioc.c:287
 
 audio_main:  @ 08011e64

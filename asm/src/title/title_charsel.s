@@ -348,7 +348,7 @@ init_charsel:  @ 08003e68
 	lsrs	r4, r4, #2
 	strh	r4, [r2, #0]
 	pop	{pc}
-	.space 2
+	.balign 4, 0	@ alignment padding
 	.balign 4
 
 char_sprites:  @ 08003ef0
@@ -378,94 +378,53 @@ char_sprites:  @ 08003ef0
 	.word clr_dixie_plt
 
 head_moves_left:  @ 08003f50
-	movs	r6, r0
-	lsls	r1, r0, #4
-	lsls	r3, r0, #16
-	movs	r5, r0
-	movs	r0, r0
-	.space 2
+	@ data (was decoded as instructions)
+	.hword	0x0006, 0x0101, 0x0403, 0x0005, 0x0000
+	.balign 4, 0	@ alignment padding
 
 head_moves_right:  @ 08003f5c
-	lsls	r1, r0, #8
-	lsls	r4, r0, #16
-	lsls	r5, r0, #24
-	movs	r0, r0
-	movs	r0, r0
-	.space 2
+	@ data (was decoded as instructions)
+	.hword	0x0201, 0x0404, 0x0605, 0x0000, 0x0000
+	.balign 4, 0	@ alignment padding
 
 head_moves_up:  @ 08003f68
-	lsls	r0, r0, #4
-	lsls	r2, r0, #8
-	lsls	r4, r0, #20
-	movs	r6, r0
-	movs	r0, r0
-	.space 2
+	@ data (was decoded as instructions)
+	.hword	0x0100, 0x0202, 0x0504, 0x0006, 0x0000
+	.balign 4, 0	@ alignment padding
 
 head_moves_down:  @ 08003f74
-	lsls	r0, r0, #4
-	lsls	r3, r0, #12
-	lsls	r4, r0, #20
-	movs	r6, r0
-	movs	r0, r0
-	.space 2
+	@ data (was decoded as instructions)
+	.hword	0x0100, 0x0303, 0x0504, 0x0006, 0x0000
+	.balign 4, 0	@ alignment padding
 
 sel_char_sounds:  @ 08003f80
-	movs	r3, r7
-	movs	r0, r0
-	movs	r0, r2
-	movs	r0, r0
-	movs	r1, r0
-	movs	r0, r0
-	movs	r6, r2
-	movs	r0, r0
-	movs	r4, r3
-	movs	r0, r0
-	movs	r7, r0
-	.space 2
+	@ data (was decoded as instructions)
+	.hword	0x003b, 0x0000, 0x0010, 0x0000, 0x0001, 0x0000, 0x0016, 0x0000
+	.hword	0x001c, 0x0000, 0x0007
+	.balign 4, 0	@ alignment padding
 
 sel_char_sounds2:  @ 08003f98
-	movs	r4, r7
-	movs	r0, r0
-	movs	r7, r1
-	movs	r0, r0
-	movs	r0, r0
-	movs	r0, r0
-	movs	r5, r2
-	movs	r0, r0
-	movs	r5, r3
-	movs	r0, r0
-	movs	r1, r1
-	.space 2
+	@ data (was decoded as instructions)
+	.hword	0x003c, 0x0000, 0x000f, 0x0000, 0x0000, 0x0000, 0x0015, 0x0000
+	.hword	0x001d, 0x0000, 0x0009
+	.balign 4, 0	@ alignment padding
 
 arrow_poss:  @ 08003fb0
-	movs	r7, r1
-	movs	r0, r0
-	movs	r0, r6
-	movs	r0, r0
-	lsls	r0, r0, #1
-	movs	r0, r0
-	movs	r1, r2
-	movs	r0, r0
-	lsls	r6, r3, #1
-	movs	r0, r0
-	movs	r3, r2
-	movs	r0, r0
-	lsls	r0, r3, #1
-	movs	r0, r0
-	movs	r3, r6
-	movs	r0, r0
-	lsls	r0, r1, #2
-	movs	r0, r0
-	movs	r3, r4
-	movs	r0, r0
-	lsls	r6, r4, #2
-	movs	r0, r0
-	movs	r1, r2
-	movs	r0, r0
-	lsls	r2, r0, #3
-	movs	r0, r0
-	movs	r5, r6
-	movs	r0, r0
+	@ data (was decoded as instructions)
+	.word	0x0000000f
+	.word	0x00000030
+	.word	0x00000040
+	.word	0x00000011
+	.word	0x0000005e
+	.word	0x00000013
+	.word	0x00000058
+	.word	0x00000033
+	.word	0x00000088
+	.word	0x00000023
+	.word	0x000000a6
+	.word	0x00000011
+	.word	0x000000c2
+	.word	0x00000035
 	.balign 4
 _08003fe8:
 	.word OBJ_ATTR_0

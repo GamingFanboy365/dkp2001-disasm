@@ -67,6 +67,9 @@ and the patch only touches the changed bytes, so the patch only touches the chan
 
 ## Known bugs not fixed yet
 
+- **Dog Fights hangs.** In the front-end, choosing Dog Fights → Classic Dogfight leaves a black
+  screen. Not investigated yet.
+
 - **No AI network at all**: Beach 03, Farm 03 (the course loaded by the Farm 02 slot) and
   Haunted 01 have a network with zero routes, so even route 0 reads the next level's data. A
   proper fix needs waypoints for those tracks.

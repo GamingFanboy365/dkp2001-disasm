@@ -1,0 +1,84 @@
+--- a/src/gba/memory.c	2026-11-26 23:27:55.209197258 +0000
++++ b/src/gba/memory.c	2026-11-26 23:27:55.212808221 +0000
+@@ -473,7 +473,11 @@
+ 	return value;
+ }
+ 
++void (*gbaTraceStore)(uint32_t address, uint32_t value, uint32_t pc, int size) = 0;
++void (*gbaTraceLoad)(uint32_t address, uint32_t pc, int kind) = 0;
++
+ uint32_t GBALoad32(struct ARMCore* cpu, uint32_t address, int* cycleCounter) {
++	if (gbaTraceLoad) gbaTraceLoad(address, cpu->gprs[ARM_PC], 0);
+ 	struct GBA* gba = (struct GBA*) cpu->master;
+ 	struct GBAMemory* memory = &gba->memory;
+ 	uint32_t value = 0;
+@@ -533,6 +537,7 @@
+ }
+ 
+ uint32_t GBALoad16(struct ARMCore* cpu, uint32_t address, int* cycleCounter) {
++	if (gbaTraceLoad) gbaTraceLoad(address, cpu->gprs[ARM_PC], 2);
+ 	struct GBA* gba = (struct GBA*) cpu->master;
+ 	struct GBAMemory* memory = &gba->memory;
+ 	uint32_t value = 0;
+@@ -648,6 +653,7 @@
+ }
+ 
+ uint32_t GBALoad8(struct ARMCore* cpu, uint32_t address, int* cycleCounter) {
++	if (gbaTraceLoad) gbaTraceLoad(address, cpu->gprs[ARM_PC], 3);
+ 	struct GBA* gba = (struct GBA*) cpu->master;
+ 	struct GBAMemory* memory = &gba->memory;
+ 	uint32_t value = 0;
+@@ -823,6 +829,7 @@
+ 	mLOG(GBA_MEM, GAME_ERROR, "Bad memory Store32: 0x%08X", address);
+ 
+ void GBAStore32(struct ARMCore* cpu, uint32_t address, int32_t value, int* cycleCounter) {
++	if (gbaTraceStore) gbaTraceStore(address, (uint32_t) value, cpu->gprs[ARM_PC], 4);
+ 	struct GBA* gba = (struct GBA*) cpu->master;
+ 	struct GBAMemory* memory = &gba->memory;
+ 	int wait = 0;
+@@ -875,6 +882,7 @@
+ }
+ 
+ void GBAStore16(struct ARMCore* cpu, uint32_t address, int16_t value, int* cycleCounter) {
++	if (gbaTraceStore) gbaTraceStore(address, (uint32_t) value, cpu->gprs[ARM_PC], 2);
+ 	struct GBA* gba = (struct GBA*) cpu->master;
+ 	struct GBAMemory* memory = &gba->memory;
+ 	int wait = 0;
+@@ -1020,6 +1028,7 @@
+ }
+ 
+ void GBAStore8(struct ARMCore* cpu, uint32_t address, int8_t value, int* cycleCounter) {
++	if (gbaTraceStore) gbaTraceStore(address, (uint32_t) value, cpu->gprs[ARM_PC], 1);
+ 	struct GBA* gba = (struct GBA*) cpu->master;
+ 	struct GBAMemory* memory = &gba->memory;
+ 	int wait = 0;
+@@ -1482,6 +1491,7 @@
+ 	}
+ 
+ uint32_t GBALoadMultiple(struct ARMCore* cpu, uint32_t address, int mask, enum LSMDirection direction, int* cycleCounter) {
++	if (gbaTraceLoad) gbaTraceLoad(address, cpu->gprs[ARM_PC], 1);
+ 	struct GBA* gba = (struct GBA*) cpu->master;
+ 	struct GBAMemory* memory = &gba->memory;
+ 	uint32_t value;
+--- a/src/arm/arm.c	2026-11-26 23:27:55.211131943 +0000
++++ b/src/arm/arm.c	2026-11-26 23:27:55.214785608 +0000
+@@ -198,8 +198,11 @@
+ 	0x0000 // NV
+ };
+ 
++void (*armTraceExec)(uint32_t pc, int thumb) = 0;
++
+ static inline void ARMStep(struct ARMCore* cpu) {
+ 	uint32_t opcode = cpu->prefetch[0];
++	if (armTraceExec) armTraceExec(cpu->gprs[ARM_PC] - 8, 0);
+ 	cpu->prefetch[0] = cpu->prefetch[1];
+ 	cpu->gprs[ARM_PC] += WORD_SIZE_ARM;
+ 	LOAD_32(cpu->prefetch[1], cpu->gprs[ARM_PC] & cpu->memory.activeMask, cpu->memory.activeRegion);
+@@ -219,6 +222,7 @@
+ 
+ static inline void ThumbStep(struct ARMCore* cpu) {
+ 	uint32_t opcode = cpu->prefetch[0];
++	if (armTraceExec) armTraceExec(cpu->gprs[ARM_PC] - 4, 1);
+ 	cpu->prefetch[0] = cpu->prefetch[1];
+ 	cpu->gprs[ARM_PC] += WORD_SIZE_THUMB;
+ 	LOAD_16(cpu->prefetch[1], cpu->gprs[ARM_PC] & cpu->memory.activeMask, cpu->memory.activeRegion);

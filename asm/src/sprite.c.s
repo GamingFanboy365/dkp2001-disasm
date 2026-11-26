@@ -65,17 +65,17 @@ _08008358:
 
 spr_get_palette:  @ 0800835c
 	bx	lr
-	.space 2
+	.balign 4, 0	@ alignment padding
 @ src/sprite.c:147
 
 spr_get_palette_blend:  @ 08008360
 	bx	lr
-	.space 2
+	.balign 4, 0	@ alignment padding
 @ src/sprite.c:162
 
 spr_free_palette:  @ 08008364
 	bx	lr
-	.space 2
+	.balign 4, 0	@ alignment padding
 @ src/sprite.c:220
 
 spr_copy_sorted_oam:  @ 08008368

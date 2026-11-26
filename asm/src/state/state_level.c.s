@@ -32,17 +32,17 @@ _080148ac:
 
 state_level_kill:  @ 080148b0
 	bx	lr
-	.space 2
+	.balign 4, 0	@ alignment padding
 @ src/state/state_level.c:37
 
 state_level_load:  @ 080148b4
 	bx	lr
-	.space 2
+	.balign 4, 0	@ alignment padding
 @ src/state/state_level.c:41
 
 state_level_save:  @ 080148b8
 	bx	lr
-	.space 2
+	.balign 4, 0	@ alignment padding
 @ src/state/state_level.c:45
 
 state_level_get_award:  @ 080148bc

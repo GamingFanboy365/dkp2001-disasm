@@ -195,7 +195,7 @@ L_08058994:
 	pop	{r4, r7}
 	pop	{r0}
 	bx	r0
-	.space 2
+	.balign 4, 0	@ alignment padding
 
 AGBPutc:  @ 080589e0
 	push	{r7, lr}
@@ -330,7 +330,7 @@ AGBPrintf:  @ 08058a9c
 	pop	{r3}
 	add	sp, #16
 	bx	r3
-	.space 2
+	.balign 4, 0	@ alignment padding
 
 AGBPrintTransferDataInternal:  @ 08058ae0
 	push	{r4, r7, lr}

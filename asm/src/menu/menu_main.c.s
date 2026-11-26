@@ -459,7 +459,7 @@ L_08012148:
 	pop	{r4, r5}
 	pop	{r0}
 	bx	r0
-	.space 2
+	.balign 4, 0	@ alignment padding
 @ src/menu/menu_main.c:60
 
 menu_main_init_jap_warning:  @ 08012150

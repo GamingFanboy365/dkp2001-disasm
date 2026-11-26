@@ -60,12 +60,12 @@ _08013930:
 
 menu_coin_process:  @ 08013934
 	bx	lr
-	.space 2
+	.balign 4, 0	@ alignment padding
 @ src/menu/menu_coin.c:68
 
 menu_coin_draw:  @ 08013938
 	bx	lr
-	.space 2
+	.balign 4, 0	@ alignment padding
 @ src/menu/menu_coin.c:71
 
 menu_coin_kill:  @ 0801393c

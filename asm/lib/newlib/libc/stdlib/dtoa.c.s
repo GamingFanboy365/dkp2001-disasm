@@ -306,7 +306,7 @@ L_0805a154:
 L_0805a178:
 	mov	r0, r9
 	bl L_0805ad92
-	.space 2
+	.balign 4, 0	@ alignment padding
 	.balign 4
 _0805a180:
 	.word 0x00000000

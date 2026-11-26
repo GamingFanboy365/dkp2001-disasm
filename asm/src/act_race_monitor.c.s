@@ -1016,9 +1016,9 @@ fix_assert_L_0800e56e:
 	.hword 0xefff	@ undefined on ARMv4T
 	.endif
 L_0800e56e:
-	.hword 0xf7ff	@ undefined on ARMv4T
+	bl calculate_race_positions
 @ src/act_race_monitor.c:184
-	.hword 0xfd1d	@ undefined on ARMv4T
+
 	adds	r1, r5, #0
 @ src/act_race_monitor.c:186
 	adds	r1, #130

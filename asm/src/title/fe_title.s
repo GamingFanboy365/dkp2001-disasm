@@ -730,11 +730,11 @@ plot_pickmode_icon:  @ 080036ec
 	push	{r4, r5, r6, r7, lr}
 	ldr	r0, _080037a0	@ =GAME_MODE
 	ldrb	r0, [r0, #0]
-	add	r1, pc, #820
+	adr	r1, game_opt_sprs	@ 08003a28
 	lsls	r0, r0, #2
 	ldr	r1, [r1, r0]
 	lsls	r2, r0, #3
-	add	r0, pc, #860
+	adr	r0, mode_anim_frames	@ 08003a58
 	adds	r0, r0, r2
 	ldr	r2, _080037a4	@ =LOCAL_MEM+0x1e
 	ldrb	r2, [r2, #0]
@@ -854,11 +854,11 @@ animate_pickmode_icon:  @ 080037cc
 	strb	r1, [r0, #0]
 	cmp	r1, #0
 	bgt L_080037f4
-	add	r1, pc, #856
+	adr	r1, mode_anim_speeds	@ 08003b38
 	ldrb	r1, [r1, r3]
 	strb	r1, [r0, #0]
 	ldr	r0, _08003b50	@ =LOCAL_MEM+0x1e
-	add	r2, pc, #856
+	adr	r2, mode_anim_framenums	@ 08003b40
 	ldrb	r1, [r0, #0]
 	ldrb	r2, [r2, r3]
 	adds	r1, #1
@@ -1095,27 +1095,19 @@ L_080039a0:
 	strh	r2, [r0, #0]
 	strh	r3, [r1, #0]
 	pop	{r4, r5, r6, r7, pc}
-	.space 2
+	.balign 4, 0	@ alignment padding
 
 VRAMbase_table:  @ 080039bc
-	movs	r0, r0
-	lsls	r1, r0, #24
-	movs	r0, r0
-	lsls	r1, r0, #24
-	movs	r0, r0
-	lsls	r1, r0, #24
-	movs	r0, r0
-	lsls	r1, r0, #24
-	ands	r0, r0
-	lsls	r1, r0, #24
-	ands	r0, r0
-	lsls	r1, r0, #24
-	ands	r0, r0
-	lsls	r1, r0, #24
-	movs	r0, r0
-	lsls	r1, r0, #24
-	movs	r0, r0
-	lsls	r1, r0, #24
+	@ data (was decoded as instructions)
+	.word	0x06010000
+	.word	0x06010000
+	.word	0x06010000
+	.word	0x06010000
+	.word	0x06014000
+	.word	0x06014000
+	.word	0x06014000
+	.word	0x06010000
+	.word	0x06010000
 state_jt:  @ 080039e0
 	.space 8
 	.balign 4
@@ -1159,101 +1151,74 @@ game_opt_pals:  @ 08003a40
 	.word optionicon_plt
 
 mode_anim_frames:  @ 08003a58
-	lsls	r0, r0, #4
-	lsls	r2, r0, #12
-	lsls	r4, r0, #20
-	lsls	r6, r0, #28
-	lsrs	r0, r1, #4
-	lsrs	r2, r1, #12
-	lsls	r7, r7, #3
-	.space 16
-	movs	r0, r0
-	lsls	r0, r0, #4
-	lsls	r2, r0, #12
-	lsls	r4, r0, #20
-	lsls	r6, r0, #28
-	lsrs	r0, r1, #4
-	lsrs	r2, r1, #12
-	lsls	r7, r7, #3
-	.space 16
-	movs	r0, r0
-	lsls	r0, r0, #4
-	lsls	r2, r0, #12
-	lsls	r4, r0, #20
-	lsls	r6, r0, #28
-	lsrs	r0, r1, #4
-	lsrs	r2, r1, #12
-	lsls	r7, r7, #3
-	.space 16
-	movs	r0, r0
-	.balign 4
-	.word 0x03020100
-	lsls	r4, r0, #20
-	lsls	r6, r0, #28
-	.balign 4
-	.word 0x0b0a0908
-	lsrs	r2, r1, #4
-	lsls	r0, r1, #28
-	lsls	r6, r0, #20
-	lsls	r4, r0, #12
-	lsls	r2, r0, #4
-	lsls	r7, r7, #3
-	.space 8
-	lsls	r0, r0, #4
-	lsls	r2, r0, #12
-	lsls	r4, r0, #20
-	lsls	r6, r0, #28
-	lsrs	r0, r1, #4
-	lsrs	r2, r1, #12
-	lsrs	r2, r1, #4
-	lsls	r0, r1, #28
-	lsls	r6, r0, #20
-	lsls	r4, r0, #12
-	lsls	r2, r0, #4
-	lsls	r7, r7, #3
-	.space 8
-	lsls	r0, r0, #4
-	lsls	r2, r0, #12
-	lsls	r4, r0, #20
-	lsls	r6, r0, #28
-	lsrs	r0, r1, #4
-	lsrs	r2, r1, #12
-	lsrs	r2, r1, #4
-	lsls	r0, r1, #28
-	.balign 4
-	.word 0x03040506
-	lsls	r2, r0, #4
-	lsls	r7, r7, #3
-	.space 8
-
+	@ data (was decoded as instructions)
+	.word	0x03020100
+	.word	0x07060504
+	.word	0x0b0a0908
+	.word	0x000000ff
+	.word	0x00000000
+	.word	0x00000000
+	.word	0x00000000
+	.word	0x00000000
+	.word	0x03020100
+	.word	0x07060504
+	.word	0x0b0a0908
+	.word	0x000000ff
+	.word	0x00000000
+	.word	0x00000000
+	.word	0x00000000
+	.word	0x00000000
+	.word	0x03020100
+	.word	0x07060504
+	.word	0x0b0a0908
+	.word	0x000000ff
+	.word	0x00000000
+	.word	0x00000000
+	.word	0x00000000
+	.word	0x00000000
+	.word	0x03020100
+	.word	0x07060504
+	.word	0x0b0a0908
+	.word	0x0708090a
+	.word	0x03040506
+	.word	0x00ff0102
+	.word	0x00000000
+	.word	0x00000000
+	.word	0x03020100
+	.word	0x07060504
+	.word	0x0b0a0908
+	.word	0x0708090a
+	.word	0x03040506
+	.word	0x00ff0102
+	.word	0x00000000
+	.word	0x00000000
+	.word	0x03020100
+	.word	0x07060504
+	.word	0x0b0a0908
+	.word	0x0708090a
+	.word	0x03040506
+	.word	0x00ff0102
+	.word	0x00000000
+	.word	0x00000000
 level_list:  @ 08003b18
-	movs	r1, r0
-	movs	r0, r0
-	movs	r0, r1
-	movs	r0, r0
-	.balign 4
-	.word 0x00000005
-	.word 0x0000001e
-	movs	r1, r0
-	movs	r0, r0
-	movs	r0, r1
-	movs	r0, r0
-	movs	r5, r0
-	movs	r0, r0
-	movs	r4, r2
-	.space 2
-
+	@ data (was decoded as instructions)
+	.word	0x00000001
+	.word	0x00000008
+	.word	0x00000005
+	.word	0x0000001e
+	.word	0x00000001
+	.word	0x00000008
+	.word	0x00000005
+	.word	0x00000014
 mode_anim_speeds:  @ 08003b38
-	lsls	r2, r0, #16
-	lsls	r6, r0, #20
-	lsls	r5, r0, #24
-	.space 2
+	@ data (was decoded as instructions)
+	.hword	0x0402, 0x0506, 0x0605
+	.balign 4, 0	@ alignment padding
 
 mode_anim_framenums:  @ 08003b40
-	lsrs	r4, r1, #16
-	asrs	r4, r1, #24
-	asrs	r6, r2, #24
-	movs	r0, r0
+	@ data (was decoded as instructions)
+	.word	0x160c0c0c
+	.word	0x00001616
 	.balign 4
 _08003b48:
 	.word GAME_MODE

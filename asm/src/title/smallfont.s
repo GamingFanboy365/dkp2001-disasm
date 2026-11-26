@@ -332,64 +332,36 @@ init_small_font:  @ 08005b84
 	pop	{r4, r5, pc}
 
 small_font_sizes:  @ 08005ba4
-	lsrs	r0, r1, #32
-	lsrs	r0, r1, #32
-	lsls	r0, r1, #24
-	lsrs	r0, r1, #32
-	lsrs	r6, r0, #32
-	lsls	r0, r1, #24
-	lsrs	r0, r1, #32
-	lsrs	r0, r1, #32
-	lsrs	r0, r1, #32
-	lsrs	r0, r1, #32
-	lsrs	r0, r1, #32
-	lsrs	r0, r1, #32
-	lsrs	r0, r1, #32
-	lsls	r4, r0, #16
-	lsls	r0, r1, #16
-	lsls	r0, r1, #24
-	lsrs	r0, r1, #32
-	lsrs	r0, r1, #32
-	lsls	r0, r1, #24
-	lsrs	r0, r1, #32
-	lsls	r4, r0, #24
-	lsls	r0, r1, #16
-	lsrs	r0, r1, #32
-	lsrs	r0, r1, #32
-	lsls	r0, r1, #24
-	lsls	r0, r1, #24
-	lsrs	r0, r1, #32
-	lsrs	r0, r1, #32
-	lsrs	r0, r1, #32
-	lsls	r4, r0, #16
-	lsls	r4, r0, #24
-	lsrs	r4, r0, #32
-	lsrs	r0, r1, #32
-	lsrs	r0, r1, #32
-	lsrs	r0, r1, #32
-	lsrs	r0, r1, #32
-	lsrs	r0, r1, #32
-	lsrs	r0, r1, #32
-	lsrs	r0, r1, #32
-	lsrs	r0, r1, #32
-	lsrs	r0, r1, #32
-	lsrs	r0, r1, #32
-	lsrs	r0, r1, #32
-	lsrs	r0, r1, #32
-	lsrs	r0, r1, #32
-	lsrs	r0, r1, #32
-	lsrs	r0, r1, #32
-	lsrs	r0, r1, #32
-	lsrs	r0, r1, #32
-	lsrs	r0, r1, #32
-	lsrs	r0, r1, #32
-	lsrs	r0, r1, #32
-	lsrs	r0, r1, #32
-	lsrs	r0, r1, #32
-	lsrs	r0, r1, #32
-	lsrs	r0, r1, #32
-	movs	r0, r1
-	movs	r0, r0
+	@ data (was decoded as instructions)
+	.word	0x08080808
+	.word	0x08080608
+	.word	0x06080806
+	.word	0x08080808
+	.word	0x08080808
+	.word	0x08080808
+	.word	0x04040808
+	.word	0x06080408
+	.word	0x08080808
+	.word	0x08080608
+	.word	0x04080604
+	.word	0x08080808
+	.word	0x06080608
+	.word	0x08080808
+	.word	0x04040808
+	.word	0x08040604
+	.word	0x08080808
+	.word	0x08080808
+	.word	0x08080808
+	.word	0x08080808
+	.word	0x08080808
+	.word	0x08080808
+	.word	0x08080808
+	.word	0x08080808
+	.word	0x08080808
+	.word	0x08080808
+	.word	0x08080808
+	.word	0x08080808
+	.word	0x00000008
 	.balign 4
 _08005c18:
 	.word small_font_sizes

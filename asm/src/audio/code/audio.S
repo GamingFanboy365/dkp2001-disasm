@@ -77,7 +77,7 @@ L_080149d8:
 	cmp	r0, r1
 	bne gab_all_notes_playing
 	ldr	r0, _0801530c	@ =wipe_audio_buff+1
-	add	lr, pc, #0
+	add	lr, pc, #(gab_all_notes_playing - . - 8)	@ 08014a0c
 	bx	r0
 
 gab_all_notes_playing:  @ 08014a0c
@@ -275,24 +275,25 @@ uana_pro_envelope:  @ 08014c60
 	blt L_08014c8c
 	push	{r0, r1, lr}
 	ldr	r0, _08015350	@ =AE_adsr_acts_table_exceeded
-	add	lr, pc, #4
+	add	lr, pc, #(L_08014c84 - . - 8)	@ 08014c84
 	ldr	r1, _08015354	@ =print_text+1
 	bx	r1
+L_08014c84:
 	pop	{r0, r1, lr}
 	udf	#65535
 L_08014c8c:
-	add	r2, pc, #4
+	add	r2, pc, #(adsr_acts - . - 8)	@ 08014c98
 	ldr	r0, [r2, r1, lsl #2]
 	add	pc, r0, r2
 
 adsr_acts:  @ 08014c98
-	andeq	r0, r0, ip, lsl r0
-	andeq	r0, r0, r4, rrx
-	muleq	r0, r8, r0
-	andeq	r0, r0, r4, lsl #2
-	andeq	r0, r0, r4, asr #2
-	andeq	r0, r0, r4, asr r1
-	muleq	r0, ip, r1
+	.word	adsr_acts_end - adsr_acts	@ ADSR stage 0
+	.word	adsr_attack - adsr_acts	@ ADSR stage 1
+	.word	adsr_setup_decay - adsr_acts	@ ADSR stage 2
+	.word	adsr_decay - adsr_acts	@ ADSR stage 3
+	.word	adsr_sustain - adsr_acts	@ ADSR stage 4
+	.word	adsr_setup_release - adsr_acts	@ ADSR stage 5
+	.word	adsr_release - adsr_acts	@ ADSR stage 6
 
 adsr_acts_end:  @ 08014cb4
 	ldr	r3, [ip, #32]
@@ -330,7 +331,7 @@ adsr_attack_complete:  @ 08014d1c
 	mov	r1, #524288
 L_08014d28:
 	str	r1, [ip, #20]
-	sub	pc, pc, #228
+	sub	pc, pc, #(. + 8 - uana_update_next_note)	@ 08014c50
 
 adsr_setup_decay:  @ 08014d30
 	ldr	r3, [ip, #32]
@@ -380,13 +381,13 @@ L_08014dcc:
 	cmp	r1, #4096
 	blt adsr_release_complete
 	str	r1, [ip, #20]
-	sub	pc, pc, #400
+	sub	pc, pc, #(. + 8 - uana_update_next_note)	@ 08014c50
 
 adsr_sustain:  @ 08014ddc
 	ldrb	r1, [ip]
 	cmp	r1, #18
 	beq adsr_setup_release
-	sub	pc, pc, #416
+	sub	pc, pc, #(. + 8 - uana_update_next_note)	@ 08014c50
 
 adsr_setup_release:  @ 08014dec
 	ldr	r3, [ip, #32]
@@ -419,7 +420,7 @@ adsr_release_complete:  @ 08014e44
 	strb	r1, [ip]
 L_08014e4c:
 	str	r1, [ip, #20]
-	sub	pc, pc, #520
+	sub	pc, pc, #(. + 8 - uana_update_next_note)	@ 08014c50
 
 midicom_tempo:  @ 08014e54
 	bic	r2, fp, #3
@@ -431,7 +432,7 @@ midicom_tempo:  @ 08014e54
 	orrne	r1, r1, r3, lsl r2
 	add	fp, fp, #3
 	bl set_new_tempo
-	add	pc, pc, #920
+	add	pc, pc, #(next_midi_command - . - 8)	@ 08015218
 
 set_new_tempo:  @ 08014e7c
 	stmfd	sp!, {lr}
@@ -474,7 +475,7 @@ midicom_ev_tme_1b:  @ 08014ebc
 	adds	r1, r3, r1
 	adcs	r2, r4, r2
 	stm	r0, {r1, r2}
-	add	pc, pc, #816
+	add	pc, pc, #(pt_new_delta_time_set - . - 8)	@ 0801524c
 
 midicom_ev_tme_2b:  @ 08014f18
 	ldr	r5, _08015378	@ =audio_ppqn
@@ -501,7 +502,7 @@ midicom_ev_tme_2b:  @ 08014f18
 	adds	r1, r3, r1
 	adcs	r2, r4, r2
 	stm	r0, {r1, r2}
-	add	pc, pc, #716
+	add	pc, pc, #(pt_new_delta_time_set - . - 8)	@ 0801524c
 
 midicom_ev_tme_3b:  @ 08014f7c
 	bic	r2, fp, #3
@@ -522,9 +523,10 @@ midicom_ev_tme_3b:  @ 08014f7c
 	blt L_08014fd8
 	push	{r0, r1, lr}
 	ldr	r0, _0801538c	@ =AE_midi_delta_time_too_big
-	add	lr, pc, #4
+	add	lr, pc, #(L_08014fd0 - . - 8)	@ 08014fd0
 	ldr	r1, _08015390	@ =print_text+1
 	bx	r1
+L_08014fd0:
 	pop	{r0, r1, lr}
 	udf	#65535
 L_08014fd8:
@@ -544,14 +546,15 @@ L_08014fd8:
 	adds	r1, r3, r1
 	adcs	r2, r4, r2
 	stm	r0, {r1, r2}
-	add	pc, pc, #556
+	add	pc, pc, #(pt_new_delta_time_set - . - 8)	@ 0801524c
 
 midicom_ev_tme_4b:  @ 0801501c
 	push	{r0, r1, lr}
 	ldr	r0, _08015398	@ =AE_midi_delta_time_of_4_bytes_unsupported
-	add	lr, pc, #4
+	add	lr, pc, #(L_08015030 - . - 8)	@ 08015030
 	ldr	r1, _0801539c	@ =print_text+1
 	bx	r1
+L_08015030:
 	pop	{r0, r1, lr}
 	udf	#65535
 
@@ -608,9 +611,10 @@ mno_found_empty_slot:  @ 080150ac
 	beq L_08015104
 	push	{r0, r1, lr}
 	ldr	r0, _080153bc	@ =AE_note_on_requested_before_prog_chng
-	add	lr, pc, #4
+	add	lr, pc, #(L_080150f4 - . - 8)	@ 080150f4
 	ldr	r1, _080153c0	@ =print_text+1
 	bx	r1
+L_080150f4:
 	pop	{r0, r1, lr}
 	ldmfd	sp!, {r2}
 	ldrb	r3, [fp], #1
@@ -635,9 +639,10 @@ setup_for_rhythm_set:  @ 08015130
 	bne L_08015160
 	push	{r0, r1, lr}
 	ldr	r0, _080153c4	@ =AE_incorrect_note_mapping_for_rhythm_set
-	add	lr, pc, #4
+	add	lr, pc, #(L_08015154 - . - 8)	@ 08015154
 	ldr	r1, _080153c8	@ =print_text+1
 	bx	r1
+L_08015154:
 	pop	{r0, r1, lr}
 	ldrb	r3, [fp], #1
 	b mno_finish
@@ -654,9 +659,10 @@ setup_for_keysplit:  @ 08015170
 	bne L_080151a0
 	push	{r0, r1, lr}
 	ldr	r0, _080153cc	@ =AE_incorrect_note_mapping_for_rhythm_set
-	add	lr, pc, #4
+	add	lr, pc, #(L_08015194 - . - 8)	@ 08015194
 	ldr	r1, _080153d0	@ =print_text+1
 	bx	r1
+L_08015194:
 	pop	{r0, r1, lr}
 	ldrb	r3, [fp], #1
 	b mno_finish
@@ -673,7 +679,7 @@ cont_note_setup:  @ 080151ac
 	bl START_AUDIO_RAM_CODE
 
 mno_finish:  @ 080151c0
-	add	pc, pc, #80
+	add	pc, pc, #(next_midi_command - . - 8)	@ 08015218
 
 process_tune_ARM:  @ 080151c4
 	stmfd	sp!, {lr}
@@ -700,7 +706,7 @@ pt_next_track:  @ 080151e0
 	ldr	fp, [fp, r0, lsl #2]
 
 pt_still_overflowed:  @ 08015214
-	add	ip, pc, #152
+	add	ip, pc, #(midi_commands - . - 8)	@ 080152b4
 
 next_midi_command:  @ 08015218
 	ldrb	r0, [fp], #1
@@ -708,9 +714,10 @@ next_midi_command:  @ 08015218
 	blt L_08015240
 	push	{r0, r1, lr}
 	ldr	r0, _080153e0	@ =AE_midi_command_table_exceeded
-	add	lr, pc, #4
+	add	lr, pc, #(L_08015238 - . - 8)	@ 08015238
 	ldr	r1, _080153e4	@ =print_text+1
 	bx	r1
+L_08015238:
 	pop	{r0, r1, lr}
 	udf	#65535
 L_08015240:
@@ -754,21 +761,19 @@ L_080152a8:
 	bx	lr
 
 midi_commands:  @ 080152b4
-	.inst 0xfffffba0
-	.inst 0xfffffc08
-	.inst 0xfffffc64
-	.inst 0xfffffcc8
-	.inst 0xfffffd68
-	.inst 0xfffffd84
-	andeq	r0, r0, r4, asr #2
-	andeq	r0, r0, r0, lsr #3
-	andeq	r0, r0, r4, asr #4
-	muleq	r0, r0, r2
-	muleq	r0, r8, r2
-	.inst 0x000002b4
-	andeq	r0, r0, r8, asr #5
-	.balign 4
-
+	.word	midicom_tempo - midi_commands	@ command 0
+	.word	midicom_ev_tme_1b - midi_commands	@ command 1
+	.word	midicom_ev_tme_2b - midi_commands	@ command 2
+	.word	midicom_ev_tme_3b - midi_commands	@ command 3
+	.word	midicom_ev_tme_4b - midi_commands	@ command 4
+	.word	midicom_note_on - midi_commands	@ command 5
+	.word	midicom_note_off - midi_commands	@ command 6
+	.word	midicom_controller - midi_commands	@ command 7
+	.word	midicom_prog_chng - midi_commands	@ command 8
+	.word	midicom_chan_press - midi_commands	@ command 9
+	.word	midicom_pitch_wh - midi_commands	@ command 10
+	.word	midicom_end_of_track - midi_commands	@ command 11
+	.word	midicom_debug - midi_commands	@ command 12
 midi_commands_end:  @ 080152e8
 	.word audio_precalc_buff
 _080152ec:
@@ -934,7 +939,7 @@ mnof_found_note_on:  @ 08015438
 	strb	r1, [r0]
 
 mnof_finish:  @ 08015450
-	sub	pc, pc, #576
+	sub	pc, pc, #(. + 8 - next_midi_command)	@ 08015218
 
 midicom_controller:  @ 08015454
 	ldrb	r1, [fp], #1
@@ -991,7 +996,7 @@ midicom_ctrl_127:  @ 080154e4
 	b midicom_ctrl_fin
 
 midicom_ctrl_fin:  @ 080154f4
-	sub	pc, pc, #740
+	sub	pc, pc, #(. + 8 - next_midi_command)	@ 08015218
 
 midicom_prog_chng:  @ 080154f8
 	ldrb	r1, [fp], #1
@@ -1014,11 +1019,11 @@ L_08015524:
 	mov	r2, #4
 	mla	r8, r2, r1, r8
 	str	r4, [r8]
-	sub	pc, pc, #816
+	sub	pc, pc, #(. + 8 - next_midi_command)	@ 08015218
 
 midicom_chan_press:  @ 08015544
 	add	fp, fp, #2
-	sub	pc, pc, #824
+	sub	pc, pc, #(. + 8 - next_midi_command)	@ 08015218
 
 midicom_pitch_wh:  @ 0801554c
 	ldrb	r3, [fp], #1
@@ -1027,18 +1032,18 @@ midicom_pitch_wh:  @ 0801554c
 	orr	r1, r0, r1, lsl #8
 	ldr	r2, _08015830	@ =audio_pitchbend
 	str	r1, [r2, r3, lsl #2]
-	sub	pc, pc, #852
+	sub	pc, pc, #(. + 8 - next_midi_command)	@ 08015218
 
 midicom_end_of_track:  @ 08015568
 	sub	fp, fp, #1
 	ldr	r0, [sp, #8]
 	add	r0, r0, #1
 	str	r0, [sp, #8]
-	sub	pc, pc, #788
+	sub	pc, pc, #(. + 8 - pt_end_of_track)	@ 0801526c
 
 midicom_debug:  @ 0801557c
 	udf	#65535
-	sub	pc, pc, #880
+	sub	pc, pc, #(. + 8 - next_midi_command)	@ 08015218
 
 div_u32_u16_ARM:  @ 08015584
 	stmfd	sp!, {r1}
@@ -1465,9 +1470,10 @@ L_08015b24:
 	bge L_08015b80
 	push	{r0, r1, lr}
 	ldr	r0, _08015c28	@ =AE_off_top_of_pitchfreqs_start
-	add	lr, pc, #4
+	add	lr, pc, #(L_08015b74 - . - 8)	@ 08015b74
 	ldr	r1, _08015c2c	@ =print_text+1
 	bx	r1
+L_08015b74:
 	pop	{r0, r1, lr}
 	mvn	r3, #63
 	b L_08015ba8
@@ -1477,9 +1483,10 @@ L_08015b80:
 	blt L_08015ba8
 	push	{r0, r1, lr}
 	ldr	r0, _08015c34	@ =AE_off_bottom_of_pitchfreqs_end
-	add	lr, pc, #4
+	add	lr, pc, #(L_08015ba0 - . - 8)	@ 08015ba0
 	ldr	r1, _08015c38	@ =print_text+1
 	bx	r1
+L_08015ba0:
 	pop	{r0, r1, lr}
 	mov	r3, #62
 L_08015ba8:
@@ -2856,1198 +2863,185 @@ _080165bc:
 	.word too_many_notes_on_1_voice_ERR_ret
 	.arm
 
+	.arm
+
+@ pitch -> frequency table (u32), indexed by note; middle_key is the centre
 pitchfreqs:  @ 080165c0
-	andeq	r2, r3, r0, asr #25
-	andeq	r5, r3, r4, lsl sp
-	andeq	r9, r3, r8, asr #32
-	andeq	ip, r3, r7, lsl #13
-	andeq	r0, r4, r0
-	andeq	r3, r4, r4, ror #25
-	andeq	r7, r4, r7, ror #26
-	andeq	ip, r4, r0, asr #3
-	andeq	r0, r5, r9, lsr #20
-	andeq	r5, r5, r0, ror #13
-	andeq	sl, r5, r8, lsr #16
-	andeq	pc, r5, r4, asr #28
-	andeq	r5, r6, r0, lsl #19
-	andeq	fp, r6, r8, lsr #20
-	.inst 0x00072090	@ muleq	r7, r0, r0
-	andeq	r8, r7, lr, lsl #26
-	andeq	r0, r8, r0
-	andeq	r7, r8, r8, asr #19
-	andeq	pc, r8, sp, asr #21
-	andeq	r8, r9, pc, ror r3
-	andeq	r1, sl, r1, asr r4
-	andeq	sl, sl, r1, asr #27
-	andeq	r5, fp, pc, asr #32
-	andeq	pc, fp, r8, lsl #25
-	.inst 0x000cb2ff
-	andeq	r7, sp, r0, asr r4
-	andeq	r4, lr, pc, lsl r1
-	.inst 0x000f1a1c	@ andeq	r1, pc, ip, lsl sl
-	andseq	r0, r0, r0
-	.inst 0x0010f390	@ mulseq	r0, r0, r3
-	.inst 0x0011f59b	@ mulseq	r1, fp, r5
-	.inst 0x001306fe
-	andseq	r2, r4, r3, lsr #17
-	andseq	r5, r5, r1, lsl #23
-	.inst 0x0016a09e	@ mulseq	r6, lr, r0
-	.inst 0x0017f911	@ andseq	pc, r7, r1, lsl r9
-	.inst 0x001965ff
-	andseq	lr, sl, r0, lsr #17
-	andseq	r8, ip, lr, lsr r2
-	andseq	r3, lr, r8, lsr r4
-	eoreq	r0, r0, r0
-	eoreq	lr, r1, pc, lsl r7
-	eoreq	lr, r3, r6, lsr fp
-	.inst 0x00260dfc
-	eoreq	r5, r8, r6, asr #2
-	eoreq	fp, sl, r2, lsl #14
-	eoreq	r4, sp, sp, lsr r1
-	eoreq	pc, pc, r2, lsr #4
-	.inst 0x0032cbfd
-	eorseq	sp, r5, pc, lsr r1
-	eorseq	r0, r9, ip, ror r4
-	eorseq	r6, ip, r0, ror r8
-	subeq	r0, r0, r0
-	subeq	ip, r3, lr, lsr lr
-	subeq	sp, r7, fp, ror #12
-	.inst 0x004c1bf8
-	subseq	sl, r0, ip, lsl #5
-	subseq	r6, r5, r4, lsl #28
-	subseq	r8, sl, sl, ror r2
-	subseq	lr, pc, r3, asr #8
-	.inst 0x006597fb
-	rsbeq	sl, fp, lr, ror r2
-	.inst 0x007208f8	@ ldrsheq	r0, [r2], #-136
-	rsbseq	sp, r8, r0, ror #1
-
+	.word	208064, 220436, 233544, 247431
+	.word	262144, 277732, 294247, 311744
+	.word	330281, 349920, 370728, 392772
+	.word	416128, 440872, 467088, 494862
+	.word	524288, 555464, 588493, 623487
+	.word	660561, 699841, 741455, 785544
+	.word	832255, 881744, 934175, 989724
+	.word	1048576, 1110928, 1176987, 1246974
+	.word	1321123, 1399681, 1482910, 1571089
+	.word	1664511, 1763488, 1868350, 1979448
+	.word	2097152, 2221855, 2353974, 2493948
+	.word	2642246, 2799362, 2965821, 3142178
+	.word	3329021, 3526975, 3736700, 3958896
+	.word	4194304, 4443710, 4707947, 4987896
+	.word	5284492, 5598724, 5931642, 6284355
+	.word	6658043, 7053950, 7473400, 7917792
 middle_key:  @ 080166c0
-	addeq	r0, r0, r0
-	addeq	r9, r7, sp, ror ip
-	.inst 0x008facd6
-	.inst 0x009837f0
-	adceq	r4, r1, r8, lsl r5
-	adceq	sp, sl, r8, lsl #24
-	.inst 0x00b504f3
-	adcseq	ip, pc, r7, lsl #17
-	.inst 0x00cb2ff5
-	ldrsheq	r4, [r7], #77
-	.inst 0x00e411f0
-	.inst 0x00f1a1bf	@ ldrheq	sl, [r1], #31
-	.inst 0x01000000	@ mrseq	r0, (UNDEF: 0)
-	.inst 0x010f38f9
-	.inst 0x011f59ac	@ tsteq	pc, ip, lsr #19
-	.inst 0x01306fe1	@ teqeq	r0, r1, ror #31
-	.inst 0x01428a30	@ cmpeq	r2, r0, lsr sl
-	.inst 0x0155b811	@ cmpeq	r5, r1, lsl r8
-	.inst 0x016a09e6	@ cmneq	sl, r6, ror #19
-	.inst 0x017f910d	@ cmneq	pc, sp, lsl #2
-	orrseq	r5, r6, sl, ror #31
-	.inst 0x01ae89fa
-	biceq	r2, r8, r0, ror #7
-	.inst 0x01e3437e	@ mvneq	r4, lr, ror r3
-	andeq	r0, r0, #0
-	andseq	r7, lr, #-2147483588
-	eorseq	fp, lr, #88, 6
-	rsbeq	sp, r0, #772
-	addeq	r1, r5, #1593835520
-	adceq	r7, fp, #33
-	sbcseq	r1, r4, #872415235
-	rscseq	r2, pc, #-1342177279
-	.inst 0x032cbfd5
-	.inst 0x035d13f3	@ cmpeq	sp, #-872415229
-	orrseq	r4, r0, #50593792
-	biceq	r8, r6, #265289728
-	streq	r0, [r0], #-0
-	ldrteq	lr, [ip], #-997
-	ldrbteq	r6, [sp], #-1713
-	strbeq	fp, [r1], #3971
-	streq	r2, [sl, #-2238]
-	ldrbeq	lr, [r6, #-66]
-	streq	r2, [r8, #1946]!
-	ldrbeq	r4, [lr, #1078]!
-	ldrbeq	r7, [r9], -r9, lsr #31
-	ldrteq	r2, [sl], r6, ror #15
-	streq	r8, [r0, -r2, lsl #31]!
-	.inst 0x078d0dfa
-	.inst 0x08000000	@ stmdaeq	r0, {}
-	ldmdaeq	r9!, {r0, r3, r6, r7, r8, r9, sl, lr, pc}^
-	ldmeq	sl!, {r1, r5, r6, r8, sl, fp, lr, pc}^
-	stmibeq	r3, {r0, r2, r8, r9, sl, fp, ip, sp, lr}
-	.inst 0x0a14517d	@ beq 0x852ad8c
-	.inst 0x0aadc084	@ beq 0x6b869ac
-	.inst 0x0b504f33	@ bleq 0x942a46c
-	.inst 0x0bfc886c	@ bleq 0x7f38954
-	ldceq	15, cr15, [r2], #332
-	ldcleq	15, cr4, [r4, #-820]!
-	.inst 0x0e411f04	@ cdpeq	15, 4, cr1, cr1, cr4, {0}
-	svceq	0x001a1bf4
-	andne	r0, r0, r0
-	.inst 0x10f38f93	@ smlalsne	r8, r3, r3, pc
-	.inst 0x11f59ac4	@ mvnsne	r9, r4, asr #21
-L_080167bc:
-	.inst 0x1306fe0a	@ tstpne	r6, #10, 28
+	.word	8388608, 8887421, 9415894, 9975792
+	.word	10568984, 11197448, 11863283, 12568711
+	.word	13316085, 14107901, 14946800, 15835583
+	.word	16777216, 17774841, 18831788, 19951585
+	.word	21137968, 22394897, 23726566, 25137421
+	.word	26632170, 28215802, 29893600, 31671166
+	.word	33554432, 35549682, 37663576, 39903169
+	.word	42275935, 44789793, 47453133, 50274843
+	.word	53264341, 56431603, 59787201, 63342333
+	.word	67108864, 71099365, 75327153, 79806339
+	.word	84551870, 89579586, 94906266, 100549686
+	.word	106528681, 112863206, 119574402, 126684666
+	.word	134217728, 142198729, 150654306, 159612677
+	.word	169103741, 179159172, 189812531, 201099372
+	.word	213057363, 225726413, 239148804, 253369332
+	.word	268435456, 284397459, 301308612
+L_080167bc:  @ 080167bc
+	.word	319225354
 
+@ decay/release rates (u8)
 decay_rel_tab:  @ 080167c0
-	.inst 0x9a9ae6fe	@ bls 0x66d03c0
-	ldrbtvs	r8, [r4], -r4, lsl #9
-	ldrbpl	r5, [r8, #-3179]
-	stmdami	fp, {r0, r4, r6, r9, sl, fp, lr}^
-	ldccc	15, cr3, [sp], #-272
-	ldrtcc	r3, [r5], #-1593
-	.inst 0x2e303233	@ mrccs	2, 1, r3, cr0, cr3, {1}
-	stmdacs	sl!, {r2, r3, r5, r8, r9, fp, sp}
-	strtcs	r2, [r5], #-1575
-	eorcs	r2, r1, r3, lsr #4
-	ldcne	15, cr1, [lr, #-124]
-	.inst 0x1a1b1c1c	@ bne 0x86dd864
-	.inst 0x17181819
-	ldrne	r1, [r6, #-1559]
-	ldrne	r1, [r4], #-1301
-	andsne	r1, r2, #1275068416
-	andsne	r1, r0, r1, lsl r1
-	.inst 0x0e0f0f0f	@ cdpeq	15, 0, cr0, cr15, cr15, {0}
-	stceq	14, cr0, [sp, #-56]
-	.inst 0x0b0c0c0c	@ bleq 0x8319844
-	.inst 0x0a0a0a0b	@ beq 0x8299044
-	stmdaeq	r9, {r0, r3, r8, fp}
-	streq	r0, [r7, -r8, lsl #16]
-	streq	r0, [r5], #-1542
-	andeq	r0, r1, r3, lsl #4
+	.byte	254, 230, 154, 154, 132, 132, 116, 102, 107, 92, 88, 85, 81, 78, 75, 72
+	.byte	68, 63, 61, 60, 57, 54, 53, 52, 51, 50, 48, 46, 44, 43, 42, 40
+	.byte	39, 38, 37, 36, 35, 34, 33, 32, 31, 31, 30, 29, 28, 28, 27, 26
+	.byte	25, 24, 24, 23, 23, 22, 22, 21, 21, 21, 20, 20, 19, 19, 18, 18
+	.byte	17, 17, 16, 16, 15, 15, 15, 14, 14, 14, 13, 13, 12, 12, 12, 11
+	.byte	11, 10, 10, 10, 9, 9, 9, 8, 8, 8, 7, 7, 6, 6, 5, 4
+	.byte	3, 2, 1, 0
 
+@ vibrato / modulation waveform (s32), 257 points
 mod_start:  @ 08016824
-	andeq	r0, r0, r0
-	andeq	r2, r0, sl, lsr #32
-	andeq	r4, r0, r0, asr r0
-	andeq	r6, r0, ip, rrx
-	andeq	r8, r0, r9, ror r0
-	andeq	sl, r0, r2, ror r0
-	andeq	ip, r0, r2, asr r0
-	andeq	lr, r0, r5, lsl r0
-	.inst 0x0000ffb5
-	andeq	r1, r1, lr, lsr #30
-	andeq	r3, r1, sl, ror lr
-	.inst 0x00015d95	@ muleq	r1, r5, sp
-	andeq	r7, r1, fp, ror ip
-	andeq	r9, r1, r6, lsr #22
-	.inst 0x0001b991	@ muleq	r1, r1, r9
-	.inst 0x0001d7b8
-	.inst 0x0001f597	@ muleq	r1, r7, r5
-	andeq	r1, r2, r8, lsr #6
-	andeq	r3, r2, r7, rrx
-	andeq	r4, r2, r0, asr sp
-	.inst 0x000269de
-	andeq	r8, r2, sp, lsl #12
-	.inst 0x0002a1d8
-	andeq	fp, r2, fp, lsr sp
-	andeq	sp, r2, r2, lsr r8
-	.inst 0x0002f2b9
-	andeq	r0, r3, fp, asr #25
-	andeq	r2, r3, r5, ror #12
-	andeq	r3, r3, r3, lsl #31
-	andeq	r5, r3, r0, lsr #16
-	andeq	r7, r3, r9, lsr r0
-	andeq	r8, r3, fp, asr #15
-	.inst 0x00039ed1
-	andeq	fp, r3, r8, asr #10
-	andeq	ip, r3, sp, lsr #22
-	andeq	lr, r3, sp, ror r0
-	.inst 0x0003f533	@ andeq	pc, r3, r3, lsr r5
-	andeq	r0, r4, sp, asr #18
-	andeq	r1, r4, r7, asr #25
-	.inst 0x00042f9f	@ muleq	r4, pc, pc
-	.inst 0x000441d2
-	andeq	r5, r4, sp, asr r3
-	andeq	r6, r4, sp, lsr r4
-	andeq	r7, r4, r0, ror r4
-	.inst 0x000483f3
-	andeq	r9, r4, r4, asr #5
-	andeq	sl, r4, r0, ror #1
-	andeq	sl, r4, r5, asr #28
-	.inst 0x0004baf2
-	andeq	ip, r4, r4, ror #13
-	andeq	sp, r4, r9, lsl r2
-	.inst 0x0004dc90	@ muleq	r4, r0, ip
-	andeq	lr, r4, r7, asr #12
-	andeq	lr, r4, sp, lsr pc
-	.inst 0x0004f770	@ andeq	pc, r4, r0, ror r7
-	.inst 0x0004fedf
-	andeq	r0, r5, r8, lsl #11
-	andeq	r0, r5, ip, ror #22
-	andeq	r1, r5, r8, lsl #1
-	.inst 0x000514dc
-	andeq	r1, r5, r8, ror #16
-	andeq	r1, r5, fp, lsr #22
-	andeq	r1, r5, r4, lsr #26
-	andeq	r1, r5, r3, asr lr
-	.inst 0x00051eb8
-	andeq	r1, r5, r3, asr lr
-	andeq	r1, r5, r4, lsr #26
-	andeq	r1, r5, fp, lsr #22
-	andeq	r1, r5, r8, ror #16
-	.inst 0x000514dc
-	andeq	r1, r5, r8, lsl #1
-	andeq	r0, r5, ip, ror #22
-	andeq	r0, r5, r8, lsl #11
-	.inst 0x0004fedf
-	.inst 0x0004f770	@ andeq	pc, r4, r0, ror r7
-	andeq	lr, r4, sp, lsr pc
-	andeq	lr, r4, r7, asr #12
-	.inst 0x0004dc90	@ muleq	r4, r0, ip
-	andeq	sp, r4, r9, lsl r2
-	andeq	ip, r4, r4, ror #13
-	.inst 0x0004baf2
-	andeq	sl, r4, r5, asr #28
-	andeq	sl, r4, r0, ror #1
-	andeq	r9, r4, r4, asr #5
-	.inst 0x000483f3
-	andeq	r7, r4, r0, ror r4
-	andeq	r6, r4, sp, lsr r4
-	andeq	r5, r4, sp, asr r3
-	.inst 0x000441d2
-	.inst 0x00042f9f	@ muleq	r4, pc, pc
-	andeq	r1, r4, r7, asr #25
-	andeq	r0, r4, sp, asr #18
-	.inst 0x0003f533	@ andeq	pc, r3, r3, lsr r5
-	andeq	lr, r3, sp, ror r0
-	andeq	ip, r3, sp, lsr #22
-	andeq	fp, r3, r8, asr #10
-	.inst 0x00039ed1
-	andeq	r8, r3, fp, asr #15
-	andeq	r7, r3, r9, lsr r0
-	andeq	r5, r3, r0, lsr #16
-	andeq	r3, r3, r3, lsl #31
-	andeq	r2, r3, r5, ror #12
-	andeq	r0, r3, fp, asr #25
-	.inst 0x0002f2b9
-	andeq	sp, r2, r2, lsr r8
-	andeq	fp, r2, fp, lsr sp
-	.inst 0x0002a1d8
-	andeq	r8, r2, sp, lsl #12
-	.inst 0x000269de
-	andeq	r4, r2, r0, asr sp
-	andeq	r3, r2, r7, rrx
-	andeq	r1, r2, r8, lsr #6
-	.inst 0x0001f597	@ muleq	r1, r7, r5
-	.inst 0x0001d7b8
-	.inst 0x0001b991	@ muleq	r1, r1, r9
-	andeq	r9, r1, r6, lsr #22
-	andeq	r7, r1, fp, ror ip
-	.inst 0x00015d95	@ muleq	r1, r5, sp
-	andeq	r3, r1, sl, ror lr
-	andeq	r1, r1, lr, lsr #30
-	.inst 0x0000ffb5
-	andeq	lr, r0, r5, lsl r0
-	andeq	ip, r0, r2, asr r0
-	andeq	sl, r0, r2, ror r0
-	andeq	r8, r0, r9, ror r0
-	andeq	r6, r0, ip, rrx
-	andeq	r4, r0, r0, asr r0
-	andeq	r2, r0, sl, lsr #32
-	andeq	r0, r0, r0
-	.inst 0xffffdfd6
-	.inst 0xffffbfb0
-	.inst 0xffff9f94
-	.inst 0xffff7f87
-	.inst 0xffff5f8e
-	.inst 0xffff3fae
-	.inst 0xffff1feb
-	.inst 0xffff004b
-	.inst 0xfffee0d2
-	.inst 0xfffec186
-	.inst 0xfffea26b
-	.inst 0xfffe8385
-	.inst 0xfffe64da
-	.inst 0xfffe466f
-	.inst 0xfffe2848
-	.inst 0xfffe0a69
-	.inst 0xfffdecd8
-	.inst 0xfffdcf99
-	.inst 0xfffdb2b0
-	.inst 0xfffd9622
-	.inst 0xfffd79f3
-	.inst 0xfffd5e28
-	.inst 0xfffd42c5
-	.inst 0xfffd27ce
-	.inst 0xfffd0d47
-	.inst 0xfffcf335
-	.inst 0xfffcd99b
-	.inst 0xfffcc07d
-	.inst 0xfffca7e0
-	.inst 0xfffc8fc7
-	.inst 0xfffc7835
-	.inst 0xfffc612f
-	.inst 0xfffc4ab8
-	.inst 0xfffc34d3
-	.inst 0xfffc1f83
-	.inst 0xfffc0acd
-	.inst 0xfffbf6b3
-	.inst 0xfffbe339
-	.inst 0xfffbd061
-	.inst 0xfffbbe2e
-	.inst 0xfffbaca3
-	.inst 0xfffb9bc3
-	.inst 0xfffb8b90
-	.inst 0xfffb7c0d
-	.inst 0xfffb6d3c
-	.inst 0xfffb5f20
-	.inst 0xfffb51bb
-	.inst 0xfffb450e
-	.inst 0xfffb391c
-	.inst 0xfffb2de7
-	.inst 0xfffb2370
-	.inst 0xfffb19b9
-	.inst 0xfffb10c3
-	.inst 0xfffb0890
-	.inst 0xfffb0121
-	.inst 0xfffafa78
-	.inst 0xfffaf494
-	.inst 0xfffaef78
-	.inst 0xfffaeb24
-	.inst 0xfffae798
-	.inst 0xfffae4d5
-	.inst 0xfffae2dc
-	.inst 0xfffae1ad
-	.inst 0xfffae148
-	.inst 0xfffae1ad
-	.inst 0xfffae2dc
-	.inst 0xfffae4d5
-	.inst 0xfffae798
-	.inst 0xfffaeb24
-	.inst 0xfffaef78
-	.inst 0xfffaf494
-	.inst 0xfffafa78
-	.inst 0xfffb0121
-	.inst 0xfffb0890
-	.inst 0xfffb10c3
-	.inst 0xfffb19b9
-	.inst 0xfffb2370
-	.inst 0xfffb2de7
-	.inst 0xfffb391c
-	.inst 0xfffb450e
-	.inst 0xfffb51bb
-	.inst 0xfffb5f20
-	.inst 0xfffb6d3c
-	.inst 0xfffb7c0d
-	.inst 0xfffb8b90
-	.inst 0xfffb9bc3
-	.inst 0xfffbaca3
-	.inst 0xfffbbe2e
-	.inst 0xfffbd061
-	.inst 0xfffbe339
-	.inst 0xfffbf6b3
-	.inst 0xfffc0acd
-	.inst 0xfffc1f83
-	.inst 0xfffc34d3
-	.inst 0xfffc4ab8
-	.inst 0xfffc612f
-	.inst 0xfffc7835
-	.inst 0xfffc8fc7
-	.inst 0xfffca7e0
-	.inst 0xfffcc07d
-	.inst 0xfffcd99b
-	.inst 0xfffcf335
-	.inst 0xfffd0d47
-	.inst 0xfffd27ce
-	.inst 0xfffd42c5
-	.inst 0xfffd5e28
-	.inst 0xfffd79f3
-	.inst 0xfffd9622
-	.inst 0xfffdb2b0
-	.inst 0xfffdcf99
-	.inst 0xfffdecd8
-	.inst 0xfffe0a69
-	.inst 0xfffe2848
-	.inst 0xfffe466f
-	.inst 0xfffe64da
-	.inst 0xfffe8385
-	.inst 0xfffea26b
-	.inst 0xfffec186
-	.inst 0xfffee0d2
-	.inst 0xffff004b
-	.inst 0xffff1feb
-	.inst 0xffff3fae
-	.inst 0xffff5f8e
-	.inst 0xffff7f87
-	.inst 0xffff9f94
-	.inst 0xffffbfb0
-	.inst 0xffffdfd6
-	andeq	r0, r0, r0
+	.word	0, 8234, 16464, 24684
+	.word	32889, 41074, 49234, 57365
+	.word	65461, 73518, 81530, 89493
+	.word	97403, 105254, 113041, 120760
+	.word	128407, 135976, 143463, 150864
+	.word	158174, 165389, 172504, 179515
+	.word	186418, 193209, 199883, 206437
+	.word	212867, 219168, 225337, 231371
+	.word	237265, 243016, 248621, 254077
+	.word	259379, 264525, 269511, 274335
+	.word	278994, 283485, 287805, 291952
+	.word	295923, 299716, 303328, 306757
+	.word	310002, 313060, 315929, 318608
+	.word	321095, 323389, 325488, 327391
+	.word	329096, 330604, 331912, 333020
+	.word	333928, 334635, 335140, 335443
+	.word	335544, 335443, 335140, 334635
+	.word	333928, 333020, 331912, 330604
+	.word	329096, 327391, 325488, 323389
+	.word	321095, 318608, 315929, 313060
+	.word	310002, 306757, 303328, 299716
+	.word	295923, 291952, 287805, 283485
+	.word	278994, 274335, 269511, 264525
+	.word	259379, 254077, 248621, 243016
+	.word	237265, 231371, 225337, 219168
+	.word	212867, 206437, 199883, 193209
+	.word	186418, 179515, 172504, 165389
+	.word	158174, 150864, 143463, 135976
+	.word	128407, 120760, 113041, 105254
+	.word	97403, 89493, 81530, 73518
+	.word	65461, 57365, 49234, 41074
+	.word	32889, 24684, 16464, 8234
+	.word	0, -8234, -16464, -24684
+	.word	-32889, -41074, -49234, -57365
+	.word	-65461, -73518, -81530, -89493
+	.word	-97403, -105254, -113041, -120760
+	.word	-128407, -135976, -143463, -150864
+	.word	-158174, -165389, -172504, -179515
+	.word	-186418, -193209, -199883, -206437
+	.word	-212867, -219168, -225337, -231371
+	.word	-237265, -243016, -248621, -254077
+	.word	-259379, -264525, -269511, -274335
+	.word	-278994, -283485, -287805, -291952
+	.word	-295923, -299716, -303328, -306757
+	.word	-310002, -313060, -315929, -318608
+	.word	-321095, -323389, -325488, -327391
+	.word	-329096, -330604, -331912, -333020
+	.word	-333928, -334635, -335140, -335443
+	.word	-335544, -335443, -335140, -334635
+	.word	-333928, -333020, -331912, -330604
+	.word	-329096, -327391, -325488, -323389
+	.word	-321095, -318608, -315929, -313060
+	.word	-310002, -306757, -303328, -299716
+	.word	-295923, -291952, -287805, -283485
+	.word	-278994, -274335, -269511, -264525
+	.word	-259379, -254077, -248621, -243016
+	.word	-237265, -231371, -225337, -219168
+	.word	-212867, -206437, -199883, -193209
+	.word	-186418, -179515, -172504, -165389
+	.word	-158174, -150864, -143463, -135976
+	.word	-128407, -120760, -113041, -105254
+	.word	-97403, -89493, -81530, -73518
+	.word	-65461, -57365, -49234, -41074
+	.word	-32889, -24684, -16464, -8234
+	.word	0
 
+@ sound-driver error messages, printed via print_text before the 0xEFFF trap
 mod_end:  @ 08016c28
-	stmdbmi	r4, {r0, r6, r8, sl, ip, lr}^
-	subpl	r2, r5, #79
-	.inst 0x2c524f52	@ ldclcs	15, cr4, [r2], {82}
-	ldrbvs	r6, [r2, #-1568]!
-	.inst 0x666f2071
-	stclvs	3, cr7, [r1, #-128]!
-	rsbcs	r6, r5, r0, ror ip
-	.inst 0x73756e75	@ cmnvc	r5, #1872
-	.inst 0x6c6c6175	@ stfvse	f6, [ip], #-468
-	stmdbvs	r8!, {r0, r3, r4, r5, r6, sp}^
-	eorcs	r6, lr, r7, ror #16
-	eorscs	r3, r3, r8, lsr #28
-	strbvs	r6, [sp, #-2420]!
-	svcvs	0x006e2073
-	stclvs	13, cr6, [r1], #-456
-	.byte 0x29, 0x0a, 0x00
-
+	.asciz	"AUDIO ERROR, freq of sample unusually high. (>3 times normal)\n"
 AE_off_top_of_pitchfreqs_start:  @ 08016c67
-	stmdbmi	r4, {r0, r6, r8, sl, ip, lr}^
-	subpl	r2, r5, #79
-	.inst 0x2c524f52	@ ldclcs	15, cr4, [r2], {82}
-	strbtvc	r7, [r9], #-32
-	strtvs	r6, [r0], -r3, ror #16
-	ldrbvc	r6, [r1, #-1394]!
-	stmdbvc	r3!, {r0, r2, r5, r6, r9, sl, fp, sp, lr}^
-	svcvs	0x006f7420
-	.inst 0x776f6c20	@ strbvc	r6, [pc, -r0, lsr #24]!
-	.byte 0x0a, 0x00
-
+	.asciz	"AUDIO ERROR, pitch frequency too low\n"
 AE_off_bottom_of_pitchfreqs_end:  @ 08016c8d
-	stmdbmi	r4, {r0, r6, r8, sl, ip, lr}^
-	subpl	r2, r5, #79
-	.inst 0x2c524f52	@ ldclcs	15, cr4, [r2], {82}
-	strbtvc	r7, [r9], #-32
-	strtvs	r6, [r0], -r3, ror #16
-	ldrbvc	r6, [r1, #-1394]!
-	stmdbvc	r3!, {r0, r2, r5, r6, r9, sl, fp, sp, lr}^
-	svcvs	0x006f7420
-	strbvs	r6, [r9, -r0, lsr #16]!
-	.byte 0x68, 0x0a, 0x00
-
+	.asciz	"AUDIO ERROR, pitch frequency too high\n"
 AE_adsr_acts_table_exceeded:  @ 08016cb4
-	stmdbmi	r4, {r0, r6, r8, sl, ip, lr}^
-	subpl	r2, r5, #79
-	.inst 0x2c524f52	@ ldclcs	15, cr4, [r2], {82}
-	.inst 0x73646120	@ cmnvc	r4, #32, 2
-	.inst 0x63615f72	@ cmnvs	r1, #456
-	strtvc	r7, [r0], #-884
-	strbvs	r6, [ip, #-609]!
-	.inst 0x63786520	@ cmnvs	r8, #32, 10
-	strbvs	r6, [r4, #-1381]!
-	.byte 0x64, 0x0a, 0x00
-
+	.asciz	"AUDIO ERROR, adsr_acts table exceeded\n"
 AE_midi_command_table_exceeded:  @ 08016cdb
-	stmdbmi	r4, {r0, r6, r8, sl, ip, lr}^
-	subpl	r2, r5, #79
-	.inst 0x2c524f52	@ ldclcs	15, cr4, [r2], {82}
-	strbtvs	r6, [r9], #-3360
-	svcvs	0x00635f69
-	.inst 0x6e616d6d	@ cdpvs	13, 6, cr6, cr1, cr13, {3}
-	.inst 0x61742064	@ cmnvs	r4, r4, rrx
-	rsbcs	r6, r5, r2, ror #24
-	strbvs	r7, [r3, #-2149]!
-	strbtvs	r6, [r5], #-1125
-	.byte 0x0a, 0x00
-
+	.asciz	"AUDIO ERROR, midi_command table exceeded\n"
 AE_midi_delta_time_too_big:  @ 08016d05
-	stmdbmi	r4, {r0, r6, r8, sl, ip, lr}^
-	subpl	r2, r5, #79
-	.inst 0x2c524f52	@ ldclcs	15, cr4, [r2], {82}
-	strbtvs	r6, [r9], #-3360
-	strbvs	r2, [r4, #-105]!
-	rsbcs	r7, r1, ip, ror #8
-	strbvs	r6, [sp, #-2420]!
-	svcvs	0x006f7420
-	strbvs	r6, [r9, -r0, lsr #4]!
-	.byte 0x0a, 0x00
-
+	.asciz	"AUDIO ERROR, midi delta time too big\n"
 AE_midi_delta_time_of_4_bytes_unsupported:  @ 08016d2b
-	stmdbmi	r4, {r0, r6, r8, sl, ip, lr}^
-	subpl	r2, r5, #79
-	.inst 0x2c524f52	@ ldclcs	15, cr4, [r2], {82}
-	strbtvs	r6, [r9], #-3360
-	strbvs	r2, [r4, #-105]!
-	rsbcs	r7, r1, ip, ror #8
-	strbvs	r6, [sp, #-2420]!
-	rsbcs	r6, r6, r0, lsr #30
-	stmdbvc	r2!, {r2, r4, r5, sp}^
-	rsbscs	r6, r3, r4, ror r5
-	ldrbvc	r6, [r3, #-3701]!
-	rsbvc	r7, pc, #112
-	.inst 0x0a646574	@ beq 0x9930333
-	.space 1
-
+	.asciz	"AUDIO ERROR, midi delta time of 4 bytes unsupported\n"
 AE_too_many_notes_on_chan_0:  @ 08016d60
-	stmdbmi	r4, {r0, r6, r8, sl, ip, lr}^
-	subpl	r2, r5, #79
-	.inst 0x2c524f52	@ ldclcs	15, cr4, [r2], {82}
-	svcvs	0x006f7420
-	.inst 0x6e616d20	@ cdpvs	13, 6, cr6, cr1, cr0, {1}
-	svcvs	0x006e2079
-	rsbscs	r6, r3, r4, ror r5
-	.inst 0x63206e6f
-	.inst 0x6e6e6168	@ powvsez	f6, f6, #0.0
-	eorcc	r6, r0, r5, ror #24
-	.inst 0x636e692e	@ cmnvs	lr, #753664
-	.inst 0x73616572	@ cmnvc	r1, #478150656
-	svcvs	0x00702065
-	ldmdavs	r0!, {r2, r3, r5, r6, r8, fp, ip, sp, lr}^
-	rsbscs	r6, r9, pc, ror #28
-	.inst 0x0a4d4152	@ beq 0x93672ec
-	eorcs	r2, r0, r0, lsr #32
-	eorcs	r2, r0, r0, lsr #32
-	svcvs	0x00202020
-	svcvs	0x006d2072
-	stmdbvc	r6!, {r2, r5, r6, r8, fp, sp, lr}^
-	.inst 0x6e757420	@ cdpvs	4, 7, cr7, cr5, cr0, {1}
-	eorvc	r2, r8, r5, rrx
-	.inst 0x61687265	@ cmnvs	r8, r5, ror #4
-	eorvc	r7, r0, #112, 6
-	.inst 0x63756465	@ cmnvs	r5, #1694498816
-	.inst 0x6e652065	@ cdpvs	0, 6, cr2, cr5, cr5, {3}
-	svcvs	0x006c6576
-	eorvc	r6, r0, #112, 10
-	.inst 0x61656c65	@ cmnvs	r5, r5, ror #24
-	strtvc	r6, [r0], #-1395
-	.inst 0x73656d69	@ cmnvc	r5, #6720
-	.byte 0x29, 0x0a, 0x00
-
+	.asciz	"AUDIO ERROR, too many notes on channel 0.increase polyphony RAM\n           or modify tune (perhaps reduce envelope release times)\n"
 AE_too_many_notes_on_chan_1:  @ 08016de3
-	stmdbmi	r4, {r0, r6, r8, sl, ip, lr}^
-	subpl	r2, r5, #79
-	.inst 0x2c524f52	@ ldclcs	15, cr4, [r2], {82}
-	svcvs	0x006f7420
-	.inst 0x6e616d20	@ cdpvs	13, 6, cr6, cr1, cr0, {1}
-	svcvs	0x006e2079
-	rsbscs	r6, r3, r4, ror r5
-	.inst 0x63206e6f
-	.inst 0x6e6e6168	@ powvsez	f6, f6, #0.0
-	.inst 0x31206c65
-	.inst 0x636e692e	@ cmnvs	lr, #753664
-	.inst 0x73616572	@ cmnvc	r1, #478150656
-	svcvs	0x00702065
-	ldmdavs	r0!, {r2, r3, r5, r6, r8, fp, ip, sp, lr}^
-	rsbscs	r6, r9, pc, ror #28
-	.inst 0x0a4d4152	@ beq 0x936736f
-	eorcs	r2, r0, r0, lsr #32
-	eorcs	r2, r0, r0, lsr #32
-	svcvs	0x00202020
-	svcvs	0x006d2072
-	stmdbvc	r6!, {r2, r5, r6, r8, fp, sp, lr}^
-	.inst 0x6e757420	@ cdpvs	4, 7, cr7, cr5, cr0, {1}
-	eorvc	r2, r8, r5, rrx
-	.inst 0x61687265	@ cmnvs	r8, r5, ror #4
-	eorvc	r7, r0, #112, 6
-	.inst 0x63756465	@ cmnvs	r5, #1694498816
-	.inst 0x6e652065	@ cdpvs	0, 6, cr2, cr5, cr5, {3}
-	svcvs	0x006c6576
-	eorvc	r6, r0, #112, 10
-	.inst 0x61656c65	@ cmnvs	r5, r5, ror #24
-	strtvc	r6, [r0], #-1395
-	.inst 0x73656d69	@ cmnvc	r5, #6720
-	.byte 0x29, 0x0a, 0x00
-
+	.asciz	"AUDIO ERROR, too many notes on channel 1.increase polyphony RAM\n           or modify tune (perhaps reduce envelope release times)\n"
 AE_too_many_notes_on_chan_2:  @ 08016e66
-	stmdbmi	r4, {r0, r6, r8, sl, ip, lr}^
-	subpl	r2, r5, #79
-	.inst 0x2c524f52	@ ldclcs	15, cr4, [r2], {82}
-	svcvs	0x006f7420
-	.inst 0x6e616d20	@ cdpvs	13, 6, cr6, cr1, cr0, {1}
-	svcvs	0x006e2079
-	rsbscs	r6, r3, r4, ror r5
-	.inst 0x63206e6f
-	.inst 0x6e6e6168	@ powvsez	f6, f6, #0.0
-	eorcc	r6, r0, #25856
-	.inst 0x636e692e	@ cmnvs	lr, #753664
-	.inst 0x73616572	@ cmnvc	r1, #478150656
-	svcvs	0x00702065
-	ldmdavs	r0!, {r2, r3, r5, r6, r8, fp, ip, sp, lr}^
-	rsbscs	r6, r9, pc, ror #28
-	.inst 0x0a4d4152	@ beq 0x93673f2
-	eorcs	r2, r0, r0, lsr #32
-	eorcs	r2, r0, r0, lsr #32
-	svcvs	0x00202020
-	svcvs	0x006d2072
-	stmdbvc	r6!, {r2, r5, r6, r8, fp, sp, lr}^
-	.inst 0x6e757420	@ cdpvs	4, 7, cr7, cr5, cr0, {1}
-	eorvc	r2, r8, r5, rrx
-	.inst 0x61687265	@ cmnvs	r8, r5, ror #4
-	eorvc	r7, r0, #112, 6
-	.inst 0x63756465	@ cmnvs	r5, #1694498816
-	.inst 0x6e652065	@ cdpvs	0, 6, cr2, cr5, cr5, {3}
-	svcvs	0x006c6576
-	eorvc	r6, r0, #112, 10
-	.inst 0x61656c65	@ cmnvs	r5, r5, ror #24
-	strtvc	r6, [r0], #-1395
-	.inst 0x73656d69	@ cmnvc	r5, #6720
-	.byte 0x29, 0x0a, 0x00
-
+	.asciz	"AUDIO ERROR, too many notes on channel 2.increase polyphony RAM\n           or modify tune (perhaps reduce envelope release times)\n"
 AE_too_many_notes_on_chan_3:  @ 08016ee9
-	stmdbmi	r4, {r0, r6, r8, sl, ip, lr}^
-	subpl	r2, r5, #79
-	.inst 0x2c524f52	@ ldclcs	15, cr4, [r2], {82}
-	svcvs	0x006f7420
-	.inst 0x6e616d20	@ cdpvs	13, 6, cr6, cr1, cr0, {1}
-	svcvs	0x006e2079
-	rsbscs	r6, r3, r4, ror r5
-	.inst 0x63206e6f
-	.inst 0x6e6e6168	@ powvsez	f6, f6, #0.0
-	.inst 0x33206c65
-	.inst 0x636e692e	@ cmnvs	lr, #753664
-	.inst 0x73616572	@ cmnvc	r1, #478150656
-	svcvs	0x00702065
-	ldmdavs	r0!, {r2, r3, r5, r6, r8, fp, ip, sp, lr}^
-	rsbscs	r6, r9, pc, ror #28
-	.inst 0x0a4d4152	@ beq 0x9367475
-	eorcs	r2, r0, r0, lsr #32
-	eorcs	r2, r0, r0, lsr #32
-	svcvs	0x00202020
-	svcvs	0x006d2072
-	stmdbvc	r6!, {r2, r5, r6, r8, fp, sp, lr}^
-	.inst 0x6e757420	@ cdpvs	4, 7, cr7, cr5, cr0, {1}
-	eorvc	r2, r8, r5, rrx
-	.inst 0x61687265	@ cmnvs	r8, r5, ror #4
-	eorvc	r7, r0, #112, 6
-	.inst 0x63756465	@ cmnvs	r5, #1694498816
-	.inst 0x6e652065	@ cdpvs	0, 6, cr2, cr5, cr5, {3}
-	svcvs	0x006c6576
-	eorvc	r6, r0, #112, 10
-	.inst 0x61656c65	@ cmnvs	r5, r5, ror #24
-	strtvc	r6, [r0], #-1395
-	.inst 0x73656d69	@ cmnvc	r5, #6720
-	.byte 0x29, 0x0a, 0x00
-
+	.asciz	"AUDIO ERROR, too many notes on channel 3.increase polyphony RAM\n           or modify tune (perhaps reduce envelope release times)\n"
 AE_too_many_notes_on_chan_4:  @ 08016f6c
-	stmdbmi	r4, {r0, r6, r8, sl, ip, lr}^
-	subpl	r2, r5, #79
-	.inst 0x2c524f52	@ ldclcs	15, cr4, [r2], {82}
-	svcvs	0x006f7420
-	.inst 0x6e616d20	@ cdpvs	13, 6, cr6, cr1, cr0, {1}
-	svcvs	0x006e2079
-	rsbscs	r6, r3, r4, ror r5
-	.inst 0x63206e6f
-	.inst 0x6e6e6168	@ powvsez	f6, f6, #0.0
-	strtcc	r6, [r0], #-3173
-	.inst 0x636e692e	@ cmnvs	lr, #753664
-	.inst 0x73616572	@ cmnvc	r1, #478150656
-	svcvs	0x00702065
-	ldmdavs	r0!, {r2, r3, r5, r6, r8, fp, ip, sp, lr}^
-	rsbscs	r6, r9, pc, ror #28
-	.inst 0x0a4d4152	@ beq 0x93674f8
-	eorcs	r2, r0, r0, lsr #32
-	eorcs	r2, r0, r0, lsr #32
-	svcvs	0x00202020
-	svcvs	0x006d2072
-	stmdbvc	r6!, {r2, r5, r6, r8, fp, sp, lr}^
-	.inst 0x6e757420	@ cdpvs	4, 7, cr7, cr5, cr0, {1}
-	eorvc	r2, r8, r5, rrx
-	.inst 0x61687265	@ cmnvs	r8, r5, ror #4
-	eorvc	r7, r0, #112, 6
-	.inst 0x63756465	@ cmnvs	r5, #1694498816
-	.inst 0x6e652065	@ cdpvs	0, 6, cr2, cr5, cr5, {3}
-	svcvs	0x006c6576
-	eorvc	r6, r0, #112, 10
-	.inst 0x61656c65	@ cmnvs	r5, r5, ror #24
-	strtvc	r6, [r0], #-1395
-	.inst 0x73656d69	@ cmnvc	r5, #6720
-	.byte 0x29, 0x0a, 0x00
-
+	.asciz	"AUDIO ERROR, too many notes on channel 4.increase polyphony RAM\n           or modify tune (perhaps reduce envelope release times)\n"
 AE_too_many_notes_on_chan_5:  @ 08016fef
-	stmdbmi	r4, {r0, r6, r8, sl, ip, lr}^
-	subpl	r2, r5, #79
-	.inst 0x2c524f52	@ ldclcs	15, cr4, [r2], {82}
-	svcvs	0x006f7420
-	.inst 0x6e616d20	@ cdpvs	13, 6, cr6, cr1, cr0, {1}
-	svcvs	0x006e2079
-	rsbscs	r6, r3, r4, ror r5
-	.inst 0x63206e6f
-	.inst 0x6e6e6168	@ powvsez	f6, f6, #0.0
-	strcc	r6, [r0, #-3173]!
-	.inst 0x636e692e	@ cmnvs	lr, #753664
-	.inst 0x73616572	@ cmnvc	r1, #478150656
-	svcvs	0x00702065
-	ldmdavs	r0!, {r2, r3, r5, r6, r8, fp, ip, sp, lr}^
-	rsbscs	r6, r9, pc, ror #28
-	.inst 0x0a4d4152	@ beq 0x936757b
-	eorcs	r2, r0, r0, lsr #32
-	eorcs	r2, r0, r0, lsr #32
-	svcvs	0x00202020
-	svcvs	0x006d2072
-	stmdbvc	r6!, {r2, r5, r6, r8, fp, sp, lr}^
-	.inst 0x6e757420	@ cdpvs	4, 7, cr7, cr5, cr0, {1}
-	eorvc	r2, r8, r5, rrx
-	.inst 0x61687265	@ cmnvs	r8, r5, ror #4
-	eorvc	r7, r0, #112, 6
-	.inst 0x63756465	@ cmnvs	r5, #1694498816
-	.inst 0x6e652065	@ cdpvs	0, 6, cr2, cr5, cr5, {3}
-	svcvs	0x006c6576
-	eorvc	r6, r0, #112, 10
-	.inst 0x61656c65	@ cmnvs	r5, r5, ror #24
-	strtvc	r6, [r0], #-1395
-	.inst 0x73656d69	@ cmnvc	r5, #6720
-	.byte 0x29, 0x0a, 0x00
-
+	.asciz	"AUDIO ERROR, too many notes on channel 5.increase polyphony RAM\n           or modify tune (perhaps reduce envelope release times)\n"
 AE_too_many_notes_on_chan_6:  @ 08017072
-	stmdbmi	r4, {r0, r6, r8, sl, ip, lr}^
-	subpl	r2, r5, #79
-	.inst 0x2c524f52	@ ldclcs	15, cr4, [r2], {82}
-	svcvs	0x006f7420
-	.inst 0x6e616d20	@ cdpvs	13, 6, cr6, cr1, cr0, {1}
-	svcvs	0x006e2079
-	rsbscs	r6, r3, r4, ror r5
-	.inst 0x63206e6f
-	.inst 0x6e6e6168	@ powvsez	f6, f6, #0.0
-	strtcc	r6, [r0], -r5, ror #24
-	.inst 0x636e692e	@ cmnvs	lr, #753664
-	.inst 0x73616572	@ cmnvc	r1, #478150656
-	svcvs	0x00702065
-	ldmdavs	r0!, {r2, r3, r5, r6, r8, fp, ip, sp, lr}^
-	rsbscs	r6, r9, pc, ror #28
-	.inst 0x0a4d4152	@ beq 0x93675fe
-	eorcs	r2, r0, r0, lsr #32
-	eorcs	r2, r0, r0, lsr #32
-	svcvs	0x00202020
-	svcvs	0x006d2072
-	stmdbvc	r6!, {r2, r5, r6, r8, fp, sp, lr}^
-	.inst 0x6e757420	@ cdpvs	4, 7, cr7, cr5, cr0, {1}
-	eorvc	r2, r8, r5, rrx
-	.inst 0x61687265	@ cmnvs	r8, r5, ror #4
-	eorvc	r7, r0, #112, 6
-	.inst 0x63756465	@ cmnvs	r5, #1694498816
-	.inst 0x6e652065	@ cdpvs	0, 6, cr2, cr5, cr5, {3}
-	svcvs	0x006c6576
-	eorvc	r6, r0, #112, 10
-	.inst 0x61656c65	@ cmnvs	r5, r5, ror #24
-	strtvc	r6, [r0], #-1395
-	.inst 0x73656d69	@ cmnvc	r5, #6720
-	.byte 0x29, 0x0a, 0x00
-
+	.asciz	"AUDIO ERROR, too many notes on channel 6.increase polyphony RAM\n           or modify tune (perhaps reduce envelope release times)\n"
 AE_too_many_notes_on_chan_7:  @ 080170f5
-	stmdbmi	r4, {r0, r6, r8, sl, ip, lr}^
-	subpl	r2, r5, #79
-	.inst 0x2c524f52	@ ldclcs	15, cr4, [r2], {82}
-	svcvs	0x006f7420
-	.inst 0x6e616d20	@ cdpvs	13, 6, cr6, cr1, cr0, {1}
-	svcvs	0x006e2079
-	rsbscs	r6, r3, r4, ror r5
-	.inst 0x63206e6f
-	.inst 0x6e6e6168	@ powvsez	f6, f6, #0.0
-	strcc	r6, [r0, -r5, ror #24]!
-	.inst 0x636e692e	@ cmnvs	lr, #753664
-	.inst 0x73616572	@ cmnvc	r1, #478150656
-	svcvs	0x00702065
-	ldmdavs	r0!, {r2, r3, r5, r6, r8, fp, ip, sp, lr}^
-	rsbscs	r6, r9, pc, ror #28
-	.inst 0x0a4d4152	@ beq 0x9367681
-	eorcs	r2, r0, r0, lsr #32
-	eorcs	r2, r0, r0, lsr #32
-	svcvs	0x00202020
-	svcvs	0x006d2072
-	stmdbvc	r6!, {r2, r5, r6, r8, fp, sp, lr}^
-	.inst 0x6e757420	@ cdpvs	4, 7, cr7, cr5, cr0, {1}
-	eorvc	r2, r8, r5, rrx
-	.inst 0x61687265	@ cmnvs	r8, r5, ror #4
-	eorvc	r7, r0, #112, 6
-	.inst 0x63756465	@ cmnvs	r5, #1694498816
-	.inst 0x6e652065	@ cdpvs	0, 6, cr2, cr5, cr5, {3}
-	svcvs	0x006c6576
-	eorvc	r6, r0, #112, 10
-	.inst 0x61656c65	@ cmnvs	r5, r5, ror #24
-	strtvc	r6, [r0], #-1395
-	.inst 0x73656d69	@ cmnvc	r5, #6720
-	.byte 0x29, 0x0a, 0x00
-
+	.asciz	"AUDIO ERROR, too many notes on channel 7.increase polyphony RAM\n           or modify tune (perhaps reduce envelope release times)\n"
 AE_too_many_notes_on_chan_8:  @ 08017178
-	stmdbmi	r4, {r0, r6, r8, sl, ip, lr}^
-	subpl	r2, r5, #79
-	.inst 0x2c524f52	@ ldclcs	15, cr4, [r2], {82}
-	svcvs	0x006f7420
-	.inst 0x6e616d20	@ cdpvs	13, 6, cr6, cr1, cr0, {1}
-	svcvs	0x006e2079
-	rsbscs	r6, r3, r4, ror r5
-	.inst 0x63206e6f
-	.inst 0x6e6e6168	@ powvsez	f6, f6, #0.0
-	stmdacc	r0!, {r0, r2, r5, r6, sl, fp, sp, lr}
-	.inst 0x636e692e	@ cmnvs	lr, #753664
-	.inst 0x73616572	@ cmnvc	r1, #478150656
-	svcvs	0x00702065
-	ldmdavs	r0!, {r2, r3, r5, r6, r8, fp, ip, sp, lr}^
-	rsbscs	r6, r9, pc, ror #28
-	.inst 0x0a4d4152	@ beq 0x9367704
-	eorcs	r2, r0, r0, lsr #32
-	eorcs	r2, r0, r0, lsr #32
-	svcvs	0x00202020
-	svcvs	0x006d2072
-	stmdbvc	r6!, {r2, r5, r6, r8, fp, sp, lr}^
-	.inst 0x6e757420	@ cdpvs	4, 7, cr7, cr5, cr0, {1}
-	eorvc	r2, r8, r5, rrx
-	.inst 0x61687265	@ cmnvs	r8, r5, ror #4
-	eorvc	r7, r0, #112, 6
-	.inst 0x63756465	@ cmnvs	r5, #1694498816
-	.inst 0x6e652065	@ cdpvs	0, 6, cr2, cr5, cr5, {3}
-	svcvs	0x006c6576
-	eorvc	r6, r0, #112, 10
-	.inst 0x61656c65	@ cmnvs	r5, r5, ror #24
-	strtvc	r6, [r0], #-1395
-	.inst 0x73656d69	@ cmnvc	r5, #6720
-	.byte 0x29, 0x0a, 0x00
-
+	.asciz	"AUDIO ERROR, too many notes on channel 8.increase polyphony RAM\n           or modify tune (perhaps reduce envelope release times)\n"
 AE_too_many_notes_on_chan_9:  @ 080171fb
-	stmdbmi	r4, {r0, r6, r8, sl, ip, lr}^
-	subpl	r2, r5, #79
-	.inst 0x2c524f52	@ ldclcs	15, cr4, [r2], {82}
-	svcvs	0x006f7420
-	.inst 0x6e616d20	@ cdpvs	13, 6, cr6, cr1, cr0, {1}
-	svcvs	0x006e2079
-	rsbscs	r6, r3, r4, ror r5
-	.inst 0x63206e6f
-	.inst 0x6e6e6168	@ powvsez	f6, f6, #0.0
-	stmdbcc	r0!, {r0, r2, r5, r6, sl, fp, sp, lr}
-	.inst 0x636e692e	@ cmnvs	lr, #753664
-	.inst 0x73616572	@ cmnvc	r1, #478150656
-	svcvs	0x00702065
-	ldmdavs	r0!, {r2, r3, r5, r6, r8, fp, ip, sp, lr}^
-	rsbscs	r6, r9, pc, ror #28
-	.inst 0x0a4d4152	@ beq 0x9367787
-	eorcs	r2, r0, r0, lsr #32
-	eorcs	r2, r0, r0, lsr #32
-	svcvs	0x00202020
-	svcvs	0x006d2072
-	stmdbvc	r6!, {r2, r5, r6, r8, fp, sp, lr}^
-	.inst 0x6e757420	@ cdpvs	4, 7, cr7, cr5, cr0, {1}
-	eorvc	r2, r8, r5, rrx
-	.inst 0x61687265	@ cmnvs	r8, r5, ror #4
-	eorvc	r7, r0, #112, 6
-	.inst 0x63756465	@ cmnvs	r5, #1694498816
-	.inst 0x6e652065	@ cdpvs	0, 6, cr2, cr5, cr5, {3}
-	svcvs	0x006c6576
-	eorvc	r6, r0, #112, 10
-	.inst 0x61656c65	@ cmnvs	r5, r5, ror #24
-	strtvc	r6, [r0], #-1395
-	.inst 0x73656d69	@ cmnvc	r5, #6720
-	.byte 0x29, 0x0a, 0x00
-
+	.asciz	"AUDIO ERROR, too many notes on channel 9.increase polyphony RAM\n           or modify tune (perhaps reduce envelope release times)\n"
 AE_too_many_notes_on_chan_10:  @ 0801727e
-	stmdbmi	r4, {r0, r6, r8, sl, ip, lr}^
-	subpl	r2, r5, #79
-	.inst 0x2c524f52	@ ldclcs	15, cr4, [r2], {82}
-	svcvs	0x006f7420
-	.inst 0x6e616d20	@ cdpvs	13, 6, cr6, cr1, cr0, {1}
-	svcvs	0x006e2079
-	rsbscs	r6, r3, r4, ror r5
-	.inst 0x63206e6f
-	.inst 0x6e6e6168	@ powvsez	f6, f6, #0.0
-	.inst 0x31206c65
-	.inst 0x6e692e30	@ mcrvs	14, 3, r2, cr9, cr0, {1}
-	.inst 0x61657263	@ cmnvs	r5, r3, ror #4
-	eorvc	r6, r0, r3, ror r5
-	rsbsvc	r6, r9, pc, ror #24
-	stmdbvc	lr!, {r3, r5, r6, r8, r9, sl, fp, sp, lr}^
-	.inst 0x4d415220	@ sfmmi	f5, 2, [r1, #-128]
-	eorcs	r2, r0, sl
-	eorcs	r2, r0, r0, lsr #32
-	eorcs	r2, r0, r0, lsr #32
-	.inst 0x6d20726f	@ sfmvs	f7, 4, [r0, #-444]!
-	.inst 0x6669646f	@ strbtvs	r6, [r9], -pc, ror #8
-	ldrbvc	r2, [r4, #-121]!
-	stmdacs	r0!, {r1, r2, r3, r5, r6, r8, sl, sp, lr}
-	ldmdavs	r2!, {r4, r5, r6, r8, sl, sp, lr}^
-	rsbscs	r7, r3, r1, rrx
-	strbvc	r6, [r4, #-1394]!
-	strvs	r6, [r0, #-1379]!
-	stclvs	6, cr7, [r5], #-440
-	rsbcs	r7, r5, pc, rrx
-	strbvs	r6, [ip, #-1394]!
-	rsbcs	r7, r5, r1, ror #6
-	strbvs	r6, [sp, #-2420]!
-	andeq	r2, sl, r3, ror r9
-
+	.asciz	"AUDIO ERROR, too many notes on channel 10.increase polyphony RAM\n           or modify tune (perhaps reduce envelope release times)\n"
 AE_too_many_notes_on_chan_11:  @ 08017302
-	stmdbmi	r4, {r0, r6, r8, sl, ip, lr}^
-	subpl	r2, r5, #79
-	.inst 0x2c524f52	@ ldclcs	15, cr4, [r2], {82}
-	svcvs	0x006f7420
-	.inst 0x6e616d20	@ cdpvs	13, 6, cr6, cr1, cr0, {1}
-	svcvs	0x006e2079
-	rsbscs	r6, r3, r4, ror r5
-	.inst 0x63206e6f
-	.inst 0x6e6e6168	@ powvsez	f6, f6, #0.0
-	.inst 0x31206c65
-	.inst 0x6e692e31	@ mcrvs	14, 3, r2, cr9, cr1, {1}
-	.inst 0x61657263	@ cmnvs	r5, r3, ror #4
-	eorvc	r6, r0, r3, ror r5
-	rsbsvc	r6, r9, pc, ror #24
-	stmdbvc	lr!, {r3, r5, r6, r8, r9, sl, fp, sp, lr}^
-	.inst 0x4d415220	@ sfmmi	f5, 2, [r1, #-128]
-	eorcs	r2, r0, sl
-	eorcs	r2, r0, r0, lsr #32
-	eorcs	r2, r0, r0, lsr #32
-	.inst 0x6d20726f	@ sfmvs	f7, 4, [r0, #-444]!
-	.inst 0x6669646f	@ strbtvs	r6, [r9], -pc, ror #8
-	ldrbvc	r2, [r4, #-121]!
-	stmdacs	r0!, {r1, r2, r3, r5, r6, r8, sl, sp, lr}
-	ldmdavs	r2!, {r4, r5, r6, r8, sl, sp, lr}^
-	rsbscs	r7, r3, r1, rrx
-	strbvc	r6, [r4, #-1394]!
-	strvs	r6, [r0, #-1379]!
-	stclvs	6, cr7, [r5], #-440
-	rsbcs	r7, r5, pc, rrx
-	strbvs	r6, [ip, #-1394]!
-	rsbcs	r7, r5, r1, ror #6
-	strbvs	r6, [sp, #-2420]!
-	andeq	r2, sl, r3, ror r9
-
+	.asciz	"AUDIO ERROR, too many notes on channel 11.increase polyphony RAM\n           or modify tune (perhaps reduce envelope release times)\n"
 AE_too_many_notes_on_chan_12:  @ 08017386
-	stmdbmi	r4, {r0, r6, r8, sl, ip, lr}^
-	subpl	r2, r5, #79
-	.inst 0x2c524f52	@ ldclcs	15, cr4, [r2], {82}
-	svcvs	0x006f7420
-	.inst 0x6e616d20	@ cdpvs	13, 6, cr6, cr1, cr0, {1}
-	svcvs	0x006e2079
-	rsbscs	r6, r3, r4, ror r5
-	.inst 0x63206e6f
-	.inst 0x6e6e6168	@ powvsez	f6, f6, #0.0
-	.inst 0x31206c65
-	.inst 0x6e692e32	@ mcrvs	14, 3, r2, cr9, cr2, {1}
-	.inst 0x61657263	@ cmnvs	r5, r3, ror #4
-	eorvc	r6, r0, r3, ror r5
-	rsbsvc	r6, r9, pc, ror #24
-	stmdbvc	lr!, {r3, r5, r6, r8, r9, sl, fp, sp, lr}^
-	.inst 0x4d415220	@ sfmmi	f5, 2, [r1, #-128]
-	eorcs	r2, r0, sl
-	eorcs	r2, r0, r0, lsr #32
-	eorcs	r2, r0, r0, lsr #32
-	.inst 0x6d20726f	@ sfmvs	f7, 4, [r0, #-444]!
-	.inst 0x6669646f	@ strbtvs	r6, [r9], -pc, ror #8
-	ldrbvc	r2, [r4, #-121]!
-	stmdacs	r0!, {r1, r2, r3, r5, r6, r8, sl, sp, lr}
-	ldmdavs	r2!, {r4, r5, r6, r8, sl, sp, lr}^
-	rsbscs	r7, r3, r1, rrx
-	strbvc	r6, [r4, #-1394]!
-	strvs	r6, [r0, #-1379]!
-	stclvs	6, cr7, [r5], #-440
-	rsbcs	r7, r5, pc, rrx
-	strbvs	r6, [ip, #-1394]!
-	rsbcs	r7, r5, r1, ror #6
-	strbvs	r6, [sp, #-2420]!
-	andeq	r2, sl, r3, ror r9
-
+	.asciz	"AUDIO ERROR, too many notes on channel 12.increase polyphony RAM\n           or modify tune (perhaps reduce envelope release times)\n"
 AE_too_many_notes_on_chan_13:  @ 0801740a
-	stmdbmi	r4, {r0, r6, r8, sl, ip, lr}^
-	subpl	r2, r5, #79
-	.inst 0x2c524f52	@ ldclcs	15, cr4, [r2], {82}
-	svcvs	0x006f7420
-	.inst 0x6e616d20	@ cdpvs	13, 6, cr6, cr1, cr0, {1}
-	svcvs	0x006e2079
-	rsbscs	r6, r3, r4, ror r5
-	.inst 0x63206e6f
-	.inst 0x6e6e6168	@ powvsez	f6, f6, #0.0
-	.inst 0x31206c65
-	.inst 0x6e692e33	@ mcrvs	14, 3, r2, cr9, cr3, {1}
-	.inst 0x61657263	@ cmnvs	r5, r3, ror #4
-	eorvc	r6, r0, r3, ror r5
-	rsbsvc	r6, r9, pc, ror #24
-	stmdbvc	lr!, {r3, r5, r6, r8, r9, sl, fp, sp, lr}^
-	.inst 0x4d415220	@ sfmmi	f5, 2, [r1, #-128]
-	eorcs	r2, r0, sl
-	eorcs	r2, r0, r0, lsr #32
-	eorcs	r2, r0, r0, lsr #32
-	.inst 0x6d20726f	@ sfmvs	f7, 4, [r0, #-444]!
-	.inst 0x6669646f	@ strbtvs	r6, [r9], -pc, ror #8
-	ldrbvc	r2, [r4, #-121]!
-	stmdacs	r0!, {r1, r2, r3, r5, r6, r8, sl, sp, lr}
-	ldmdavs	r2!, {r4, r5, r6, r8, sl, sp, lr}^
-	rsbscs	r7, r3, r1, rrx
-	strbvc	r6, [r4, #-1394]!
-	strvs	r6, [r0, #-1379]!
-	stclvs	6, cr7, [r5], #-440
-	rsbcs	r7, r5, pc, rrx
-	strbvs	r6, [ip, #-1394]!
-	rsbcs	r7, r5, r1, ror #6
-	strbvs	r6, [sp, #-2420]!
-	andeq	r2, sl, r3, ror r9
-
+	.asciz	"AUDIO ERROR, too many notes on channel 13.increase polyphony RAM\n           or modify tune (perhaps reduce envelope release times)\n"
 AE_too_many_notes_on_chan_14:  @ 0801748e
-	stmdbmi	r4, {r0, r6, r8, sl, ip, lr}^
-	subpl	r2, r5, #79
-	.inst 0x2c524f52	@ ldclcs	15, cr4, [r2], {82}
-	svcvs	0x006f7420
-	.inst 0x6e616d20	@ cdpvs	13, 6, cr6, cr1, cr0, {1}
-	svcvs	0x006e2079
-	rsbscs	r6, r3, r4, ror r5
-	.inst 0x63206e6f
-	.inst 0x6e6e6168	@ powvsez	f6, f6, #0.0
-	.inst 0x31206c65
-	.inst 0x6e692e34	@ mcrvs	14, 3, r2, cr9, cr4, {1}
-	.inst 0x61657263	@ cmnvs	r5, r3, ror #4
-	eorvc	r6, r0, r3, ror r5
-	rsbsvc	r6, r9, pc, ror #24
-	stmdbvc	lr!, {r3, r5, r6, r8, r9, sl, fp, sp, lr}^
-	.inst 0x4d415220	@ sfmmi	f5, 2, [r1, #-128]
-	eorcs	r2, r0, sl
-	eorcs	r2, r0, r0, lsr #32
-	eorcs	r2, r0, r0, lsr #32
-	.inst 0x6d20726f	@ sfmvs	f7, 4, [r0, #-444]!
-	.inst 0x6669646f	@ strbtvs	r6, [r9], -pc, ror #8
-	ldrbvc	r2, [r4, #-121]!
-	stmdacs	r0!, {r1, r2, r3, r5, r6, r8, sl, sp, lr}
-	ldmdavs	r2!, {r4, r5, r6, r8, sl, sp, lr}^
-	rsbscs	r7, r3, r1, rrx
-	strbvc	r6, [r4, #-1394]!
-	strvs	r6, [r0, #-1379]!
-	stclvs	6, cr7, [r5], #-440
-	rsbcs	r7, r5, pc, rrx
-	strbvs	r6, [ip, #-1394]!
-	rsbcs	r7, r5, r1, ror #6
-	strbvs	r6, [sp, #-2420]!
-	andeq	r2, sl, r3, ror r9
-
+	.asciz	"AUDIO ERROR, too many notes on channel 14.increase polyphony RAM\n           or modify tune (perhaps reduce envelope release times)\n"
 AE_too_many_notes_on_chan_15:  @ 08017512
-	stmdbmi	r4, {r0, r6, r8, sl, ip, lr}^
-	subpl	r2, r5, #79
-	.inst 0x2c524f52	@ ldclcs	15, cr4, [r2], {82}
-	svcvs	0x006f7420
-	.inst 0x6e616d20	@ cdpvs	13, 6, cr6, cr1, cr0, {1}
-	svcvs	0x006e2079
-	rsbscs	r6, r3, r4, ror r5
-	.inst 0x63206e6f
-	.inst 0x6e6e6168	@ powvsez	f6, f6, #0.0
-	.inst 0x31206c65
-	.inst 0x6e692e35	@ mcrvs	14, 3, r2, cr9, cr5, {1}
-	.inst 0x61657263	@ cmnvs	r5, r3, ror #4
-	eorvc	r6, r0, r3, ror r5
-	rsbsvc	r6, r9, pc, ror #24
-	stmdbvc	lr!, {r3, r5, r6, r8, r9, sl, fp, sp, lr}^
-	.inst 0x4d415220	@ sfmmi	f5, 2, [r1, #-128]
-	eorcs	r2, r0, sl
-	eorcs	r2, r0, r0, lsr #32
-	eorcs	r2, r0, r0, lsr #32
-	.inst 0x6d20726f	@ sfmvs	f7, 4, [r0, #-444]!
-	.inst 0x6669646f	@ strbtvs	r6, [r9], -pc, ror #8
-	ldrbvc	r2, [r4, #-121]!
-	stmdacs	r0!, {r1, r2, r3, r5, r6, r8, sl, sp, lr}
-	ldmdavs	r2!, {r4, r5, r6, r8, sl, sp, lr}^
-	rsbscs	r7, r3, r1, rrx
-	strbvc	r6, [r4, #-1394]!
-	strvs	r6, [r0, #-1379]!
-	stclvs	6, cr7, [r5], #-440
-	rsbcs	r7, r5, pc, rrx
-	strbvs	r6, [ip, #-1394]!
-	rsbcs	r7, r5, r1, ror #6
-	strbvs	r6, [sp, #-2420]!
-	andeq	r2, sl, r3, ror r9
-
+	.asciz	"AUDIO ERROR, too many notes on channel 15.increase polyphony RAM\n           or modify tune (perhaps reduce envelope release times)\n"
 AE_not_enough_space_to_put_audio_RAM_code:  @ 08017596
-	stmdbmi	r4, {r0, r6, r8, sl, ip, lr}^
-	subpl	r2, r5, #79
-	.inst 0x2c524f52	@ ldclcs	15, cr4, [r2], {82}
-	.inst 0x746f6e20	@ strbtvc	r6, [pc], #-3616
-	svcvs	0x006e6520
-	rsbcs	r6, r8, r5, ror r7
-	.inst 0x63617073	@ cmnvs	r1, #115
-	svcvs	0x00742065
-	ldrbtvc	r7, [r5], #-32
-	ldrbtvs	r6, [r5], #-288
-	eorpl	r6, r0, #420
-	.inst 0x63204d41
-	.inst 0x0a65646f	@ beq 0x997078a
-	.space 1
-
+	.asciz	"AUDIO ERROR, not enough space to put audio RAM code\n"
 AE_more_than_16_tracks_in_song:  @ 080175cb
-	stmdbmi	r4, {r0, r6, r8, sl, ip, lr}^
-	subpl	r2, r5, #79
-	.inst 0x2c524f52	@ ldclcs	15, cr4, [r2], {82}
-	rsbvc	r6, pc, #32, 26
-	ldmdavs	r4!, {r0, r2, r5, r6, sp}^
-	.inst 0x31206e61
-	rsbsvc	r2, r4, #54
-	.inst 0x736b6361	@ cmnvc	fp, #-2080374783
-	rsbcs	r6, lr, r0, lsr #18
-	.inst 0x676e6f73
-	.byte 0x0a, 0x00
-
+	.asciz	"AUDIO ERROR, more than 16 tracks in song\n"
 AE_initial_sfx_vol_more_than_127:  @ 080175f5
-	stmdbmi	r4, {r0, r6, r8, sl, ip, lr}^
-	subpl	r2, r5, #79
-	.inst 0x2c524f52	@ ldclcs	15, cr4, [r2], {82}
-	stmdbvs	lr!, {r5, r8, fp, sp, lr}^
-	.inst 0x6c616974
-	stmdavc	r6!, {r5, r8, r9, ip, sp, lr}^
-	.inst 0x6c6f7620	@ stclvs	6, cr7, [pc], #-128
-	rsbcs	r6, r5, r5, ror sp
-	ldrbvs	r6, [r2, #-3949]!
-	.inst 0x61687420	@ cmnvs	r8, r0, lsr #8
-	eorscc	r2, r1, #110
-	.byte 0x37, 0x0a, 0x00
-
+	.asciz	"AUDIO ERROR, initial sfx volume more than 127\n"
 AE_tune_num_more_than_max_tunes:  @ 08017624
-	stmdbmi	r4, {r0, r6, r8, sl, ip, lr}^
-	subpl	r2, r5, #79
-	.inst 0x2c524f52	@ ldclcs	15, cr4, [r2], {82}
-	.inst 0x6e757420	@ cdpvs	4, 7, cr7, cr5, cr0, {1}
-	strbvc	r2, [lr, #-101]!
-	eorscs	r2, lr, sp, rrx
-	rsbscs	r6, r8, sp, ror #2
-	strbvs	r7, [lr, #-1396]!
-	.inst 0x76612073
-	.inst 0x616c6961	@ cmnvs	ip, r1, ror #18
-	.inst 0x0a656c62	@ beq 0x99727dc
-	.space 1
-
+	.asciz	"AUDIO ERROR, tune num > max tunes available\n"
 AE_note_on_requested_before_prog_chng:  @ 08017651
-	stmdbmi	r4, {r0, r6, r8, sl, ip, lr}^
-	subpl	r2, r5, #79
-	.inst 0x2c524f52	@ ldclcs	15, cr4, [r2], {82}
-	strbmi	r4, [r9], #-3360
-	svcvs	0x006e2049
-	svcvs	0x00206574
-	svcvs	0x0063206e
-	.inst 0x6e616d6d	@ cdpvs	13, 6, cr6, cr1, cr13, {3}
-	strbvs	r2, [r2, #-100]!
-	ldrbvs	r6, [r2, #-3942]!
-	strbmi	r4, [r9], #-3360
-	rsbsvc	r2, r0, #73
-	.inst 0x6320676f
-	rsbcs	r6, r7, r8, ror #28
-	stclvs	15, cr6, [sp, #-396]!
-	.inst 0x0a646e61	@ beq 0x9933019
-	.space 1
-
+	.asciz	"AUDIO ERROR, MIDI note on command before MIDI prog chng command\n"
 AE_requested_playback_freq_exceeds_max:  @ 08017692
-	stmdbmi	r4, {r0, r6, r8, sl, ip, lr}^
-	subpl	r2, r5, #79
-	.inst 0x2c524f52	@ ldclcs	15, cr4, [r2], {82}
-	.inst 0x71657220	@ cmnvc	r5, r0, lsr #4
-	ldrbtvc	r6, [r3], #-1397
-	eorvc	r6, r0, r5, ror #8
-	rsbsvs	r6, r9, #108, 2
-	rsbcs	r6, fp, r1, ror #6
-	.inst 0x71657266	@ cmnvc	r5, r6, ror #4
-	.inst 0x63786520	@ cmnvs	r8, #32, 10
-	.inst 0x73646565	@ cmnvc	r4, #423624704
-	stmdavc	r1!, {r5, r8, sl, fp, sp, lr}^
-	ldrbvs	r6, [r2, #-1568]!
-	.byte 0x71, 0x0a, 0x00
-
+	.asciz	"AUDIO ERROR, requested playback freq exceeds max freq\n"
 AE_incorrect_note_mapping_for_rhythm_set:  @ 080176c9
-	stmdbmi	r4, {r0, r6, r8, sl, ip, lr}^
-	subpl	r2, r5, #79
-	.inst 0x2c524f52	@ ldclcs	15, cr4, [r2], {82}
-	.inst 0x636e6920	@ cmnvs	lr, #32, 18
-	ldrbvs	r7, [r2, #-623]!
-	.inst 0x6e207463	@ cdpvs	4, 2, cr7, cr0, cr3, {3}
-	rsbcs	r7, r5, pc, ror #8
-	rsbsvc	r6, r0, sp, ror #2
-	rsbcs	r6, r7, r9, ror #28
-	rsbscs	r6, r2, r6, ror #30
-	ldrbtvc	r6, [r9], #-2162
-	.inst 0x735f6d68	@ cmpvc	pc, #104, 26
-	andeq	r7, sl, r5, ror #8
-
+	.asciz	"AUDIO ERROR, incorrect note mapping for rhythm_set\n"
 AE_incorrect_note_mapping_for_keysplit:  @ 080176fd
-	stmdbmi	r4, {r0, r6, r8, sl, ip, lr}^
-	subpl	r2, r5, #79
-	.inst 0x2c524f52	@ ldclcs	15, cr4, [r2], {82}
-	.inst 0x636e6920	@ cmnvs	lr, #32, 18
-	ldrbvs	r7, [r2, #-623]!
-	.inst 0x6e207463	@ cdpvs	4, 2, cr7, cr0, cr3, {3}
-	rsbcs	r7, r5, pc, ror #8
-	rsbsvc	r6, r0, sp, ror #2
-	rsbcs	r6, r7, r9, ror #28
-	rsbscs	r6, r2, r6, ror #30
-	.inst 0x7379656b	@ cmnvc	r9, #448790528
-	strbtvc	r6, [r9], #-3184
-	.byte 0x0a, 0x00, 0x00
+	.asciz	"AUDIO ERROR, incorrect note mapping for keysplit\n"
+	.byte	0x00

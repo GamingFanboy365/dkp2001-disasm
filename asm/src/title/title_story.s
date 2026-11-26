@@ -72,7 +72,7 @@ plot_bg_anim:  @ 08004154
 	beq L_08004180
 	lsrs	r3, r3, #2
 	lsls	r1, r1, #1
-	add	r2, pc, #16
+	adr	r2, animposs	@ 08004184
 	adds	r2, r2, r1
 	ldrb	r0, [r2, #0]
 	ldrb	r1, [r2, #1]
@@ -80,14 +80,12 @@ plot_bg_anim:  @ 08004154
 	bl sprite_plot
 L_08004180:
 	pop	{pc}
-	.space 2
+	.balign 4, 0	@ alignment padding
 
 animposs:  @ 08004184
-	strb	r5, [r4, #16]
-	str	r5, [sp, #312]
-	ldrh	r4, [r2, #8]
-	strh	r1, [r2, #26]
-
+	@ data (was decoded as instructions)
+	.word	0x954e7425
+	.word	0x83518914
 fade_stuff:  @ 0800418c
 	push	{r4, r5, r6, r7, lr}
 	ldr	r0, _080044b4	@ =LOCAL_MEM+0x15

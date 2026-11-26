@@ -199,6 +199,11 @@ INLINE_MAX = 64                          # data chunks smaller than this stay in
 
 def in_data(v):
     return any(lo <= v < hi for lo, hi, _ in DATA_REGIONS)
+# Code ranges objdump decodes in the wrong mode: libgcc1's division routines
+# continue in Thumb after __umodsi3, but their labels are untyped.
+FORCE_THUMB = [(0x0805CE48, 0x0805CEFC)]
+# Ranges inside code modules that are all data (testpath.s: test_path).
+CODE_DATA = [(0x08002FB4, 0x08003178)]
 # Objects known to hold pointers that the heuristics can't prove.
 FORCE_POINTER_OBJECTS = {"lconv"}
 IWRAM_COPY = (0x08006094, 0x080064E8)    # main.c, whose pool holds the copy-end pointer
@@ -1063,6 +1068,15 @@ def generate(elf_path, out):
             v = mem.u32(a)
             if v and v & 0xFFFF and (v in named or (v & 1 and v - 1 in named)) and Symbols.in_range(v):
                 extra.add(a)
+    for lo, hi in FORCE_THUMB:
+        part = subprocess.run([OBJDUMP, "-d", "-l", "-m", "armv4t", "-M", "force-thumb",
+                               f"--start-address={lo:#x}", f"--stop-address={hi:#x}", elf_path],
+                              capture_output=True, text=True, check=True).stdout.splitlines()
+        keep = [l for l in dump.splitlines()
+                if not ((m := INSN_RE.match(l)) and lo <= int(m.group(1), 16) < hi)]
+        dump = "\n".join(keep + [l for l in part if INSN_RE.match(l) or LABEL_RE.match(l)])
+    for lo, hi in CODE_DATA:
+        extra |= set(range(lo, hi, 4))
     items, labels = collect(dump.splitlines(), mem, extra)
     starts = [it.addr for it in items]
     by_addr = {it.addr: it for it in items}

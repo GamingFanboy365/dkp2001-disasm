@@ -99,7 +99,7 @@ L_0800e804:
 	pop	{r4}
 	pop	{r0}
 	bx	r0
-	.space 2
+	.balign 4, 0	@ alignment padding
 @ src/act_tideanim.c:49
 
 act_tideanim:  @ 0800e80c

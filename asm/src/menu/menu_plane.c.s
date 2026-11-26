@@ -711,7 +711,7 @@ _080134fc:
 
 menu_plane_kill:  @ 08013500
 	bx	lr
-	.space 2
+	.balign 4, 0	@ alignment padding
 @ src/menu/menu_plane.c:288
 
 menu_plane_set_level:  @ 08013504

@@ -19,17 +19,17 @@ _0801363c:
 
 menu_image_process:  @ 08013640
 	bx	lr
-	.space 2
+	.balign 4, 0	@ alignment padding
 @ src/menu/menu_image.c:152
 
 menu_image_draw:  @ 08013644
 	bx	lr
-	.space 2
+	.balign 4, 0	@ alignment padding
 @ src/menu/menu_image.c:160
 
 menu_image_kill:  @ 08013648
 	bx	lr
-	.space 2
+	.balign 4, 0	@ alignment padding
 @ src/menu/menu_image.c:163
 
 menu_image_set_image:  @ 0801364c

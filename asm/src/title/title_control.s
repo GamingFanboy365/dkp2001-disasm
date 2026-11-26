@@ -429,37 +429,16 @@ init_controlsel:  @ 0800549c
 	movs	r0, #14
 	bl init_small_font
 	pop	{r4, r5, r6, r7, pc}
-	.space 2
+	.balign 4, 0	@ alignment padding
 
 centering_text1:  @ 08005554
-	adds	r1, #15
-	adds	r2, #36
-	.hword 0xfe32	@ undefined on ARMv4T
-	movs	r4, #50
-	movs	r4, #43
-	adds	r3, #34
-	adds	r6, #254
-	movs	r4, #39
-	.hword 0xfe2d	@ undefined on ARMv4T
-	cmp	r3, #47
-	subs	r0, #32
-	cmp	r5, #40
-	.byte 0x26, 0xff
-
+	@ data (was decoded as instructions)
+	.hword	0x310f, 0x3224, 0xfe32, 0x2432, 0x242b, 0x3322, 0x36fe, 0x2427
+	.hword	0xfe2d, 0x2b2f, 0x3820, 0x2d28, 0xff26
 centering_text2:  @ 0800556e
-	cmp	r6, #51
-	adds	r1, #254
-	ldrsh	r4, [r4, r4]
-	movs	r4, #34
-	adds	r3, #45
-	movs	r4, #49
-	movs	r0, #254
-	.hword 0xfe33	@ undefined on ARMv4T
-	cmp	r5, #32
-	.hword 0xfe38	@ undefined on ARMv4T
-	cmp	r0, #51
-	movs	r4, #44
-	lsls	r7, r7, #3
+	@ data (was decoded as instructions)
+	.hword	0x2e33, 0x31fe, 0x5f24, 0x2422, 0x332d, 0x2431, 0x20fe, 0xfe33
+	.hword	0x2d20, 0xfe38, 0x2833, 0x242c, 0x00ff
 	.balign 4
 _08005588:
 	.word OBJ_ATTR_0

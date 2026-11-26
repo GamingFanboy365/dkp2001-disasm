@@ -21,7 +21,7 @@ L_08004a54:
 	bl plot_fight_text
 	bl move_fight_text
 	pop	{pc}
-	.space 2
+	.balign 4, 0	@ alignment padding
 
 plot_fight_text:  @ 08004a74
 	push	{lr}
@@ -471,85 +471,50 @@ L_08004d98:
 	bl init_big_font
 	bl set_fight_pal
 	pop	{pc}
-	.space 2
+	.balign 4, 0	@ alignment padding
 
 icon_rest_poss:  @ 08004db8
-	movs	r0, r0
-	movs	r0, r5
-	movs	r0, r0
-	movs	r4, r4
-	movs	r0, r0
-	lsls	r0, r4, #1
-	movs	r0, r0
-	movs	r4, r4
-	movs	r0, r0
-	lsls	r0, r3, #2
-	movs	r0, r0
-	movs	r4, r4
-	movs	r0, r0
-	movs	r0, r5
-	movs	r0, r0
-	lsls	r4, r3, #1
-	movs	r0, r0
-	lsls	r0, r4, #1
-	movs	r0, r0
-	lsls	r4, r3, #1
-	movs	r0, r0
-	lsls	r0, r3, #2
-	movs	r0, r0
-	lsls	r4, r3, #1
-
+	@ data (was decoded as instructions)
+	.word	0x00280000
+	.word	0x00240000
+	.word	0x00600000
+	.word	0x00240000
+	.word	0x00980000
+	.word	0x00240000
+	.word	0x00280000
+	.word	0x005c0000
+	.word	0x00600000
+	.word	0x005c0000
+	.word	0x00980000
+	.word	0x005c0000
 icon_selected_poss:  @ 08004de8
-	movs	r0, r0
-	movs	r0, r4
-	movs	r0, r0
-	movs	r4, r3
-	movs	r0, r0
-	lsls	r0, r4, #1
-	movs	r0, r0
-	movs	r4, r3
-	movs	r0, r0
-	lsls	r0, r4, #2
-	movs	r0, r0
-	movs	r4, r3
-	movs	r0, r0
-	movs	r0, r4
-	movs	r0, r0
-	lsls	r4, r4, #1
-	movs	r0, r0
-	lsls	r0, r4, #1
-	movs	r0, r0
-	lsls	r4, r4, #1
-	movs	r0, r0
-	lsls	r0, r4, #2
-	movs	r0, r0
-	lsls	r4, r4, #1
-
+	@ data (was decoded as instructions)
+	.word	0x00200000
+	.word	0x001c0000
+	.word	0x00600000
+	.word	0x001c0000
+	.word	0x00a00000
+	.word	0x001c0000
+	.word	0x00200000
+	.word	0x00640000
+	.word	0x00600000
+	.word	0x00640000
+	.word	0x00a00000
+	.word	0x00640000
 icon_scatter_poss:  @ 08004e18
-	movs	r0, r0
-	.hword 0xff9c	@ undefined on ARMv4T
-	movs	r0, r0
-	.hword 0xffba	@ undefined on ARMv4T
-	movs	r0, r0
-	lsls	r0, r7, #1
-	movs	r0, r0
-	.hword 0xff88	@ undefined on ARMv4T
-	movs	r0, r0
-	lsls	r0, r6, #4
-	movs	r0, r0
-	.hword 0xffb0	@ undefined on ARMv4T
-	movs	r0, r0
-	.hword 0xff80	@ undefined on ARMv4T
-	movs	r0, r0
-	lsls	r0, r1, #3
-	movs	r0, r0
-	lsls	r2, r3, #1
-	movs	r0, r0
-	lsls	r4, r3, #3
-	movs	r0, r0
-	lsls	r2, r4, #4
-	movs	r0, r0
-	lsls	r4, r6, #2
+	@ data (was decoded as instructions)
+	.word	0xff9c0000
+	.word	0xffba0000
+	.word	0x00780000
+	.word	0xff880000
+	.word	0x01300000
+	.word	0xffb00000
+	.word	0xff800000
+	.word	0x00c80000
+	.word	0x005a0000
+	.word	0x00dc0000
+	.word	0x01220000
+	.word	0x00b40000
 	.balign 4
 _08004e48:
 	.word LOCAL_MEM+0x1

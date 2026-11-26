@@ -26,12 +26,12 @@ _080148e4:
 
 state_slot_kill:  @ 080148e8
 	bx	lr
-	.space 2
+	.balign 4, 0	@ alignment padding
 @ src/state/state_slot.c:45
 
 state_slot_load:  @ 080148ec
 	bx	lr
-	.space 2
+	.balign 4, 0	@ alignment padding
 @ src/state/state_slot.c:49
 
 state_slot_save:  @ 080148f0

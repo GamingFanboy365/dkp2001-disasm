@@ -632,7 +632,7 @@ _08006478:
 
 irq_dummy:  @ 0800647c
 	bx	lr
-	.space 2
+	.balign 4, 0	@ alignment padding
 @ src/main.c:91
 
 irq_vblank_default:  @ 08006480

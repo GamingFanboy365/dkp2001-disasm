@@ -109,7 +109,7 @@ L_0800c838:
 	pop	{r4, r5, r6, r7}
 	pop	{r1}
 	bx	r1
-	.space 2
+	.balign 4, 0	@ alignment padding
 @ src/camera_pan.c:116
 
 campan_load:  @ 0800c840

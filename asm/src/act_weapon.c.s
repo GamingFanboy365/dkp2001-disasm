@@ -1368,7 +1368,7 @@ L_08010832:
 	pop	{r4, r5, r6, r7}
 	pop	{r0}
 	bx	r0
-	.space 2
+	.balign 4, 0	@ alignment padding
 @ src/act_weapon.c:538
 
 init_weapon_rocket:  @ 08010844
@@ -3513,7 +3513,7 @@ L_080115b4:
 	pop	{r4, r5}
 	pop	{r0}
 	bx	r0
-	.space 2
+	.balign 4, 0	@ alignment padding
 @ src/act_weapon.c:454
 
 react_weapon_mango:  @ 080115bc
@@ -3597,7 +3597,7 @@ L_0801162c:
 	pop	{r4, r5}
 	pop	{r0}
 	bx	r0
-	.space 2
+	.balign 4, 0	@ alignment padding
 @ src/act_weapon.c:474
 
 init_weapon_cannon:  @ 08011634
@@ -3927,7 +3927,7 @@ _0801180c:
 
 init_weapon_clasp_grasp:  @ 08011810
 	bx	lr
-	.space 2
+	.balign 4, 0	@ alignment padding
 @ src/act_weapon.c:1179
 
 act_weapon_clasp_grasp:  @ 08011814
@@ -3937,7 +3937,7 @@ act_weapon_clasp_grasp:  @ 08011814
 @ src/act_weapon.c:1181
 	pop	{r0}
 	bx	r0
-	.space 2
+	.balign 4, 0	@ alignment padding
 @ src/act_weapon.c:1185
 
 react_weapon_clasp_grasp:  @ 08011820

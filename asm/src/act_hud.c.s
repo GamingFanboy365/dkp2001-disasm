@@ -824,7 +824,7 @@ L_0800a450:
 	pop	{r4}
 	pop	{r0}
 	bx	r0
-	.space 2
+	.balign 4, 0	@ alignment padding
 @ src/act_hud.c:345
 
 act_hud_direction:  @ 0800a458
@@ -1546,7 +1546,7 @@ L_0800a888:
 	pop	{r4, r5, r6}
 	pop	{r0}
 	bx	r0
-	.space 2
+	.balign 4, 0	@ alignment padding
 @ src/act_hud.c:599
 
 act_hud_status:  @ 0800a890

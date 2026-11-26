@@ -115,9 +115,43 @@ tools/gfx.py       PNG / PAL / WAV <-> binary converters (used by the build; std
 tools/dwarf2.py    reader for this ELF's DWARF 2 (types, structs, variables)
 tools/export_preview.py  renders sprites/backgrounds/palettes to viewable PNGs
 tools/elf2gba.py   standalone ELF -> .gba converter
-tools/romtest/     headless mGBA runner (screen hashes, screenshots, RAM dumps)
-tools/reloc_test.py
+tools/romtest/     headless mGBA runner (screen hashes, screenshots, RAM/audio dumps, coverage)
+tools/reloc_test.py   relocation test (shifted builds played in mGBA)
+tools/reachability.py static reachability: what can never run or be shown (UNUSED.md)
+tools/make_ips.py  IPS patch create/apply
+UNUSED.md          everything in the build that normal play can't reach
+FIXES.md           bug fixes in the patch
 ```
+
+## Status: complete
+
+The disassembly is complete:
+
+- **Byte-identical:** `make compare` rebuilds the original ROM from source.
+- **Fully mapped:** every byte of the ROM is in a named source file: code in `asm/` under its
+  original file names, labels and pointers in `data/`, and assets extracted from your ELF.
+- **Relocatable:** every stored address is symbolic, including the sound driver's pc-relative
+  jumps and jump tables. Proven by playing shifted builds (see the relocation test).
+- **Code and data separated:**
+
+  | Part | Bytes |
+  |---|---|
+  | Instructions, with Rare's function names and C source lines | 98,452 |
+  | Typed data (literal pools, jump tables, lookup tables, strings) | 21,333 |
+  | Alignment padding | 256 |
+  | Deliberate `0xEFFF` error traps | 458 |
+
+  No undecodable raw words are left. Data that hid in Rare's hand-written assembly (title-screen
+  tables, the sound driver's pitch, decay and vibrato tables, its command tables and error
+  messages, `test_path`) was found using emulator execution coverage plus static reference
+  analysis, and is written as data.
+
+What's left is optional:
+
+- **Generic label names:** jump targets and unnamed data are `L_xxxxxxxx` / `D_xxxxxxxx`.
+- **Editable formats:** in-game sprites, levels and music can be viewed but not yet edited as
+  images or MIDI.
+- **C decompilation.**
 
 ## Pointers are symbolic
 
@@ -273,7 +307,8 @@ Not fixed (no data to fix them with):
 - [x] Asset map with original filenames
 - [x] Reassemblable source with `make compare` producing a byte-identical ROM
 - [x] Standalone Python ELF -> .gba converter
-- [ ] Data/code separation for the remaining tables inside `audio.S` and `tab_trig.s`
+- [x] Data/code separation everywhere (sound driver tables, title-screen tables, test_path)
+- [x] Unused content documented (UNUSED.md)
 - [x] Symbolic pointers in code and data, flowing linker layout, relocation test 40/40
 - [x] Headless mGBA test harness (`tools/romtest`)
 - [x] Split all data into named asset files, extracted from your own ELF (not committed)

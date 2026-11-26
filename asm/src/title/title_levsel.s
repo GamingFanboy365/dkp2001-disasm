@@ -320,37 +320,19 @@ L_08005090:
 	movs	r0, #14
 	bl init_small_font
 	pop	{r4, r5, r6, r7, pc}
-	.space 2
+	.balign 4, 0	@ alignment padding
 L_0800511c:
-	movs	r1, r1
-	movs	r0, r0
-	movs	r1, r0
-	movs	r0, r0
-	movs	r0, r1
-	movs	r0, r0
-	movs	r5, r0
-	movs	r0, r0
-	movs	r2, r0
-	.space 2
+	@ data (was decoded as instructions)
+	.hword	0x0009, 0x0000, 0x0001, 0x0000, 0x0008, 0x0000, 0x0005, 0x0000
+	.hword	0x0002
+	.balign 4, 0	@ alignment padding
 
 free_fly_text:  @ 08005130
-	adds	r1, #5
-	movs	r4, #36
-	lsls	r6, r7, #23
-	subs	r0, #43
-	.byte 0xff
-
+	@ data (was decoded as instructions)
+	.byte	0x05, 0x31, 0x24, 0x24, 0xfe, 0x05, 0x2b, 0x38, 0xff
 pylon_racing_text:  @ 08005139
-	subs	r0, #15
-	cmp	r6, #43
-	.hword 0xfe2d	@ undefined on ARMv4T
-	.byte 0x31
-	.balign 4
-	.word 0x2d282220
-	.byte 0x26
-	lsls	r7, r7, #3
-	.space 1
-	.balign 4
+	@ data (was decoded as instructions)
+	.byte	0x0f, 0x38, 0x2b, 0x2e, 0x2d, 0xfe, 0x31, 0x20, 0x22, 0x28, 0x2d, 0x26, 0xff, 0x00, 0x00
 _08005148:
 	.word OBJ_ATTR_0
 _0800514c:

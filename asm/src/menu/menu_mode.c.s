@@ -1096,7 +1096,7 @@ menu_mode_kill:  @ 08014134
 @ src/menu/menu_mode.c:332
 	pop	{r0}
 	bx	r0
-	.space 2
+	.balign 4, 0	@ alignment padding
 @ src/menu/menu_mode.c:463
 
 menu_mode_get_num_selects:  @ 0801414c

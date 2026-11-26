@@ -204,35 +204,23 @@ L_080058dc:
 	cmp	r1, r2
 	blt L_080058dc
 	pop	{r4, r5, pc}
-	.space 2
+	.balign 4, 0	@ alignment padding
 
 big_font_sizes:  @ 080058e8
-	lsrs	r0, r2, #16
-	lsrs	r4, r1, #16
-	lsrs	r4, r1, #16
-	lsrs	r4, r1, #16
-	lsrs	r0, r1, #16
-	lsrs	r6, r1, #16
-	lsrs	r0, r2, #16
-	lsrs	r4, r1, #16
-	lsrs	r0, r2, #16
-	lsrs	r4, r1, #16
-	lsrs	r4, r1, #16
-	asrs	r0, r2, #32
-	lsrs	r0, r2, #16
-	asrs	r0, r2, #32
-	lsrs	r4, r1, #32
-	lsrs	r4, r1, #16
-	lsrs	r4, r1, #16
-	lsrs	r4, r1, #16
-	lsrs	r0, r1, #32
-	lsrs	r0, r1, #32
-	lsrs	r0, r1, #16
-	lsrs	r0, r1, #16
-	lsrs	r4, r1, #16
-	lsrs	r4, r1, #16
-	lsrs	r4, r1, #16
-	movs	r4, r1
+	@ data (was decoded as instructions)
+	.word	0x0c0c0c10
+	.word	0x0c0c0c0c
+	.word	0x0c0e0c08
+	.word	0x0c0c0c10
+	.word	0x0c0c0c10
+	.word	0x10100c0c
+	.word	0x10100c10
+	.word	0x0c0c080c
+	.word	0x0c0c0c0c
+	.word	0x08080808
+	.word	0x0c080c08
+	.word	0x0c0c0c0c
+	.word	0x000c0c0c
 	.balign 4
 _0800591c:
 	.word big_font_sizes

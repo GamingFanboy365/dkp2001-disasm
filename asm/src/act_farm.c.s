@@ -599,7 +599,7 @@ L_0800b1a0:
 	pop	{r4}
 	pop	{r0}
 	bx	r0
-	.space 2
+	.balign 4, 0	@ alignment padding
 @ src/act_farm.c:282
 
 init_farm_egg_hud:  @ 0800b1a8

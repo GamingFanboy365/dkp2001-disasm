@@ -39,3 +39,22 @@ make -C tools/romtest MGBA_SRC=path/to/mgba MGBA_BUILD=path/to/mgba/build
 
 The Makefile copies the exact `-D` defines libmgba was built with. Without them `struct mCore`
 has a different layout and the program crashes on its first call.
+
+## Execution coverage (`cover`)
+
+`cover.c` is romtest plus an execution hook. It ORs every executed instruction address
+(ROM and IWRAM code) into the bitmap file `$COVER`, so many runs accumulate into one picture.
+That's how [UNUSED.md](../../UNUSED.md) tells code that ran from code that never did. It needs
+three small hooks in mGBA (instruction execution, loads and stores):
+
+```bash
+patch -p1 -d path/to/mgba < tools/romtest/mgba-trace-hooks.patch
+```
+
+```bash
+ninja -C path/to/mgba/build
+```
+
+Then build `cover` like romtest, with `cover.c` instead of `romtest.c`, and run it with
+`COVER=coverage.bin`. The hooks are null unless a program sets them, so the patched library
+behaves exactly like the original.

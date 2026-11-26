@@ -30,7 +30,7 @@ L_0805c776:
 	adds	r0, r1, #0
 @ lib/newlib/libc/sys/arm/syscalls.c:43
 	bx	lr
-	.space 2
+	.balign 4, 0	@ alignment padding
 @ lib/newlib/libc/sys/arm/syscalls.c:63
 
 remap_handle:  @ 0805c77c
@@ -187,7 +187,7 @@ get_errno:  @ 0805c83c
 	pop	{r4}
 	pop	{r1}
 	bx	r1
-	.space 2
+	.balign 4, 0	@ alignment padding
 @ lib/newlib/libc/sys/arm/syscalls.c:131
 
 error:  @ 0805c854
@@ -225,7 +225,7 @@ L_0805c87c:
 L_0805c882:
 	pop	{r1}
 	bx	r1
-	.space 2
+	.balign 4, 0	@ alignment padding
 @ lib/newlib/libc/sys/arm/syscalls.c:150
 _swiread:
 	push	{r4, r5, lr}
@@ -253,7 +253,7 @@ _swiread:
 	pop	{r4, r5}
 	pop	{r1}
 	bx	r1
-	.space 2
+	.balign 4, 0	@ alignment padding
 @ lib/newlib/libc/sys/arm/syscalls.c:172
 _read:
 	push	{r4, r5, r6, r7, lr}
@@ -402,7 +402,7 @@ _lseek:
 @ lib/newlib/libc/sys/arm/syscalls.c:247
 	pop	{r1}
 	bx	r1
-	.space 2
+	.balign 4, 0	@ alignment padding
 @ lib/newlib/libc/sys/arm/syscalls.c:255
 _swiwrite:
 	push	{r4, r5, lr}
@@ -430,7 +430,7 @@ _swiwrite:
 	pop	{r4, r5}
 	pop	{r1}
 	bx	r1
-	.space 2
+	.balign 4, 0	@ alignment padding
 @ lib/newlib/libc/sys/arm/syscalls.c:277
 _write:
 	push	{r4, r5, r6, r7, lr}
@@ -592,7 +592,7 @@ L_0805caa2:
 	pop	{r4, r5, r6, r7}
 	pop	{r1}
 	bx	r1
-	.space 2
+	.balign 4, 0	@ alignment padding
 @ lib/newlib/libc/sys/arm/syscalls.c:352
 _open:
 	push	{r1, r2, r3}
@@ -651,7 +651,7 @@ _close:
 @ lib/newlib/libc/sys/arm/syscalls.c:376
 	pop	{r1}
 	bx	r1
-	.space 2
+	.balign 4, 0	@ alignment padding
 @ lib/newlib/libc/sys/arm/syscalls.c:380
 _exit:
 	mov	ip, r3
@@ -752,18 +752,18 @@ _fstat:
 	movs	r0, #0
 @ lib/newlib/libc/sys/arm/syscalls.c:439
 	bx	lr
-	.space 2
+	.balign 4, 0	@ alignment padding
 @ lib/newlib/libc/sys/arm/syscalls.c:444
 _unlink:
 	movs	r0, #1
 	negs	r0, r0
 @ lib/newlib/libc/sys/arm/syscalls.c:445
 	bx	lr
-	.space 2
+	.balign 4, 0	@ alignment padding
 @ lib/newlib/libc/sys/arm/syscalls.c:450
 _raise:
 	bx	lr
-	.space 2
+	.balign 4, 0	@ alignment padding
 @ lib/newlib/libc/sys/arm/syscalls.c:454
 _gettimeofday:
 	push	{r4, r5, lr}

@@ -70,84 +70,122 @@ __umodsi3:
 	cmp	r0, r1
 	bcs Over1
 	mov	pc, lr
-	.arm
 
 Over1:  @ 0805ce48
-	strcs	fp, [r1], #-1040
-	.byte 0x24, 0x07
+	push	{r4}
+	movs	r4, #1
+	lsls	r4, r4, #28
 
 Loop1:  @ 0805ce4e
-	andle	r4, r4, #268435466
-	andle	r4, r2, #268435464
-	tsteq	fp, r9, lsl #2
-	.byte 0xf8, 0xe7
+	cmp	r1, r4
+	bcs Lbignum
+	cmp	r1, r0
+	bcs Lbignum
+	lsls	r1, r1, #4
+	lsls	r3, r3, #4
+	b Loop1
+
 Lbignum:  @ 0805ce5c
-	.byte 0xe4, 0x00
+	lsls	r4, r4, #3
 
 Loop2:  @ 0805ce5e
-	andle	r4, r4, #268435466
-	andle	r4, r2, #268435464
-	subseq	r0, fp, r9, asr #32
-	.byte 0xf8, 0xe7
+	cmp	r1, r4
+	bcs Loop3
+	cmp	r1, r0
+	bcs Loop3
+	lsls	r1, r1, #1
+	lsls	r3, r3, #1
+	b Loop2
 
 Loop3:  @ 0805ce6c
-	addmi	r2, r8, #0, 4
-	.inst 0x1a40d300	@ bne 0x9091a78
+	movs	r2, #0
+	cmp	r0, r1
+	bcc Over2
+	subs	r0, r0, r1
 
 Over2:  @ 0805ce74
-	adcmi	r0, r0, #76, 16
-	.inst 0x1b00d305	@ blne 0x8091a94
-	strcs	r4, [r1], #-1692
-	.inst 0x431a41e3	@ tstmi	sl, #-1073741768
-	.byte 0x63, 0x46
+	lsrs	r4, r1, #1
+	cmp	r0, r4
+	bcc Over3
+	subs	r0, r0, r4
+	mov	ip, r3
+	movs	r4, #1
+	rors	r3, r4
+	orrs	r2, r3
+	mov	r3, ip
 
 Over3:  @ 0805ce86
-	adcmi	r0, r0, #140, 16
-	.inst 0x1b00d305	@ blne 0x8091aa6
-	strcs	r4, [r2], #-1692
-	.inst 0x431a41e3	@ tstmi	sl, #-1073741768
-	.byte 0x63, 0x46
+	lsrs	r4, r1, #2
+	cmp	r0, r4
+	bcc Over4
+	subs	r0, r0, r4
+	mov	ip, r3
+	movs	r4, #2
+	rors	r3, r4
+	orrs	r2, r3
+	mov	r3, ip
 
 Over4:  @ 0805ce98
-	adcmi	r0, r0, #204, 16
-	.inst 0x1b00d305	@ blne 0x8091ab8
-	strcs	r4, [r3], #-1692
-	.inst 0x431a41e3	@ tstmi	sl, #-1073741768
-	.byte 0x63, 0x46
+	lsrs	r4, r1, #3
+	cmp	r0, r4
+	bcc Over5
+	subs	r0, r0, r4
+	mov	ip, r3
+	movs	r4, #3
+	rors	r3, r4
+	orrs	r2, r3
+	mov	r3, ip
 
 Over5:  @ 0805ceaa
-	stmdacs	r0, {r2, r3, r4, r7, r9, sl, lr}
-	ldmdbeq	fp, {r0, r1, ip, lr, pc}
-	stmdbeq	r9, {r0, ip, lr, pc}
-	.byte 0xd9, 0xe7
+	mov	ip, r3
+	cmp	r0, #0
+	beq Over6
+	lsrs	r3, r3, #4
+	beq Over6
+	lsrs	r1, r1, #4
+	b Loop3
 
 Over6:  @ 0805ceb8
-	streq	r2, [r4, -lr, lsl #8]!
-	.inst 0xd1014022	@ tstle	r1, r2, lsr #32
-	.inst 0x46f7bc10
+	movs	r4, #14
+	lsls	r4, r4, #28
+	ands	r2, r4
+	bne Over7
+	pop	{r4}
+	mov	pc, lr
 
 Over7:  @ 0805cec4
-	strcs	r4, [r3], #-1635
-	andsmi	r4, sl, #-1073741768
-	stmiaeq	ip, {r0, ip, lr, pc}^
-	.byte 0x00, 0x19
+	mov	r3, ip
+	movs	r4, #3
+	rors	r3, r4
+	tst	r2, r3
+	beq Over8
+	lsrs	r4, r1, #3
+	adds	r0, r0, r4
 
 Over8:  @ 0805ced2
-	strcs	r4, [r2], #-1635
-	andsmi	r4, sl, #-1073741768
-	stmeq	ip, {r0, ip, lr, pc}
-	.byte 0x00, 0x19
+	mov	r3, ip
+	movs	r4, #2
+	rors	r3, r4
+	tst	r2, r3
+	beq Over9
+	lsrs	r4, r1, #2
+	adds	r0, r0, r4
 
 Over9:  @ 0805cee0
-	strcs	r4, [r1], #-1635
-	andsmi	r4, sl, #-1073741768
-	stmdaeq	ip, {r0, ip, lr, pc}^
-	.byte 0x00, 0x19
+	mov	r3, ip
+	movs	r4, #1
+	rors	r3, r4
+	tst	r2, r3
+	beq Over10
+	lsrs	r4, r1, #1
+	adds	r0, r0, r4
 
 Over10:  @ 0805ceee
-	.inst 0x46f7bc10
+	pop	{r4}
+	mov	pc, lr
 
 Ldiv0:  @ 0805cef2
-	.inst 0xf001b500
-	.inst 0x2000fbbc
-	.byte 0x00, 0xbd
+	push	{lr}
+	bl __div0
+	movs	r0, #0
+	pop	{pc}

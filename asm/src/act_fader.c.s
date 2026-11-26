@@ -139,7 +139,7 @@ L_0800facc:
 	pop	{r4}
 	pop	{r0}
 	bx	r0
-	.space 2
+	.balign 4, 0	@ alignment padding
 @ src/act_fader.c:24
 
 init_fader:  @ 0800fad4
