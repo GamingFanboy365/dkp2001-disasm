@@ -182,7 +182,8 @@ python3 tools/export_preview.py baserom.gba maps/symbols.txt preview
 ```
 
 This renders composed sprite frames, every in-game sprite (decoded), menu/title backgrounds from
-their tilemaps, and palette swatches.
+their tilemaps, every level's course, distant ground and sky, palette swatches, and the songs as
+MIDI files.
 
 ### Formats worked out so far
 
@@ -197,8 +198,25 @@ their tilemaps, and palette swatches.
   zero word ends it (`spr_update_vram`).
 - **Menu backgrounds** (`<name>_plt`, `_num_chars`, `_chars`, `_map_size_x/y`, `_map`). 8bpp tiles
   with u16 map entries. `diddytitle*` are 64×64 rotation backgrounds with byte-sized map entries.
-- **Level graphics**: `__chr_<level>` is a pointer to the shared `__chr_dkp` tile bank plus a list
-  of tile numbers. `__map_<level>` starts with a 32×32 size header. Not decoded yet.
+- **Levels** (`tab_levels`, 9 words per level: palette, ground tiles, sky tiles, distant-ground
+  map, course map, sky map, sky gradient, object placements, AI network). See `bg_init` in
+  `background.c`; the display is mode 2, with two rotating/scaling layers.
+  - Tile sets (`__chr_<level>_lvl`, `__chr_<level>_sky`) are a pointer to the shared bank
+    `__chr_dkp` (a u16 count, then 5,196 8bpp tiles), a u16 count (≤ 256), and u16 bank indices.
+  - Maps (`__map_<level>_lvl|gnd|sky`) are a u16 width and height in metatiles, then u16 metatile
+    numbers. A metatile is 4×4 tiles: 8 u16 in `__frs_dkp`, each holding two 1-byte tile numbers.
+    `_lvl` is the 128×128-tile (1024×1024 px) course the 3D floor is drawn from.
+- **Music** (`tune_list` → `Songinf {tracks, ppqn, track pointers, vmap, samplist}`). Tracks use
+  the sound driver's own opcodes (`midi_commands` in `audio.S`):
+  - 0: tempo (3 bytes, µs per quarter note)
+  - 1–4: delay (1–4 byte ticks)
+  - 5/6: note on/off (channel, note, velocity)
+  - 7: controller
+  - 8: program change
+  - 9: channel pressure
+  - 10: pitch wheel
+  - 11: end of track
+  `export_preview.py` writes them out as standard MIDI files.
 
 ## Bugs found so far
 
@@ -206,6 +224,8 @@ their tilemaps, and palette swatches.
   indexes past the end of `__net_jungle_03` (a 0x26-byte network) into the next data, which is
   `english_table`, the text-pointer table. It then uses halves of those pointers as waypoint
   coordinates. The AI on that track is steering by garbage.
+- **Unfinished tracks.** Desert 00, 02 and 03 have placeholder ground: grids stamped with their slot
+  names "S3-2", "R4-1" and "R5-3". Jungle 03 is a maze whose AI network is a stub (see above).
 - **Asserts trap.** Failed `ASSERT`s print through `AGBPrintf` and then hit an `0xEFFF` undefined
   instruction (223 sites). On hardware or an emulator without a debugger attached, that's a hang
   or crash rather than a message.
@@ -227,7 +247,8 @@ their tilemaps, and palette swatches.
 - [x] Editable formats for sprites/backgrounds (PNG), palettes (.pal), samples (.wav)
 - [x] Front-end sprite data that was hidden in the audio.S code range is now data, with symbolic
       pointers; tables inside hand-written title asm are now symbolic too
-- [ ] Decode level ground graphics (`__chr_dkp`, `__map_*_lvl`, `__frs_dkp`) and music sequences
+- [x] Decode level graphics (rendered by `export_preview.py`) and music (exported as MIDI)
+- [ ] Editable formats for level maps and music (round-trip through the build)
 - [ ] Editable format for in-game sprites (needs an encoder that reproduces the original RLE)
 - [ ] Matching decompilation of the C modules. The compiler is the same GCC 2.9 lineage
       `agbcc` derives from, and line tables give the source line for every instruction.

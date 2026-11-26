@@ -7,6 +7,8 @@ Writes OUTDIR/
   frontend_sprites/<name>/<name>_NN.png   title/menu sprite frames, composed from their OAM pieces
   ingame_sprites/<name>/<level>.png        every frame of every in-game sprite, side by side
   backgrounds/<name>.png                   menu/title backgrounds composed from their tilemaps
+  levels/<level>_lvl|_gnd|_sky.png         each level's ground plane, distant ground and sky strip
+  music/<song>.mid                         each song as a standard MIDI file
   palettes/<name>.png                      palette swatches
   sound/<group>/<sample>.wav               copied from assets/ if present
 
@@ -296,6 +298,133 @@ def backgrounds(rom, out):
     return n
 
 
+def level_tiles(rom, chr_addr, dkp):
+    """A level tile set: pointer to the __chr_dkp bank, u16 count, u16 bank indices.
+    Returns the 8bpp tile data as loaded into VRAM (see bg_init in background.c)."""
+    bank = rom.u32(chr_addr) + 2
+    count = min(rom.u16(chr_addr + 4), 256)
+    return b"".join(rom.b(bank + rom.u16(chr_addr + 6 + 2 * i) * 64, 64) for i in range(count))
+
+
+def level_map(rom, map_addr, frs, tiles, pal):
+    """Render a level map: u16 width, u16 height (in 4x4-tile metatiles), then
+    u16 metatile numbers; each metatile is 8 u16 in __frs_dkp, one byte per tile."""
+    w, h = rom.u16(map_addr), rom.u16(map_addr + 2)
+    if not (0 < w <= 64 and 0 < h <= 64):
+        return None
+    rows = [[(0, 0, 0)] * (w * 32) for _ in range(h * 32)]
+    cache = {}
+    for my in range(h):
+        for mx in range(w):
+            m = rom.u16(map_addr + 4 + 2 * (my * w + mx))
+            for ty in range(4):
+                for tx in range(4):
+                    t = rom.u8(frs + (m * 8 + ty * 2 + tx // 2) * 2 + (tx & 1))
+                    if t not in cache:
+                        cache[t] = tile_pixels(tiles, t * 64, 8)
+                    px = cache[t]
+                    for y in range(8):
+                        row = rows[my * 32 + ty * 8 + y]
+                        for x in range(8):
+                            row[mx * 32 + tx * 8 + x] = pal[px[y][x]] if pal else GREY[px[y][x] % 16]
+    return rows
+
+
+def levels(rom, out):
+    """Every level's ground and sky, from tab_levels (9 words per level)."""
+    tab, frs = rom.sym["tab_levels"], rom.sym["__frs_dkp"]
+    n = 0
+    for k in range(1, 64):
+        e = tab + 36 * k
+        ptrs = [rom.u32(e + 4 * i) for i in range(6)]
+        if not all(p in rom.addr for p in ptrs):
+            break
+        pal_lvl, chr_lvl, chr_sky, map_gnd, map_lvl, map_sky = ptrs
+        pal = gfx.palette_from_bin(rom.b(pal_lvl, 512))
+        for map_addr, chr_addr in ((map_lvl, chr_lvl), (map_gnd, chr_lvl), (map_sky, chr_sky)):
+            name = rom.addr[map_addr].lstrip("_").replace("map_", "", 1)
+            path = os.path.join(out, "levels", name + ".png")
+            if os.path.exists(path):
+                continue
+            rows = level_map(rom, map_addr, frs, level_tiles(rom, chr_addr, rom.sym["__chr_dkp"]), pal)
+            if rows:
+                os.makedirs(os.path.dirname(path), exist_ok=True)
+                gfx.write_png(path, len(rows[0]), len(rows), rows, rgb=True)
+                n += 1
+    return n
+
+
+def _vlq(n):
+    out = [n & 0x7F]
+    n >>= 7
+    while n:
+        out.insert(0, (n & 0x7F) | 0x80)
+        n >>= 7
+    return bytes(out)
+
+
+def track_to_midi(rom, a, limit=1 << 20):
+    """Translate one game track (sound driver opcodes, see midi_commands in
+    audio.S) to the body of a standard MIDI MTrk chunk."""
+    ev = bytearray()
+    delay = 0
+    end = a + limit
+    while a < end:
+        op = rom.u8(a)
+        a += 1
+        if op == 0:                                   # tempo, 24-bit microseconds per quarter
+            t = rom.u8(a) | rom.u8(a + 1) << 8 | rom.u8(a + 2) << 16
+            ev += _vlq(delay) + bytes((0xFF, 0x51, 3, t >> 16, (t >> 8) & 255, t & 255))
+            delay, a = 0, a + 3
+        elif 1 <= op <= 4:                            # delay, 1-4 byte little-endian ticks
+            delay += int.from_bytes(rom.b(a, op), "little")
+            a += op
+        elif op in (5, 6, 7):                         # note on / note off / controller
+            ch, x, y = rom.u8(a), rom.u8(a + 1), rom.u8(a + 2)
+            status = {5: 0x90, 6: 0x80, 7: 0xB0}[op] | (ch & 15)
+            ev += _vlq(delay) + bytes((status, x & 127, y & 127))
+            delay, a = 0, a + 3
+        elif op == 8:                                 # program change
+            ev += _vlq(delay) + bytes((0xC0 | (rom.u8(a) & 15), rom.u8(a + 1) & 127))
+            delay, a = 0, a + 2
+        elif op == 9:                                 # channel pressure
+            ev += _vlq(delay) + bytes((0xD0 | (rom.u8(a) & 15), rom.u8(a + 1) & 127))
+            delay, a = 0, a + 2
+        elif op == 10:                                # pitch wheel
+            ev += _vlq(delay) + bytes((0xE0 | (rom.u8(a) & 15), rom.u8(a + 1) & 127, rom.u8(a + 2) & 127))
+            delay, a = 0, a + 3
+        else:                                         # 11 end of track (12 = debug trap)
+            break
+    ev += _vlq(delay) + b"\xff\x2f\x00"
+    return bytes(ev)
+
+
+def music(rom, out):
+    """Each song in tune_list as a format-1 MIDI file. The game plays them with
+    its own instrument samples (sound/); a MIDI player will use General MIDI
+    instruments for the same program numbers, so the notes and timing are right
+    but the sounds are approximate."""
+    if "tune_list" not in rom.sym:
+        return 0
+    n = 0
+    tl = rom.sym["tune_list"]
+    for k in range(rom.size("tune_list") // 4):
+        song = rom.u32(tl + 4 * k)
+        if song not in rom.addr:
+            continue
+        ntr, ppqn, trks = rom.u32(song), rom.u32(song + 4), rom.u32(song + 8)
+        if not (0 < ntr <= 16 and 0 < ppqn < 0x8000):
+            continue
+        chunks = [b"MTrk" + struct.pack(">I", len(t)) + t
+                  for t in (track_to_midi(rom, rom.u32(trks + 4 * i)) for i in range(ntr))]
+        name = rom.addr[song]
+        os.makedirs(os.path.join(out, "music"), exist_ok=True)
+        with open(os.path.join(out, "music", name + ".mid"), "wb") as f:
+            f.write(b"MThd" + struct.pack(">IHHH", 6, 1, ntr, ppqn) + b"".join(chunks))
+        n += 1
+    return n
+
+
 def palettes(rom, out):
     n = 0
     for name in sorted(rom.sym):
@@ -320,6 +449,8 @@ def main():
     print("front-end sprite frames:", frontend_sprites(rom, out))
     print("in-game sprite sheets:", ingame_sprites(rom, out))
     print("backgrounds:", backgrounds(rom, out))
+    print("level maps:", levels(rom, out))
+    print("songs (MIDI):", music(rom, out))
     print("palettes:", palettes(rom, out))
     snd = 0
     for root, _, files in os.walk("assets/sound/samples"):
