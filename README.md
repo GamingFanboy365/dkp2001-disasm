@@ -56,11 +56,12 @@ make compare
 
 Expected output: `build/dkp.gba: OK` (sha1 `6a76def610829ac1502afb58740e38b5e6926b3d`).
 
-To regenerate *all* the source from the ELF (this overwrites `asm/`, `data/`, `assets/` and
-`maps/`, including any edits):
+`asm/` is edited by hand now: the bug fixes in [FIXES.md](FIXES.md) live there. Don't regenerate
+it. If you ever need a pristine copy, regenerate into a separate directory, because the
+generator overwrites `asm/`, `data/`, `assets/` and `maps/`:
 
 ```bash
-python3 tools/dkp_split.py path/to/Diddy_Kong_Pilot_2001.elf
+python3 tools/dkp_split.py path/to/Diddy_Kong_Pilot_2001.elf /tmp/dkp-pristine
 ```
 
 ### Just want a playable .gba?
