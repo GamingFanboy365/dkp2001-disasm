@@ -2578,7 +2578,11 @@ tab_sprites:  @ 0816a74c
 	.byte 0x00, 0x00, 0x5b, 0x00
 	.word __spr_hud_map_snow_00
 	.byte 0x00, 0x00, 0x5b, 0x00
+	.ifdef FIXES
+	.word __spr_hud_map_snow_01	@ FIX "hud-maps": Snow 01's own map (this slot pointed at Snow 00's)
+	.else
 	.word __spr_hud_map_snow_00
+	.endif
 	.byte 0x00, 0x00, 0x5b, 0x00
 	.word __spr_hud_map_farm_00
 	.byte 0x00, 0x00, 0x5b, 0x00

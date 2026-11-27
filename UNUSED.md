@@ -34,7 +34,7 @@ in:
 | What | Code | Data |
 |---|---|---|
 | Nintendo and Rare logo screens, with the intro animation | `logo_init`, `logo_process` (title_logo.c): Nintendo logo, then Rare logo with planes flying over, then `init_title` | `Nintendo_Logo` (7 KB), `Rare_Logo` (9 KB), `introanim`–`introanim4` (65 KB of sprite frames) |
-| Japanese health/warning screen | `menu_main_init_jap_warning` (menu_main.c) | `jap_warning` (7 KB) |
+| Japanese tilt-calibration prompt | `menu_main_init_jap_warning` (menu_main.c) | `jap_warning` (7 KB): 「ちゅうい！GBAを水平にもちながらAボタンをおしてください。」, "Caution! Hold the GBA level and press A", the Japanese version of the English Options screen "Hold Gameboy flat and press A or Start", which is used |
 
 The fix patches boot through the logos and intro to the title, and move the debug menu to L+R.
 `logo_process` loads `introanim4`'s palette but never draws its frames.
@@ -113,6 +113,11 @@ The game has two front-ends:
   network with one three-point route.
 - **Six start positions.** The course in the "Farm 02" slot has six start positions for four
   racers. The original hangs on it; fixed in the patch.
+- **Course maps.** The race HUD's course map comes from a switch in `init_hud_map`. Lava 01, Lake
+  01 and Haunted 02 have finished maps in the sprite table (each matching its course) but no
+  case, so they showed none; Snow 01's sprite-table slot pointed at Snow 00's map although its own
+  (`__spr_hud_map_snow_01`) is there. All four are wired in by the fix patches. Farm 03's map is
+  a copy of Farm 00's with "1/3" stamped on it, not its course, so it stays unused.
 - **Palettes for courses that don't exist.** `__pal_test_lvl`, `__pal_test_sky` and
   `__pal_valley_lvl` are unreferenced. "Valley" isn't one of the build's worlds.
 - **Per-world sky palettes.** `__pal_beach_sky`, `__pal_lava_sky`, … for all ten worlds are
@@ -145,8 +150,11 @@ The game has two front-ends:
 
 - **`multi.c`** (`multi_interrupt`, `multi_test`): link-cable multiplayer. It needs a second GBA,
   so it can't be tested here.
-- **`user_control_camera`** (act_camera.c): a manually controlled camera, probably a debug mode.
-- **`menu_spline_init`, `menu_spline_process`** (menu_spline.c): spline-driven menu movement.
+- **The camera-path editor** (`user_control_camera` in act_camera.c, `menu_spline_init` and
+  `menu_spline_process` in menu_spline.c, `campan_addpt`): a developer tool for laying out the
+  camera fly-in paths. It is reachable: hold Select while choosing a course in the front-end, and
+  the race starts with the camera flying free under the player's control (`SPLINE_EDIT`); leaving
+  such a race goes to the spline menu instead of the front-end. Not a game feature.
 - **`race_fail_player`** (act_race_monitor.c): never triggered.
 - **`convert_to_comp_player`** (act_comp_player.c): handing a player over to the AI.
 

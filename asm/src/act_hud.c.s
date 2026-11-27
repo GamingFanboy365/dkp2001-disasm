@@ -30,8 +30,14 @@ fix_assert_L_08009fa2:
 L_08009fa2:
 	movs	r6, #0
 @ src/act_hud.c:32
+	.ifdef FIXES
+	@ FIX "hud-maps": Lava 01, Lake 01 and Haunted 02 have finished course
+	@ maps in the sprite table (100, 106, 114) that this switch never picks.
+	bl	fix_hud_map	@ r0 = game_level, or picks the map and goes on at L_0800a07a
+	.else
 	ldr	r0, _08009fc4	@ =game_level
 	ldr	r0, [r0, #0]
+	.endif
 	subs	r0, #1
 	cmp	r0, #30
 	bhi L_0800a076

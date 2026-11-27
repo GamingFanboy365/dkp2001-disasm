@@ -789,3 +789,35 @@ fix_debug_combo_far:
 	bx	r0
 2:	bx	r3
 	.ltorg
+
+@ FIX "hud-maps": init_hud_map picks the course map shown in a race with a
+@ switch on game_level. Lava 01, Lake 01 and Haunted 02 have finished maps
+@ in the sprite table (100, 106 and 114, each matching its course's layout)
+@ but no case, so they showed none. Called in place of the switch's
+@ "ldr r0, =game_level; ldr r0, [r0]": for those three, r6 = the map and
+@ init_hud_map carries on at L_0800a07a; otherwise r0 = game_level for the
+@ switch as before. (Farm 03's map, 111, is a copy of Farm 00's with "1/3"
+@ on it, not its course, so it stays unused.)
+	.thumb_func
+fix_hud_map_far:
+	ldr	r0, =game_level
+	ldr	r0, [r0, #0]
+	adr	r1, hud_map_extra
+1:	ldrb	r2, [r1, #0]
+	cmp	r2, #0
+	beq	2f				@ not one of them
+	cmp	r2, r0
+	beq	3f
+	adds	r1, #2
+	b	1b
+2:	bx	lr
+3:	ldrb	r6, [r1, #1]
+	ldr	r1, =L_0800a07a+1
+	bx	r1
+	.ltorg
+hud_map_extra:					@ game_level, sprite
+	.byte	6, 100				@ Lava 01
+	.byte	17, 106				@ Lake 01
+	.byte	32, 114				@ Haunted 02
+	.byte	0, 0
+	.balign 4

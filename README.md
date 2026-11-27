@@ -328,6 +328,8 @@ the patch (see [FIXES.md](FIXES.md)):
 - **The game boots into its debug menu**, though its Nintendo and Rare logo screens and intro
   animation are complete and lead to the title. The patches boot through them, and L+R opens
   the debug menu.
+- **Four courses show no map or the wrong one in the race HUD**, though their maps are finished
+  and in the sprite table. Wired in.
 - **The character select picks the wrong pilot** (screen slots used as character numbers; only
   Cranky is right), never offers Donkey Kong (races only allow five characters, though his
   sprites work), and draws its colour highlights 7 pixels off the sepia figures. Fixed; the
@@ -368,7 +370,7 @@ Not fixed (no data to fix them with):
 - [ ] Editable format for in-game sprites (needs an encoder that reproduces the original RLE)
 - [ ] Matching decompilation of the C modules. The compiler is the same GCC 2.9 lineage
       `agbcc` derives from, and line tables give the source line for every instruction.
-- [x] Bug-fix build (`make fixed`) and IPS patch (`patches/`, `make patch`): 15 fixes so far,
+- [x] Bug-fix build (`make fixed`) and IPS patch (`patches/`, `make patch`): 16 fixes so far,
       including music in the races and playable Stories with K. Rool's Gold's story, plus a
       dogfight for Dog Fights; see FIXES.md
 - [ ] More fixes: AI networks for the tracks that have none

@@ -2168,6 +2168,13 @@ act_weapon_chain_rocket:  @ 08010cc0
 	.ifdef FIXES
 fix_assert_L_08010ce4:
 	b	L_08010ce4	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	@ FIX "hud-maps": trampoline to the end of the ROM
+	.balign 4
+fix_hud_map:
+	ldr	r1, 1f
+	bx	r1
+	.balign 4
+1:	.word	fix_hud_map_far+1
 	.fill 18 - (. - fix_assert_L_08010ce4), 1, 0	@ same size as the original block
 	.else
 	ldr	r0, _08010cf4	@ =D_0807036c
