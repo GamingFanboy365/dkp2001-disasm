@@ -935,6 +935,7 @@ camera_race_start:  @ 08009bb0
 	.ifdef FIXES
 fix_assert_L_08009bd6:
 	b	L_08009bd6	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.ifdef UPDATES
 	@ FIX "dogfight-opponents": trampolines to the code at the end of the ROM
 	@ (out of BL range from here), placed in this block's dead space.
 	.balign 4
@@ -947,6 +948,7 @@ fix_dogfight_spawn:	@ from init_start_pos in place of obj_free; r0 = object
 	.balign 4
 1:	.word	fix_dogfight_steer_far+1
 2:	.word	fix_dogfight_spawn_far+1
+	.endif
 	.fill 20 - (. - fix_assert_L_08009bd6), 1, 0	@ same size as the original block
 	.else
 	ldr	r0, _08009d00	@ =D_0806f8d8

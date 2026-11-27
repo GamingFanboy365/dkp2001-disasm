@@ -13,6 +13,7 @@ init_pylon:  @ 0800dba8
 	.ifdef FIXES
 fix_assert_L_0800dbc2:
 	b	L_0800dbc2	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.ifdef UPDATES
 	@ FIX "dogfight-scoring": trampoline to the end of the ROM (no pylon strikes in a dogfight)
 	.balign 4
 fix_df_pylon:
@@ -20,6 +21,7 @@ fix_df_pylon:
 	bx	r0
 	.balign 4
 1:	.word	fix_df_pylon_far+1
+	.endif
 	.fill 18 - (. - fix_assert_L_0800dbc2), 1, 0	@ same size as the original block
 	.else
 	ldr	r0, _0800dbf8	@ =D_0806ff54
@@ -438,7 +440,7 @@ L_0800de20:
 	bge L_0800de70
 	negs	r4, r4
 L_0800de70:
-	.ifdef FIXES
+	.ifdef UPDATES
 	bl	fix_df_pylon	@ FIX "dogfight-scoring": "gt" (no strike) in a dogfight, else cmp r4, #0x3fff
 	.else
 	ldr	r0, _0800df04	@ =0x00003fff

@@ -594,7 +594,7 @@ L_080090d6:
 	ldr	r1, [r5, #40]
 	subs	r6, r0, r1
 @ src/act_comp_player.c:242
-	.ifdef FIXES
+	.ifdef UPDATES
 	@ FIX "dogfight-opponents": in Dog Fights, head for the player's plane
 	@ instead of the route (r7/sl/r6 = target offset); returns r0 = players,
 	@ r1 = 3 as below.
@@ -603,7 +603,7 @@ L_080090d6:
 	ldr	r0, _080091c4	@ =players
 	.endif
 	mov	r9, r0
-	.ifndef FIXES
+	.ifndef UPDATES
 	movs	r1, #3
 	.endif
 	mov	r8, r1

@@ -59,6 +59,13 @@ race_tunes:
 	.equ	RACE_TUNES_COUNT, . - race_tunes
 	.balign 4
 
+@ Front-end modes and the K. Rool's Gold course (used by the dogfight and
+@ the story code).
+	.equ	MODE_STORIES, 1
+	.equ	KROOLS_GOLD_LEVEL, 6		@ Stories > K. Rool's Gold: Lava 01, a dogfight course
+
+@ The dogfight is new design, so it's only in the updates build (UPDATES).
+	.ifdef UPDATES
 @ FIX "dogfight-opponents": Dog Fights starts an ordinary race on an arena
 @ course, and nothing outside the menu knows the mode was chosen. The three
 @ computer planes had no start positions on most arenas (they sat at 0,0,0)
@@ -76,9 +83,7 @@ race_tunes:
 @ strikes don't count in a dogfight.
 @ This is new design: the build has no dogfight game code to restore.
 
-	.equ	MODE_STORIES, 1
 	.equ	MODE_DOGFIGHT, 2
-	.equ	KROOLS_GOLD_LEVEL, 6		@ Stories > K. Rool's Gold: Lava 01, a dogfight course
 	.equ	OBJ_COMP_PLAYER, 2		@ object type, o+2
 	.equ	DF_FAR_SHIFT, 9216		@ aim vectors longer than 96 units are scaled down
 	.equ	DF_LIVES, 3			@ = monitor+84, the strikes the counter shows
@@ -569,6 +574,7 @@ df_formation:					@ per computer player: ahead/4, side/4 (units)
 	.byte	50, 0				@ 200 ahead
 	.byte	40, 12				@ 160 ahead, 48 right
 	.balign 4
+	.endif	@ UPDATES
 
 @ FIX "story-overlays": the old front-end's story mode draws a cut scene's
 @ overlay sprites from a list at LOCAL_MEM+0x20. A scene without overlay

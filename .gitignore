@@ -6,7 +6,9 @@ __pycache__/
 build/
 build_shift_*/
 build_fixed/
+build_updated/
 build_fx_*/
+build_up_*/
 tools/romtest/romtest
 # Game assets are extracted from your own ELF (tools/dkp_split.py --assets-only)
 assets/

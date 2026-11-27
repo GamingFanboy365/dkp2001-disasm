@@ -8,12 +8,19 @@ own copy of the ELF; the tools extract everything else from it.
 
 ## Patching your game
 
-`patches/dkp2001_fixes.ips` fixes the hangs and crashes found so far, adds the unused course
-music to the races, fixes the character select (you fly who you pick, Donkey Kong included),
-makes all three Stories playable (K. Rool's Gold with its illustrated story,
-which never ran in this build), and gives Dog Fights opponents, lives and an ending (list in
-[FIXES.md](FIXES.md)). It contains only the changed bytes, so you need
-your own copy of the 2001 ELF:
+There are two patches (list in [FIXES.md](FIXES.md)):
+
+- **`patches/dkp2001_fixes.ips`, the fixed game.** Fixes the hangs and crashes found so far,
+  plays the unused course music in the races, fixes the character select (you fly who you pick,
+  Donkey Kong included), and makes all three Stories playable (K. Rool's Gold with its
+  illustrated story, which never ran in this build). Only bug fixes and content the build
+  already has.
+- **`patches/dkp2001_updates.ips`, the fixed game plus updates.** Everything above, plus new
+  design that isn't in the build: Dog Fights (and K. Rool's Gold's dogfight) get opponents that
+  hunt you, weapons, three lives each and an ending.
+
+Each contains only the changed bytes and applies to the original ROM (not one on top of the
+other), so you need your own copy of the 2001 ELF:
 
 1. Make a ROM from the ELF (Python 3, nothing else needed):
 
@@ -22,12 +29,19 @@ your own copy of the 2001 ELF:
    ```
 
    Its sha1 should be `6a76def610829ac1502afb58740e38b5e6926b3d`.
-2. Apply `patches/dkp2001_fixes.ips` with any IPS patcher (Floating IPS, Lunar IPS, the Rom
-   Patcher JS website), or with:
+2. Apply one of the patches with any IPS patcher (Floating IPS, Lunar IPS, the Rom Patcher JS
+   website), or with:
 
    ```bash
    python3 tools/make_ips.py apply dkp2001.gba patches/dkp2001_fixes.ips dkp2001_fixed.gba
    ```
+
+   ```bash
+   python3 tools/make_ips.py apply dkp2001.gba patches/dkp2001_updates.ips dkp2001_updated.gba
+   ```
+
+   The patched ROMs' sha1s are in `patches/dkp2001_fixed.sha1` and
+   `patches/dkp2001_updated.sha1`.
 
    The result's sha1 is in `patches/dkp2001_fixed.sha1`.
 
