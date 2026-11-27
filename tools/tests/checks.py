@@ -66,6 +66,16 @@ def func_name(pc):
     return f"{FUNCS[i][1]}+{pc - FUNCS[i][0]:#x}" if i >= 0 else hex(pc)
 
 
+def course_names(rom):
+    """Course names by level, from select_strings (char*, level - 1) in the ROM."""
+    b = open(rom, "rb").read()
+    out = {}
+    for lv in range(1, 42):
+        p = struct.unpack_from("<I", b, SYMS["select_strings"] - 0x08000000 + 4 * (lv - 1))[0] - 0x08000000
+        out[lv] = b[p:b.index(b"\0", p)].decode("latin-1").title()
+    return out
+
+
 def is_patched(rom):
     return hashlib.sha1(open(rom, "rb").read()).hexdigest() != ORIGINAL_SHA1
 
@@ -164,17 +174,35 @@ def check_clock(rom):
 
 
 def check_finish(rom):
-    jobs = {}
-    for k in range(40):
-        st, t = track_script(k)
-        jobs[f"track {k:2d}"] = (st + 7000, t, f"{st + 60}:03003398|40")
-
-    def detail(r):
+    """A finished race moves on (to the title, or into a new race with the laps reset), so
+    each track is sampled at three points and the most laps seen is reported."""
+    def state(r):
         mon = rd(r, MONITOR) - EWRAM
-        mode = rd(r, SYS_MODE)
-        name = next((n for n in ("title", "game_process") if (SYMS[n] | 1) == mode), hex(mode))
-        return f"now in {name}, player laps {r[mon + 86] if 0 < mon < 0x40000 else '?'}"
-    return run_jobs(rom, jobs, detail)
+        in_title = (SYMS["title"] | 1) == rd(r, SYS_MODE)
+        return in_title, (r[mon + 86] if 0 < mon < 0x40000 and not in_title else 0)
+
+    def one(k):
+        st, t = track_script(k)
+        poke = f"{st + 60}:03003398|40"
+        faults, laps, finished, level = [], 0, False, 0
+        for f in (st + 4000, st + 8000, st + 12000):
+            fl, _, data = play(rom, f, t, poke=poke, ram=True)
+            faults = faults or fl
+            level = level or rd(data, GAME_LEVEL, "<i")
+            in_title, n = state(data)
+            laps = max(laps, n)
+            finished |= in_title or n >= 3
+        return k, faults, laps, finished, level
+
+    names = course_names(rom)
+    bad = 0
+    with cf.ThreadPoolExecutor(max(1, os.cpu_count() or 4)) as ex:
+        for k, faults, laps, finished, level in ex.map(one, range(40)):
+            bad += bool(faults)
+            flag = "FAULTS" if faults else "ok"
+            print(f"  track {k:2d} {names.get(level, level)!s:22.22} {flag:7s} {'finished' if finished else f'most laps seen {laps}'}"
+                  + (f"  {faults[:2]}" if faults else ""))
+    return bad
 
 
 def check_picks(rom):
