@@ -137,5 +137,11 @@ wall_bx_r1:
 @ game_level, its wall grid (from the course's generated .s); 0 ends the table
 course_wall_grids:
 	.word	37, walls_temple_tangle		@ Temple Tangle
+	.word	2, walls_beach_01		@ updates/courses/rare/beach_01.py
+	.word	1, walls_beach_00		@ updates/courses/rare/beach_00.py
+	.word	5, walls_lava_00		@ updates/courses/rare/lava_00.py
+	.word	8, walls_snow_00		@ updates/courses/rare/snow_00.py
+	.word	20, walls_farm_00		@ updates/courses/rare/farm_00.py
+	.word	30, walls_haunted_00		@ updates/courses/rare/haunted_00.py
 	.word	0
 	.balign 4

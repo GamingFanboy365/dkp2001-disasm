@@ -74,7 +74,16 @@ updates/courses/%.s: updates/courses/%.py tools/course_build.py
 updates/music/%.s: updates/music/%.py tools/song_build.py
 	python3 tools/song_build.py $<
 
-$(BUILD)/rom.o: rom.s $(ASM) $(ASSETS) $(UPDATES_BIN) $(BUILD)/assets.stamp
+# Rare's races without pylons (updates build) and Beach Race 2's AI routes (fixes build):
+# made from the extracted assets by tools/course_convert.py
+RARE_COURSES := $(basename $(notdir $(wildcard updates/courses/rare/*.py)))
+ifdef FIXES
+RARE_BINS := $(RARE_COURSES:%=$(BUILD)/updates/%_obj.bin)
+endif
+$(BUILD)/updates/%_obj.bin: updates/courses/rare/%.py assets/objects/obj_%.bin assets/ai_networks/%.bin tools/course_convert.py tools/course_build.py
+	python3 tools/course_convert.py $< $(BUILD)/updates
+
+$(BUILD)/rom.o: rom.s $(ASM) $(ASSETS) $(UPDATES_BIN) $(RARE_BINS) $(BUILD)/assets.stamp
 	@mkdir -p $(BUILD)
 	$(AS) $(ASFLAGS) -o $@ $<
 

@@ -1999,7 +1999,11 @@ tab_levels:  @ 0816a164
 	.word __map_beach_00_lvl
 	.word __map_beach_00_sky
 	.word __pal_grad_sky_beach
+	.ifdef UPDATES
+	.word obj_beach_00_walled	@ FIX "no-pylons": Rare's objects without pylons (updates/courses/rare/beach_00.py)
+	.else
 	.word obj_beach_00
+	.endif
 	.word __net_beach_00
 	.word __pal_beach_lvl
 	.word __chr_beach_01_lvl
@@ -2008,8 +2012,16 @@ tab_levels:  @ 0816a164
 	.word __map_beach_01_lvl
 	.word __map_beach_00_sky
 	.word __pal_grad_sky_beach
+	.ifdef UPDATES
+	.word obj_beach_01_walled	@ FIX "no-pylons" (updates/courses/rare/beach_01.py)
+	.else
 	.word obj_beach_01
+	.endif
+	.ifdef FIXES
+	.word net_beach_01_fixed	@ FIX "beach-race-2-routes": AI routes that follow the course
+	.else
 	.word __net_beach_01
+	.endif
 	.word __pal_beach_lvl
 	.word __chr_beach_02_lvl
 	.word __chr_beach_sky
@@ -2035,7 +2047,11 @@ tab_levels:  @ 0816a164
 	.word __map_lava_00_lvl
 	.word __map_lava_00_sky
 	.word __pal_grad_sky_lava
+	.ifdef UPDATES
+	.word obj_lava_00_walled	@ FIX "no-pylons": Rare's objects without pylons (updates/courses/rare/lava_00.py)
+	.else
 	.word obj_lava_00
+	.endif
 	.word __net_lava_00
 	.word __pal_lava_lvl
 	.word __chr_lava_01_lvl
@@ -2062,7 +2078,11 @@ tab_levels:  @ 0816a164
 	.word __map_snow_00_lvl
 	.word __map_snow_00_sky
 	.word __pal_grad_sky_snow
+	.ifdef UPDATES
+	.word obj_snow_00_walled	@ FIX "no-pylons": Rare's objects without pylons (updates/courses/rare/snow_00.py)
+	.else
 	.word obj_snow_00
+	.endif
 	.word __net_snow_00
 	.word __pal_snow_lvl
 	.word __chr_snow_01_lvl
@@ -2170,7 +2190,11 @@ tab_levels:  @ 0816a164
 	.word __map_farm_00_lvl
 	.word __map_farm_00_sky
 	.word __pal_grad_sky_farm
+	.ifdef UPDATES
+	.word obj_farm_00_walled	@ FIX "no-pylons": Rare's objects without pylons (updates/courses/rare/farm_00.py)
+	.else
 	.word obj_farm_00
+	.endif
 	.word __net_farm_00
 	.word __pal_farm_lvl
 	.word __chr_farm_01_lvl
@@ -2260,7 +2284,11 @@ tab_levels:  @ 0816a164
 	.word __map_haunted_00_lvl
 	.word __map_haunted_00_sky
 	.word __pal_grad_sky_haunted
+	.ifdef UPDATES
+	.word obj_haunted_00_walled	@ FIX "no-pylons": Rare's objects without pylons (updates/courses/rare/haunted_00.py)
+	.else
 	.word obj_haunted_00
+	.endif
 	.word __net_haunted_00
 	.word __pal_haunted_lvl
 	.word __chr_haunted_01_lvl

@@ -305,3 +305,15 @@ hud_map_extra:					@ game_level, sprite
 	.endif
 	.byte	0, 0
 	.balign 4
+
+@ FIX "beach-race-2-routes": Beach Race 2's AI network is an unfinished loop round the
+@ outside of the island (over open water, not from the start hoop) that ignores the
+@ course Rare laid out with its 11 pylons, so the computer racers didn't race it. These
+@ routes are ours, drawn through Rare's pylons in Rare's order, each passed on its
+@ intended side: tools/course_convert.py makes them at build time from your ROM's
+@ extracted assets (updates/courses/rare/beach_01.py), and checks every route passes
+@ every pylon without a strike.
+	.balign 4
+net_beach_01_fixed:
+	.incbin	"updates/beach_01_net.bin"
+	.balign 4
