@@ -5,7 +5,7 @@ OBJCOPY := $(PREFIX)objcopy
 
 BUILD   ?= build
 ASFLAGS := -mcpu=arm7tdmi -mthumb-interwork -I . -I $(BUILD)
-ASM     := $(shell find asm data updates -name '*.s' -o -name '*.S' 2>/dev/null) $(patsubst %.py,%.s,$(wildcard updates/courses/*.py))
+ASM     := $(shell find asm data updates -name '*.s' -o -name '*.S' 2>/dev/null) $(patsubst %.py,%.s,$(wildcard updates/courses/*.py updates/music/*.py))
 ASSETS  := $(shell find assets -type f 2>/dev/null)
 # Our own binary data for the updates build (pictures etc.), .incbin'd from updates/
 UPDATES_BIN := $(shell find updates -name '*.bin' 2>/dev/null)
@@ -69,6 +69,10 @@ $(BUILD)/assets.stamp: $(CONV) tools/gfx.py
 # Course layouts (ours): each updates/courses/NAME.py generates NAME.s
 updates/courses/%.s: updates/courses/%.py tools/course_build.py
 	python3 tools/course_build.py $<
+
+# Tunes (ours): each updates/music/NAME.py (except helpers) generates NAME.s
+updates/music/%.s: updates/music/%.py tools/song_build.py
+	python3 tools/song_build.py $<
 
 $(BUILD)/rom.o: rom.s $(ASM) $(ASSETS) $(UPDATES_BIN) $(BUILD)/assets.stamp
 	@mkdir -p $(BUILD)

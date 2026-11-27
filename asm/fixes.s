@@ -40,6 +40,7 @@ fix_race_music_far:
 	.equ	BAYOU, 4
 	.equ	HAUNTED, 5
 	.equ	CASTLE, 6
+	.equ	JUNGLE, 7			@ updates only: updates/music/tune_list.s
 	.equ	NO_TUNE, 0xff
 
 @ One entry per game_level (tab_levels index). Worlds without a theme of their
@@ -54,7 +55,11 @@ race_tunes:
 	.byte	BAYOU, BAYOU, BAYOU, BAYOU, BAYOU, BAYOU	@ 20-25 farm_00-05 (no theme: country, like bayou)
 	.byte	BAYOU, BAYOU, BAYOU, BAYOU		@ 26-29 swamp_00-03 (bayou = swamp)
 	.byte	HAUNTED, HAUNTED, HAUNTED, HAUNTED	@ 30-33 haunted_00-03
+	.ifdef UPDATES
+	.byte	JUNGLE, JUNGLE, JUNGLE, JUNGLE		@ 34-37 jungle_00-03: our jungle theme (updates)
+	.else
 	.byte	BAYOU, BAYOU, BAYOU, BAYOU		@ 34-37 jungle_00-03 (no theme: jungle swamp, like bayou)
+	.endif
 	.byte	LAVA, LAVA, LAVA, LAVA			@ 38-41 desert_00-03 (no theme: hot, like lava)
 	.equ	RACE_TUNES_COUNT, . - race_tunes
 	.balign 4

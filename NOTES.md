@@ -174,6 +174,16 @@ didn't (every racer flew into the corner after the start line). `course_build.py
 the route's first point again after it, uncounted. Also: pure pursuit on a 48-unit circle;
 very short segments are avoided. Object-list coordinates are unsigned (0-65535).
 
+**Music** (`audio.S`, `src/audio/inf_inc.c`): a song (`Songinf`) is {track count, ticks per
+beat (384), tracks, program map, sample list}; the race tunes all use `vgroup0` (programs 1-43
+melodic, roughly General MIDI numbering, 127 the drum kit with GM drum keys: 36 kick,
+38 snare, 39 clap, 41/43/45 toms, 42/44/46 hats, 51/59 ride, 54 tambourine, 55 splash,
+57 crash, 65 timbale, 67/68 agogo, 80/81 triangle). Track bytes: 0 tempo, 1-4 delay, 5 note
+on, 6 off, 7 controller (7 volume, 10 pan, 102 loop point, 103 loop back), 8 program,
+11 end. The driver mixes 8 channels shared with sound effects. `audio_tune_list_ref`
+(RAM) points at the song list, set at start-up; the updates build points it at ours.
+The owner asked: no arrangement of existing DK music; every tune ours from scratch.
+
 **Later, from the owner:**
 - A finishing fanfare: one for 1st, variations for 2nd and 3rd, another for 4th.
 - A race timer that counts up, and a positions/ranking system (results).

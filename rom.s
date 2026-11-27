@@ -160,4 +160,6 @@
 	.include "updates/art/pictures.s"	@ new course pictures
 	.include "updates/courses/temple_tangle.s"	@ generated from temple_tangle.py
 	.include "updates/courses/temple_tangle_ground.s"	@ its ground (course_build.py --ground)
+	.include "updates/music/tune_list.s"	@ the song list with our tunes
+	.include "updates/music/jungle.s"	@ generated from jungle.py
 	.endif

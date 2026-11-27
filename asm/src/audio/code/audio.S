@@ -1947,7 +1947,11 @@ _08015f34:
 _08015f38:
 	.word audio_tune_list_ref
 _08015f3c:
+	.ifdef UPDATES
+	.word tune_list_updates	@ FIX "jungle-theme": Rare's list plus ours (updates/music/tune_list.s)
+	.else
 	.word tune_list
+	.endif
 _08015f40:
 	.word audio_fx_samplist_ref
 _08015f44:
