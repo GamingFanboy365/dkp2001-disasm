@@ -8,12 +8,24 @@ setup_player_data:  @ 08008714
 	push	{r4, r5, lr}
 	adds	r5, r0, #0
 @ src/act_player.c:43
+	.ifdef FIXES
+	@ FIX "charsel": six characters, not five, so Donkey Kong (5) flies with
+	@ his own sprites (the switch below, the head portraits and the voice and
+	@ weapon tables all have him) instead of turning into Cranky.
+	cmp	r1, #5
+	ble L_08008722
+L_0800871c:
+	subs	r1, #6
+	cmp	r1, #5
+	bgt L_0800871c
+	.else
 	cmp	r1, #4
 	ble L_08008722
 L_0800871c:
 	subs	r1, #5
 	cmp	r1, #4
 	bgt L_0800871c
+	.endif
 @ src/act_player.c:45
 L_08008722:
 	adds	r0, r5, #0

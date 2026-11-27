@@ -694,3 +694,51 @@ fix_plane_char_far:
 1:	sub	sp, #28
 	str	r0, [sp, #24]
 	bx	lr
+
+@ FIX "charsel": the old front-end's character select. Its seven slots were
+@ in screen order (Cranky, Redneck, Diddy, Kong, Krash, K. Rool, Dixie) and
+@ the slot number went straight into CHAR_SELECTED, but the rest of the game
+@ numbers characters Cranky 0, Diddy 1, Krunch 2, K. Rool 3, Dixie 4,
+@ Kong 5, so most picks flew someone else; and the coloured cut-outs were
+@ drawn 7 pixels right and 1 down of the sepia figures they highlight.
+@ title_charsel.s now orders the slots Cranky, Diddy, Kong, Krash, K. Rool,
+@ Dixie (the order of its voice tables) with Redneck unreachable at 6.
+
+@ In place of start_game's menu_main_init: slot -> character number.
+	.thumb_func
+fix_charsel_start_far:
+	ldr	r0, =CHAR_SELECTED
+	ldrb	r1, [r0, #0]
+	cmp	r1, #6
+	bhs	1f
+	adr	r2, charsel_characters
+	ldrb	r1, [r2, r1]
+	strb	r1, [r0, #0]
+1:	ldr	r3, =menu_main_init+1
+	bx	r3				@ returns to start_game
+	.ltorg
+	.balign 4
+charsel_characters:				@ by slot
+	.byte	0, 1, 5, 2, 3, 4		@ Cranky, Diddy, Kong, Krunch, K. Rool, Dixie
+	.balign 4
+
+@ In place of plot_char's "movs r0, #0; movs r1, #0": r0, r1 = the position
+@ that lines the slot's cut-out up with its sepia figure. Measured against
+@ the background: -7, -1 for all but Cranky, whose cut-out is an older,
+@ hunched pose that best covers his figure at +12, -4.
+	.thumb_func
+fix_char_offset_far:
+	ldr	r0, =CHAR_SELECTED
+	ldrb	r0, [r0, #0]
+	cmp	r0, #0
+	bne	1f
+	movs	r0, #12
+	movs	r1, #4
+	negs	r1, r1
+	bx	lr
+1:	movs	r0, #7
+	negs	r0, r0
+	movs	r1, #1
+	negs	r1, r1
+	bx	lr
+	.ltorg

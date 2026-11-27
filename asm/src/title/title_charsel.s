@@ -99,7 +99,11 @@ L_08003cfc:
 	pop	{pc}
 
 start_game:  @ 08003d10
+	.ifdef FIXES
+	bl	fix_charsel_start	@ FIX "charsel": slot to character number, then menu_main_init
+	.else
 	bl menu_main_init
+	.endif
 	ldr	r0, _08004018	@ =TITLE_STATE
 	movs	r1, #7
 	strb	r1, [r0, #0]
@@ -137,8 +141,12 @@ plot_char:  @ 08003d4c
 	strh	r1, [r0, #0]
 	strh	r1, [r0, #2]
 	strh	r1, [r0, #4]
+	.ifdef FIXES
+	bl	fix_char_offset	@ FIX "charsel": r0, r1 = where the cut-out lines up with the background
+	.else
 	movs	r0, #0
 	movs	r1, #0
+	.endif
 	ldr	r2, _08004034	@ =char_sprites
 	ldr	r3, _08004038	@ =CHAR_SELECTED
 	ldrb	r3, [r3, #0]
@@ -288,7 +296,11 @@ init_charsel:  @ 08003e68
 	ldr	r1, _080040a4	@ =LOCAL_MEM+0x4
 	ldr	r2, _080040a8	@ =CHAR_SELECTED
 	movs	r4, #0
+	.ifdef FIXES
+	movs	r5, #1	@ FIX "charsel": start on Diddy, now slot 1
+	.else
 	movs	r5, #2
+	.endif
 	strb	r4, [r0, #0]
 	str	r4, [r1, #0]
 	strb	r5, [r2, #0]
@@ -352,6 +364,28 @@ init_charsel:  @ 08003e68
 	.balign 4
 
 char_sprites:  @ 08003ef0
+	.ifdef FIXES
+	@ FIX "charsel": the screen's slots in the order of its own voice tables
+	@ (sel_char_sounds, written for a six-character line-up): Cranky, Diddy,
+	@ Kong, Krash, K. Rool, Dixie. Redneck Kong's cut-out, which was slotted
+	@ in at 1 later (over what the background now shows as Candy Kong), moves
+	@ to 6, which the cursor never reaches. See also arrow_poss and the
+	@ head_moves tables, and fix_charsel_start for the character numbers.
+	.word clr_cranky_frames
+	.word clr_cranky_plt
+	.word clr_diddy_frames
+	.word clr_diddy_plt
+	.word clr_kong_frames
+	.word clr_kong_plt
+	.word clr_krash_frames
+	.word clr_krash_plt
+	.word clr_krool_frames
+	.word clr_krool_plt
+	.word clr_dixie_frames
+	.word clr_dixie_plt
+	.word clr_red_frames
+	.word clr_red_plt
+	.else
 	.word clr_cranky_frames
 	.word clr_cranky_plt
 	.word clr_red_frames
@@ -366,6 +400,7 @@ char_sprites:  @ 08003ef0
 	.word clr_krool_plt
 	.word clr_dixie_frames
 	.word clr_dixie_plt
+	.endif
 	.word clr_dixie_frames
 	.word clr_dixie_plt
 	.word clr_dixie_frames
@@ -378,23 +413,39 @@ char_sprites:  @ 08003ef0
 	.word clr_dixie_plt
 
 head_moves_left:  @ 08003f50
+	.ifdef FIXES
+	.byte	5, 2, 0, 1, 3, 4, 1, 0, 0, 0	@ FIX "charsel": left to right: Cranky, Kong, Diddy, Krash, K. Rool, Dixie
+	.else
 	@ data (was decoded as instructions)
 	.hword	0x0006, 0x0101, 0x0403, 0x0005, 0x0000
+	.endif
 	.balign 4, 0	@ alignment padding
 
 head_moves_right:  @ 08003f5c
+	.ifdef FIXES
+	.byte	2, 3, 1, 4, 5, 0, 1, 0, 0, 0	@ FIX "charsel": RIGHT now reaches Kong
+	.else
 	@ data (was decoded as instructions)
 	.hword	0x0201, 0x0404, 0x0605, 0x0000, 0x0000
+	.endif
 	.balign 4, 0	@ alignment padding
 
 head_moves_up:  @ 08003f68
+	.ifdef FIXES
+	.byte	0, 1, 1, 3, 4, 5, 1, 0, 0, 0	@ FIX "charsel": Kong up to Diddy
+	.else
 	@ data (was decoded as instructions)
 	.hword	0x0100, 0x0202, 0x0504, 0x0006, 0x0000
+	.endif
 	.balign 4, 0	@ alignment padding
 
 head_moves_down:  @ 08003f74
+	.ifdef FIXES
+	.byte	0, 2, 2, 3, 4, 5, 1, 0, 0, 0	@ FIX "charsel": Diddy down to Kong
+	.else
 	@ data (was decoded as instructions)
 	.hword	0x0100, 0x0303, 0x0504, 0x0006, 0x0000
+	.endif
 	.balign 4, 0	@ alignment padding
 
 sel_char_sounds:  @ 08003f80
@@ -410,6 +461,17 @@ sel_char_sounds2:  @ 08003f98
 	.balign 4, 0	@ alignment padding
 
 arrow_poss:  @ 08003fb0
+	.ifdef FIXES
+	@ FIX "charsel": the same order as char_sprites, moved with the cut-outs
+	@ (see fix_char_offset): -7, -1, and +12, -4 for Cranky.
+	.word	27, 44	@ Cranky
+	.word	87, 18	@ Diddy
+	.word	81, 50	@ Kong
+	.word	129, 34	@ Krash
+	.word	159, 16	@ K. Rool
+	.word	187, 52	@ Dixie
+	.word	57, 16	@ Redneck (not reachable)
+	.else
 	@ data (was decoded as instructions)
 	.word	0x0000000f
 	.word	0x00000030
@@ -425,6 +487,7 @@ arrow_poss:  @ 08003fb0
 	.word	0x00000011
 	.word	0x000000c2
 	.word	0x00000035
+	.endif
 	.balign 4
 _08003fe8:
 	.word OBJ_ATTR_0

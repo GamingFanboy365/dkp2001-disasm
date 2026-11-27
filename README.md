@@ -9,7 +9,8 @@ own copy of the ELF; the tools extract everything else from it.
 ## Patching your game
 
 `patches/dkp2001_fixes.ips` fixes the hangs and crashes found so far, adds the unused course
-music to the races, makes all three Stories playable (K. Rool's Gold with its illustrated story,
+music to the races, fixes the character select (you fly who you pick, Donkey Kong included),
+makes all three Stories playable (K. Rool's Gold with its illustrated story,
 which never ran in this build), and gives Dog Fights opponents, lives and an ending (list in
 [FIXES.md](FIXES.md)). It contains only the changed bytes, so you need
 your own copy of the 2001 ELF:
@@ -308,6 +309,10 @@ the patch (see [FIXES.md](FIXES.md)):
 - **Highlighting the "Back to the Light" story hangs**: its pilot (character 6) has no voice
   clip or plane graphics, so the menu plays a garbage sound id and draws a garbage sprite. K.
   Rool's Gold, below it, couldn't be reached at all.
+- **The character select picks the wrong pilot** (screen slots used as character numbers; only
+  Cranky is right), never offers Donkey Kong (races only allow five characters, though his
+  sprites work), and draws its colour highlights 7 pixels off the sepia figures. Fixed; the
+  Redneck Kong cut-out over Candy Kong's spot is left unselectable, since neither has race data.
 - **The old story mode is broken in four places** (it never ran): a stray overlay pointer, a
   sprite routine that unbalances the stack, and two uses of clobbered registers. Fixed, the
   patch plays K. Rool's Gold's story from the Stories menu.
@@ -344,7 +349,7 @@ Not fixed (no data to fix them with):
 - [ ] Editable format for in-game sprites (needs an encoder that reproduces the original RLE)
 - [ ] Matching decompilation of the C modules. The compiler is the same GCC 2.9 lineage
       `agbcc` derives from, and line tables give the source line for every instruction.
-- [x] Bug-fix build (`make fixed`) and IPS patch (`patches/`, `make patch`): 9 fixes so far,
+- [x] Bug-fix build (`make fixed`) and IPS patch (`patches/`, `make patch`): 14 fixes so far,
       including music in the races and playable Stories with K. Rool's Gold's story, plus a
       dogfight for Dog Fights; see FIXES.md
 - [ ] More fixes: AI networks for the tracks that have none

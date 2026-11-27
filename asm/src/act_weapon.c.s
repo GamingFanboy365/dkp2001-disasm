@@ -849,6 +849,13 @@ act_weapon_mango:  @ 080104b0
 	.ifdef FIXES
 fix_assert_L_080104ce:
 	b	L_080104ce	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	@ FIX "charsel": trampoline to the end of the ROM
+	.balign 4
+fix_char_offset:
+	ldr	r2, 1f
+	bx	r2
+	.balign 4
+1:	.word	fix_char_offset_far+1
 	.fill 18 - (. - fix_assert_L_080104ce), 1, 0	@ same size as the original block
 	.else
 	ldr	r0, _080104fc	@ =D_0807036c
@@ -1422,6 +1429,13 @@ init_weapon_rocket:  @ 08010844
 	.ifdef FIXES
 fix_assert_L_0801085e:
 	b	L_0801085e	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	@ FIX "charsel": trampoline to the end of the ROM
+	.balign 4
+fix_charsel_start:
+	ldr	r3, 1f
+	bx	r3
+	.balign 4
+1:	.word	fix_charsel_start_far+1
 	.fill 18 - (. - fix_assert_L_0801085e), 1, 0	@ same size as the original block
 	.else
 	ldr	r0, _080108bc	@ =D_0807036c

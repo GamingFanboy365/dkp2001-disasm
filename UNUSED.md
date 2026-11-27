@@ -143,6 +143,13 @@ The game has two front-ends:
   every race screen. The fix patch hides it.
 - **Dog Fights is only a menu.** Its arenas start as ordinary races; nothing outside the menu
   reads the chosen mode. (The fix patch adds a dogfight of its own design.)
+- **Donkey Kong as a pilot.** His race sprites (`__spr_kongframesshort`), head portrait, voice
+  and weapon entries all exist, but `setup_player_data` only allows five characters, so picking
+  him flies Cranky; and the character select's RIGHT never reaches him. The fix patch makes him
+  playable.
+- **Redneck Kong's colour cut-out** (`clr_red`) is still on the character select, over the spot
+  the background now gives Candy Kong; neither has any race data. Its slot is used as Diddy in
+  the original (the slot number is taken as a character number).
 - **Stories is only a menu too.** The front-end lists three stories, King of Kongs, Back to the
   Light and K. Rool's Gold, but picking one just starts a race with a fixed pilot (Beach 02,
   Jungle 00 and Lava 01); none of the story text or cut scenes above is shown. Highlighting Back to
