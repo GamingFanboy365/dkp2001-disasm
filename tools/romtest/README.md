@@ -13,6 +13,10 @@ romtest ROM FRAMES EVERY [--ppm PREFIX] [FRAME:KEY[:HOLD] ...]
 - `--ppm PREFIX` also saves each checkpoint as `PREFIX_<frame>.ppm`.
 - `RAM_OUT=file` in the environment dumps EWRAM (256 KiB) then IWRAM (32 KiB) after the last frame;
   with `RAM_VIDEO` also set, palette RAM, VRAM and OAM follow.
+- `POKE="FRAME:ADDR=VALUE,FRAME:ADDR|VALUE"` writes (`=`) or ORs (`|`) a 32-bit word into memory
+  just before that frame (hex address and value). For example `POKE="250:03003398|40"` sets
+  `sys_flags` bit 0x40 before a race starts, so the computer flies the player's plane.
+- Up to 4096 key presses can be given.
 - The last line, `stores-to-rom N`, counts writes the game made to ROM addresses.
 
 Example: boot the debug menu, start Beach 00, and hold A to fly.

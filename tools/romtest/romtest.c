@@ -11,6 +11,9 @@
  * (and with RAM_VIDEO set, then palette RAM, VRAM and OAM)
  * are written there after the last frame. With AUDIO_OUT=path.wav the sound
  * output is recorded (from frame AUDIO_FROM, default 1) as a stereo WAV.
+ * POKE="FRAME:ADDR=VALUE,FRAME:ADDR|VALUE,..." writes (=) or ORs (|) a 32-bit
+ * word into memory just before that frame runs (hex ADDR and VALUE), e.g. to
+ * hand the player's plane to the computer (sys_flags |= 0x40).
  * Build: see tools/romtest/README.md.
  */
 #include <mgba/flags.h>
@@ -89,6 +92,19 @@ int main(int argc, char** argv) {
 	unsigned every = strtoul(argv[3], NULL, 0);
 	const char* ppm = NULL;
 	static struct press presses[4096];
+	static struct { unsigned frame; uint32_t addr, value; char op; } pokes[64];
+	int npoke = 0;
+	const char* poke_env = getenv("POKE");
+	while (poke_env && *poke_env && npoke < 64) {
+		unsigned f; unsigned a, v; char op; int used = 0;
+		if (sscanf(poke_env, "%u:%x%c%x%n", &f, &a, &op, &v, &used) < 4 || (op != '=' && op != '|')) {
+			fprintf(stderr, "bad POKE '%s'\n", poke_env);
+			return 2;
+		}
+		pokes[npoke].frame = f; pokes[npoke].addr = a; pokes[npoke].value = v; pokes[npoke].op = op; ++npoke;
+		poke_env += used;
+		if (*poke_env == ',') ++poke_env;
+	}
 	int npress = 0;
 	for (int i = 4; i < argc; ++i) {
 		if (!strcmp(argv[i], "--ppm") && i + 1 < argc) {
@@ -144,6 +160,15 @@ int main(int argc, char** argv) {
 		}
 		core->setKeys(core, keys);
 		cur_frame = frame;
+		for (int i = 0; i < npoke; ++i) {
+			if (pokes[i].frame == frame) {
+				uint32_t v = pokes[i].value;
+				if (pokes[i].op == '|') {
+					v |= core->busRead32(core, pokes[i].addr);
+				}
+				core->busWrite32(core, pokes[i].addr, v);
+			}
+		}
 		core->runFrame(core);
 		if (wav) {
 			struct mAudioBuffer* ab = core->getAudioBuffer(core);
