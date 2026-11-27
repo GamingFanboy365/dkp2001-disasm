@@ -216,7 +216,16 @@ uan_set_channel_to_stopped:  @ 08014ba4
 	b uan_set_channel_to_empty
 L_08014bc4:
 	mov	r3, #16
+	.ifdef FIXES
+	@ FIX "audio-stop-channel": a one-shot sample that ends before its note is
+	@ released should leave the channel stopped (state 16, as the empty case
+	@ above does through r0), but this wrote through r8, an unrelated
+	@ register. The channel played on past the end of the sample, into
+	@ whatever data follows it, and the byte went to a stray address.
+	strb	r3, [r0]
+	.else
 	strb	r3, [r8]
+	.endif
 	b uan_not_past_end_of_samp
 
 uan_not_past_end_of_samp:  @ 08014bd0

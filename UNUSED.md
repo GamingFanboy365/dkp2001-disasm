@@ -136,7 +136,7 @@ The game has two front-ends:
   finished on, plus reference stars and circles. These are the stars and dots at the bottom of
   every race screen. The fix patch hides it.
 - **Dog Fights is only a menu.** Its arenas start as ordinary races; nothing outside the menu
-  reads the chosen mode.
+  reads the chosen mode. (The fix patch adds opponents of its own design.)
 - **`impure_data` in ROM.** newlib's stdio state was linked into ROM, so every debug print
   re-initialises stdio.
 

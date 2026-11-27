@@ -108,7 +108,11 @@ L_0800d73c:
 @ src/act_startpos.c:40
 init_start_pos_done:
 	adds	r0, r6, #0
+	.ifdef FIXES
+	bl	fix_dogfight_spawn	@ FIX "dogfight-opponents": then obj_free
+	.else
 	bl obj_free
+	.endif
 @ src/act_startpos.c:41
 	pop	{r4, r5, r6}
 	pop	{r0}

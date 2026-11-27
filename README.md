@@ -8,8 +8,8 @@ own copy of the ELF; the tools extract everything else from it.
 
 ## Patching your game
 
-`patches/dkp2001_fixes.ips` fixes the hangs and crashes found so far and adds the unused course
-music to the races (list in [FIXES.md](FIXES.md)). It contains only the changed bytes, so you need
+`patches/dkp2001_fixes.ips` fixes the hangs and crashes found so far, adds the unused course
+music to the races and gives Dog Fights opponents (list in [FIXES.md](FIXES.md)). It contains only the changed bytes, so you need
 your own copy of the 2001 ELF:
 
 1. Make a ROM from the ELF (Python 3, nothing else needed):
@@ -299,13 +299,19 @@ the patch (see [FIXES.md](FIXES.md)):
   garbage path of hundreds of points overruns a 32-point buffer and wrecks RAM.
 - **Stars and circles along the bottom of the screen** in races are the developers' CPU-time
   meter, drawn straight into OAM. The fixed build hides it.
+- **The sound driver writes a stopped channel's state through the wrong register**, so a music
+  note whose one-shot sample ends early keeps playing past the end of the sample. The race music
+  is what triggers it.
+
+New in the patch, not a fix: **Dog Fights has opponents** that start ahead of you, hunt you and
+fire weapons at you (see FIXES.md). It's new design; the build has no dogfight game to restore.
 
 Not fixed (no data to fix them with):
 
 - **Unfinished tracks.** Desert 00, 02 and 03 have placeholder ground (grids stamped "S3-2",
   "R4-1", "R5-3"). Beach 03, Farm 03 and Haunted 01 have no AI network at all.
 - **No dogfight game.** Dog Fights starts an ordinary race on an arena course; no code outside
-  the menu knows which mode was chosen.
+  the menu knows which mode was chosen. The patch adds opponents and weapons, but no scoring.
 
 ## Status / roadmap
 
@@ -327,6 +333,6 @@ Not fixed (no data to fix them with):
 - [ ] Editable format for in-game sprites (needs an encoder that reproduces the original RLE)
 - [ ] Matching decompilation of the C modules. The compiler is the same GCC 2.9 lineage
       `agbcc` derives from, and line tables give the source line for every instruction.
-- [x] Bug-fix build (`make fixed`) and IPS patch (`patches/`, `make patch`): 7 fixes so far,
-      including music in the races; see FIXES.md
+- [x] Bug-fix build (`make fixed`) and IPS patch (`patches/`, `make patch`): 8 fixes so far,
+      including music in the races, plus opponents for Dog Fights; see FIXES.md
 - [ ] More fixes: AI networks for the tracks that have none

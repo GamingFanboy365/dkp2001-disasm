@@ -38,11 +38,20 @@ make patch
 | `race-music` | The races are silent. `game_init` stops the menu music and nothing starts any other, although the ROM has six course themes (`tune_list`) and `act_hud.c` already speeds the music up by 14% when the final-lap banner shows. | `game_init` starts the course's theme instead (table `race_tunes` in `asm/fixes.s`): Beach → beach, Lava → lava, Snow → snow, K. Rool's Keep → castle, Swamp → bayou, Haunted → haunted. Worlds without a theme borrow one: Lake → beach, Farm and Jungle → bayou, Desert → lava. Edit the table to change them. |
 | `fe-camera-pan` | Starting a race from the **front-end** hangs or crashes on most courses, **Dog Fights** included. A front-end start plays a camera fly-in that `act_camera.c` reads from the course's AI network, taking it to be the sixth route (`campan_load2`). Only six courses have a six-route network with a real fly-in path (Beach 00, Lava 00, Snow 00, Farm 00, Farm 05, Haunted 00). On every other course the game reads route data or garbage as a path of hundreds of points into a 32-point buffer (`pts`), which overwrites RAM, including `game_level`, the object pointers and the sound driver's state. It then traps in `campan_start_seg` ("pts[cur_pt].segs != 0") or the sound driver, or jumps to garbage. 9 of 20 front-end race starts tested hang. | The fly-in path is used only when the network has six routes. Otherwise the camera does the normal race-start pan, which the debug menu uses on every course. |
 | `timing-meter` | The row of **stars and circles along the bottom of the screen** in races. It's the developers' CPU-time meter (game.c:274–298). `game_process` samples `VCOUNT` after each stage of the frame and puts a star (sprite tile 7) on the bottom row at the x position of that scanline, plus reference stars and circles (tile 11) at fixed positions. It writes straight into OAM slots 100–103 and 120–127, over any real sprites there. | The meter isn't drawn. The `VCOUNT` sampling stays, because the game's timing depends on it. |
+| `audio-stop-channel` | A bug in the **sound driver**. When a music note's one-shot sample runs out before the note is released, `uan_set_channel_to_stopped` should set the channel's state to stopped (16) through `r0`, as the empty case next to it does. It writes through `r8` instead, an unrelated register. The channel plays on past the end of the sample, into whatever data follows, and the byte lands at a stray address. The menu music never hit this path; the race music does (seen on Lake 01 with the beach theme, 3½ minutes in). | Writes through `r0`. |
 
-All but `race-music` keep their code the same size. `race-music` adds 84 bytes of new code and
+### New behaviour (not a bug fix)
+
+| Id | What | How |
+|---|---|---|
+| `dogfight-opponents` | **Dog Fights has opponents.** This build has no dogfight game: the mode is a menu that starts an ordinary race on an arena course, and nothing outside the menu knows which mode was chosen. The three computer planes had no start positions on most arenas (they sat at 0,0,0), then flew the arena's stub route along the ground, far from the player. This is **new design, not restored content**: nothing in the build says how Rare meant the dogfight to play. | Only when the menu's `virtual_mode` is Dog Fights (it stays set during the race). **Start:** the computer planes line up 160–200 units ahead of the player, spread 48 units apart at its height, facing it (`init_start_pos`). **Steering:** `ai_steer` aims at the player's plane instead of the route. Player 1 aims straight at it; players 2 and 3 aim where it will be 24 and 48 frames later, so they cut across its nose. The game's own steering, collision avoidance and speed code do the rest. **Weapons:** the arenas have no powerups, so a plane with no weapon gets a random one (types 1–8), on average every couple of seconds. That includes the player. Each computer plane's race progress is set just behind the player's, or just ahead when the player is behind it, so `ai_think` aims its forward or rear weapons at the player. There is no scoring or end to the fight yet. |
+
+All but `race-music` and `dogfight-opponents` keep their code the same size. `race-music` adds 84 bytes of new code and
 data in a `.fixes` section after all the game's data (`asm/fixes.s`), reached through a
-trampoline in an assert block's dead space, because the end of the ROM is out of `bl` range. So
-nothing moves, and the patch only touches the changed bytes (about 5 KB).
+trampoline in an assert block's dead space, because the end of the ROM is out of `bl` range.
+`dogfight-opponents` adds about 600 bytes there in the same way, called through two trampolines in
+`act_camera.c`'s dead assert space. So nothing moves, and the patch only touches the changed
+bytes (about 6 KB).
 
 ### Testing done
 
@@ -69,15 +78,22 @@ nothing moves, and the patch only touches the changed bytes (about 5 KB).
 - **Front-end race starts:** 20 scripted starts from the front-end (five game modes, four
   courses each, Dog Fights included). Each runs about 45 seconds into the race. The original hangs
   on 9 of them; the fixed ROM runs all 20 with no faults.
+- **Dog Fights:** in all four arenas the opponents start ahead of the player and reach it within
+  about 15–30 seconds. Traced over 90 seconds, the three computer planes got and used 9, 4 and 7
+  weapons, and hit the player. 2½-minute armed fights in each arena (player turning and firing)
+  run with no faults.
+- **Sound driver:** the Lake 01 session that hit `audio-stop-channel` runs clean with the fix.
+  With the dogfight code switched off, the fault still happened on the same frame, so it is a
+  driver bug and not the dogfight code.
 - **Relocation:** `python3 tools/reloc_test.py tools/romtest/romtest --fixed` passes on the
   front-end and **40/40 tracks with no exceptions**. Jungle 03, the original's one exception, now
   plays identically when code or data move, so its AI no longer depends on stray memory.
 
 ## Known bugs not fixed yet
 
-- **Dog Fights has no dogfight rules.** Now that it starts, Dog Fights is an ordinary race on an
-  arena course (Classic Dogfight is Jungle 01). Nothing outside the menu reads the chosen mode, so
-  the dogfight game itself was never written in this build.
+- **Dog Fights has no rules or ending.** The patch gives it opponents and weapons
+  (`dogfight-opponents`), but there's no scoring, health or end to the fight; the race HUD (4th
+  place) still shows. The build has no dogfight game code to restore.
 - **No AI network at all**: Beach 03, Farm 03 (the course loaded by the Farm 02 slot) and
   Haunted 01 have a network with zero routes, so even route 0 reads the next level's data. A
   proper fix needs waypoints for those tracks.
