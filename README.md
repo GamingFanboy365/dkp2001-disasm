@@ -345,7 +345,7 @@ the patch (see [FIXES.md](FIXES.md)):
 - **Race positions come out wrong**: the code that ranks the four racers each frame swaps two
   of them by copying one over the other, so one racer is counted twice and another dropped
   (positions like 4th, 2nd, 1st, 1st; in 29 of 180 samples across four courses, and for most
-  of a Chicken Chase race). Your own position on the HUD could be wrong. Fixed.
+  of a Chicken Chase race). Your own position on the HUD could be wrong (2nd when you were 3rd). Fixed.
 - **The old story mode is broken in four places** (it never ran): a stray overlay pointer, a
   sprite routine that unbalances the stack, and two uses of clobbered registers. Fixed, the
   patch plays K. Rool's Gold's story from the Stories menu.
