@@ -187,6 +187,12 @@ The owner asked: no arrangement of existing DK music; every tune ours from scrat
 **Later, from the owner:**
 - A finishing fanfare: one for 1st, variations for 2nd and 3rd, another for 4th.
 - A race timer that counts up, and a positions/ranking system (results).
+- Racing mode: a world is a cup of its four courses in the Clock Race list's order. After
+  each race: the fanfare, the rankings, then the next course; after the fourth, the final
+  results over a background of ours. The intro shows "RACE 1 OF 4" etc. top right in the
+  course-name font. Lap icons 1/3, 2/3, 3/3 on the mini map.
+- Clock Race becomes time trials: best time per course (needs saving), opponents kept;
+  finishing a course returns to the course list where it was chosen.
 - Temple Tangle's HUD course map (new art) and an original jungle tune (none in the build;
   the jungle courses borrow the bayou theme). The tune list skips 007; nothing of it survives.
 - An original farmer character (a farm animal, our own design) for the unused seventh
