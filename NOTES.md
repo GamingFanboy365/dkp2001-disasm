@@ -173,7 +173,9 @@ solid scenery off the line and out of the 570-unit start run-up. Pylons 40+ unit
 - An original farmer character (a farm animal, our own design) for the unused seventh
   character-select slot that was Redneck Kong's; Rare's Redneck sprite stays in the ROM. It
   needs a full in-race sprite set. Candy Kong's figure is part of Rare's sepia backdrop and
-  can't be painted out; our art would sit over that slot instead.
+  can't be painted out; our art would sit over that slot instead. The owner's idea for that
+  art: the farmer holding up a sign ("Victory" or similar), a nod to the slot's history.
+  The farmer is a new animal character, not a Kong.
 - Placeholder courses get new names one at a time, only when each is built.
 
 Open questions: the Stories crash the owner saw (not reproduced on mGBA; on hold);
