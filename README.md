@@ -342,6 +342,10 @@ the patch (see [FIXES.md](FIXES.md)):
   Cranky is right), never offers Donkey Kong (races only allow five characters, though his
   sprites work), and draws its colour highlights 7 pixels off the sepia figures. Fixed; the
   Redneck Kong cut-out over Candy Kong's spot is left unselectable, since neither has race data.
+- **Race positions come out wrong**: the code that ranks the four racers each frame swaps two
+  of them by copying one over the other, so one racer is counted twice and another dropped
+  (positions like 4th, 2nd, 1st, 1st; in 29 of 180 samples across four courses, and for most
+  of a Chicken Chase race). Your own position on the HUD could be wrong. Fixed.
 - **The old story mode is broken in four places** (it never ran): a stray overlay pointer, a
   sprite routine that unbalances the stack, and two uses of clobbered registers. Fixed, the
   patch plays K. Rool's Gold's story from the Stories menu.
