@@ -78,8 +78,8 @@ The game has two front-ends:
   doors; the first is collecting four keys among mines in Crackpot Keep. It ends with the doors
   opening on a sea of gold. Print it from your ROM with `python3 tools/story_text.py baserom.gba`.
 - **Story map pieces:** `beach_grow`, `keep_grow`, `haunted_woods_02`, `genie_lamp_anim`.
-- **Old title and menu art:** `KroolBG` (Krool's Gold background, 21 KB), `CharSelect` (the
-  full-screen 16-bit clock picture, 97 KB), `twit_bunch`, `bamboobarrel`, `cloudburst`,
+- **Old title and menu art:** `KroolBG` (Krool's Gold background, 21 KB), `CharSelect` (a
+  full-screen 16-bit sky, sea and hills backdrop, 97 KB), `twit_bunch`, `bamboobarrel`, `cloudburst`,
   `blast1`, `backok`, the `Heads` palette.
 
 ## Courses
