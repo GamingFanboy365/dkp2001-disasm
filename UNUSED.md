@@ -84,14 +84,26 @@ The game has two front-ends:
 
 ## Courses
 
-- **Five Racing worlds with no courses.** The front-end's Racing list ("Select World") offers
-  Sleepy Shores, Kongo Kingdom, Western Wastes, Island of Eggs and Polar Plateau. Their names
-  are in the course-name table (`select_strings`) as levels 42–46, past the last course
-  (`tab_levels` stops at 41), and `select_indices` sends each to a stand-in: Bounty Beach
-  (Beach 00), Swoop Swamp (Swamp 02), Lake Race 1 (Lake 02), Vulture Valley (Desert 02, one of
-  the placeholder-ground courses) and Frosty Lake (Snow 00). In the original the middle three
-  hang on starting (the front-end camera bug, fixed in the patch); they now start on those
-  stand-ins.
+- **Worlds and stories are sets of four courses.** The Clock Race menu ("Select World") lists
+  each Racing world and each story with four courses, from one row of `select_indices` each.
+  Racing and Stories start the first course of the chosen row. The world and story names are in
+  the course-name table (`select_strings`) as levels 42–49, past the last course (`tab_levels`
+  stops at 41), so none of them is a course of its own.
+
+  | World / story | Its four courses |
+  |---|---|
+  | Sleepy Shores | Bounty Beach, Farm Attract, Jet Set Jungle, Beach Race 2 |
+  | Kongo Kingdom | Swoop Swamp, Jungle Race 2, Magma Mainland, Haunted Race 2 |
+  | Western Wastes | Lake Race 1, Lava Race 2, Swamp Race 2, Crackpot Keep |
+  | Island of Eggs | Vulture Valley, Keep Race 2, Lake Race 2, Chicken Chase |
+  | Polar Plateau | Frosty Lake, Farm Race 2, Desert Race 2, Snow Race 2 |
+  | King of Kongs | Beach Barricade, Hair Raising Rescue, Peaceful Passage, Cranky Panky |
+  | Back to the Light | Grub Grab, Farm Feud, Swamp Swoop, Dark Tower |
+  | K. Rool's Gold | Classic Dogfight, Fly Like the Wind, Snowball Snapshot, Flawed Genie'us |
+
+  In the original, Kongo Kingdom, Western Wastes and Island of Eggs hang on starting (the
+  front-end camera bug, fixed in the patch). Island of Eggs' first course, Vulture Valley (Desert
+  02), is one of the placeholder-ground courses.
 - **Placeholder ground.** Desert 00, 02 and 03 have no real course. Their ground is a grid stamped
   with the slot name ("S3-2", "R4-1", "R5-3"). Desert 01, from the same tiles, is real.
 - **No computer-player routes.** Beach 03, Farm 03 (the course loaded by the debug menu's "Farm 02"
@@ -159,8 +171,9 @@ The game has two front-ends:
   the background now gives Candy Kong; neither has any race data. Its slot is used as Diddy in
   the original (the slot number is taken as a character number).
 - **Stories is only a menu too.** The front-end lists three stories, King of Kongs, Back to the
-  Light and K. Rool's Gold, but picking one just starts a race with a fixed pilot (Beach 02,
-  Jungle 00 and Lava 01); none of the story text or cut scenes above is shown. Highlighting Back to
+  Light and K. Rool's Gold, but picking one just starts the first of its four courses (above)
+  with a fixed pilot: Beach Barricade, Grub Grab and Classic Dogfight; none of the story text
+  or cut scenes above is shown. Highlighting Back to
   the Light hangs the original, so the third story can't be reached. The fix patch fixes that and
   plays K. Rool's Gold's story mode, up to its first task. Only K. Rool's Gold has story data.
 - **`impure_data` in ROM.** newlib's stdio state was linked into ROM, so every debug print
