@@ -74,6 +74,31 @@ player's place shown by the HUD, +140 end timer (then object 75 returns to the f
 Laps come from `act_starthoop` (`race_complete_lap`), strikes from `act_pylon`
 (`race_fail_player` on the third).
 
+**Course objects** (record data at the object's +76; angles: a byte b gives heading
+(128 - b) << 8, so b = 0 faces -z, 64 +x, 128 +z, 192 -x; forward for heading h is
+(sin h, cos h) in (x, z)):
+- `start_pos` (types 4, 35): byte 0 player slot 0-3, byte 1 heading. The plane starts about
+  570 units *behind* the marker and flies in during the intro, reaching it around GO, so the
+  run-up must be clear. The marker object is then freed.
+- `starthoop` (5): byte 0 = travel direction (128 - b). A lap counts when a plane crosses the
+  hoop's line from behind to in front within about 64 units sideways (no height check). On a
+  lap, pylons not yet taken become strikes (`race_complete_lap`).
+- `pylon` (52-56): byte 0 the pass ray A, byte 1 its order (pylons are taken in order:
+  only pylon `monitor+98+p` is live), byte 2 the strike ray B (normally A + 128), byte 3
+  sprite flip (0 = flipped). A pass or strike happens when the bearing from the pylon to the
+  plane crosses that ray (within 90 degrees of it). Third strike fails the race.
+  `monitor+128` counts pylons.
+- `powerup`: no data; the type is the kind. 27 random weapon 1-10, 29 weapon 13, 30 weapon
+  14, 28 nothing. Respawns after about 1.4 s.
+- `banana` (32): no data; +1 banana. `turbo` (31): byte 0 scale; boost 4 on touch.
+- `booster` (57): byte 0 direction; boosts a plane heading within about 56 degrees of it.
+  `groundboost` (63): the same, only below 8 units high.
+- `directional_arrow` (76): byte 0 HUD arrow 0-4; invisible trigger, human only.
+- `static` (33 no collision; 15, 49, 50, 66, 87-90, 94 solid): byte 0 scale, times 4 into the
+  sprite's scale where 256 is full size (0 gives 48); the sprite is the type's `tab_types` entry.
+- **Place** = laps, then pylons resolved, then distance to the next pylon. The computer
+  players' `+164` progress is from their route and only used to aim weapons.
+
 **Controls** (`plr_ctrl`, 16 bytes per player): +0 buttons (1 accelerate, 2 fire, 0x300 hard
 turn), +8 stick x, +12 stick y. Computer players fill it in `ai_steer` / `ai_think`.
 
