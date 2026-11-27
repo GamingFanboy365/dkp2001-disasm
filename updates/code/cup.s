@@ -386,13 +386,14 @@ results_draw:
 	ldr	r1, [r0, #0]
 	movs	r0, #15
 	bl	cup_bx_r1
-	@ the title
+	@ the title (and after the fourth race, our background behind everything)
 	ldrb	r0, [r4, #C_RACE]
 	cmp	r0, #3
 	bge	2f
 	ldr	r0, =text_results
 	b	3f
-2:	ldr	r0, =text_final_results
+2:	bl	results_background
+	ldr	r0, =text_final_results
 3:	movs	r1, #120
 	movs	r2, #8
 	bl	cup_plot
@@ -441,8 +442,9 @@ results_draw:
 	adds	r0, #PLR_CHAR
 	ldrh	r0, [r0, #0]			@ its character
 	adds	r1, r6, #0			@ slot
-	movs	r2, #92				@ x
-	adds	r3, r7, #0			@ y
+	movs	r2, #120 - 18			@ x: the head (pieces at 8-28) centred on the screen
+	adds	r3, r7, #0
+	subs	r3, #10				@ y: centred on the row's text (16 high)
 	bl	draw_head
 	@ points: "nn PTS"
 	ldrb	r0, [r5, r6]
@@ -494,6 +496,55 @@ results_draw:
 	bx	r0
 cup_bx_r1:
 	bx	r1
+	.ltorg
+
+@ The final results' background on BG0, under the sprites: tiles to char block 0,
+@ the map to screen block 31, 255 colours to the BG palette (index 0 stays the backdrop).
+results_background:
+	push	{r4, r5, lr}
+	ldr	r0, =cup_bg_tiles
+	ldr	r1, =0x06000000
+	ldr	r2, =cup_bg_tiles_end
+	bl	copy_words
+	ldr	r0, =cup_bg_map
+	ldr	r1, =0x0600f800
+	ldr	r2, =cup_bg_map + 2048
+	bl	copy_words
+	ldr	r0, =cup_bg_palette + 2		@ colours 1-255
+	ldr	r1, =0x05000002
+	ldr	r2, =cup_bg_palette + 512
+	bl	copy_hwords
+	ldr	r0, =0x04000008			@ BG0CNT: priority 3, char base 0, 8bpp, map 31
+	ldr	r1, =0x1f83
+	strh	r1, [r0, #0]
+	ldr	r0, =0x04000010			@ no scroll
+	movs	r1, #0
+	strh	r1, [r0, #0]
+	strh	r1, [r0, #2]
+	ldr	r0, =0x04000000
+	ldr	r1, =0x1140			@ BG0 and sprites
+	strh	r1, [r0, #0]
+	pop	{r4, r5}
+	pop	{r0}
+	bx	r0
+
+@ copy r0 .. r2 (exclusive) to r1, a word (copy_words) or hword at a time
+copy_words:
+	ldr	r3, [r0, #0]
+	str	r3, [r1, #0]
+	adds	r0, #4
+	adds	r1, #4
+	cmp	r0, r2
+	blt	copy_words
+	bx	lr
+copy_hwords:
+	ldrh	r3, [r0, #0]
+	strh	r3, [r1, #0]
+	adds	r0, #2
+	adds	r1, #2
+	cmp	r0, r2
+	blt	copy_hwords
+	bx	lr
 	.ltorg
 
 @ draw_head(character r0, slot r1, x r2, y r3): Rare's head sprite for a racer
