@@ -96,4 +96,5 @@ TRACK_HALF_WIDTH = 72
 # so each one's pass line runs across the track and can't be missed
 HIDDEN_PYLONS = {"height": 2000, "outside": 16}
 BOUNDS = (30, 30, 994, 994)          # where the checkpoints go: just outside this box
+HUD_MAP = True                       # draw its HUD course map (tab_sprites 111 in the updates build)
 CAMERA = 3                       # the front-end fly-in takes every third route point

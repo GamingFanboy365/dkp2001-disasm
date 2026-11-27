@@ -295,5 +295,8 @@ hud_map_extra:					@ game_level, sprite
 	.byte	6, 100				@ Lava 01
 	.byte	17, 106				@ Lake 01
 	.byte	32, 114				@ Haunted 02
+	.ifdef UPDATES
+	.byte	37, 111				@ Temple Tangle (updates: our map, in sprite 111)
+	.endif
 	.byte	0, 0
 	.balign 4

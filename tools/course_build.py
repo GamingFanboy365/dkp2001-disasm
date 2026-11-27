@@ -309,6 +309,74 @@ def wall_grid(c, line):
     return grid
 
 
+def hud_map(c, line):
+    """The race HUD's course map: 64x64 pixels, one per 16 world units (act_hud_map puts
+    a racer's arrow at its position / 16), drawn like Rare's: a white track (colour 5 of
+    the HUD palette) with a dark grey edge (3), and a black and white start line (1, 5).
+    Returns the 4096 pixel colour indices, row by row."""
+    segs = [(line[i - 1][:2], line[i][:2]) for i in range(len(line))]
+    half = c.TRACK_HALF_WIDTH * 0.6 if hasattr(c, "TRACK_HALF_WIDTH") else 48
+    (hx, hz, _), f, l = frame(line, 0)
+    px_ = bytearray(64 * 64)
+    for v in range(64):
+        for u in range(64):
+            x, z = 16 * u + 8, 16 * v + 8
+            d = min(math.dist((x, z), (ax + (bx - ax) * t, az + (bz - az) * t))
+                    for (ax, az), (bx, bz) in segs
+                    for t in [max(0, min(1, ((x - ax) * (bx - ax) + (z - az) * (bz - az)) /
+                                         (((bx - ax) ** 2 + (bz - az) ** 2) or 1)))])
+            if d <= half:
+                along = (x - hx) * f[0] + (z - hz) * f[1]
+                side = (x - hx) * l[0] + (z - hz) * l[1]
+                if abs(along) < 12 and abs(side) <= half + 4:   # the start line: a checker strip
+                    px_[v * 64 + u] = 1 if (int((side + 200) // 16) + (along > 0)) % 2 else 5
+                else:
+                    px_[v * 64 + u] = 5
+            elif d <= half + 16:
+                px_[v * 64 + u] = 3
+    return px_
+
+
+def sprite_blob(pixels):
+    """A one-frame 64x64 4bpp sprite in the game's format (as __spr_hud_map_*): header,
+    frame list, one OAM piece (64x64 at 32, 32), then the tiles, run-length coded as
+    spr_update_vram reads them (see rle_tiles in tools/export_preview.py)."""
+    import struct
+    tiles = bytearray()
+    for ty in range(8):
+        for tx in range(8):
+            for y in range(8):
+                for x in range(0, 8, 2):
+                    a = pixels[(ty * 8 + y) * 64 + tx * 8 + x]
+                    b = pixels[(ty * 8 + y) * 64 + tx * 8 + x + 1]
+                    tiles.append(a | b << 4)
+    hw = [tiles[i] | tiles[i + 1] << 8 for i in range(0, len(tiles), 2)]
+    cmds = []
+    i = 0
+    while i < len(hw):
+        j = i
+        while j < len(hw) and j - i < 128 and hw[j] == hw[i] and (hw[i] & 255) == hw[i] >> 8:
+            j += 1
+        if j - i >= 2:                                  # a run of one repeated byte
+            cmds.append((hw[i] & 255) << 8 | (j - i - 1))
+            i = j
+            continue
+        j = i
+        lit = []
+        while j < len(hw) and len(lit) < 128:
+            if j + 1 < len(hw) and hw[j] == hw[j + 1] and (hw[j] & 255) == hw[j] >> 8:
+                break
+            lit.append(hw[j])
+            j += 1
+        cmds.append(0x80 | (len(lit) - 1))
+        cmds += lit
+        i = j
+    blob = struct.pack("<16H", 32, 0, 0, 32, 32, 32, 32, 16, 1, 32, 0xC020, 0, 0, 0, 0, 0)
+    blob += struct.pack("<8H", 1, 0, 0, 0, 0, 0, 0, 0)
+    blob += struct.pack("<H", 64) + struct.pack(f"<{len(cmds)}H", *cmds) + struct.pack("<H", 0)
+    return blob
+
+
 def emit(c, line, objs, path):
     for t, x, y, z, d in objs:
         # the object list's x, y, z are unsigned hwords (obj_gen uses ldrh)
@@ -353,6 +421,13 @@ def emit(c, line, objs, path):
             # last segment it reads the 8 bytes after the route: make them the first point
             out.append("\t.hword\t" + ", ".join(str(v) for v in pts[0]) + "\t@ (not counted: closes the loop for ai_steer)")
     out.append("\t.balign 4")
+    if getattr(c, "HUD_MAP", False):
+        blob = sprite_blob(hud_map(c, line))
+        out += ["@ the race HUD's course map (a sprite in the game's format)", "\t.balign 4",
+                f"spr_hud_map_{name}:"]
+        for i in range(0, len(blob), 16):
+            out.append("\t.byte\t" + ", ".join(str(b) for b in blob[i:i + 16]))
+        out.append("\t.balign 4")
     if hasattr(c, "TRACK_HALF_WIDTH"):
         grid = wall_grid(c, line)
         out += [f"@ the track's walls (updates/code/walls.s): 64x64 cells of 16 units, row by row",

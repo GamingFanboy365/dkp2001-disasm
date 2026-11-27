@@ -2593,7 +2593,11 @@ tab_sprites:  @ 0816a74c
 	.byte 0x00, 0x00, 0x5b, 0x00
 	.word __spr_hud_map_farm_01
 	.byte 0x00, 0x00, 0x5b, 0x00
+	.ifdef UPDATES
+	.word spr_hud_map_temple_tangle	@ FIX "temple-tangle": entry 111 (Farm 03's unused map copy) shows our map
+	.else
 	.word __spr_hud_map_farm_03
+	.endif
 	.byte 0x00, 0x00, 0x5b, 0x00
 	.word __spr_hud_map_haunted_00
 	.byte 0x00, 0x00, 0x5b, 0x00
