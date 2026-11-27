@@ -194,7 +194,8 @@ The owner asked: no arrangement of existing DK music; every tune ours from scrat
   needs a full in-race sprite set. Candy Kong's figure is part of Rare's sepia backdrop and
   can't be painted out; our art would sit over that slot instead. The owner's idea for that
   art: the farmer holding up a sign ("Victory" or similar), a nod to the slot's history.
-  The farmer is a new animal character, not a Kong.
+  The sign is only for the character select screen, not in races. The farmer is a new
+  animal character, not a Kong.
 - Placeholder courses get new names one at a time, only when each is built.
 - No blue pylons on any course in the updates patch: every race gets hidden checkpoints and
   invisible walls along its track, as Temple Tangle has. For Rare's finished races the
