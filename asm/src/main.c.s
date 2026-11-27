@@ -346,7 +346,15 @@ L_08006258:
 @ src/main.c:280
 	bl state_main_init
 @ src/main.c:287
+	.ifdef FIXES
+	@ FIX "boot-logos": boot as the game was written to (logo_process ends in
+	@ init_title): Nintendo logo, Rare logo and intro animation, then the
+	@ title screen, instead of straight into the debug menu. L+R on the logos
+	@ or the title screen opens the debug menu (see fix_debug_combo).
+	bl	logo_init
+	.else
 	bl menu_init
+	.endif
 @ src/main.c:300
 	ldr	r0, _08006370	@ =0x00001105
 	bl rnd_seed
@@ -505,7 +513,11 @@ L_080063b6:
 	str	r0, [r5, #0]
 @ src/main.c:329
 L_080063b8:
+	.ifdef FIXES
+	bl	fix_debug_combo	@ FIX "boot-logos": L+R opens the debug menu, then AGBPrintFlush1Block
+	.else
 	bl AGBPrintFlush1Block
+	.endif
 @ src/main.c:333
 	ldr	r2, _0800644c	@ =sys_irq_flag
 	ldrh	r0, [r2, #0]

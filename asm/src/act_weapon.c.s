@@ -1534,6 +1534,13 @@ act_weapon_rocket:  @ 080108d0
 	.ifdef FIXES
 fix_assert_L_080108f4:
 	b	L_080108f4	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	@ FIX "boot-logos": trampoline to the end of the ROM
+	.balign 4
+fix_debug_combo:
+	ldr	r0, 1f
+	bx	r0
+	.balign 4
+1:	.word	fix_debug_combo_far+1
 	.fill 18 - (. - fix_assert_L_080108f4), 1, 0	@ same size as the original block
 	.else
 	ldr	r0, _08010904	@ =D_0807036c

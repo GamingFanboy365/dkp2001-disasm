@@ -31,12 +31,29 @@ ROMS = {
 }
 
 
+# The fixed and updated builds boot into the logos and title; L+R on the
+# Nintendo logo opens the debug menu the original boots into. Their scripts
+# press that first and start everything else DEBUG_OFFSET frames later.
+DEBUG_PREFIX = []
+DEBUG_OFFSET = 0
+
+
+def boot(script, frames):
+    """Shift a script (FRAME:KEY[:HOLD] presses) and its length for the build."""
+    out = list(DEBUG_PREFIX)
+    for p in script:
+        f, rest = p.split(":", 1)
+        out.append(f"{int(f) + DEBUG_OFFSET}:{rest}")
+    return out, str(frames + DEBUG_OFFSET)
+
+
 def run(romtest, rom, track):
     presses = [f"{40 + 12 * i}:A" for i in range(1, track + 1)]
     st = 60 + 12 * track + 30
     script = presses + [f"{st}:START", f"{st + 300}:A:1500", f"{st + 500}:LEFT:60",
                         f"{st + 800}:RIGHT:90", f"{st + 1000}:B:10", f"{st + 1100}:UP:80"]
-    out = subprocess.run([romtest, rom, str(st + 1500), "50"] + script,
+    script, frames = boot(script, st + 1500)
+    out = subprocess.run([romtest, rom, frames, "50"] + script,
                          capture_output=True, text=True, check=True).stdout
     return hashlib.sha1(out.encode()).hexdigest()
 
@@ -48,18 +65,21 @@ def frontend(romtest, rom):
     t += [f"{1150 + i * 90}:RIGHT" for i in range(8)] + [f"{1900 + i * 90}:LEFT" for i in range(8)]
     t += ["2700:A"] + [f"{2900 + i * 80}:RIGHT" for i in range(10)] + ["3800:A"]
     t += [f"{4000 + i * 60}:DOWN" for i in range(5)] + ["4400:A", "4700:A"]
-    out = subprocess.run([romtest, rom, "5400", "25"] + t, capture_output=True, text=True, check=True).stdout
+    t, frames = boot(t, 5400)
+    out = subprocess.run([romtest, rom, frames, "25"] + t, capture_output=True, text=True, check=True).stdout
     return hashlib.sha1(out.encode()).hexdigest()
 
 
 def main():
-    global ROMS, KNOWN
+    global ROMS, KNOWN, DEBUG_PREFIX, DEBUG_OFFSET
     args = [a for a in sys.argv[1:] if a not in ("--fixed", "--updated")]
     romtest = args[0]
     first = int(args[1]) if len(args) > 1 else 0
     last = int(args[2]) if len(args) > 2 else 39
     if "--fixed" in sys.argv or "--updated" in sys.argv:
         updated = "--updated" in sys.argv
+        DEBUG_PREFIX = ["20:L:20", "25:R:15"]
+        DEBUG_OFFSET = 100
         base, pre = ("build_updated", "build_up") if updated else ("build_fixed", "build_fx")
         flags = ["FIXES=1", "UPDATES=1"] if updated else ["FIXES=1"]
         ROMS = {"original": f"{base}/dkp.gba",

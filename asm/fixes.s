@@ -748,3 +748,44 @@ fix_char_offset_far:
 	negs	r1, r1
 	bx	lr
 	.ltorg
+
+@ FIX "boot-logos": called from the main loop every frame in place of
+@ AGBPrintFlush1Block. On the logos and intro (logo_process) or the title
+@ screen's game-type carousel (title, TITLE_STATE 2), pressing L+R together
+@ opens the debug menu, which the build used to boot into. Then flushes the
+@ debug print buffer as before. r0-r3 are free here.
+	.equ	KEY_R, 0x100
+	.equ	KEY_L, 0x200
+	.thumb_func
+fix_debug_combo_far:
+	push	{lr}
+	ldr	r0, =sys_joycnt
+	ldrh	r0, [r0, #0]
+	ldr	r1, =KEY_L | KEY_R
+	ands	r0, r1
+	cmp	r0, r1				@ both held
+	bne	9f
+	ldr	r0, =sys_joytrg
+	ldrh	r0, [r0, #0]
+	tst	r0, r1				@ and one just pressed
+	beq	9f
+	ldr	r0, =sys_mode
+	ldr	r0, [r0, #0]
+	ldr	r1, =logo_process+1
+	cmp	r0, r1
+	beq	1f
+	ldr	r1, =title+1
+	cmp	r0, r1
+	bne	9f
+	ldr	r1, =TITLE_STATE
+	ldrb	r1, [r1, #0]
+	cmp	r1, #2				@ the game-type carousel
+	bne	9f
+1:	ldr	r3, =menu_init+1
+	bl	2f
+9:	ldr	r3, =AGBPrintFlush1Block+1
+	bl	2f
+	pop	{r0}
+	bx	r0
+2:	bx	r3
+	.ltorg

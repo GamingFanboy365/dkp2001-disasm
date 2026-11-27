@@ -10,7 +10,9 @@ own copy of the ELF; the tools extract everything else from it.
 
 There are two patches (list in [FIXES.md](FIXES.md)):
 
-- **`patches/dkp2001_fixes.ips`, the fixed game.** Fixes the hangs and crashes found so far,
+- **`patches/dkp2001_fixes.ips`, the fixed game.** Boots like a finished game (Nintendo and
+  Rare logos, the intro animation, then the title; L+R opens the debug menu), fixes the hangs and
+  crashes found so far,
   plays the unused course music in the races, fixes the character select (you fly who you pick,
   Donkey Kong included), and makes all three Stories playable (K. Rool's Gold with its
   illustrated story, which never ran in this build). Only bug fixes and content the build
@@ -323,6 +325,9 @@ the patch (see [FIXES.md](FIXES.md)):
 - **Highlighting the "Back to the Light" story hangs**: its pilot (character 6) has no voice
   clip or plane graphics, so the menu plays a garbage sound id and draws a garbage sprite. K.
   Rool's Gold, below it, couldn't be reached at all.
+- **The game boots into its debug menu**, though its Nintendo and Rare logo screens and intro
+  animation are complete and lead to the title. The patches boot through them, and L+R opens
+  the debug menu.
 - **The character select picks the wrong pilot** (screen slots used as character numbers; only
   Cranky is right), never offers Donkey Kong (races only allow five characters, though his
   sprites work), and draws its colour highlights 7 pixels off the sepia figures. Fixed; the
@@ -363,7 +368,7 @@ Not fixed (no data to fix them with):
 - [ ] Editable format for in-game sprites (needs an encoder that reproduces the original RLE)
 - [ ] Matching decompilation of the C modules. The compiler is the same GCC 2.9 lineage
       `agbcc` derives from, and line tables give the source line for every instruction.
-- [x] Bug-fix build (`make fixed`) and IPS patch (`patches/`, `make patch`): 14 fixes so far,
+- [x] Bug-fix build (`make fixed`) and IPS patch (`patches/`, `make patch`): 15 fixes so far,
       including music in the races and playable Stories with K. Rool's Gold's story, plus a
       dogfight for Dog Fights; see FIXES.md
 - [ ] More fixes: AI networks for the tracks that have none

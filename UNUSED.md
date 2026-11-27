@@ -33,9 +33,11 @@ in:
 
 | What | Code | Data |
 |---|---|---|
-| Nintendo and Rare logo screens | `logo_init`, `logo_process` (title_logo.c) | `Nintendo_Logo` (7 KB), `Rare_Logo` (9 KB) |
-| Intro animation | (none left) | `introanim`, `introanim2`, `introanim3`, `introanim4`: 65 KB of sprite frames |
+| Nintendo and Rare logo screens, with the intro animation | `logo_init`, `logo_process` (title_logo.c): Nintendo logo, then Rare logo with planes flying over, then `init_title` | `Nintendo_Logo` (7 KB), `Rare_Logo` (9 KB), `introanim`–`introanim4` (65 KB of sprite frames) |
 | Japanese health/warning screen | `menu_main_init_jap_warning` (menu_main.c) | `jap_warning` (7 KB) |
+
+The fix patches boot through the logos and intro to the title, and move the debug menu to L+R.
+`logo_process` loads `introanim4`'s palette but never draws its frames.
 
 ## The old assembly front-end
 
@@ -151,7 +153,8 @@ The game has two front-ends:
 ## Debug features still in the build
 
 - **Debug boot.** The build boots into a debug level-select menu ("Level / Player / Blend")
-  instead of the title screen. A (+) and B (−) change the course, and the up/down arrows pick a
+  instead of its own logos and title screen (the fix patches boot normally and open this menu
+  with L+R). A (+) and B (−) change the course, and the up/down arrows pick a
   row.
 - **AGBPrint debug output.** `AGBPrintf` writes to the debugger's print buffer; asserts and the
   sound driver's `AE_*` messages use it.
