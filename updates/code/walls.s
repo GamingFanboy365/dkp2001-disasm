@@ -4,9 +4,7 @@
 @ the track, else 0x80 | the direction back to the track in 128ths of a turn. Once a
 @ race is under way (sys_flags bit 2, set at GO, the same flag the start hoop's lap
 @ check uses), a plane that leaves the track is pushed back onto it; the player's
-@ plane also bounces the way Rare's planes bounce off the edge of the world
-@ (move_player, plane.c:229-265): turned, knocked back for a moment, and the wall
-@ sound. Before GO the planes fly in
+@ plane also stops dead, like hitting a tree but without being knocked down. Before GO the planes fly in
 @ from off the track, so the walls aren't up yet.
 @ Called every frame from fix_df_positions_far (the race monitor's per-frame hook,
 @ updates/code/dogfight.s). Keeps r4-r7.
@@ -19,10 +17,10 @@
 	.equ	O_TYPE, 2			@ 1 the player's plane
 	.equ	O_X, 32				@ position, 8.8 fixed point
 	.equ	O_Z, 40
-	.equ	O_SPIN, 56			@ the bounce's spin
-	.equ	O_HEADING, 60
-	.equ	O_TURN, 64
-	.equ	O_FLAGS, 80
+	.equ	O_VX, 44			@ velocity (rebuilt from heading and speed each frame)
+	.equ	O_VZ, 52
+	.equ	O_SPEED, 104
+	.equ	WALL_SOUND_SPEED, 256		@ speed below which touching the wall is silent
 	.equ	O_STATE, 120			@ nonzero: bouncing, tumbling... (not steering)
 	.equ	SFX_WALL, 53			@ the sound move_player plays at the world's edge
 
@@ -85,11 +83,11 @@ wall_cell:
 2:	bx	lr
 
 @ r4 = the plane, r5 = the heading back to the track. It's put 8 units back towards
-@ the track (more than a plane flies in a frame, so it slides along the wall). A
-@ computer plane gets only that, so it keeps flying its route. The player's plane
-@ also bounces as move_player does at the world's edge: with flags bit 0 it just
-@ turns back, otherwise it's knocked back facing the wall and spun round (state 3),
-@ with the wall sound.
+@ the track (more than a plane flies in a frame). A computer plane gets only that, so
+@ it slides along the wall and keeps flying its route. The player's plane also comes
+@ to a halt, as on flying into a tree (player_collide) but without the knock-down
+@ (no hit state): speed and velocity to 0, heading unchanged; the wall sound plays
+@ if it hit at speed.
 wall_bounce:
 	push	{lr}
 	ldr	r1, =D_083e35d8			@ sin
@@ -113,32 +111,14 @@ wall_bounce:
 	ldrh	r0, [r4, #O_TYPE]
 	cmp	r0, #1
 	bne	9f				@ a computer plane is only slid back, so it keeps its line
-	ldr	r1, [r4, #O_FLAGS]
-	movs	r2, #1
-	tst	r1, r2
-	beq	1f
-	str	r5, [r4, #O_HEADING]		@ face the track
-	b	9f
-1:	movs	r0, #128			@ facing the wall, knocked back from it
-	lsls	r0, r0, #8
-	eors	r0, r5
-	str	r0, [r4, #O_HEADING]
-	movs	r0, #128
-	lsls	r0, r0, #7			@ 0x4000
-	orrs	r1, r0
-	ldr	r0, =0xfffffeff
-	ands	r1, r0
-	str	r1, [r4, #O_FLAGS]
-	movs	r0, #224
-	lsls	r0, r0, #8			@ 0xe000
-	str	r0, [r4, #O_SPIN]
-	movs	r0, #3
-	str	r0, [r4, #O_STATE]
-	movs	r0, #0
-	str	r0, [r4, #O_TURN]
-	ldrh	r0, [r4, #O_TYPE]
-	cmp	r0, #1
-	bne	9f
+	ldr	r1, [r4, #O_SPEED]		@ the player's plane stops dead, as on hitting
+	movs	r0, #0				@ a tree, but without being knocked down
+	str	r0, [r4, #O_SPEED]
+	str	r0, [r4, #O_VX]
+	str	r0, [r4, #O_VZ]
+	ldr	r0, =WALL_SOUND_SPEED
+	cmp	r1, r0				@ the wall sound only for a real hit, not for
+	blt	9f				@ every frame spent nosing against it
 	movs	r0, #SFX_WALL
 	movs	r1, #127
 	movs	r2, #128
