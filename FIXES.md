@@ -39,19 +39,24 @@ make patch
 | `fe-camera-pan` | Starting a race from the **front-end** hangs or crashes on most courses, **Dog Fights** included. A front-end start plays a camera fly-in that `act_camera.c` reads from the course's AI network, taking it to be the sixth route (`campan_load2`). Only six courses have a six-route network with a real fly-in path (Beach 00, Lava 00, Snow 00, Farm 00, Farm 05, Haunted 00). On every other course the game reads route data or garbage as a path of hundreds of points into a 32-point buffer (`pts`), which overwrites RAM, including `game_level`, the object pointers and the sound driver's state. It then traps in `campan_start_seg` ("pts[cur_pt].segs != 0") or the sound driver, or jumps to garbage. 9 of 20 front-end race starts tested hang. | The fly-in path is used only when the network has six routes. Otherwise the camera does the normal race-start pan, which the debug menu uses on every course. |
 | `timing-meter` | The row of **stars and circles along the bottom of the screen** in races. It's the developers' CPU-time meter (game.c:274–298). `game_process` samples `VCOUNT` after each stage of the frame and puts a star (sprite tile 7) on the bottom row at the x position of that scanline, plus reference stars and circles (tile 11) at fixed positions. It writes straight into OAM slots 100–103 and 120–127, over any real sprites there. | The meter isn't drawn. The `VCOUNT` sampling stays, because the game's timing depends on it. |
 | `audio-stop-channel` | A bug in the **sound driver**. When a music note's one-shot sample runs out before the note is released, `uan_set_channel_to_stopped` should set the channel's state to stopped (16) through `r0`, as the empty case next to it does. It writes through `r8` instead, an unrelated register. The channel plays on past the end of the sample, into whatever data follows, and the byte lands at a stray address. The menu music never hit this path; the race music does (seen on Lake 01 with the beach theme, 3½ minutes in). | Writes through `r0`. |
+| `story-voice` | In the front-end's **Stories** menu, highlighting **Back to the Light** hangs the game, so **K. Rool's Gold** below it can't be reached either. Each story has a fixed pilot (`story_planes` = 2, 6, 5), and highlighting one plays the pilot's voice from `sel_char_sounds2`. That table only has characters 0–5, and Back to the Light's pilot is character 6, so it reads a garbage sound id past the end and the sound driver traps. | Characters without a voice entry play nothing. All three stories can then be picked: King of Kongs starts Beach 02, Back to the Light Jungle 00 and K. Rool's Gold Lava 01. |
 
 ### New behaviour (not a bug fix)
 
+These are **new design, not restored content**: the build has no dogfight game code, so nothing
+says how Rare meant a dogfight to play.
+
 | Id | What | How |
 |---|---|---|
-| `dogfight-opponents` | **Dog Fights has opponents.** This build has no dogfight game: the mode is a menu that starts an ordinary race on an arena course, and nothing outside the menu knows which mode was chosen. The three computer planes had no start positions on most arenas (they sat at 0,0,0), then flew the arena's stub route along the ground, far from the player. This is **new design, not restored content**: nothing in the build says how Rare meant the dogfight to play. | Only when the menu's `virtual_mode` is Dog Fights (it stays set during the race). **Start:** the computer planes line up 160–200 units ahead of the player, spread 48 units apart at its height, facing it (`init_start_pos`). **Steering:** `ai_steer` aims at the player's plane instead of the route. Player 1 aims straight at it; players 2 and 3 aim where it will be 24 and 48 frames later, so they cut across its nose. The game's own steering, collision avoidance and speed code do the rest. **Weapons:** the arenas have no powerups, so a plane with no weapon gets a random one (types 1–8), on average every couple of seconds. That includes the player. Each computer plane's race progress is set just behind the player's, or just ahead when the player is behind it, so `ai_think` aims its forward or rear weapons at the player. There is no scoring or end to the fight yet. |
+| `dogfight-opponents` | **Dog Fights has opponents.** This build has no dogfight game: the mode is a menu that starts an ordinary race on an arena course, and nothing outside the menu knows which mode was chosen. The three computer planes had no start positions on most arenas (they sat at 0,0,0), then flew the arena's stub route along the ground, far from the player. | Only in a dogfight: when the menu's `virtual_mode` is Dog Fights (it stays set during the race), or for the K. Rool's Gold story, whose course (Lava 01) is a dogfight course. **Start:** the computer planes line up 160–200 units ahead of the player, spread 48 units apart at its height, facing it (`init_start_pos`). **Steering:** `ai_steer` aims at the player's plane instead of the route. Player 1 aims straight at it; players 2 and 3 aim where it will be 24 and 48 frames later, so they cut across its nose. The game's own steering, collision avoidance and speed code do the rest. **Weapons:** the arenas have no powerups, so a plane with no weapon gets a random one (types 1–8), on average every couple of seconds. That includes the player. Each computer plane's race progress is set just behind the player's, or just ahead when the player is behind it, so `ai_think` aims its forward or rear weapons at the player. |
+| `dogfight-scoring` | **The dogfight has rules and an ending.** | Every plane has **3 lives**, kept in the race monitor's pylon-strike bytes (`monitor+94+player`). Any hit that makes a plane tumble (`player_tumble`, from a weapon or a shot) costs a life, friendly fire included. **You:** the race's strike counter (top left) slides in with the pylon-miss sound to show your lives; losing the last one ends the fight like a failed race (**RETIRE**, then the menu). **Opponents:** one with no lives left tumbles, vanishes a second later (out of drawing and collisions) and drops its weapons. The place indicator shows 1 + opponents still flying (4th, 3rd, 2nd, then 1st). When the last one has fallen, the fight ends like a won race (**FINISH** with the fanfare; the computer flies your plane; then the menu). Laps and pylon strikes don't count in a dogfight. Pause → RESTART starts the fight over with everyone back. |
 
-All but `race-music` and `dogfight-opponents` keep their code the same size. `race-music` adds 84 bytes of new code and
+All but `race-music` and the two dogfight entries keep their code the same size. `race-music` adds 84 bytes of new code and
 data in a `.fixes` section after all the game's data (`asm/fixes.s`), reached through a
 trampoline in an assert block's dead space, because the end of the ROM is out of `bl` range.
-`dogfight-opponents` adds about 600 bytes there in the same way, called through two trampolines in
-`act_camera.c`'s dead assert space. So nothing moves, and the patch only touches the changed
-bytes (about 6 KB).
+The dogfight code adds about 1.2 KB there in the same way, called through trampolines in the dead
+assert space of `act_camera.c`, `act_weapon.c`, `act_starthoop.c`, `act_pylon.c` and
+`act_race_monitor.c`. So nothing moves, and the patch only touches the changed bytes (about 7 KB).
 
 ### Testing done
 
@@ -82,6 +87,13 @@ bytes (about 6 KB).
   about 15–30 seconds. Traced over 90 seconds, the three computer planes got and used 9, 4 and 7
   weapons, and hit the player. 2½-minute armed fights in each arena (player turning and firing)
   run with no faults.
+- **Dog Fights scoring:** in long scripted fights in all four arenas and K. Rool's Gold, lives
+  are counted for every plane, the player's last life gives RETIRE, and all three opponents
+  down gives FINISH (one scripted player won 3–0 on its last life; a test build where the player
+  can't be hit always wins). Each ending returns to the front-end with no faults. Pause →
+  RESTART after two opponents were downed brings them back with full lives.
+- **Stories:** each of the three stories can be highlighted and started with no faults; the
+  original hangs on highlighting Back to the Light.
 - **Sound driver:** the Lake 01 session that hit `audio-stop-channel` runs clean with the fix.
   With the dogfight code switched off, the fault still happened on the same frame, so it is a
   driver bug and not the dogfight code.
@@ -91,9 +103,11 @@ bytes (about 6 KB).
 
 ## Known bugs not fixed yet
 
-- **Dog Fights has no rules or ending.** The patch gives it opponents and weapons
-  (`dogfight-opponents`), but there's no scoring, health or end to the fight; the race HUD (4th
-  place) still shows. The build has no dogfight game code to restore.
+- **Dog Fights has no scoreboard of its own.** The patch reuses the race HUD: the strike counter
+  for your lives and the place indicator for opponents left.
+- **K. Rool's Gold is flown by Cranky Kong.** Its pilot is character 5, which a race maps to
+  Cranky's sprites (`setup_player_data` takes the character mod 5), although the story is about
+  K. Rool. Left as the build has it.
 - **No AI network at all**: Beach 03, Farm 03 (the course loaded by the Farm 02 slot) and
   Haunted 01 have a network with zero routes, so even route 0 reads the next level's data. A
   proper fix needs waypoints for those tracks.

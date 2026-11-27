@@ -13,6 +13,13 @@ init_pylon:  @ 0800dba8
 	.ifdef FIXES
 fix_assert_L_0800dbc2:
 	b	L_0800dbc2	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	@ FIX "dogfight-scoring": trampoline to the end of the ROM (no pylon strikes in a dogfight)
+	.balign 4
+fix_df_pylon:
+	ldr	r0, 1f
+	bx	r0
+	.balign 4
+1:	.word	fix_df_pylon_far+1
 	.fill 18 - (. - fix_assert_L_0800dbc2), 1, 0	@ same size as the original block
 	.else
 	ldr	r0, _0800dbf8	@ =D_0806ff54
@@ -431,8 +438,12 @@ L_0800de20:
 	bge L_0800de70
 	negs	r4, r4
 L_0800de70:
+	.ifdef FIXES
+	bl	fix_df_pylon	@ FIX "dogfight-scoring": "gt" (no strike) in a dogfight, else cmp r4, #0x3fff
+	.else
 	ldr	r0, _0800df04	@ =0x00003fff
 	cmp	r4, r0
+	.endif
 	bgt L_0800df12
 @ src/act_pylon.c:128
 	adds	r1, r7, #0

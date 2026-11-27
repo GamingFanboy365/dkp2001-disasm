@@ -18,6 +18,13 @@ init_starthoop:  @ 0800d3e8
 	.ifdef FIXES
 fix_assert_L_0800d40c:
 	b	L_0800d40c	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	@ FIX "dogfight-scoring": trampoline to the end of the ROM (no laps in a dogfight)
+	.balign 4
+fix_df_lap:
+	ldr	r1, 1f
+	bx	r1
+	.balign 4
+1:	.word	fix_df_lap_far+1
 	.fill 18 - (. - fix_assert_L_0800d40c), 1, 0	@ same size as the original block
 	.else
 	ldr	r0, _0800d5f4	@ =D_0806fd98
@@ -437,7 +444,11 @@ L_0800d672:
 	str	r0, [r4, #0]
 @ src/act_starthoop.c:139
 	adds	r0, r6, #0
+	.ifdef FIXES
+	bl	fix_df_lap	@ FIX "dogfight-scoring": no laps in a dogfight
+	.else
 	bl race_complete_lap
+	.endif
 @ src/act_starthoop.c:140
 	b L_0800d6ea
 	.balign 4

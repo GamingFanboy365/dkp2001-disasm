@@ -13,6 +13,13 @@ init_hud_weapon:  @ 08010000
 	.ifdef FIXES
 fix_assert_L_0801001a:
 	b	L_0801001a	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	@ FIX "dogfight-scoring": trampoline to the end of the ROM (player_tumble with a hit count)
+	.balign 4
+fix_df_hit:
+	ldr	r1, 1f
+	bx	r1
+	.balign 4
+1:	.word	fix_df_hit_far+1
 	.fill 18 - (. - fix_assert_L_0801001a), 1, 0	@ same size as the original block
 	.else
 	ldr	r0, _08010070	@ =D_0807036c
@@ -1753,7 +1760,11 @@ L_08010a5c:
 	bgt L_08010ab0
 @ src/act_weapon.c:654
 	mov	r0, r8
+	.ifdef FIXES
+	bl	fix_df_hit	@ FIX "dogfight-scoring": count the hit, then player_tumble
+	.else
 	bl player_tumble
+	.endif
 @ src/act_weapon.c:655
 	adds	r0, r7, #0
 	bl obj_free
@@ -2386,7 +2397,11 @@ L_08010e60:
 	bgt L_08010eb4
 @ src/act_weapon.c:844
 	adds	r0, r7, #0
+	.ifdef FIXES
+	bl	fix_df_hit	@ FIX "dogfight-scoring": count the hit, then player_tumble
+	.else
 	bl player_tumble
+	.endif
 @ src/act_weapon.c:845
 	mov	r0, sl
 	bl obj_free
@@ -3504,7 +3519,11 @@ _080115a4:
 @ src/act_weapon.c:293
 L_080115a8:
 	adds	r0, r5, #0
+	.ifdef FIXES
+	bl	fix_df_hit	@ FIX "dogfight-scoring": count the hit, then player_tumble
+	.else
 	bl player_tumble
+	.endif
 @ src/act_weapon.c:294
 	adds	r0, r4, #0
 	bl destroy_melon
@@ -3588,7 +3607,11 @@ _0801161c:
 @ src/act_weapon.c:464
 L_08011620:
 	adds	r0, r5, #0
+	.ifdef FIXES
+	bl	fix_df_hit	@ FIX "dogfight-scoring": count the hit, then player_tumble
+	.else
 	bl player_tumble
+	.endif
 @ src/act_weapon.c:465
 	adds	r0, r4, #0
 	bl destroy_melon
@@ -3750,7 +3773,11 @@ L_080116ec:
 	bhi L_08011710
 @ src/act_weapon.c:723
 	adds	r0, r5, #0
+	.ifdef FIXES
+	bl	fix_df_hit	@ FIX "dogfight-scoring": count the hit, then player_tumble
+	.else
 	bl player_tumble
+	.endif
 @ src/act_weapon.c:724
 	adds	r0, r4, #0
 	bl obj_free
@@ -3826,7 +3853,11 @@ L_0801175e:
 	bhi L_08011782
 @ src/act_weapon.c:929
 	adds	r0, r5, #0
+	.ifdef FIXES
+	bl	fix_df_hit	@ FIX "dogfight-scoring": count the hit, then player_tumble
+	.else
 	bl player_tumble
+	.endif
 @ src/act_weapon.c:930
 	adds	r0, r4, #0
 	bl obj_free

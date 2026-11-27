@@ -572,6 +572,13 @@ L_0800e2b0:
 	.ifdef FIXES
 fix_assert_L_0800e2c6:
 	b	L_0800e2c6	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	@ FIX "dogfight-scoring": trampoline to the end of the ROM (dogfight place = opponents left)
+	.balign 4
+fix_df_positions:
+	ldr	r1, 1f
+	bx	r1
+	.balign 4
+1:	.word	fix_df_positions_far+1
 	.fill 18 - (. - fix_assert_L_0800e2c6), 1, 0	@ same size as the original block
 	.else
 	ldr	r0, _0800e2e4	@ =D_0806ffac
@@ -1016,7 +1023,11 @@ fix_assert_L_0800e56e:
 	.hword 0xefff	@ undefined on ARMv4T
 	.endif
 L_0800e56e:
+	.ifdef FIXES
+	bl	fix_df_positions	@ FIX "dogfight-scoring": then the place shown counts opponents left
+	.else
 	bl calculate_race_positions
+	.endif
 @ src/act_race_monitor.c:184
 
 	adds	r1, r5, #0

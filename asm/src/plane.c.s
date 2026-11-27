@@ -517,7 +517,11 @@ L_0800ebb4:
 	beq L_0800ebca
 @ src/plane.c:273
 	adds	r0, r6, #0
+	.ifdef FIXES
+	bl	fix_df_hit	@ FIX "dogfight-scoring": count the hit, then player_tumble
+	.else
 	bl player_tumble
+	.endif
 @ src/plane.c:279
 L_0800ebca:
 	ldr	r1, _0800ebf4	@ =plr_ctrl

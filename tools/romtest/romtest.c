@@ -88,7 +88,7 @@ int main(int argc, char** argv) {
 	unsigned frames = strtoul(argv[2], NULL, 0);
 	unsigned every = strtoul(argv[3], NULL, 0);
 	const char* ppm = NULL;
-	struct press presses[256];
+	static struct press presses[4096];
 	int npress = 0;
 	for (int i = 4; i < argc; ++i) {
 		if (!strcmp(argv[i], "--ppm") && i + 1 < argc) {
@@ -97,7 +97,7 @@ int main(int argc, char** argv) {
 		}
 		char key[16] = { 0 };
 		unsigned f = 0, hold = 6;
-		if (sscanf(argv[i], "%u:%15[A-Z]:%u", &f, key, &hold) < 2 || key_bit(key) < 0 || npress == 256) {
+		if (sscanf(argv[i], "%u:%15[A-Z]:%u", &f, key, &hold) < 2 || key_bit(key) < 0 || npress == (int) (sizeof(presses) / sizeof(presses[0]))) {
 			fprintf(stderr, "bad press '%s'\n", argv[i]);
 			return 2;
 		}

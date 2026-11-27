@@ -11,7 +11,8 @@ romtest ROM FRAMES EVERY [--ppm PREFIX] [FRAME:KEY[:HOLD] ...]
 
 - `KEY` is `A B SELECT START RIGHT LEFT UP DOWN R L`, held for `HOLD` frames (default 6).
 - `--ppm PREFIX` also saves each checkpoint as `PREFIX_<frame>.ppm`.
-- `RAM_OUT=file` in the environment dumps EWRAM (256 KiB) then IWRAM (32 KiB) after the last frame.
+- `RAM_OUT=file` in the environment dumps EWRAM (256 KiB) then IWRAM (32 KiB) after the last frame;
+  with `RAM_VIDEO` also set, palette RAM, VRAM and OAM follow.
 - The last line, `stores-to-rom N`, counts writes the game made to ROM addresses.
 
 Example: boot the debug menu, start Beach 00, and hold A to fly.

@@ -71,6 +71,12 @@ The game has two front-ends:
   `krool_all_the_guardians`, the four coloured guards, the podium and its colour variants, and
   the story text pages and scene scripts (`krool_text`, `krool_stage0`–`3`, `krool_end_stage`,
   `krool_talking_anim`, `krool_doors_open_anim`, `krool_overlays`).
+- **The whole K. Rool's Gold story text** (`krool_text_page_0`–`100`, about 2,200 words in the
+  old front-end's font encoding). K. Rool finds a temple tablet that maps the way to Eldorado,
+  the City of Gold, and reaches its gate on a tiny island. Four Guardians of the Gate (Nikiki,
+  Nakaka, Nukuku and Nokoko) each set him a test to win one of the magic stones that open the
+  doors; the first is collecting four keys among mines in Crackpot Keep. It ends with the doors
+  opening on a sea of gold. Print it from your ROM with `python3 tools/story_text.py baserom.gba`.
 - **Story map pieces:** `beach_grow`, `keep_grow`, `haunted_woods_02`, `genie_lamp_anim`.
 - **Old title and menu art:** `KroolBG` (Krool's Gold background, 21 KB), `CharSelect` (the
   full-screen 16-bit clock picture, 97 KB), `twit_bunch`, `bamboobarrel`, `cloudburst`,
@@ -136,7 +142,11 @@ The game has two front-ends:
   finished on, plus reference stars and circles. These are the stars and dots at the bottom of
   every race screen. The fix patch hides it.
 - **Dog Fights is only a menu.** Its arenas start as ordinary races; nothing outside the menu
-  reads the chosen mode. (The fix patch adds opponents of its own design.)
+  reads the chosen mode. (The fix patch adds a dogfight of its own design.)
+- **Stories is only a menu too.** The front-end lists three stories, King of Kongs, Back to the
+  Light and K. Rool's Gold, but picking one just starts a race with a fixed pilot (Beach 02,
+  Jungle 00 and Lava 01); none of the story text or cut scenes above is shown. Highlighting Back to
+  the Light hangs the original, so the third story can't be reached; the fix patch fixes that.
 - **`impure_data` in ROM.** newlib's stdio state was linked into ROM, so every debug print
   re-initialises stdio.
 
