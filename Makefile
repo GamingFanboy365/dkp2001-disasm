@@ -7,6 +7,8 @@ BUILD   ?= build
 ASFLAGS := -mcpu=arm7tdmi -mthumb-interwork -I . -I $(BUILD)
 ASM     := $(shell find asm data updates -name '*.s' -o -name '*.S' 2>/dev/null)
 ASSETS  := $(shell find assets -type f 2>/dev/null)
+# Our own binary data for the updates build (pictures etc.), .incbin'd from updates/
+UPDATES_BIN := $(shell find updates -name '*.bin' 2>/dev/null)
 # Editable assets (PNG/PAL/WAV) are converted to the .bin files the source
 # .incbin's, under $(BUILD)/assets/; as finds them through -I $(BUILD).
 CONV    := $(filter %.png %.pal %.wav,$(ASSETS))
@@ -64,7 +66,7 @@ $(BUILD)/assets.stamp: $(CONV) tools/gfx.py
 	python3 tools/gfx.py build $(BUILD) $(if $(filter tools/gfx.py,$?),$(CONV),$(filter-out tools/gfx.py,$?))
 	@touch $@
 
-$(BUILD)/rom.o: rom.s $(ASM) $(ASSETS) $(BUILD)/assets.stamp
+$(BUILD)/rom.o: rom.s $(ASM) $(ASSETS) $(UPDATES_BIN) $(BUILD)/assets.stamp
 	@mkdir -p $(BUILD)
 	$(AS) $(ASFLAGS) -o $@ $<
 

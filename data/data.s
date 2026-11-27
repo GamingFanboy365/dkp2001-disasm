@@ -15645,7 +15645,11 @@ D_084d7920:  @ 084d7920  u8*[49]  (src/menu/menu_image.c)
 	.word small_grubgrab_char_0
 	.word small_jungle_dogfight_char_0
 	.word small_not_used_char_0
+	.ifdef UPDATES
+	.word temple_tangle_tiles	@ FIX "temple-tangle": our picture for level 37 (updates/art/temple_tangle)
+	.else
 	.word small_not_used_char_0
+	.endif
 	.word small_fly_like_the_wind_char_0
 	.word small_wasteland_wipeout_char_0
 	.word small_not_used_char_0
@@ -15696,7 +15700,11 @@ pals:  @ 084d79e4  u16*[49]  (src/menu/menu_image.c)
 	.word __pal_small_grubgrab
 	.word __pal_small_jungle_dogfight
 	.word __pal_small_not_used
+	.ifdef UPDATES
+	.word temple_tangle_palette	@ FIX "temple-tangle": our picture for level 37 (updates/art/temple_tangle)
+	.else
 	.word __pal_small_not_used
+	.endif
 	.word __pal_small_fly_like_the_wind
 	.word __pal_small_wasteland_wipeout
 	.word __pal_small_not_used
@@ -15792,7 +15800,11 @@ select_strings:  @ 084d7b30  char*[2][50]  (src/menu/menu_mode.c)
 	.word D_08070730	@ "GRUB GRAB"
 	.word D_080708c4	@ "CLASSIC DOGFIGHT"
 	.word D_08070720	@ "JET SET JUNGLE"
+	.ifdef UPDATES
+	.word course_name_37	@ FIX "temple-tangle": our name for level 37 (updates/text/course_names.s)
+	.else
 	.word D_08070710	@ "JUNGLE RACE 2"
+	.endif
 	.word D_080706fc	@ "FLY LIKE THE WIND"
 	.word D_080706e8	@ "WASTELAND WIPE OUT"
 	.word D_080706d8	@ "VULTURE VALLEY"
@@ -15842,7 +15854,11 @@ select_strings:  @ 084d7b30  char*[2][50]  (src/menu/menu_mode.c)
 	.word D_08070730	@ "GRUB GRAB"
 	.word D_080708c4	@ "CLASSIC DOGFIGHT"
 	.word D_08070720	@ "JET SET JUNGLE"
+	.ifdef UPDATES
+	.word course_name_37	@ FIX "temple-tangle": our name for level 37 (updates/text/course_names.s)
+	.else
 	.word D_08070710	@ "JUNGLE RACE 2"
+	.endif
 	.word D_080706fc	@ "FLY LIKE THE WIND"
 	.word D_080706e8	@ "WASTELAND WIPE OUT"
 	.word D_080706d8	@ "VULTURE VALLEY"

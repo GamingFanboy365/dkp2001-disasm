@@ -155,4 +155,6 @@
 	.endif
 	.ifdef UPDATES
 	.include "updates/code/dogfight.s"	@ our own additions (see updates/README.md)
+	.include "updates/text/course_names.s"	@ new course names
+	.include "updates/art/pictures.s"	@ new course pictures
 	.endif
