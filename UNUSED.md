@@ -84,6 +84,14 @@ The game has two front-ends:
 
 ## Courses
 
+- **Five Racing worlds with no courses.** The front-end's Racing list ("Select World") offers
+  Sleepy Shores, Kongo Kingdom, Western Wastes, Island of Eggs and Polar Plateau. Their names
+  are in the course-name table (`select_strings`) as levels 42–46, past the last course
+  (`tab_levels` stops at 41), and `select_indices` sends each to a stand-in: Bounty Beach
+  (Beach 00), Swoop Swamp (Swamp 02), Lake Race 1 (Lake 02), Vulture Valley (Desert 02, one of
+  the placeholder-ground courses) and Frosty Lake (Snow 00). In the original the middle three
+  hang on starting (the front-end camera bug, fixed in the patch); they now start on those
+  stand-ins.
 - **Placeholder ground.** Desert 00, 02 and 03 have no real course. Their ground is a grid stamped
   with the slot name ("S3-2", "R4-1", "R5-3"). Desert 01, from the same tiles, is real.
 - **No computer-player routes.** Beach 03, Farm 03 (the course loaded by the debug menu's "Farm 02"
