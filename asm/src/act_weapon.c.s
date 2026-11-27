@@ -114,6 +114,13 @@ act_hud_weapon:  @ 08010088
 	.ifdef FIXES
 fix_assert_L_080100a6:
 	b	L_080100a6	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	@ FIX "story-next-stage": trampoline to the end of the ROM
+	.balign 4
+fix_map_next:
+	ldr	r3, 1f
+	bx	r3
+	.balign 4
+1:	.word	fix_map_next_far+1
 	.fill 18 - (. - fix_assert_L_080100a6), 1, 0	@ same size as the original block
 	.else
 	ldr	r0, _080100bc	@ =D_0807036c
@@ -369,6 +376,13 @@ destroy_melon:  @ 08010208
 	.ifdef FIXES
 fix_assert_L_08010222:
 	b	L_08010222	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	@ FIX "story-next-stage": trampoline to the end of the ROM
+	.balign 4
+fix_fade_next:
+	ldr	r3, 1f
+	bx	r3
+	.balign 4
+1:	.word	fix_fade_next_far+1
 	.fill 18 - (. - fix_assert_L_08010222), 1, 0	@ same size as the original block
 	.else
 	ldr	r0, _08010270	@ =D_0807036c
@@ -445,6 +459,13 @@ init_weapon_melon:  @ 08010280
 	.ifdef FIXES
 fix_assert_L_0801029a:
 	b	L_0801029a	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	@ FIX "krools-gold-story": trampoline to the end of the ROM
+	.balign 4
+fix_story_launch:
+	ldr	r3, 1f
+	bx	r3
+	.balign 4
+1:	.word	fix_story_launch_far+1
 	.fill 18 - (. - fix_assert_L_0801029a), 1, 0	@ same size as the original block
 	.else
 	ldr	r0, _080102ec	@ =D_0807036c
@@ -523,6 +544,13 @@ act_weapon_melon:  @ 080102fc
 	.ifdef FIXES
 fix_assert_L_08010316:
 	b	L_08010316	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	@ FIX "krools-gold-story": trampoline to the end of the ROM
+	.balign 4
+fix_story_game:
+	ldr	r3, 1f
+	bx	r3
+	.balign 4
+1:	.word	fix_story_game_far+1
 	.fill 18 - (. - fix_assert_L_08010316), 1, 0	@ same size as the original block
 	.else
 	ldr	r0, _08010344	@ =D_0807036c
@@ -731,6 +759,13 @@ init_weapon_mango:  @ 08010430
 	.ifdef FIXES
 fix_assert_L_0801044c:
 	b	L_0801044c	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	@ FIX "story-pilot-plane": trampoline to the end of the ROM
+	.balign 4
+fix_plane_char:
+	ldr	r1, 1f
+	bx	r1
+	.balign 4
+1:	.word	fix_plane_char_far+1
 	.fill 20 - (. - fix_assert_L_0801044c), 1, 0	@ same size as the original block
 	.else
 	ldr	r0, _080104a0	@ =D_0807036c

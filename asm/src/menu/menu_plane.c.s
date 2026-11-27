@@ -10,8 +10,15 @@ menu_plane_init_plane:  @ 08012fd8
 	mov	r6, r9
 	mov	r5, r8
 	push	{r5, r6, r7}
+	.ifdef FIXES
+	@ FIX "story-pilot-plane": the plane tables have characters 0-5, but the
+	@ "Back to the Light" story's pilot is 6, so highlighting it drew garbage
+	@ (and could start a DMA from a stray address). Map it as a race does.
+	bl	fix_plane_char	@ sub sp, #28; str r0, [sp, #24] with r0 in range
+	.else
 	sub	sp, #28
 	str	r0, [sp, #24]
+	.endif
 @ src/menu/menu_plane.c:131
 	ldr	r0, _080130ec	@ =diddysmall1_map_size_x
 	ldrh	r0, [r0, #0]

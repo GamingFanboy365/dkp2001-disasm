@@ -399,7 +399,11 @@ _080120e4:
 L_080120e8:
 	bl menu_main_kill
 @ src/menu/menu_main.c:249
+	.ifdef FIXES
+	bl	fix_story_launch	@ FIX "krools-gold-story": K. Rool's Gold plays its story first
+	.else
 	bl menu_mode_get_level
+	.endif
 	ldr	r1, _08012110	@ =game_level
 	str	r0, [r1, #0]
 @ src/menu/menu_main.c:250

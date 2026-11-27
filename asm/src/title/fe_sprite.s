@@ -45,7 +45,15 @@ L_08005c92:
 
 sprite_frame_plot:  @ 08005cc2
 	push	{r4, r5, r6, r7, lr}
+	.ifdef FIXES
+	@ FIX "story-sprites": sprite_plot saves r8 and r9 too, and the exit both
+	@ share restores them, so sprite_frame_plot popped two words it never
+	@ pushed and returned to a garbage address. Only the story's cut scenes
+	@ call it. Save them as sprite_plot does (in main.c's dead assert space).
+	b	fix_sprite_frame_plot
+	.else
 	b sprite_plot_just_frame
+	.endif
 
 sprite_plot:  @ 08005cc6
 	push	{r4, r5, r6, r7, lr}

@@ -40,16 +40,20 @@ make patch
 | `timing-meter` | The row of **stars and circles along the bottom of the screen** in races. It's the developers' CPU-time meter (game.c:274–298). `game_process` samples `VCOUNT` after each stage of the frame and puts a star (sprite tile 7) on the bottom row at the x position of that scanline, plus reference stars and circles (tile 11) at fixed positions. It writes straight into OAM slots 100–103 and 120–127, over any real sprites there. | The meter isn't drawn. The `VCOUNT` sampling stays, because the game's timing depends on it. |
 | `audio-stop-channel` | A bug in the **sound driver**. When a music note's one-shot sample runs out before the note is released, `uan_set_channel_to_stopped` should set the channel's state to stopped (16) through `r0`, as the empty case next to it does. It writes through `r8` instead, an unrelated register. The channel plays on past the end of the sample, into whatever data follows, and the byte lands at a stray address. The menu music never hit this path; the race music does (seen on Lake 01 with the beach theme, 3½ minutes in). | Writes through `r0`. |
 | `story-voice` | In the front-end's **Stories** menu, highlighting **Back to the Light** hangs the game, so **K. Rool's Gold** below it can't be reached either. Each story has a fixed pilot (`story_planes` = 2, 6, 5), and highlighting one plays the pilot's voice from `sel_char_sounds2`. That table only has characters 0–5, and Back to the Light's pilot is character 6, so it reads a garbage sound id past the end and the sound driver traps. | Characters without a voice entry play nothing. All three stories can then be picked: King of Kongs starts Beach 02, Back to the Light Jungle 00 and K. Rool's Gold Lava 01. |
+| `story-pilot-plane` | Highlighting **Back to the Light** in the Stories menu draws a **broken graphic** next to the cursor. The menu draws the story pilot's plane from tables (`maps`, `plts`, tile counts) that have characters 0–5, and this pilot is character 6, so it copies whatever follows the tables into video memory. After some menu routes the stray data is an invalid address and the copy (DMA) faults. | A character past the tables is mapped the way a race maps it (mod 5), so the menu shows the plane that actually flies: Diddy for character 6. The build doesn't say who character 6 was meant to be. |
+| `story-overlays`, `story-sprites`, `story-next-stage` | Bugs in the old front-end's **story mode** (`title_story.s`, `fe_sprite.s`), which never ran in this build. (1) A cut scene without overlay animation, such as the K. Rool's Gold title card, never sets the overlay-list pointer, and the same bytes are partly cleared by `init_story` and reused as a path number by map scenes, so `plot_cut_scene` walked a stray address. (2) `sprite_frame_plot` saves five registers but leaves through `sprite_plot`'s exit, which restores seven, so it returned to a garbage address; only the story uses it. (3) `move_map` and `fade_stuff` call `next_stage` and then keep using registers it has clobbered (`move_map` stored through them). | (1) A scene with no overlay animation draws an empty list. (2) `sprite_frame_plot` saves r8 and r9 as `sprite_plot` does (in `main.c`'s dead assert space, within branch range). (3) After `next_stage` they return. |
 
 ### New behaviour (not a bug fix)
 
-These are **new design, not restored content**: the build has no dogfight game code, so nothing
-says how Rare meant a dogfight to play.
+The dogfight entries are **new design, not restored content**: the build has no dogfight game
+code, so nothing says how Rare meant a dogfight to play. `krools-gold-story` is restored content:
+it only connects the build's own story mode to the menu.
 
 | Id | What | How |
 |---|---|---|
 | `dogfight-opponents` | **Dog Fights has opponents.** This build has no dogfight game: the mode is a menu that starts an ordinary race on an arena course, and nothing outside the menu knows which mode was chosen. The three computer planes had no start positions on most arenas (they sat at 0,0,0), then flew the arena's stub route along the ground, far from the player. | Only in a dogfight: when the menu's `virtual_mode` is Dog Fights (it stays set during the race), or for the K. Rool's Gold story, whose course (Lava 01) is a dogfight course. **Start:** the computer planes line up 160–200 units ahead of the player, spread 48 units apart at its height, facing it (`init_start_pos`). **Steering:** `ai_steer` aims at the player's plane instead of the route. Player 1 aims straight at it; players 2 and 3 aim where it will be 24 and 48 frames later, so they cut across its nose. The game's own steering, collision avoidance and speed code do the rest. **Weapons:** the arenas have no powerups, so a plane with no weapon gets a random one (types 1–8), on average every couple of seconds. That includes the player. Each computer plane's race progress is set just behind the player's, or just ahead when the player is behind it, so `ai_think` aims its forward or rear weapons at the player. |
 | `dogfight-scoring` | **The dogfight has rules and an ending.** | Every plane has **3 lives**, kept in the race monitor's pylon-strike bytes (`monitor+94+player`). Any hit that makes a plane tumble (`player_tumble`, from a weapon or a shot) costs a life, friendly fire included. **You:** the race's strike counter (top left) slides in with the pylon-miss sound to show your lives; losing the last one ends the fight like a failed race (**RETIRE**, then the menu). **Opponents:** one with no lives left tumbles, vanishes a second later (out of drawing and collisions) and drops its weapons. The place indicator shows 1 + opponents still flying (4th, 3rd, 2nd, then 1st). When the last one has fallen, the fight ends like a won race (**FINISH** with the fanfare; the computer flies your plane; then the menu). Laps and pylon strikes don't count in a dogfight. Pause → RESTART starts the fight over with everyone back. |
+| `krools-gold-story` | **K. Rool's Gold plays its story.** The old front-end's story mode tells it in pictures and text (title card, temple, tablet, the flight to the island, the gate, the Guardian Nikiki and the first task), but nothing in this build starts it: the Stories menu just starts a race. | Picking K. Rool's Gold in Stories hands over to the story mode (as `menu_main` hands over to the old character select) instead of starting the race. A advances the text. When the story reaches its first task it starts the race the menu would have: K. Rool's Gold on Lava 01, which the patch plays as a dogfight. The story's own code had only a placeholder there (`game_level` 1). The later chapters (the other three Guardians and the ending) need the task's result to come back into the story, which nothing in the build does, so they are still unreached. |
 
 All but `race-music` and the two dogfight entries keep their code the same size. `race-music` adds 84 bytes of new code and
 data in a `.fixes` section after all the game's data (`asm/fixes.s`), reached through a
@@ -93,7 +97,9 @@ assert space of `act_camera.c`, `act_weapon.c`, `act_starthoop.c`, `act_pylon.c`
   can't be hit always wins). Each ending returns to the front-end with no faults. Pause →
   RESTART after two opponents were downed brings them back with full lives.
 - **Stories:** each of the three stories can be highlighted and started with no faults; the
-  original hangs on highlighting Back to the Light.
+  original hangs on highlighting Back to the Light. K. Rool's Gold plays the story's first
+  chapter (40 stages, A to advance) and then its dogfight, and returning to the menu afterwards,
+  through the title screen's attract demo and back into Stories, runs with no faults.
 - **Sound driver:** the Lake 01 session that hit `audio-stop-channel` runs clean with the fix.
   With the dogfight code switched off, the fault still happened on the same frame, so it is a
   driver bug and not the dogfight code.
@@ -105,6 +111,10 @@ assert space of `act_camera.c`, `act_weapon.c`, `act_starthoop.c`, `act_pylon.c`
 
 - **Dog Fights has no scoreboard of its own.** The patch reuses the race HUD: the strike counter
   for your lives and the place indicator for opponents left.
+- **K. Rool's Gold's later chapters.** The story continues after the first task (Nakaka,
+  Nukuku, Nokoko and the ending, with three more "start a game" points per Guardian for
+  retries), but nothing tells the story whether a task was won, and the tasks' rules (keys,
+  mines, a time limit) don't exist in the race code. Print the text with `tools/story_text.py`.
 - **K. Rool's Gold is flown by Cranky Kong.** Its pilot is character 5, which a race maps to
   Cranky's sprites (`setup_player_data` takes the character mod 5), although the story is about
   K. Rool. Left as the build has it.

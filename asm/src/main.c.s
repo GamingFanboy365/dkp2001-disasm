@@ -544,6 +544,11 @@ fix_race_music:	@ FIX "race-music": called from game_init; jumps to the code at 
 	bx	r0
 	.balign 4
 1:	.word	fix_race_music_far+1
+fix_sprite_frame_plot:	@ FIX "story-sprites": the rest of sprite_frame_plot (title/fe_sprite.s)
+	mov	r4, r8
+	mov	r5, r9
+	push	{r4, r5}
+	b	sprite_plot_just_frame
 	.fill 20 - (. - fix_assert_L_080063fe), 1, 0	@ same size as the original block
 	.else
 	ldr	r0, _08006458	@ =D_0806f104

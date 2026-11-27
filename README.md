@@ -9,8 +9,9 @@ own copy of the ELF; the tools extract everything else from it.
 ## Patching your game
 
 `patches/dkp2001_fixes.ips` fixes the hangs and crashes found so far, adds the unused course
-music to the races, makes all three Stories playable, and gives Dog Fights opponents, lives and
-an ending (list in [FIXES.md](FIXES.md)). It contains only the changed bytes, so you need
+music to the races, makes all three Stories playable (K. Rool's Gold with its illustrated story,
+which never ran in this build), and gives Dog Fights opponents, lives and an ending (list in
+[FIXES.md](FIXES.md)). It contains only the changed bytes, so you need
 your own copy of the 2001 ELF:
 
 1. Make a ROM from the ELF (Python 3, nothing else needed):
@@ -304,8 +305,12 @@ the patch (see [FIXES.md](FIXES.md)):
 - **The sound driver writes a stopped channel's state through the wrong register**, so a music
   note whose one-shot sample ends early keeps playing past the end of the sample. The race music
   is what triggers it.
-- **Highlighting the "Back to the Light" story hangs**: its pilot has no voice clip, so the
-  menu plays a garbage sound id. K. Rool's Gold, below it, couldn't be reached at all.
+- **Highlighting the "Back to the Light" story hangs**: its pilot (character 6) has no voice
+  clip or plane graphics, so the menu plays a garbage sound id and draws a garbage sprite. K.
+  Rool's Gold, below it, couldn't be reached at all.
+- **The old story mode is broken in four places** (it never ran): a stray overlay pointer, a
+  sprite routine that unbalances the stack, and two uses of clobbered registers. Fixed, the
+  patch plays K. Rool's Gold's story from the Stories menu.
 
 New in the patch, not a fix: **Dog Fights has opponents** that start ahead of you, hunt you and
 fire weapons at you, and **a fight to the finish**: three lives each, RETIRE when you're shot
@@ -340,6 +345,6 @@ Not fixed (no data to fix them with):
 - [ ] Matching decompilation of the C modules. The compiler is the same GCC 2.9 lineage
       `agbcc` derives from, and line tables give the source line for every instruction.
 - [x] Bug-fix build (`make fixed`) and IPS patch (`patches/`, `make patch`): 9 fixes so far,
-      including music in the races and playable Stories, plus a dogfight for Dog Fights; see
-      FIXES.md
+      including music in the races and playable Stories with K. Rool's Gold's story, plus a
+      dogfight for Dog Fights; see FIXES.md
 - [ ] More fixes: AI networks for the tracks that have none

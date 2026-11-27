@@ -120,12 +120,17 @@ L_080041c2:
 	strb	r2, [r1, #0]
 	cmp	r2, #0
 	bne L_080041cc
+	.ifdef FIXES
+	bl	fix_fade_next	@ FIX "story-next-stage": r2 is stale after it; return
+	.else
 	bl next_stage
+	.endif
 L_080041cc:
 	cmp	r2, #64
 	bne L_080041d4
 	bl next_stage
 L_080041d4:
+fade_stuff_out:
 	pop	{r4, r5, r6, r7, pc}
 
 animate_cut_scene:  @ 080041d6
@@ -168,8 +173,12 @@ plot_cut_scene:  @ 0800420c
 	strh	r0, [r1, #2]
 	strh	r0, [r1, #4]
 	ldr	r4, _080044d8	@ =LOCAL_MEM+0x29
+	.ifdef FIXES
+	bl	fix_cut_overlays	@ FIX "story-overlays": r5 = the overlay list, or an empty one
+	.else
 	ldr	r5, _080044dc	@ =LOCAL_MEM+0x20
 	ldr	r5, [r5, #0]
+	.endif
 L_0800421e:
 	ldr	r2, [r5, #0]
 	cmp	r2, #0
@@ -285,11 +294,19 @@ move_map:  @ 080042ca
 	adds	r1, #1
 	cmp	r1, #12
 	blt L_080042fc
+	.ifdef FIXES
+	@ FIX "story-next-stage": next_stage sets up the new stage and clobbers r0
+	@ and r2, which the two stores below then wrote through (to a stray
+	@ address). After next_stage, return without them.
+	bl	fix_map_next
+	.else
 	bl next_stage
+	.endif
 L_080042fc:
 	strb	r1, [r0, #0]
 L_080042fe:
 	strb	r3, [r2, #0]
+move_map_out:
 	pop	{r4, r5, r6, r7, pc}
 L_08004302:
 	ldr	r0, _0800452c	@ =LOCAL_MEM+0x1a
@@ -1016,7 +1033,11 @@ L_08004818:
 	movs	r0, #1
 	ldr	r1, _080049cc	@ =game_level
 	str	r0, [r1, #0]
+	.ifdef FIXES
+	bl	fix_story_game	@ FIX "krools-gold-story": start K. Rool's Gold's course, as the menu does
+	.else
 	bl game_init
+	.endif
 	pop	{pc}
 
 init_story:  @ 08004826

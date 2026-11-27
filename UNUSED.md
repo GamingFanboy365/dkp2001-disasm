@@ -146,7 +146,8 @@ The game has two front-ends:
 - **Stories is only a menu too.** The front-end lists three stories, King of Kongs, Back to the
   Light and K. Rool's Gold, but picking one just starts a race with a fixed pilot (Beach 02,
   Jungle 00 and Lava 01); none of the story text or cut scenes above is shown. Highlighting Back to
-  the Light hangs the original, so the third story can't be reached; the fix patch fixes that.
+  the Light hangs the original, so the third story can't be reached. The fix patch fixes that and
+  plays K. Rool's Gold's story mode, up to its first task. Only K. Rool's Gold has story data.
 - **`impure_data` in ROM.** newlib's stdio state was linked into ROM, so every debug print
   re-initialises stdio.
 

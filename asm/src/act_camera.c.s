@@ -966,6 +966,13 @@ L_08009bd6:
 	.ifdef FIXES
 fix_assert_L_08009bee:
 	b	L_08009bee	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	@ FIX "story-overlays": trampoline to the end of the ROM
+	.balign 4
+fix_cut_overlays:
+	ldr	r5, 1f
+	bx	r5
+	.balign 4
+1:	.word	fix_cut_overlays_far+1
 	.fill 18 - (. - fix_assert_L_08009bee), 1, 0	@ same size as the original block
 	.else
 	ldr	r0, _08009d00	@ =D_0806f8d8

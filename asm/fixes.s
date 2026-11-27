@@ -569,3 +569,128 @@ df_formation:					@ per computer player: ahead/4, side/4 (units)
 	.byte	50, 0				@ 200 ahead
 	.byte	40, 12				@ 160 ahead, 48 right
 	.balign 4
+
+@ FIX "story-overlays": the old front-end's story mode draws a cut scene's
+@ overlay sprites from a list at LOCAL_MEM+0x20. A scene without overlay
+@ animation (init_cut_scene with 31, e.g. the K. Rool's Gold title card)
+@ never sets that pointer, and the same bytes are a path number in map
+@ scenes and partly cleared by init_story, so plot_cut_scene walked a stray
+@ address, drew garbage sprites and crashed. Called from plot_cut_scene:
+@ r5 = the overlay list, or an empty list when the scene has no overlay
+@ animation (LOCAL_MEM+0x24 = 0). Keeps r4.
+	.thumb_func
+fix_cut_overlays_far:
+	ldr	r5, =LOCAL_MEM
+	ldr	r3, [r5, #0x24]
+	cmp	r3, #0
+	beq	1f
+	ldr	r5, [r5, #0x20]
+	bx	lr
+1:	adr	r5, story_no_overlays
+	bx	lr
+	.ltorg
+	.balign 4
+story_no_overlays:				@ seven empty overlay slots
+	.word	0, 0, 0, 0, 0, 0, 0
+
+@ FIX "story-next-stage": move_map and fade_stuff call next_stage and then
+@ carry on with registers it has clobbered (move_map stored through them,
+@ fade_stuff could start a second stage). These go to the next stage and
+@ then return from the caller (its frame is still on the stack).
+	.thumb_func
+fix_map_next_far:
+	ldr	r3, =next_stage+1
+	bl	2f
+	ldr	r3, =move_map_out+1
+	bx	r3
+	.thumb_func
+fix_fade_next_far:
+	ldr	r3, =next_stage+1
+	bl	2f
+	ldr	r3, =fade_stuff_out+1
+	bx	r3
+2:	bx	r3
+	.ltorg
+
+@ FIX "krools-gold-story": the old front-end's story mode (title_story.s)
+@ tells the K. Rool's Gold story in pictures and text, but nothing starts
+@ it: the Stories menu just starts a race. Picking K. Rool's Gold now plays
+@ the story first. When it reaches its first task it starts the race the
+@ menu would have (Lava 01, a dogfight), where the story itself only had a
+@ placeholder (game_level 1). Later chapters need the race's result to
+@ come back into the story, which nothing does, so they stay unreached.
+
+@ In place of menu_mode_get_level when menu_main starts the chosen race:
+@ for K. Rool's Gold, hands over to the story instead (as menu_main hands
+@ over to the old character select) and leaves menu_main.
+	.thumb_func
+fix_story_launch_far:
+	push	{r4, lr}
+	ldr	r3, =menu_mode_get_level+1
+	bl	9f
+	ldr	r1, =virtual_mode
+	ldr	r1, [r1, #0]
+	cmp	r1, #MODE_STORIES
+	bne	1f
+	cmp	r0, #KROOLS_GOLD_LEVEL
+	bne	1f
+	ldr	r1, =game_level
+	str	r0, [r1, #0]
+	ldr	r0, =LOCAL_MEM			@ a clean slate for the old front-end
+	movs	r1, #0
+	movs	r2, #0x34
+2:	subs	r2, #1
+	strb	r1, [r0, r2]
+	bne	2b
+	ldr	r3, =init_title+1
+	bl	9f
+	ldr	r3, =init_story+1
+	bl	9f
+	ldr	r0, =TITLE_STATE
+	movs	r1, #5				@ story mode
+	strb	r1, [r0, #0]
+	pop	{r4}
+	pop	{r3}				@ (menu_main's return into the race start)
+	ldr	r3, =L_08012148+1		@ menu_main's exit
+	bx	r3
+1:	pop	{r4}
+	pop	{r3}
+	bx	r3
+9:	bx	r3
+	.ltorg
+
+@ In place of the story's game_init when it reaches a task: start K. Rool's
+@ Gold's course as the menu starts a race (front-end flag, sprites from 16,
+@ game_init next frame).
+	.thumb_func
+fix_story_game_far:
+	ldr	r0, =game_level
+	movs	r1, #KROOLS_GOLD_LEVEL
+	str	r1, [r0, #0]
+	ldr	r2, =sys_flags
+	ldr	r0, [r2, #0]
+	movs	r1, #1
+	lsls	r1, r1, #8
+	orrs	r0, r1
+	str	r0, [r2, #0]
+	ldr	r1, =sys_oam_start
+	movs	r0, #16
+	strh	r0, [r1, #0]
+	ldr	r1, =sys_mode
+	ldr	r0, =game_init+1
+	str	r0, [r1, #0]
+	bx	lr
+	.ltorg
+
+@ FIX "story-pilot-plane": called at the start of menu_plane_init_plane(r0 =
+@ character), in place of its "sub sp, #28; str r0, [sp, #24]". Characters
+@ past the plane tables (0-5) are mapped as setup_player_data maps them for
+@ a race (mod 5), so the menu shows the plane that will actually fly.
+	.thumb_func
+fix_plane_char_far:
+	cmp	r0, #5
+	bls	1f
+	subs	r0, #5
+1:	sub	sp, #28
+	str	r0, [sp, #24]
+	bx	lr
