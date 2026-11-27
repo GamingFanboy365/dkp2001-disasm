@@ -68,6 +68,10 @@ def catmull_loop(pts, spacing):
     for i in range(1, len(dense)):
         acc += math.dist(dense[i][:2], dense[i - 1][:2])
         if i in mark_at:
+            # a waypoint is always a route point; drop a sample that landed just before it
+            # (Rare's routes never have very short segments, and ai_steer divides by length)
+            if len(out) > 1 and math.dist(out[-1][:2], dense[i][:2]) < spacing * 0.5:
+                out.pop()
             out_marks[mark_at[i]] = len(out)
             out.append(dense[i])
             acc = 0
@@ -186,19 +190,36 @@ def build(c):
         objs.append((T_START, x + l[0] * side, h, z + l[1] * side, [slot, hb]))
     # pylons, in race order
     paths = racer_paths(c, line)
+    hidden = getattr(c, "HIDDEN_PYLONS", None)
     for order, (wp, side, dist) in enumerate(c.PYLONS):
         off = dist if side == "L" else -dist
         px, pz, _, f, l = at(wp, off)
+        lx, lz, _, _, _ = at(wp)
+        if hidden:
+            # a checkpoint: out of sight above the ground, just outside the wall on that
+            # side, so its pass line spans the track and nobody can get round its far end
+            compass = {"N": (0, -1), "S": (0, 1), "E": (1, 0), "W": (-1, 0)}
+            sx, sz = compass.get(side) or ((l[0], l[1]) if side == "L" else (-l[0], -l[1]))
+            x0, z0, x1, z1 = c.BOUNDS
+            ts = [t for t in ((x0 - lx) / sx if sx < 0 else (x1 - lx) / sx if sx > 0 else 1e9,
+                              (z0 - lz) / sz if sz < 0 else (z1 - lz) / sz if sz > 0 else 1e9)]
+            t = min(ts) + hidden["outside"]
+            px, pz = lx + sx * t, lz + sz * t
         # pass ray: from the pylon towards the line
-        ax, az = -l[0] * (1 if side == "L" else -1), -l[1] * (1 if side == "L" else -1)
+        if hidden:
+            m = math.hypot(lx - px, lz - pz)
+            ax, az = (lx - px) / m, (lz - pz) / m
+        else:
+            ax, az = -l[0] * (1 if side == "L" else -1), -l[1] * (1 if side == "L" else -1)
         a_deg = math.degrees(math.atan2(ax, az))
         # strike ray: the direction no racer's bearing comes near while this pylon is live
         live = live_range(c, line, marks, order)
         b_deg, margin = strike_ray(paths, live, px, pz, a_deg)
         # flip byte: 0 when the pass ray points to the racer's left
         left = (ax * l[0] + az * l[1]) > 0
-        objs.append((T_PYLON, px, 0, pz, [deg_byte(a_deg), order, deg_byte(b_deg), 0 if left else 1]))
-        PYLON_INFO.append((order, px, pz, a_deg, b_deg, margin, live))
+        objs.append((T_PYLON, px, hidden["height"] if hidden else 0, pz,
+                     [deg_byte(a_deg), order, deg_byte(b_deg), 0 if left else 1]))
+        PYLON_INFO.append((order, px, pz, a_deg, b_deg, margin, live, (lx, lz)))
     for wp, code in c.ARROWS:
         x, z, _, f, l = at(wp)
         objs.append((T_ARROW, x, 0, z, [code]))
@@ -229,7 +250,7 @@ def check(c, line, objs):
                 problems.append(f"scenery at ({x:.0f}, {z:.0f}) is {near:.0f} units from the line")
     # every racer path must pass each pylon (cross its pass ray) and never strike it while live
     paths = racer_paths(c, line)
-    for order, px, pz, a, b, margin, live in PYLON_INFO:
+    for order, px, pz, a, b, margin, live, spot in PYLON_INFO:
         if margin < 20:
             problems.append(f"pylon {order}: racers' bearings come within {margin:.0f} degrees of its strike ray")
         for k, path in enumerate(paths):
@@ -239,12 +260,12 @@ def check(c, line, objs):
                 problems.append(f"pylon {order}: path {k} strikes it at {strikes[0][0]:.0f},{strikes[0][1]:.0f}")
             if not passes:
                 problems.append(f"pylon {order}: path {k} never passes it")
-            elif math.dist(passes[0], (px, pz)) > 160:
+            elif math.dist(passes[0], spot) > 120:
                 problems.append(f"pylon {order}: path {k} passes it early, at {passes[0][0]:.0f},{passes[0][1]:.0f}")
     # pylon 0 keeps last lap's bearing when a lap starts (the game doesn't reset it), so a
     # racer at the hoop must not look like it crossed a ray
     if PYLON_INFO:
-        order, px, pz, a, b, margin, live = PYLON_INFO[0]
+        order, px, pz, a, b, margin, live, spot = PYLON_INFO[0]
         (hx, hz, _), f, l = frame(line, 0)
         hb = bearing(px, pz, hx, hz)
         if abs(angdiff(hb, a)) <= 90 or abs(angdiff(hb, b)) <= 90:
@@ -263,7 +284,36 @@ def check(c, line, objs):
     return problems
 
 
+def wall_grid(c, line):
+    """The track's walls as a 64x64 grid of 16-unit cells (the game's world is 1024 units
+    across): 0 for a cell on the track (within TRACK_HALF_WIDTH of the racing line), else
+    0x80 | the direction back to the nearest point of the line, in 128ths of a turn (the
+    game's 16-bit heading >> 9)."""
+    segs = [(line[i - 1][:2], line[i][:2]) for i in range(len(line))]
+    grid = bytearray(64 * 64)
+    for j in range(64):
+        for i in range(64):
+            px, pz = 16 * i + 8, 16 * j + 8
+            best = None
+            for (ax, az), (bx, bz) in segs:
+                dx, dz = bx - ax, bz - az
+                t = max(0, min(1, ((px - ax) * dx + (pz - az) * dz) / (dx * dx + dz * dz or 1)))
+                qx, qz = ax + dx * t, az + dz * t
+                d = math.hypot(px - qx, pz - qz)
+                if best is None or d < best[0]:
+                    best = (d, qx, qz)
+            d, qx, qz = best
+            if d > c.TRACK_HALF_WIDTH:
+                h = math.atan2(qx - px, qz - pz) / (2 * math.pi) * 128
+                grid[j * 64 + i] = 0x80 | (int(round(h)) & 127)
+    return grid
+
+
 def emit(c, line, objs, path):
+    for t, x, y, z, d in objs:
+        # the object list's x, y, z are unsigned hwords (obj_gen uses ldrh)
+        if not (0 <= round(x) < 65536 and 0 <= round(y) < 65536 and 0 <= round(z) < 65536):
+            sys.exit(f"object type {t} at ({x:.0f}, {y:.0f}, {z:.0f}): coordinates must be 0-65535")
     name = c.NAME
     out = [f"@ {name}: generated by tools/course_build.py from {os.path.basename(path)[:-2]}.py.",
            "@ Ours (updates patch). Edit the .py description, not this file.", "",
@@ -298,7 +348,18 @@ def emit(c, line, objs, path):
         out += [f"_{name}_route{i}:", f"\t.hword\t{len(pts)}"]
         for p in pts:
             out.append("\t.hword\t" + ", ".join(str(v) for v in p))
+        if kind == "p":
+            # ai_steer takes a segment's end as point i + 1 without wrapping, so on the
+            # last segment it reads the 8 bytes after the route: make them the first point
+            out.append("\t.hword\t" + ", ".join(str(v) for v in pts[0]) + "\t@ (not counted: closes the loop for ai_steer)")
     out.append("\t.balign 4")
+    if hasattr(c, "TRACK_HALF_WIDTH"):
+        grid = wall_grid(c, line)
+        out += [f"@ the track's walls (updates/code/walls.s): 64x64 cells of 16 units, row by row",
+                f"walls_{name}:"]
+        for j in range(64):
+            out.append("\t.byte\t" + ", ".join(str(b) for b in grid[j * 64:(j + 1) * 64]))
+        out.append("\t.balign 4")
     open(path, "w").write("\n".join(out) + "\n")
 
 
@@ -338,6 +399,9 @@ def main():
         print("warning:", p)
     emit(c, line, objs, src[:-3] + ".s")
     length = sum(math.dist(line[i][:2], line[i - 1][:2]) for i in range(len(line)))
+    short = min(math.dist(line[i][:2], line[i - 1][:2]) for i in range(len(line)))
+    if short < c.SPACING * 0.45:
+        print(f"warning: shortest route segment is {short:.0f} units")
     print(f"{c.NAME}: {len(objs)} objects, {len(line)} route points, lap {length:.0f} units")
     if "--preview" in sys.argv:
         i = sys.argv.index("--preview")

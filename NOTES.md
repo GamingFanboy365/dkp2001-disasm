@@ -167,7 +167,16 @@ builder picks each strike ray clear of every racer's bearing over that stretch, 
 AI route (and wider drifting lines) passes every pylon once and never strikes it, and keeps
 solid scenery off the line and out of the 570-unit start run-up. Pylons 40+ units off the line.
 
+**ai_steer reads one point past a route.** A segment's end is point i + 1 with no wrap, so
+the last segment ends at whatever 8 bytes follow the route (in our layout, the next route's
+header: a point near the map's top-left corner). Rare's courses survive it; ours with walls
+didn't (every racer flew into the corner after the start line). `course_build.py` writes
+the route's first point again after it, uncounted. Also: pure pursuit on a 48-unit circle;
+very short segments are avoided. Object-list coordinates are unsigned (0-65535).
+
 **Later, from the owner:**
+- A finishing fanfare: one for 1st, variations for 2nd and 3rd, another for 4th.
+- A race timer that counts up, and a positions/ranking system (results).
 - Temple Tangle's HUD course map (new art) and an original jungle tune (none in the build;
   the jungle courses borrow the bayou theme). The tune list skips 007; nothing of it survives.
 - An original farmer character (a farm animal, our own design) for the unused seventh

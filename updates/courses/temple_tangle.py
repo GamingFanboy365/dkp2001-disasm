@@ -14,9 +14,9 @@ LEVEL = 37
 LINE = [
     (80, 640, 10),      # 0 start hoop, west side, flying north
     (78, 470, 12),      # 1
-    (84, 300, 14),      # 2
-    (130, 150, 12),     # 3 sweep right along the top
-    (280, 112, 10),     # 4
+    (96, 330, 14),      # 2
+    (170, 196, 12),     # 3 sweep right along the top
+    (300, 150, 10),     # 4
     (440, 124, 10),     # 5
     (560, 210, 8),      # 6 dive into the maze
     (520, 330, 8),      # 7
@@ -44,12 +44,13 @@ LINE = [
 SPACING = 95                    # route point spacing (Rare's courses: 80-110)
 ROUTE_OFFSETS = (0, 8, -8, 16, -16)   # the five AI routes, sideways from the line
 
-# pylons in race order: (waypoint, side the pylon is on, distance from the line)
+# pylons in race order: (waypoint, side the pylon is on, distance from the line). Hidden
+# checkpoints go to the wall on that side (L/R of the racer, or N/S/E/W)
 PYLONS = [
     (3, "R", 40),       # first turn: keep it on your right
-    (6, "R", 40),
+    (7, "W", 40),       # at z 330 its line clears the first corner (at z 210 it crossed it)
     (8, "L", 40),
-    (10, "L", 48),      # the hairpin
+    (10, "W", 48),      # the hairpin (its checkpoint line runs due west to the wall)
     (13, "L", 40),
     (16, "R", 40),
     (19, "R", 40),
@@ -88,4 +89,11 @@ SCENERY = [
     ("palm", 40, 120, 24), ("palm", 980, 110, 24), ("palm", 990, 980, 24),
     ("palm", 620, 60, 24), ("palm", 520, 40, 24), ("palm", 180, 960, 24), ("palm", 860, 980, 24),
 ]
+# invisible walls along both edges of the track (updates/code/walls.s): a plane more than
+# this far from the racing line bounces back, as at the edge of Rare's world
+TRACK_HALF_WIDTH = 72
+# the pylons are hidden checkpoints: out of sight above the ground, at the edge of the map,
+# so each one's pass line runs across the track and can't be missed
+HIDDEN_PYLONS = {"height": 2000, "outside": 16}
+BOUNDS = (30, 30, 994, 994)          # where the checkpoints go: just outside this box
 CAMERA = 3                       # the front-end fly-in takes every third route point

@@ -346,6 +346,7 @@ fix_df_positions_far:
 	adds	r4, r0, #0
 	ldr	r3, =calculate_race_positions+1
 	bl	df_bx_r3
+	bl	course_walls			@ FIX "course-walls" (updates/code/walls.s)
 	bl	df_mode
 	cmp	r0, #0
 	beq	3f
