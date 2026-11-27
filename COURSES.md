@@ -101,6 +101,11 @@ Classic Dogfight (35, D-1), Jungle Race 2 (37, R2-2), Wasteland Wipe Out (39, B-
 (types 6, 14, 16, 17, 21-26, 34, 36, 46, 48, 59, 65, 97). `obj_gen` gives them an object and
 nothing else: their code isn't in this build.
 
+## In the updates patch
+
+- **Temple Tangle** (level 37, R2-2, was "Jungle Race 2"): our race layout on Rare's drawn
+  courtyard, with a new name and picture. See `updates/courses/temple_tangle.py`.
+
 ## What this means
 
 - **Racing:** of the 20 world slots, 6 have finished races (5 with a slot, plus Farm Attract's

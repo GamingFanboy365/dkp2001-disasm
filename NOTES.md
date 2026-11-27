@@ -159,6 +159,23 @@ Gold has story data.
 6. **K. Rool's Gold's later chapters**: task rules, and the task result fed back into the story.
 7. Original graphics and music as needed; credits with Rare-style humour.
 
+**Laying out a course** (`tools/course_build.py`, learned on Temple Tangle): a pylon's
+pass and strike tests are rays of unlimited length from the pylon, checked only by the
+racer's bearing. So a strike ray that points across another part of the course gives
+strikes there while the pylon is live (from the previous pylon until it's passed). The
+builder picks each strike ray clear of every racer's bearing over that stretch, checks each
+AI route (and wider drifting lines) passes every pylon once and never strikes it, and keeps
+solid scenery off the line and out of the 570-unit start run-up. Pylons 40+ units off the line.
+
+**Later, from the owner:**
+- Temple Tangle's HUD course map (new art) and an original jungle tune (none in the build;
+  the jungle courses borrow the bayou theme). The tune list skips 007; nothing of it survives.
+- An original farmer character (a farm animal, our own design) for the unused seventh
+  character-select slot that was Redneck Kong's; Rare's Redneck sprite stays in the ROM. It
+  needs a full in-race sprite set. Candy Kong's figure is part of Rare's sepia backdrop and
+  can't be painted out; our art would sit over that slot instead.
+- Placeholder courses get new names one at a time, only when each is built.
+
 Open questions: the Stories crash the owner saw (not reproduced on mGBA; on hold);
 whether K. Rool's Gold's first task should be its first course (Classic Dogfight) or the
 Crackpot Keep task its text describes.

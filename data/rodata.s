@@ -2323,8 +2323,13 @@ tab_levels:  @ 0816a164
 	.word __map_jungle_03_lvl
 	.word __map_jungle_00_sky
 	.word __pal_grad_sky_farm
+	.ifdef UPDATES
+	.word obj_temple_tangle	@ FIX "temple-tangle": our race on level 37 (updates/courses/temple_tangle.py)
+	.word net_temple_tangle
+	.else
 	.word obj_jungle_03
 	.word __net_jungle_03
+	.endif
 	.word __pal_desert_lvl
 	.word __chr_desert_00_lvl
 	.word __chr_desert_sky

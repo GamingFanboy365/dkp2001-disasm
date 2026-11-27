@@ -140,6 +140,7 @@ tools/tests/checks.py play-through checks: faults on every track, front-end star
                       finishes, character picks, stories, dogfights
 tools/story_text.py   prints the unused K. Rool story text from your ROM
 tools/course_audit.py what each course contains: map, slot, objects, AI routes (COURSES.md)
+tools/course_build.py builds a course's objects and AI routes from a description (updates/courses/)
 tools/reachability.py static reachability: what can never run or be shown (UNUSED.md)
 tools/make_ips.py  IPS patch create/apply
 UNUSED.md          everything in the build that normal play can't reach

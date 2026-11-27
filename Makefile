@@ -5,7 +5,7 @@ OBJCOPY := $(PREFIX)objcopy
 
 BUILD   ?= build
 ASFLAGS := -mcpu=arm7tdmi -mthumb-interwork -I . -I $(BUILD)
-ASM     := $(shell find asm data updates -name '*.s' -o -name '*.S' 2>/dev/null)
+ASM     := $(shell find asm data updates -name '*.s' -o -name '*.S' 2>/dev/null) $(patsubst %.py,%.s,$(wildcard updates/courses/*.py))
 ASSETS  := $(shell find assets -type f 2>/dev/null)
 # Our own binary data for the updates build (pictures etc.), .incbin'd from updates/
 UPDATES_BIN := $(shell find updates -name '*.bin' 2>/dev/null)
@@ -65,6 +65,10 @@ $(BUILD)/assets.stamp: $(CONV) tools/gfx.py
 	@mkdir -p $(BUILD)
 	python3 tools/gfx.py build $(BUILD) $(if $(filter tools/gfx.py,$?),$(CONV),$(filter-out tools/gfx.py,$?))
 	@touch $@
+
+# Course layouts (ours): each updates/courses/NAME.py generates NAME.s
+updates/courses/%.s: updates/courses/%.py tools/course_build.py
+	python3 tools/course_build.py $<
 
 $(BUILD)/rom.o: rom.s $(ASM) $(ASSETS) $(UPDATES_BIN) $(BUILD)/assets.stamp
 	@mkdir -p $(BUILD)
