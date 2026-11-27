@@ -318,7 +318,11 @@ L_0800666e:
 	adds	r0, r4, #0
 	movs	r1, #120
 	movs	r2, #136
+	.ifdef UPDATES
+	bl	fix_cup_plot	@ FIX "cups": the name, then (in a cup) RACE n OF 4 (updates/code/cup.s)
+	.else
 	bl _call_via_r3
+	.endif
 @ src/game.c:169
 L_08006700:
 	bl main_audio_on
@@ -725,7 +729,11 @@ _08006990:
 	.word SPLINE_EDIT
 @ src/game.c:357
 L_08006994:
+	.ifdef UPDATES
+	bl	fix_cup_race_over	@ FIX "cups": standings / next race / Clock Race list (updates/code/cup.s)
+	.else
 	bl init_title
+	.endif
 @ src/game.c:358
 	b L_080069bc
 L_0800699a:

@@ -156,6 +156,7 @@
 	.ifdef UPDATES
 	.include "updates/code/dogfight.s"	@ our own additions (see updates/README.md)
 	.include "updates/code/walls.s"	@ invisible walls round a course
+	.include "updates/code/cup.s"	@ cups and the Clock Race return
 	.include "updates/text/course_names.s"	@ new course names
 	.include "updates/art/pictures.s"	@ new course pictures
 	.include "updates/courses/temple_tangle.s"	@ generated from temple_tangle.py

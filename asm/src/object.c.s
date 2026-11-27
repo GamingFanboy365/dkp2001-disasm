@@ -13,6 +13,15 @@ obj_add_process:  @ 080072c0
 	.ifdef FIXES
 fix_assert_L_080072da:
 	b	L_080072da	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.ifdef UPDATES
+	@ FIX "cups": trampoline to the end of the ROM (updates/code/cup.s)
+	.balign 4
+fix_cup_plot:
+	ldr	r3, 1f
+	bx	r3
+	.balign 4
+1:	.word	cup_plot_name_far+1
+	.endif
 	.fill 18 - (. - fix_assert_L_080072da), 1, 0	@ same size as the original block
 	.else
 	ldr	r0, _08007334	@ =D_0806f1e0
@@ -34,6 +43,15 @@ L_080072da:
 	.ifdef FIXES
 fix_assert_L_080072f8:
 	b	L_080072f8	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.ifdef UPDATES
+	@ FIX "cups": trampoline to the end of the ROM (updates/code/cup.s)
+	.balign 4
+fix_cup_race_over:
+	ldr	r3, 1f
+	bx	r3
+	.balign 4
+1:	.word	cup_race_over_far+1
+	.endif
 	.fill 18 - (. - fix_assert_L_080072f8), 1, 0	@ same size as the original block
 	.else
 	ldr	r0, _08007334	@ =D_0806f1e0
