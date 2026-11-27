@@ -2,6 +2,8 @@
 *.elf
 *.gba
 *.bin
+# ...except our own data for the updates patch (see updates/README.md)
+!updates/**/*.bin
 __pycache__/
 build/
 build_shift_*/
