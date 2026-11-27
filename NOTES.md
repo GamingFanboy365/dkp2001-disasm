@@ -210,6 +210,17 @@ The owner asked: no arrangement of existing DK music; every tune ours from scrat
   "RACE 3 OF 4", then "FINAL RACE" centred at the top in the course-name font, only in Racing mode. Lap icons 1/3, 2/3, 3/3 on the mini map. The
   rankings can reuse Rare's small racer icons (the menus' *small* character pictures, or the
   in-race *_head sprites), by reference.
+- **Cups (done, `updates/code/cup.s`)**: RESULTS after every race (that race's order, head, time,
+  points earned 10/6/3/1); after the fourth race's RESULTS, FINAL RESULTS (ranked by cup
+  points, showing total points and total time) over our background
+  (`updates/art/cup_results/paint.py`, Rare's menu-background style: bright, rendered; the
+  owner wants more detail), then the world list. Points AND times, as in Mario Kart and
+  Banjo-Pilot. Cup state at 0x0203ff00.
+- **Race timer (next)**: counts up from GO in Racing and Clock Race; shown top left with
+  Rare's small yellow `hud_digits` (sprite 117, 8x16, no separator) plus our own ' and "
+  marks in the same style: 1'23"45. Each racer's time recorded when its third lap ends;
+  unfinished racers at the end get an estimate from their progress. Big `hud_nums` (118,
+  16x24 with ':') is the other digit set.
 - Clock Race becomes time trials: best time per course (needs saving), opponents kept;
   finishing a course returns to the course list where it was chosen.
 - Temple Tangle's HUD course map (new art) and an original jungle tune (none in the build;

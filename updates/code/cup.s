@@ -285,10 +285,12 @@ cup_results:
 	push	{r4, r5, r6, r7, lr}
 	ldr	r4, =CUP
 	ldrb	r0, [r4, #C_PHASE]
-	cmp	r0, #0
-	bne	1f
-	bl	results_draw
-	movs	r0, #1
+	movs	r1, #1
+	tst	r0, r1
+	bne	1f				@ 1 or 3: showing
+	bl	results_draw			@ 0: this race's RESULTS, 2: the cup's FINAL RESULTS
+	ldrb	r0, [r4, #C_PHASE]
+	adds	r0, #1
 	strb	r0, [r4, #C_PHASE]
 	movs	r0, #0
 	strh	r0, [r4, #C_TIMER]
@@ -302,10 +304,16 @@ cup_results:
 	movs	r1, #KEY_A | KEY_START
 	tst	r0, r1
 	beq	9f
+	ldrb	r0, [r4, #C_PHASE]
+	cmp	r0, #3
+	beq	5f				@ FINAL RESULTS shown: the cup's over
 	ldrb	r0, [r4, #C_RACE]
 	cmp	r0, #3
-	bge	5f
-	@ the next course: as the menu starts a race
+	blt	4f
+	movs	r0, #2				@ after the fourth race's RESULTS: FINAL RESULTS
+	strb	r0, [r4, #C_PHASE]
+	b	9f
+4:	@ the next course: as the menu starts a race
 	adds	r0, #1
 	strb	r0, [r4, #C_RACE]
 	movs	r1, #1
@@ -386,10 +394,10 @@ results_draw:
 	ldr	r1, [r0, #0]
 	movs	r0, #15
 	bl	cup_bx_r1
-	@ the title (and after the fourth race, our background behind everything)
-	ldrb	r0, [r4, #C_RACE]
-	cmp	r0, #3
-	bge	2f
+	@ the title (and for FINAL RESULTS, our background behind everything)
+	ldrb	r0, [r4, #C_PHASE]
+	cmp	r0, #2
+	beq	2f
 	ldr	r0, =text_results
 	b	3f
 2:	bl	results_background
@@ -397,11 +405,14 @@ results_draw:
 3:	movs	r1, #120
 	movs	r2, #8
 	bl	cup_plot
-	@ standings: this race's order, then stable-sorted by points (most first)
+	@ RESULTS: this race's order. FINAL RESULTS: that, stable-sorted by cup points.
 	ldr	r0, [r4, #C_ORDER]
 	str	r0, [r4, #C_SORT]
 	adds	r5, r4, #0
 	adds	r5, #C_SORT
+	ldrb	r0, [r4, #C_PHASE]
+	cmp	r0, #2
+	bne	20f				@ (RESULTS: straight to the rows)
 	movs	r6, #1
 4:	adds	r7, r6, #0
 5:	cmp	r7, #0
@@ -425,7 +436,7 @@ results_draw:
 	cmp	r6, #3
 	ble	4b
 	@ one row per racer
-	movs	r6, #0
+20:	movs	r6, #0
 8:	movs	r7, #28
 	muls	r7, r6
 	adds	r7, #38				@ r7 = the row's top
@@ -446,11 +457,18 @@ results_draw:
 	adds	r3, r7, #0
 	subs	r3, #10				@ y: centred on the row's text (16 high)
 	bl	draw_head
-	@ points: "nn PTS"
-	ldrb	r0, [r5, r6]
+	@ points: "nn PTS" (RESULTS: earned in this race; FINAL RESULTS: the cup's total)
+	ldrb	r0, [r4, #C_PHASE]
+	cmp	r0, #2
+	beq	13f
+	ldr	r1, =race_points
+	ldrb	r0, [r1, r6]
+	b	14f
+13:	ldrb	r0, [r5, r6]
 	adds	r1, r4, #0
 	adds	r1, #C_POINTS
 	ldrb	r0, [r1, r0]
+14:
 	adds	r1, r4, #0
 	adds	r1, #C_TEXT
 	movs	r2, #0				@ tens

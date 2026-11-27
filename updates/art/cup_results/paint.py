@@ -2,11 +2,13 @@
 """The cup's FINAL RESULTS background (240x160).
 
 Original art for this project, painted by this script (no source images, no
-characters or trademarks): a tropical sunset stage. A warm sky over the sea, palms
-framing the sides, bunting and confetti, a ribbon banner across the top for the title,
-soft see-through strips where the four standings rows sit (the text and racer heads
-are sprites drawn over them), and a little wooden podium on the sand. Lit from the upper left like the game's
-menu art.
+characters or trademarks). In the style of the game's menu backgrounds (bright
+daylight, soft shaded clouds, smooth rendered shading, high colour): a sunny beach at
+the end of a race. Blue sky and soft clouds, hazy green islands, a turquoise sea, sand,
+two palms framing the scene, a string of checkered finish pennants, a shaded ribbon
+banner across the top for the title, a stone podium with gold, silver and bronze
+bands, and soft see-through strips where the four standings rows sit (the text and
+racer heads are sprites drawn over it).
 
     python3 updates/art/cup_results/paint.py
 
@@ -28,11 +30,11 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 S = 4
 W, H = 240 * S, 160 * S
 rng = random.Random(2001)
-OUT = (34, 22, 30, 255)
-
-# where the sprites go (screen pixels): keep these areas calm
-TITLE_Y = (4, 28)          # the title text, centred
-BOARD = (14, 32, 226, 152)  # the four rows: 1ST at x 44, heads at 120, points at 176
+OUT = (40, 36, 60, 255)
+ROWS = (38, 66, 94, 122)        # the standings rows' top edges (text 16 high)
+TITLE = (4, 28)                 # the title's band
+HORIZON = 100                   # sea starts
+SHORE = 136                     # sand starts
 
 
 def lerp(a, b, t):
@@ -41,8 +43,8 @@ def lerp(a, b, t):
 
 def shade(c, k):
     if k >= 1:
-        return lerp(c, (255, 246, 214), min(1, k - 1))
-    return lerp((26, 14, 40), c, max(0, k))
+        return lerp(c, (255, 255, 240), min(1, k - 1))
+    return lerp((20, 30, 70), c, max(0, k))
 
 
 def layer():
@@ -55,212 +57,214 @@ def paste(base, top, blur=0):
     base.alpha_composite(top)
 
 
+def vgrad(d, box, top, bottom):
+    x0, y0, x1, y1 = box
+    for y in range(int(y0), int(y1)):
+        t = (y - y0) / max(1, y1 - y0)
+        d.line([(x0, y), (x1, y)], fill=lerp(top, bottom, t) + (255,))
+
+
 def sky(img):
-    a = np.zeros((H, W, 4), np.uint8)
-    stops = [(0.0, (58, 34, 108)), (0.35, (186, 70, 112)), (0.62, (250, 150, 80)), (0.72, (255, 214, 120))]
-    for y in range(H):
-        t = y / H
-        for i in range(len(stops) - 1):
-            if stops[i][0] <= t <= stops[i + 1][0] or i == len(stops) - 2:
-                u = min(1, max(0, (t - stops[i][0]) / (stops[i + 1][0] - stops[i][0])))
-                a[y, :, :3] = lerp(stops[i][1], stops[i + 1][1], u)
-                break
-    a[..., 3] = 255
-    img.alpha_composite(Image.fromarray(a, "RGBA"))
-    # the sun, low and soft, behind the board
-    g = layer()
-    d = ImageDraw.Draw(g)
-    cx, cy = 120 * S, 116 * S
-    for r in range(70 * S, 0, -3 * S):
-        al = int(110 * (1 - r / (70 * S)) ** 1.5)
-        d.ellipse([cx - r, cy - r, cx + r, cy + r], fill=(255, 236, 160, al))
-    paste(img, g, 3 * S)
-    # long streaky clouds
+    d = ImageDraw.Draw(img)
+    vgrad(d, (0, 0, W, HORIZON * S), (40, 96, 214), (150, 214, 250))
+
+
+def cloud(d, x, y, w, h):
+    """A soft cumulus: lobes lit from the upper left, a blue-grey underside."""
+    lobes = []
+    for i in range(7):
+        lx = x + (i / 6 - 0.5) * w * 0.9 + rng.uniform(-w * 0.05, w * 0.05)
+        r = h * rng.uniform(0.45, 0.8) * (1 - abs(i / 6 - 0.5) * 0.9)
+        lobes.append((lx, y - r * 0.3, r))
+    for lx, ly, r in lobes:
+        d.ellipse([lx - r, ly - r * 0.6 + h * 0.18, lx + r, ly + r * 0.6 + h * 0.18], fill=(176, 196, 226, 255))
+    for lx, ly, r in lobes:
+        d.ellipse([lx - r, ly - r * 0.7, lx + r, ly + r * 0.55], fill=(236, 244, 252, 255))
+    for lx, ly, r in lobes:
+        d.ellipse([lx - r * 0.75, ly - r * 0.65, lx + r * 0.25, ly], fill=(255, 255, 255, 255))
+
+
+def clouds(img):
     c = layer()
     d = ImageDraw.Draw(c)
-    for _ in range(9):
-        y = rng.uniform(30, 90) * S
-        x = rng.uniform(-40, 240) * S
-        w = rng.uniform(40, 90) * S
-        d.ellipse([x, y, x + w, y + rng.uniform(3, 6) * S], fill=(255, 190, 170, 130))
-        d.ellipse([x + 6 * S, y - 2 * S, x + w * 0.7, y + 2 * S], fill=(255, 220, 200, 90))
-    paste(img, c, 2 * S)
+    for x, y, w, h in ((66, 52, 80, 20), (178, 48, 86, 22), (122, 80, 64, 14), (20, 88, 46, 10), (222, 86, 46, 10)):
+        cloud(d, x * S, y * S, w * S, h * S)
+    paste(img, c, 0.7 * S)
+
+
+def islands(img):
+    i = layer()
+    d = ImageDraw.Draw(i)
+    for cx, w, h, col in ((70, 90, 12, (110, 160, 150)), (176, 120, 16, (96, 150, 130)), (130, 60, 8, (126, 172, 162))):
+        pts = [((cx - w / 2) * S, HORIZON * S)]
+        for k in range(31):
+            t = k / 30
+            yy = HORIZON - h * math.sin(math.pi * t) ** 0.8 * (1 + 0.15 * math.sin(t * 17))
+            pts.append(((cx - w / 2 + w * t) * S, yy * S))
+        pts.append(((cx + w / 2) * S, HORIZON * S))
+        d.polygon(pts, fill=col + (255,))
+        d.line(pts[1:-1], fill=shade(col, 1.2) + (255,), width=S)
+    paste(img, i, 0.8 * S)
 
 
 def sea(img):
     s = layer()
     d = ImageDraw.Draw(s)
-    top = 116 * S
-    for y in range(top, 147 * S, S):
-        t = (y - top) / (H - top)
-        d.rectangle([0, y, W, y + S], fill=lerp((214, 110, 120), (60, 40, 110), t ** 0.7) + (255,))
-    # sun glitter on the water
-    for _ in range(140):
-        y = rng.uniform(117, 158) * S
-        spread = (y / S - 112) * 2.2
-        x = (120 + rng.uniform(-spread, spread)) * S
-        w = rng.uniform(2, 7) * S
-        d.rectangle([x, y, x + w, y + S * 0.8], fill=(255, 226, 150, 200))
+    vgrad(d, (0, HORIZON * S, W, SHORE * S), (40, 150, 200), (60, 210, 210))
+    for _ in range(170):
+        y = rng.uniform(HORIZON + 1, SHORE - 2)
+        x = rng.uniform(0, 240)
+        w = rng.uniform(3, 10) * (0.4 + (y - HORIZON) / (SHORE - HORIZON))
+        d.rectangle([x * S, y * S, (x + w) * S, (y + 0.6) * S], fill=(210, 250, 255, 170))
+    paste(img, s)
+    f = layer()
+    d = ImageDraw.Draw(f)
+    pts = [(x * S, (SHORE - 1 + 1.2 * math.sin(x / 9)) * S) for x in range(0, 241, 2)]
+    d.line(pts, fill=(255, 255, 255, 230), width=2 * S)
+    paste(img, f, 0.6 * S)
+
+
+def sand(img):
+    s = layer()
+    d = ImageDraw.Draw(s)
+    vgrad(d, (0, (SHORE + 1) * S, W, H), (246, 226, 170), (230, 196, 130))
+    for _ in range(240):
+        x, y = rng.uniform(0, W), rng.uniform((SHORE + 2) * S, H)
+        d.rectangle([x, y, x + S, y + S], fill=rng.choice([(222, 186, 124), (255, 238, 196)]) + (255,))
     paste(img, s)
 
 
-def palm(d, x0, y0, lean, height, scale=1.0):
-    """A palm silhouette with a lit edge: curved trunk, a crown of fronds."""
-    pts = []
-    for i in range(21):
-        t = i / 20
-        pts.append((x0 + lean * t * t * S, y0 - height * t * S))
-    for i in range(len(pts) - 1):
-        w = (5 - 2.5 * i / 20) * S * scale
-        (x1, y1), (x2, y2) = pts[i], pts[i + 1]
-        d.line([(x1, y1), (x2, y2)], fill=(52, 26, 44, 255), width=int(w))
-        d.line([(x1 - w * 0.25, y1), (x2 - w * 0.25, y2)], fill=(120, 60, 62, 255), width=max(1, int(w * 0.3)))
-        if i % 2 == 0:
-            d.line([(x1 - w / 2, y1), (x1 + w / 2, y1 - S)], fill=(36, 18, 34, 255), width=S)
-    tx, ty = pts[-1]
-    for k in range(9):
-        a = math.pi * (1.02 + k * 0.12) + rng.uniform(-0.06, 0.06)
-        length = rng.uniform(28, 40) * S * scale
-        upper, lower, rim = [], [], []
-        for j in range(13):
-            t = j / 12
-            px = tx + math.cos(a) * length * t
-            py = ty + math.sin(a) * length * t * 0.7 + (t * t) * 24 * S * scale
-            dx = math.cos(a) * length / 12
-            dy = math.sin(a) * length / 12 * 0.7 + 2 * t * 24 * S * scale / 12
-            m = math.hypot(dx, dy) or 1
-            nx, ny = -dy / m, dx / m
-            w = math.sin(math.pi * min(1, t * 1.1)) * 7 * S * scale
-            upper.append((px + nx * w, py + ny * w))
-            lower.append((px - nx * w, py - ny * w))
-        d.polygon(upper + lower[::-1], fill=(38, 20, 38, 255))
-        # serrated leaflets along the lower edge
-        for j in range(1, 12):
-            (ux, uy), (lx, ly) = upper[j], lower[j]
-            d.line([(lx, ly), (lx + (lx - ux) * 0.35, ly + (ly - uy) * 0.35 + 3 * S * scale)], fill=(38, 20, 38, 255), width=max(1, S))
-        # backlit: a warm rim along the side facing the sun
-        sun_side = upper if upper[6][1] > lower[6][1] else lower
-        d.line(sun_side[1:11], fill=(255, 150, 90, 255), width=max(1, S // 2 * 2 // 2 + 1))
-    d.ellipse([tx - 5 * S, ty - 4 * S, tx + 5 * S, ty + 5 * S], fill=(60, 30, 44, 255))
+def leaf(d, x, y, ang, length, width, droop, col):
+    """A palm frond: a drooping midrib, leaflets either side, lit on top."""
+    upper, lower, rib = [], [], []
+    for j in range(15):
+        t = j / 14
+        px = x + math.cos(ang) * length * t
+        py = y + math.sin(ang) * length * t + droop * t * t
+        dx = math.cos(ang)
+        dy = math.sin(ang) + 2 * droop * t / max(1, length)
+        m = math.hypot(dx, dy)
+        nx, ny = -dy / m, dx / m
+        w = width * math.sin(math.pi * min(1, t * 1.05)) ** 0.7
+        rib.append((px, py))
+        upper.append((px + nx * w, py + ny * w))
+        lower.append((px - nx * w, py - ny * w))
+    top, bot = (upper, lower) if sum(p[1] for p in upper) < sum(p[1] for p in lower) else (lower, upper)
+    d.polygon(top + rib[::-1], fill=shade(col, 1.25) + (255,))
+    d.polygon(bot + rib[::-1], fill=shade(col, 0.72) + (255,))
+    for j in range(2, 14, 2):
+        for edge in (top, bot):
+            ex, ey = edge[j]
+            rx, ry = rib[j]
+            d.line([(ex, ey), (ex + (ex - rx) * 0.3, ey + (ey - ry) * 0.3 + S)], fill=shade(col, 0.6) + (255,), width=S)
+    d.line(rib, fill=shade(col, 0.55) + (255,), width=2)
 
 
-def palms(img):
+def palm(img, base_x, lean, height, flip):
     p = layer()
     d = ImageDraw.Draw(p)
-    palm(d, 4 * S, 160 * S, 26, 150, 1.05)
-    palm(d, 236 * S, 160 * S, -28, 140, 1.0)
-    palm(d, -6 * S, 160 * S, 40, 108, 0.8)
-    palm(d, 248 * S, 160 * S, -40, 100, 0.75)
+    trunk = []
+    for i in range(25):
+        t = i / 24
+        trunk.append((base_x + lean * t * t * S, (164 - height * t) * S))
+    for i in range(len(trunk) - 1):
+        (x1, y1), (x2, y2) = trunk[i], trunk[i + 1]
+        w = (6.5 - 3 * i / 24) * S
+        d.line([(x1, y1), (x2, y2)], fill=(150, 100, 60, 255), width=int(w))
+        d.line([(x1 - w * 0.25 * flip, y1), (x2 - w * 0.25 * flip, y2)], fill=(196, 148, 96, 255), width=max(1, int(w * 0.35)))
+        if i % 2 == 0:
+            d.line([(x1 - w / 2, y1), (x1 + w / 2, y1 - S)], fill=(110, 70, 46, 255), width=S)
+    tx, ty = trunk[-1]
+    for k in range(4):
+        cx, cy = tx + (k - 1.5) * 3 * S, ty + 3 * S + (k % 2) * 2 * S
+        d.ellipse([cx - 2.6 * S, cy - 2.6 * S, cx + 2.6 * S, cy + 2.6 * S], fill=(110, 76, 40, 255), outline=OUT)
+        d.ellipse([cx - 1.6 * S, cy - 1.8 * S, cx, cy - 0.2 * S], fill=(170, 126, 70, 255))
+    for a in (-2.9, -2.4, -1.9, -1.2, -0.7, -0.25, 0.25):
+        aa = a if flip > 0 else math.pi - a
+        leaf(d, tx, ty, aa, rng.uniform(30, 40) * S, rng.uniform(5, 7) * S, rng.uniform(10, 20) * S,
+             lerp((40, 150, 50), (80, 190, 60), rng.random()))
     paste(img, p)
 
 
-def bunting(img):
-    b = layer()
-    d = ImageDraw.Draw(b)
-    cols = [(232, 60, 60), (250, 200, 40), (60, 170, 230), (80, 200, 90), (240, 120, 200)]
-    for x0, x1, sag, y0 in ((2, 46, 6, 40), (194, 238, 6, 40)):
-        pts = [(x0 + (x1 - x0) * t / 20, y0 + sag * math.sin(math.pi * t / 20)) for t in range(21)]
-        d.line([(x * S, y * S) for x, y in pts], fill=(70, 40, 50, 255), width=S)
-        for i in range(1, 20, 2):
-            x, y = pts[i]
-            c = cols[(i // 2 + (x0 > 0)) % len(cols)]
-            tri = [(x * S - 4 * S, y * S), (x * S + 4 * S, y * S), (x * S, y * S + 9 * S)]
-            d.polygon(tri, fill=c + (255,), outline=OUT)
-            d.polygon([tri[0], (x * S, y * S), tri[2]], fill=shade(c, 1.25) + (255,))
-    paste(img, b)
-
-
-ROWS = (38, 66, 94, 122)    # the rows' top edges (text 16 high)
-
-
-def plates(img):
-    """A soft, see-through dark strip behind each standings row, so the text reads over
-    the bright sky and sun; the scene shows between and through them."""
+def pennants(img):
+    """A string of checkered finish pennants between the palms."""
     p = layer()
     d = ImageDraw.Draw(p)
-    for y in ROWS:
-        d.rounded_rectangle([18 * S, (y - 4) * S, 222 * S, (y + 19) * S], 7 * S, fill=(24, 10, 40, 120))
-        d.rounded_rectangle([18 * S, (y - 4) * S, 222 * S, (y - 3) * S], 2 * S, fill=(255, 220, 180, 50))
-    paste(img, p, 0.6 * S)
+    pts = [(x, 34 + 8 * math.sin(math.pi * (x - 30) / 180)) for x in range(30, 211, 2)]
+    d.line([(x * S, y * S) for x, y in pts], fill=(90, 70, 60, 255), width=S)
+    for i in range(6, len(pts) - 4, 7):
+        x, y = pts[i]
+        X, Y = x * S, y * S
+        d.polygon([(X - 5 * S, Y), (X + 5 * S, Y), (X, Y + 11 * S)], fill=(250, 250, 250, 255), outline=OUT)
+        for cy in range(3):
+            for cx in range(4):
+                if (cx + cy) % 2:
+                    bx, by = X - 4 * S + cx * 2.5 * S, Y + cy * 2.6 * S
+                    shrink = cy * 1.4 * S
+                    lo, hi = max(bx, X - 5 * S + shrink), min(bx + 2.5 * S, X + 5 * S - shrink)
+                    if hi > lo:
+                        d.rectangle([lo, by, hi, by + 2.6 * S], fill=(30, 30, 40, 255))
+    paste(img, p)
 
 
-def beach(img):
-    """Sand along the bottom and a little three-step wooden podium (gold, silver and
-    bronze trims), the sea behind."""
-    b = layer()
-    d = ImageDraw.Draw(b)
-    top = 146 * S
-    d.rectangle([0, top, W, H], fill=(232, 176, 120, 255))
-    d.rectangle([0, top, W, top + S], fill=(255, 214, 160, 255))
-    for _ in range(160):
-        x, y = rng.uniform(0, W), rng.uniform(top + S, H)
-        d.rectangle([x, y, x + S, y + S], fill=rng.choice([(206, 148, 100), (248, 200, 146)]) + (255,))
-    steps = [(-30, -10, 7, (196, 200, 214)), (-10, 10, 12, (250, 210, 70)), (10, 30, 4, (214, 136, 74))]
-    for x0, x1, h, trim in steps:
-        X0, X1, Y0 = (120 + x0) * S, (120 + x1) * S, (153 - h) * S
-        d.rectangle([X0 + 2 * S, Y0 + 2 * S, X1 + 2 * S, 160 * S], fill=(110, 60, 50, 140))
-        d.rectangle([X0, Y0, X1, 160 * S], fill=(150, 88, 56, 255), outline=OUT)
-        d.rectangle([X0, Y0, X1, Y0 + 2 * S], fill=trim + (255,))
-        d.rectangle([X0, Y0 + 2 * S, X0 + 2 * S, 160 * S], fill=(190, 120, 80, 255))
-        d.rectangle([X1 - 2 * S, Y0 + 2 * S, X1, 160 * S], fill=(110, 62, 44, 255))
-    paste(img, b)
+def podium(img):
+    p = layer()
+    d = ImageDraw.Draw(p)
+    d.ellipse([(120 - 40) * S, 152 * S, (120 + 40) * S, 162 * S], fill=(180, 140, 90, 140))
+    for x0, x1, h, band in ((-34, -12, 9, (200, 206, 222)), (-12, 12, 15, (250, 206, 60)), (12, 34, 6, (214, 140, 80))):
+        X0, X1, Y0 = (120 + x0) * S, (120 + x1) * S, (156 - h) * S
+        d.rectangle([X0, Y0, X1, 160 * S], fill=(232, 232, 236, 255), outline=OUT)
+        d.rectangle([X0 + S, Y0 + S, X0 + 3 * S, 160 * S], fill=(255, 255, 255, 255))
+        d.rectangle([X1 - 4 * S, Y0 + S, X1 - S, 160 * S], fill=(186, 190, 206, 255))
+        d.rectangle([X0, Y0 + 2 * S, X1, Y0 + 4.5 * S], fill=band + (255,))
+        d.rectangle([X0, Y0 + 2 * S, X1, Y0 + 3 * S], fill=shade(band, 1.3) + (255,))
+    paste(img, p)
 
 
 def banner(img):
-    """A red ribbon with gold edges across the top, under the title."""
+    """A shaded red ribbon with gold edges across the top, for the title."""
     b = layer()
     d = ImageDraw.Draw(b)
-    y0, y1 = TITLE_Y[0] * S, TITLE_Y[1] * S
-    x0, x1 = 40 * S, 200 * S
-    # tails
+    y0, y1 = TITLE[0] * S, TITLE[1] * S
+    x0, x1 = 34 * S, 206 * S
     for sx, dirn in ((x0, -1), (x1, 1)):
-        tail = [(sx, y0 + 6 * S), (sx + dirn * 26 * S, y0 + 6 * S), (sx + dirn * 18 * S, (y0 + y1) / 2 + 3 * S),
-                (sx + dirn * 26 * S, y1 + 6 * S), (sx, y1 + 6 * S)]
-        d.polygon(tail, fill=(150, 26, 40, 255), outline=OUT)
-    d.rectangle([x0, y0 + 2 * S, x1, y1 + 2 * S], fill=(206, 40, 52, 255), outline=OUT)
-    d.rectangle([x0, y0 + 2 * S, x1, y0 + 5 * S], fill=(238, 96, 96, 255))
-    d.rectangle([x0, y1 - S, x1, y1 + 2 * S], fill=(150, 26, 40, 255))
-    for yy in (y0 + 2 * S, y1 + S):
-        d.line([(x0, yy), (x1, yy)], fill=(240, 196, 80, 255), width=S)
+        tail = [(sx, y0 + 6 * S), (sx + dirn * 24 * S, y0 + 6 * S), (sx + dirn * 16 * S, (y0 + y1) / 2 + 4 * S),
+                (sx + dirn * 24 * S, y1 + 7 * S), (sx, y1 + 7 * S)]
+        d.polygon(tail, fill=(160, 30, 44, 255), outline=OUT)
+    for y in range(int(y0 + 2 * S), int(y1 + 3 * S)):
+        t = (y - y0) / (y1 - y0 + 3 * S)
+        k = 1.35 - 0.8 * t if t < 0.4 else 1.0 - 0.45 * (t - 0.4)
+        d.line([(x0, y), (x1, y)], fill=shade((220, 44, 56), k) + (255,))
+    d.rectangle([x0, y0 + 2 * S, x1, y1 + 3 * S], outline=OUT)
+    for yy, c in ((y0 + 3 * S, (255, 220, 110)), (y1 + 2 * S, (210, 150, 50))):
+        d.line([(x0 + S, yy), (x1 - S, yy)], fill=c + (255,), width=S)
     paste(img, b)
 
 
-def confetti(img):
-    c = layer()
-    d = ImageDraw.Draw(c)
-    cols = [(255, 90, 90), (255, 214, 60), (90, 200, 255), (120, 230, 110), (255, 140, 220), (255, 255, 255)]
-    bx0, by0, bx1, by1 = 14 * S, 30 * S, 226 * S, 160 * S
-    n = 0
-    while n < 36:
-        x, y = rng.uniform(0, 240) * S, rng.uniform(0, 160) * S
-        if bx0 - 4 * S < x < bx1 + 4 * S and by0 - 4 * S < y < by1 + 4 * S:
-            continue                                        # not over the rows
-        if 36 * S < x < 204 * S and y < 34 * S:
-            continue                                        # nor the title
-        col = rng.choice(cols)
-        a = rng.uniform(0, math.pi)
-        w, h = rng.uniform(1.0, 1.8) * S, rng.uniform(0.6, 1.0) * S
-        pts = [(x + math.cos(a) * w - math.sin(a) * h, y + math.sin(a) * w + math.cos(a) * h),
-               (x - math.cos(a) * w - math.sin(a) * h, y - math.sin(a) * w + math.cos(a) * h),
-               (x - math.cos(a) * w + math.sin(a) * h, y - math.sin(a) * w - math.cos(a) * h),
-               (x + math.cos(a) * w + math.sin(a) * h, y + math.sin(a) * w - math.cos(a) * h)]
-        d.polygon(pts, fill=col + (255,))
-        n += 1
-    paste(img, c)
+def plates(img):
+    """Soft see-through strips behind the four standings rows."""
+    p = layer()
+    d = ImageDraw.Draw(p)
+    for y in ROWS:
+        d.rounded_rectangle([20 * S, (y - 4) * S, 220 * S, (y + 19) * S], 8 * S, fill=(16, 30, 80, 85))
+        d.rounded_rectangle([22 * S, (y - 4) * S, 218 * S, (y - 2.5) * S], 2 * S, fill=(255, 255, 255, 60))
+    paste(img, p, 0.6 * S)
 
 
 def paint():
     img = Image.new("RGBA", (W, H), (0, 0, 0, 255))
     sky(img)
+    clouds(img)
+    islands(img)
     sea(img)
-    beach(img)
-    palms(img)
-    bunting(img)
+    sand(img)
+    podium(img)
+    palm(img, 4 * S, 16, 116, 1)
+    palm(img, 236 * S, -16, 112, -1)
+    pennants(img)
     plates(img)
     banner(img)
-    confetti(img)
-    out = img.convert("RGB")
-    out = ImageEnhance.Color(out).enhance(1.15)
+    out = ImageEnhance.Color(img.convert("RGB")).enhance(1.1)
     small = out.resize((240, 160), Image.LANCZOS)
     a = (np.asarray(small) >> 3 << 3) | 4
     return Image.fromarray(a.astype(np.uint8), "RGB").quantize(colors=255, method=Image.Quantize.MEDIANCUT,
@@ -269,7 +273,7 @@ def paint():
 
 def save(pic):
     pal = pic.getpalette()[:255 * 3]
-    idx = np.asarray(pic).astype(np.uint8) + 1               # 1-255; 0 is the backdrop
+    idx = np.asarray(pic).astype(np.uint8) + 1
     full = [0, 0, 0] + pal
     out = Image.fromarray(idx, "P")
     out.putpalette(full + [0] * (768 - len(full)))
