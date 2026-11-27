@@ -761,13 +761,6 @@ init_weapon_mango:  @ 08010430
 	.ifdef FIXES
 fix_assert_L_0801044c:
 	b	L_0801044c	@ FIX "asserts": skip the failed-assert print and trap, carry on
-	@ FIX "story-pilot-plane": trampoline to the end of the ROM
-	.balign 4
-fix_plane_char:
-	ldr	r1, 1f
-	bx	r1
-	.balign 4
-1:	.word	fix_plane_char_far+1
 	.fill 20 - (. - fix_assert_L_0801044c), 1, 0	@ same size as the original block
 	.else
 	ldr	r0, _080104a0	@ =D_0807036c

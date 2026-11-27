@@ -15910,7 +15910,18 @@ select_y_gap:  @ 084d7ebc  int[5]  (src/menu/menu_mode.c)
 	.byte 0x15, 0x00, 0x00, 0x00
 
 story_planes:  @ 084d7ed0  int[3]  (src/menu/menu_mode.c)
+	.ifdef FIXES
+	@ FIX "story-pilots": each story's pilot, in the game's character numbers:
+	@ King of Kongs Diddy (1), Back to the Light Dixie (4), K. Rool's Gold
+	@ K. Rool (3). The table held 2, 6, 5: the same three in the character
+	@ select's slot order (Cranky, Redneck, Diddy, Kong, Krash, K. Rool,
+	@ Dixie), so the stories flew Krunch, nobody (6: past every character
+	@ table, so the menu drew garbage, hung on the voice, and a race fell
+	@ back to Diddy) and Cranky.
+	.word	1, 4, 3
+	.else
 	.byte 0x02, 0x00, 0x00, 0x00, 0x06, 0x00, 0x00, 0x00, 0x05, 0x00, 0x00, 0x00
+	.endif
 
 D_084d7edc:  @ 084d7edc  short int[6]  (src/menu/menu_mode.c)
 	.byte 0x3b, 0x00, 0x10, 0x00, 0x15, 0x00, 0x1c, 0x00, 0x07, 0x00, 0x01, 0x00

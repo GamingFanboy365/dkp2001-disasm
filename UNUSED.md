@@ -183,7 +183,8 @@ The game has two front-ends:
   the original (the slot number is taken as a character number).
 - **Stories is only a menu too.** The front-end lists three stories, King of Kongs, Back to the
   Light and K. Rool's Gold, but picking one just starts the first of its four courses (above)
-  with a fixed pilot: Beach Barricade, Grub Grab and Classic Dogfight; none of the story text
+  with its star as pilot (Diddy, Dixie and K. Rool, though the original's table numbers them
+  wrongly): Beach Barricade, Grub Grab and Classic Dogfight; none of the story text
   or cut scenes above is shown. Highlighting Back to
   the Light hangs the original, so the third story can't be reached. The fix patch fixes that and
   plays K. Rool's Gold's story mode, up to its first task. Only K. Rool's Gold has story data.

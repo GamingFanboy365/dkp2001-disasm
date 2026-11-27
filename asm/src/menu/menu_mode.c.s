@@ -635,28 +635,15 @@ L_08013dec:
 	str	r0, [r1, #0]
 @ src/menu/menu_mode.c:377
 	ldr	r1, _08013e48	@ =D_084d7ee8
-	.ifdef FIXES
-	@ FIX "story-voice": the pilot of "Back to the Light" is character 6 (the
-	@ cut Redneck Kong), but the voice table (sel_char_sounds2) only has
-	@ characters 0-5, so highlighting that story played a garbage sound id and
-	@ the sound driver trapped: the menu hung, and K. Rool's Gold below it
-	@ couldn't be reached. Characters without a voice play nothing.
-	cmp	r0, #5
-	bhi	fix_story_voice_1
-	lsls	r0, r0, #1
-	ldrh	r0, [r1, r0]
-	.else
 	lsls	r0, r0, #1
 	adds	r0, r0, r1
 	movs	r1, #0
 	ldrsh	r0, [r0, r1]
-	.endif
 	movs	r2, #128
 	lsls	r2, r2, #9
 	movs	r1, #80
 	bl audio_new_fx
 @ src/menu/menu_mode.c:378
-fix_story_voice_1:
 	adds	r7, r4, #0
 	b L_08013ec4
 	movs	r0, r0
@@ -705,17 +692,10 @@ L_08013e4c:
 	beq L_08013e7e
 @ src/menu/menu_mode.c:384
 	ldr	r1, _08013e98	@ =D_084d7ee8
-	.ifdef FIXES
-	cmp	r0, #5	@ FIX "story-voice"
-	bhi	L_08013e7e
-	lsls	r0, r0, #1
-	ldrh	r0, [r1, r0]
-	.else
 	lsls	r0, r0, #1
 	adds	r0, r0, r1
 	movs	r2, #0
 	ldrsh	r0, [r0, r2]
-	.endif
 	movs	r2, #128
 	lsls	r2, r2, #9
 	movs	r1, #80

@@ -322,9 +322,10 @@ the patch (see [FIXES.md](FIXES.md)):
 - **The sound driver writes a stopped channel's state through the wrong register**, so a music
   note whose one-shot sample ends early keeps playing past the end of the sample. The race music
   is what triggers it.
-- **Highlighting the "Back to the Light" story hangs**: its pilot (character 6) has no voice
-  clip or plane graphics, so the menu plays a garbage sound id and draws a garbage sprite. K.
-  Rool's Gold, below it, couldn't be reached at all.
+- **The stories have the wrong pilots, and highlighting "Back to the Light" hangs**: the story
+  table uses the character select's slot numbers (Diddy, Dixie, K. Rool) where the game expects
+  character numbers, so the stories flew Krunch, a nonexistent character 6 (garbage sound and
+  sprite, then a hang) and Cranky. K. Rool's Gold, below it, couldn't be reached at all.
 - **The game boots into its debug menu**, though its Nintendo and Rare logo screens and intro
   animation are complete and lead to the title. The patches boot through them, and L+R opens
   the debug menu.

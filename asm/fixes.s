@@ -688,19 +688,6 @@ fix_story_game_far:
 	bx	lr
 	.ltorg
 
-@ FIX "story-pilot-plane": called at the start of menu_plane_init_plane(r0 =
-@ character), in place of its "sub sp, #28; str r0, [sp, #24]". Characters
-@ past the plane tables (0-5) are mapped as setup_player_data maps them for
-@ a race (mod 5), so the menu shows the plane that will actually fly.
-	.thumb_func
-fix_plane_char_far:
-	cmp	r0, #5
-	bls	1f
-	subs	r0, #5
-1:	sub	sp, #28
-	str	r0, [sp, #24]
-	bx	lr
-
 @ FIX "charsel": the old front-end's character select. Its seven slots were
 @ in screen order (Cranky, Redneck, Diddy, Kong, Krash, K. Rool, Dixie) and
 @ the slot number went straight into CHAR_SELECTED, but the rest of the game
