@@ -175,7 +175,7 @@ def check_clock(rom):
 
 def check_finish(rom):
     """A finished race moves on (to the title, or into a new race with the laps reset), so
-    each track is sampled at three points and the most laps seen is reported."""
+    each track is sampled at six points and the most laps seen is reported."""
     def state(r):
         mon = rd(r, MONITOR) - EWRAM
         in_title = (SYMS["title"] | 1) == rd(r, SYS_MODE)
@@ -185,7 +185,7 @@ def check_finish(rom):
         st, t = track_script(k)
         poke = f"{st + 60}:03003398|40"
         faults, laps, finished, level = [], 0, False, 0
-        for f in (st + 4000, st + 8000, st + 12000):
+        for f in (st + 3000, st + 4500, st + 6000, st + 8000, st + 10000, st + 12000):
             fl, _, data = play(rom, f, t, poke=poke, ram=True)
             faults = faults or fl
             level = level or rd(data, GAME_LEVEL, "<i")
