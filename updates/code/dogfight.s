@@ -348,6 +348,7 @@ fix_df_positions_far:
 	bl	df_bx_r3
 	bl	course_walls			@ FIX "course-walls" (updates/code/walls.s)
 	bl	cup_watch			@ FIX "cups": a cup race's finish (updates/code/cup.s)
+	bl	timer_frame			@ FIX "race-timer": the clock and times (updates/code/cup.s)
 	bl	df_mode
 	cmp	r0, #0
 	beq	3f

@@ -33,7 +33,15 @@
 	.equ	C_POINTS, 16			@ 4 bytes: points per player
 	.equ	C_ORDER, 20			@ 4 bytes: this race's finishing order (player numbers)
 	.equ	C_SORT, 24			@ 4 bytes: standings (player numbers)
-	.equ	C_TEXT, 32			@ 16 bytes: text being plotted
+	.equ	C_TEXT, 32			@ 8 bytes: text being plotted
+	.equ	C_CLOCK, 40			@ word: frames since GO
+	.equ	C_FINISH, 44			@ 4 words: each racer's time (frames; 0 not yet)
+	.equ	C_TOTAL, 60			@ 4 words: each racer's cup time
+	.equ	C_EST, 76			@ 4 words: estimates for racers still flying
+	.equ	C_GLYPHS, 11			@ byte: the timer's glyphs are loaded this race
+	.equ	C_TB, 30			@ hword: the time glyphs' first tile
+	.equ	C_PB, 28			@ byte: and their palette bank
+	.equ	C_DIGITS, 100			@ 8 bytes: a time as glyph numbers
 	.equ	CUP_MAGIC, 0x31505543		@ "CUP1"
 
 	.equ	MODE_RACING, 0
@@ -78,12 +86,23 @@ cup_plot_name_far:
 	movs	r0, #0
 	strb	r0, [r4, #C_RACE]
 	str	r0, [r4, #C_POINTS]
+	str	r0, [r4, #C_TOTAL]
+	str	r0, [r4, #C_TOTAL + 4]
+	str	r0, [r4, #C_TOTAL + 8]
+	str	r0, [r4, #C_TOTAL + 12]
 	ldr	r0, =local_level
 	ldr	r0, [r0, #0]
 	strh	r0, [r4, #C_LEVEL]
 2:	movs	r0, #0
 	strb	r0, [r4, #C_NEXT]
 	strb	r0, [r4, #C_DONE]
+	strb	r0, [r4, #C_GLYPHS]
+	str	r0, [r4, #C_CLOCK]
+	movs	r1, #C_FINISH
+3:	str	r0, [r4, r1]			@ the race's times and estimates
+	adds	r1, #4
+	cmp	r1, #C_EST + 16
+	blt	3b
 	movs	r0, #1
 	strb	r0, [r4, #C_TOKEN]
 	ldrb	r0, [r4, #C_MODE]
@@ -246,6 +265,7 @@ cup_race_over_far:
 	ldrb	r0, [r4, #C_DONE]
 	cmp	r0, #0
 	beq	7f				@ quit before the finish: the cup's over
+	bl	times_settle
 	movs	r0, #0
 	strb	r0, [r4, #C_PHASE]
 	ldr	r0, =cup_results+1		@ the standings screen
@@ -394,6 +414,10 @@ results_draw:
 	ldr	r1, [r0, #0]
 	movs	r0, #15
 	bl	cup_bx_r1
+	ldr	r0, =0x06011000			@ the time glyphs (the heads are below)
+	movs	r1, #5
+	movs	r2, #128
+	bl	load_glyphs
 	@ the title (and for FINAL RESULTS, our background behind everything)
 	ldrb	r0, [r4, #C_PHASE]
 	cmp	r0, #2
@@ -443,7 +467,7 @@ results_draw:
 	ldr	r0, =text_places			@ 1ST..4TH
 	lsls	r1, r6, #2
 	adds	r0, r0, r1
-	movs	r1, #44
+	movs	r1, #30
 	adds	r2, r7, #0
 	bl	cup_plot
 	ldrb	r0, [r5, r6]			@ the racer
@@ -453,10 +477,27 @@ results_draw:
 	adds	r0, #PLR_CHAR
 	ldrh	r0, [r0, #0]			@ its character
 	adds	r1, r6, #0			@ slot
-	movs	r2, #120 - 18			@ x: the head (pieces at 8-28) centred on the screen
+	movs	r2, #72 - 18			@ x: the head (pieces at 8-28) centred at 72
 	adds	r3, r7, #0
 	subs	r3, #10				@ y: centred on the row's text (16 high)
 	bl	draw_head
+	@ the time: RESULTS the race's, FINAL RESULTS the cup's total
+	ldrb	r0, [r5, r6]
+	lsls	r0, r0, #2
+	ldrb	r1, [r4, #C_PHASE]
+	cmp	r1, #2
+	beq	15f
+	adds	r0, #C_FINISH
+	b	16f
+15:	adds	r0, #C_TOTAL
+16:	ldr	r0, [r4, r0]
+	movs	r1, #94
+	adds	r2, r7, #0
+	ldr	r3, =OAM_PTR
+	ldr	r3, [r3, #0]
+	bl	draw_time
+	ldr	r1, =OAM_PTR
+	str	r0, [r1, #0]
 	@ points: "nn PTS" (RESULTS: earned in this race; FINAL RESULTS: the cup's total)
 	ldrb	r0, [r4, #C_PHASE]
 	cmp	r0, #2
@@ -503,7 +544,7 @@ results_draw:
 12:
 	adds	r0, r4, #0
 	adds	r0, #C_TEXT
-	movs	r1, #176
+	movs	r1, #198
 	adds	r2, r7, #0
 	bl	cup_plot
 	adds	r6, #1
@@ -686,3 +727,327 @@ head_palettes:
 	.word	__pal_cranky_head, __pal_diddy_head, __pal_krunch_head
 	.word	__pal_krool_head, __pal_dixie_head, __pal_donkey_head
 	.equ	RESULTS_BACKDROP, 0x4022	@ deep blue (BGR555); the final results get art later
+
+@ ---------------------------------------------------------------- the race timer
+@ Racing and Clock Race: a clock from GO, each racer's time when its last lap ends,
+@ an estimate for those still flying (time so far x checkpoints needed / passed), and
+@ the player's time drawn top left: Rare's small HUD digits (hud_digits) with our own
+@ ' and " marks, 1'23"45. Called every race frame (fix_df_positions_far).
+	.equ	MON_LAPS, 85			@ laps to race
+	.equ	MON_LAPSDONE, 86		@ +p
+	.equ	MON_PASSED, 90			@ +p: checkpoints passed in the race
+	.equ	MON_CHECKS, 128			@ checkpoints per lap
+	.equ	SYS_RACING, 4
+	.equ	TIMER_VRAM, 0x06017800		@ free in races (the game's sprites stay below)
+	.equ	TIMER_TILE, 960			@ = (TIMER_VRAM - 0x06010000) / 32
+	.equ	TIMER_BANK, 14			@ OBJ palette bank (the race uses 0-10)
+
+	.thumb_func
+timer_frame:
+	push	{r4, r5, r6, r7, lr}
+	ldr	r4, =CUP
+	ldr	r0, [r4, #C_MAGIC]
+	ldr	r1, =CUP_MAGIC
+	cmp	r0, r1
+	bne	9f
+	ldrb	r0, [r4, #C_TOKEN]
+	cmp	r0, #0
+	beq	9f
+	ldrb	r0, [r4, #C_MODE]
+	cmp	r0, #MODE_RACING
+	beq	1f
+	cmp	r0, #MODE_CLOCK
+	bne	9f
+1:	ldr	r5, =monitor
+	ldr	r5, [r5, #0]
+	ldr	r6, [r5, #MON_STATE]
+	ldr	r0, =sys_flags
+	ldr	r0, [r0, #0]
+	movs	r1, #SYS_RACING
+	tst	r0, r1
+	bne	2f
+	cmp	r6, #4				@ after the player's finish, the others are still timed
+	blt	9f
+2:	ldr	r0, [r4, #C_CLOCK]
+	adds	r0, #1
+	str	r0, [r4, #C_CLOCK]
+	@ each racer: its time when its laps are done, else an estimate
+	movs	r7, #0
+3:	lsls	r3, r7, #2
+	adds	r3, #C_FINISH
+	ldr	r0, [r4, r3]
+	cmp	r0, #0
+	bne	5f				@ already finished
+	adds	r0, r5, r7
+	adds	r0, #MON_LAPSDONE
+	ldrb	r0, [r0, #0]
+	adds	r1, r5, #0
+	adds	r1, #MON_LAPS
+	ldrb	r1, [r1, #0]
+	cmp	r0, r1
+	blt	4f
+	ldr	r0, [r4, #C_CLOCK]
+	str	r0, [r4, r3]
+	b	5f
+4:	@ estimate = clock * laps * checkpoints / passed
+	adds	r0, r5, #0
+	adds	r0, #MON_CHECKS
+	ldrb	r0, [r0, #0]
+	muls	r1, r0				@ checkpoints in the race
+	adds	r0, r5, r7
+	adds	r0, #MON_PASSED
+	ldrb	r2, [r0, #0]			@ passed
+	ldr	r0, [r4, #C_CLOCK]
+	cmp	r2, #0
+	bne	6f
+	lsls	r0, r0, #2			@ none passed yet: a long way to go
+	b	7f
+6:	muls	r0, r1
+	adds	r1, r2, #0
+	bl	udiv
+7:	lsls	r3, r7, #2
+	adds	r3, #C_EST
+	str	r0, [r4, r3]
+5:	adds	r7, #1
+	cmp	r7, #3
+	ble	3b
+	@ the player's time, top left
+	ldrb	r0, [r4, #C_GLYPHS]
+	cmp	r0, #0
+	bne	8f
+	ldr	r0, =TIMER_VRAM
+	movs	r1, #TIMER_BANK
+	ldr	r2, =TIMER_TILE
+	bl	load_glyphs
+	movs	r0, #1
+	strb	r0, [r4, #C_GLYPHS]
+8:	ldr	r1, =sys_oam_start		@ sprites 0-7 are ours
+	movs	r0, #8
+	strh	r0, [r1, #0]
+	ldr	r0, [r4, #C_FINISH]
+	cmp	r0, #0
+	bne	10f
+	ldr	r0, [r4, #C_CLOCK]
+10:	movs	r1, #6				@ x
+	movs	r2, #4				@ y
+	ldr	r3, =0x07000000
+	bl	draw_time
+9:	pop	{r4, r5, r6, r7}
+	pop	{r0}
+	bx	r0
+	.ltorg
+
+@ After a cup race: every racer's time (an estimate if still flying) into its cup total.
+times_settle:
+	push	{r4, r5, lr}
+	movs	r5, #0
+1:	lsls	r3, r5, #2
+	adds	r3, #C_FINISH
+	ldr	r0, [r4, r3]
+	cmp	r0, #0
+	bne	2f
+	adds	r2, r3, #0
+	adds	r2, #C_EST - C_FINISH
+	ldr	r0, [r4, r2]
+	str	r0, [r4, r3]
+2:	adds	r3, #C_TOTAL - C_FINISH
+	ldr	r1, [r4, r3]
+	adds	r1, r1, r0
+	str	r1, [r4, r3]
+	adds	r5, #1
+	cmp	r5, #3
+	ble	1b
+	pop	{r4, r5}
+	pop	{r0}
+	bx	r0
+
+@ r0 / r1 (unsigned) -> r0. Keeps r4-r7.
+udiv:
+	movs	r2, #0				@ quotient
+	movs	r3, #1
+	cmp	r1, #0
+	beq	4f
+1:	cmp	r1, r0				@ line the divisor up under the top
+	bhs	2f
+	lsls	r1, r1, #1
+	lsls	r3, r3, #1
+	bcc	1b
+2:	cmp	r0, r1
+	blo	3f
+	subs	r0, r0, r1
+	orrs	r2, r3
+3:	lsrs	r1, r1, #1
+	lsrs	r3, r3, #1
+	bne	2b
+4:	adds	r0, r2, #0
+	bx	lr
+
+@ A time (r0, frames) -> 7 glyph numbers at CUP + C_DIGITS: M ' S S " c c
+@ (0-9 digits, 10 ', 11 "). Keeps r4-r7.
+time_glyphs:
+	push	{r4, r5, r6, lr}
+	ldr	r4, =CUP + C_DIGITS
+	movs	r1, #5
+	muls	r0, r1
+	movs	r1, #3
+	bl	udiv				@ hundredths of a second
+	adds	r5, r0, #0
+	ldr	r1, =6000
+	bl	udiv				@ minutes
+	cmp	r0, #9
+	ble	1f
+	movs	r0, #9
+	ldr	r5, =5999 + 9 * 6000		@ 9'59"99 at most
+1:	strb	r0, [r4, #0]
+	ldr	r1, =6000
+	muls	r1, r0
+	subs	r5, r5, r1			@ hundredths within the minute
+	adds	r0, r5, #0
+	movs	r1, #100
+	bl	udiv
+	adds	r6, r0, #0			@ seconds
+	movs	r1, #100
+	muls	r1, r0
+	subs	r5, r5, r1			@ hundredths
+	movs	r0, #10
+	strb	r0, [r4, #1]
+	adds	r0, r6, #0
+	movs	r1, #10
+	bl	udiv
+	strb	r0, [r4, #2]
+	movs	r1, #10
+	muls	r1, r0
+	subs	r6, r6, r1
+	strb	r6, [r4, #3]
+	movs	r0, #11
+	strb	r0, [r4, #4]
+	adds	r0, r5, #0
+	movs	r1, #10
+	bl	udiv
+	strb	r0, [r4, #5]
+	movs	r1, #10
+	muls	r1, r0
+	subs	r5, r5, r1
+	strb	r5, [r4, #6]
+	pop	{r4, r5, r6}
+	pop	{r0}
+	bx	r0
+	.ltorg
+
+@ draw_time(frames r0, x r1, y r2, OAM entry r3) -> r0 = the next OAM entry.
+@ Seven 8x16 sprites from the glyphs load_glyphs put at C_TB / C_PB.
+draw_time:
+	push	{r4, r5, r6, r7, lr}
+	adds	r5, r1, #0
+	adds	r6, r2, #0
+	adds	r7, r3, #0
+	bl	time_glyphs
+	ldr	r4, =CUP
+	movs	r3, #0
+1:	adds	r0, r4, #0
+	adds	r0, #C_DIGITS
+	ldrb	r0, [r0, r3]			@ glyph
+	movs	r1, #0xff
+	ands	r1, r6
+	movs	r2, #128
+	lsls	r2, r2, #8			@ 0x8000: tall shape
+	orrs	r1, r2
+	strh	r1, [r7, #0]			@ attr0: y, 8x16
+	ldr	r1, =0x1ff
+	ands	r1, r5
+	strh	r1, [r7, #2]			@ attr1: x, size 0
+	ldrh	r1, [r4, #C_TB]
+	lsls	r0, r0, #1
+	adds	r1, r1, r0
+	ldrb	r2, [r4, #C_PB]
+	lsls	r2, r2, #12
+	orrs	r1, r2
+	strh	r1, [r7, #4]			@ attr2: tile, bank, priority 0
+	adds	r7, #8
+	adds	r5, #8				@ digits 8 apart, the marks 5
+	cmp	r0, #20
+	blt	2f
+	subs	r5, #3
+2:	adds	r3, #1
+	cmp	r3, #6
+	ble	1b
+	adds	r0, r7, #0
+	pop	{r4, r5, r6, r7}
+	pop	{r1}
+	bx	r1
+	.ltorg
+
+@ load_glyphs(VRAM r0, palette bank r1, first tile r2): Rare's hud_digits 0-9 (decoded
+@ from the sprite, as spr_update_vram) then our ' and ", 2 tiles each; the HUD
+@ palette (hud_digits' own, __pal_hud_icons) into the bank.
+load_glyphs:
+	push	{r4, r5, r6, r7, lr}
+	ldr	r4, =CUP
+	strh	r2, [r4, #C_TB]
+	strb	r1, [r4, #C_PB]
+	adds	r7, r0, #0			@ destination
+	ldr	r0, =0x05000200
+	lsls	r1, r1, #5
+	adds	r0, r0, r1
+	ldr	r1, =__pal_hud_icons
+	movs	r2, #0
+1:	ldrh	r3, [r1, r2]
+	strh	r3, [r0, r2]
+	adds	r2, #2
+	cmp	r2, #32
+	blt	1b
+	ldr	r4, =__spr_hud_digits
+	ldrh	r0, [r4, #0]
+	adds	r4, r4, r0			@ the frames' tile table
+	movs	r5, #0				@ digit
+2:	lsls	r0, r5, #1
+	ldrh	r0, [r4, r0]
+	lsls	r0, r0, #4
+	adds	r6, r4, r0			@ the digit's tile block
+	adds	r6, #2
+3:	ldrh	r0, [r6, #0]
+	adds	r6, #2
+	cmp	r0, #0
+	beq	6f
+	movs	r1, #0x7f
+	ands	r1, r0
+	adds	r1, #1
+	movs	r2, #0x80
+	tst	r0, r2
+	beq	4f
+5:	ldrh	r2, [r6, #0]
+	strh	r2, [r7, #0]
+	adds	r6, #2
+	adds	r7, #2
+	subs	r1, #1
+	bne	5b
+	b	3b
+4:	lsrs	r0, r0, #8
+	lsls	r2, r0, #8
+	orrs	r0, r2
+7:	strh	r0, [r7, #0]
+	adds	r7, #2
+	subs	r1, #1
+	bne	7b
+	b	3b
+6:	adds	r5, #1
+	cmp	r5, #9
+	ble	2b
+	ldr	r1, =time_marks			@ our ' and "
+	movs	r2, #0
+8:	ldrh	r3, [r1, r2]
+	strh	r3, [r7, r2]
+	adds	r2, #2
+	cmp	r2, #128
+	blt	8b
+	pop	{r4, r5, r6, r7}
+	pop	{r0}
+	bx	r0
+	.ltorg
+
+	.balign 4
+@ Our ' and " for the timer (ours), 8x16 each, 4bpp in the HUD palette's colours as
+@ Rare's digits are drawn: yellow (13), a red top-left edge (10), black lower-right (1).
+time_marks:
+	.incbin	"updates/art/time_marks.bin"
+	.balign 4
