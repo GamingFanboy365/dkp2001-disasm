@@ -4,7 +4,7 @@
 @
 @ Racing: a world is a cup of its four courses, in the order its Clock Race list shows
 @ them (select_indices rows 4-8). Each race's intro says RACE 1 OF 4, RACE 2 OF 4,
-@ RACE 3 OF 4 or FINAL RACE top right in the course-name font. When the player
+@ RACE 3 OF 4 or FINAL RACE centred at the top in the course-name font. When the player
 @ finishes (or retires: last), the finishing order is taken and points given; after
 @ the race the standings are shown with the racers' heads, then the next course's
 @ intro starts. After the fourth race: the final standings, then the world list.
@@ -89,7 +89,7 @@ cup_plot_name_far:
 	ldrb	r0, [r4, #C_MODE]
 	cmp	r0, #MODE_RACING
 	bne	9f
-	@ RACE n OF 4 / FINAL RACE, top right (the name and this need more sprites)
+	@ RACE n OF 4 / FINAL RACE, centred at the top (the name and this need more sprites)
 	ldr	r1, =sys_oam_start
 	movs	r0, #40
 	strh	r0, [r1, #0]
@@ -97,7 +97,7 @@ cup_plot_name_far:
 	lsls	r0, r0, #2
 	adr	r1, race_texts
 	ldr	r0, [r1, r0]
-	movs	r1, #172
+	movs	r1, #120			@ centred across the top
 	movs	r2, #10
 	bl	cup_plot
 9:	pop	{r4, r5}

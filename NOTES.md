@@ -207,7 +207,7 @@ The owner asked: no arrangement of existing DK music; every tune ours from scrat
 - Racing mode: a world is a cup of its four courses in the Clock Race list's order. After
   each race: the fanfare, the rankings, then the next course; after the fourth, the final
   results over a background of ours. The intro shows "RACE 1 OF 4", "RACE 2 OF 4",
-  "RACE 3 OF 4", then "FINAL RACE" top right in the course-name font, only in Racing mode. Lap icons 1/3, 2/3, 3/3 on the mini map. The
+  "RACE 3 OF 4", then "FINAL RACE" centred at the top in the course-name font, only in Racing mode. Lap icons 1/3, 2/3, 3/3 on the mini map. The
   rankings can reuse Rare's small racer icons (the menus' *small* character pictures, or the
   in-race *_head sprites), by reference.
 - Clock Race becomes time trials: best time per course (needs saving), opponents kept;
