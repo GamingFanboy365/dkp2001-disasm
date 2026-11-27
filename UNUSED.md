@@ -106,8 +106,9 @@ The game has two front-ends:
   In the original, Kongo Kingdom, Western Wastes and Island of Eggs hang on starting (the
   front-end camera bug, fixed in the patch). Island of Eggs' first course, Vulture Valley (Desert
   02), is one of the placeholder-ground courses.
-- **Placeholder ground.** Desert 00, 02 and 03 have no real course. Their ground is a grid stamped
-  with the slot name ("S3-2", "R4-1", "R5-3"). Desert 01, from the same tiles, is real.
+- **Placeholder ground.** 18 courses have no real course: their ground is a plain fill stamped
+  with the course's slot in the menus (e.g. Lava Race 2 "R3-2", Flawed Genie'us "S3-4"; all four
+  Desert courses but Wasteland Wipe Out). Every code matches the slot. See `COURSES.md`.
 - **No computer-player routes.** Beach 03, Farm 03 (the course loaded by the debug menu's "Farm 02"
   slot) and Haunted 01 have AI networks with zero routes. 29 other courses have only a stub
   network with one three-point route.

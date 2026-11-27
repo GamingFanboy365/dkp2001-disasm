@@ -37,6 +37,9 @@ behaviour** is only in the updates patch.
   code to the end of the ROM keeps the patch small.
 - Check a fix with `tools/romtest` (play the affected track or menu) and run
   `tools/reloc_test.py` to make sure nothing else changed.
+- `python3 tools/tests/checks.py all build_fixed/dkp.gba` replays the checks below (every
+  track, the 20 front-end starts, the 32 Clock Race courses, the six character picks, the
+  stories); `finish` and `dogfight` are run on their own. It handles the L+R boot itself.
 
 ## Fixes
 

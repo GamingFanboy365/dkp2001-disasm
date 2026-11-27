@@ -136,10 +136,15 @@ tools/export_preview.py  renders sprites/backgrounds/palettes to viewable PNGs
 tools/elf2gba.py   standalone ELF -> .gba converter
 tools/romtest/     headless mGBA runner (screen hashes, screenshots, RAM/audio dumps, coverage)
 tools/reloc_test.py   relocation test (shifted builds played in mGBA)
+tools/tests/checks.py play-through checks: faults on every track, front-end starts, Clock Race,
+                      finishes, character picks, stories, dogfights
 tools/story_text.py   prints the unused K. Rool story text from your ROM
+tools/course_audit.py what each course contains: map, slot, objects, AI routes (COURSES.md)
 tools/reachability.py static reachability: what can never run or be shown (UNUSED.md)
 tools/make_ips.py  IPS patch create/apply
 UNUSED.md          everything in the build that normal play can't reach
+COURSES.md         the 41 courses: finished, arenas, and the 18 placeholders with their slot codes
+NOTES.md           working notes: engine facts, decisions, the plan
 FIXES.md           bug fixes in the patch
 ```
 
@@ -346,8 +351,9 @@ the same way. It's new design; the build has no dogfight game to restore.
 
 Not fixed (no data to fix them with):
 
-- **Unfinished tracks.** Desert 00, 02 and 03 have placeholder ground (grids stamped "S3-2",
-  "R4-1", "R5-3"). Beach 03, Farm 03 and Haunted 01 have no AI network at all.
+- **Unfinished tracks.** 18 of the 41 courses have placeholder ground stamped with their menu
+  slot ("R3-2" and so on; see `COURSES.md`). Beach 03, Farm 03 and Haunted 01 have no AI network
+  at all.
 - **No dogfight game.** Dog Fights starts an ordinary race on an arena course; no code outside
   the menu knows which mode was chosen. The patch adds a dogfight of its own design.
 

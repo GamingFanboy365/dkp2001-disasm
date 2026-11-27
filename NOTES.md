@@ -1,0 +1,139 @@
+# Working notes
+
+What we've learned about how the game works, the decisions made, and the plan. Kept so the
+project doesn't depend on anyone's memory of past sessions. Symbol names are in
+`maps/symbols.txt`; struct and field offsets below are byte offsets.
+
+## Decisions (from the project's owner)
+
+- **Two patches.** `dkp2001_fixes.ips`: bug fixes and content the build already has (`FIXES`).
+  `dkp2001_updates.ips`: the same plus our own new work (`UPDATES`). Each applies to the
+  original ROM on its own.
+- **Rare's assets are never modified**: no edits, recolours or redraws. They may be used as they
+  are, by reference. New work is our own and lives in `updates/` (see `updates/README.md`).
+- **Nothing copied** from elsewhere; no new drawings of Nintendo's characters. Original assets
+  must match the game's look (its palettes, shading rules, detail) without imitating its art.
+- **Accuracy first.** Restorations only where the build itself is complete and shows the intent;
+  anything that's our design is labelled as such. Don't present guesses as Rare's intent.
+- **No ROM, ELF or extracted assets in the repo**, and no mention of outside wiki pages the owner
+  pointed us to. Patched ROMs are sent to the owner directly, never committed.
+- **Boot:** the game boots through its own logos to the title; the debug menu is on L+R.
+- **Rare-style humour** is welcome in the updates patch (credits, tips), kept to its own corner.
+- Wanted: a complete version of the game. Plan below.
+
+## Engine
+
+**Main loop** (`AgbMain`, main.c): reads keys (`sys_joycnt` held, `sys_joytrg` pressed; A 1,
+B 2, Select 4, Start 8, Right 0x10, Left 0x20, Up 0x40, Down 0x80, R 0x100, L 0x200),
+reads the tilt sensor, then calls `sys_mode` (a function pointer: `logo_process`, `title`,
+`menu_process` (debug menu), `game_process`, ...). `sys_flags` (0x03003398) holds global flags:
+0x100 = race started from the front-end, 0x40 = the computer flies the player's plane (attract
+demo), 0x20/0x80/0x04 race-state bits.
+
+**Front-ends.** Two of them:
+- the old hand-written one (`src/title/*.s`): `title` dispatches on `TITLE_STATE` through
+  `state_jt`: 2 game-type carousel, 3 zoom, 4 character select, 5 story mode, 6 dogfight
+  select, 7 level select, 8 controls. Uses `LOCAL_MEM` (0x020000ec) as shared scratch.
+- the C one (`src/menu/*.c`): course and story lists. `menu_main_state`: 7 starts the chosen
+  race (`game_init`), 8 hands back to the old character select. `virtual_mode` /
+  `current_mode`: 0 Racing, 1 Stories, 2 Dog Fights, 3 Battles, 4 Clock Race (5 Options in
+  the carousel). These stay set during a race; nothing outside the menu reads them except our
+  code.
+- `select_indices` (one row of 6 per world or story, `level - 1`): rows 0-3 the mode lists,
+  4-8 the five Racing worlds (4 courses each), 9-11 the three stories (4 courses each).
+  `select_strings`: course names by level, then world names (42-46) and story names (47-49).
+- Character select slots (after `FIX "charsel"`): 0 Cranky, 1 Diddy, 2 Kong, 3 Krash,
+  4 K. Rool, 5 Dixie, 6 Redneck (unreachable). Game character numbers: 0 Cranky, 1 Diddy,
+  2 Krunch, 3 K. Rool, 4 Dixie, 5 Kong. `setup_player_data` maps a character to its sprite set
+  (`tab_sprites` 5, 1, 4, 6, 2, 3).
+
+**Courses.** `tab_levels[level]`, 9 words: level palette, level tiles (`__chr_*_lvl`), sky
+tiles, ground map (`__map_*_gnd`), level map (`__map_*_lvl`), sky map, sky gradient
+(`__pal_grad_sky_*`), object list (`obj_*`), AI network (`__net_*`). Levels 1-41 (no 0).
+Tiles are 4x4 metatiles (`__frs_dkp`) over the tile bank (`__chr_dkp`). World positions are
+8.8 fixed point; maps are about 1024 units across.
+
+**AI network** (`__net_*`): hword route count N, then N hword offsets (bytes, from the network
+start) to routes. A route is an hword point count, then 8-byte points: hword flags (bit 1 is
+tested when skipping points), x, y, z in whole units (`ai_steer` reads point i at
+route + 2 + 8i). Computer player n follows route n (fixed to fall back to route 0). A six-route
+network's last route is instead the front-end camera fly-in path, in 12-byte records (an hword,
+then x, y, z, two angles; `campan_load2`).
+
+**Objects.** Each object (from `obj_new`, free list `object_free_list`, next at +4): +0 hword
+flags, +2 hword type (1 player, 2 computer player), +32/+36/+40 x/y/z (8.8), +44/+48/+52
+velocity, +60 heading (16-bit angle; forward is (sin, cos) in x, z), +76 pointer to its
+level-object record, +80 flags (bit 3 armed), +84 player number, +104 speed, +130 character
+(after `setup_player_data`), +134/+136/+138 weapon stack, +140 weapon count, +164 race
+progress, +168/+172 route point and lap. `players[0..3]` (0x02003b04); player 0 is the human.
+
+**Race monitor** (`monitor`, 0x02003b18): +80 state (0 intro, 1 GET READY, 2 GO, 3 racing,
+4 finished, 5 retired), +84 strikes allowed (3), +85 laps (3), +86+p laps done, +94+p pylon
+strikes (the dogfight's hits), +106+p place, +131 show-the-strike-counter timer, +136 the
+player's place shown by the HUD, +140 end timer (then object 75 returns to the front-end).
+Laps come from `act_starthoop` (`race_complete_lap`), strikes from `act_pylon`
+(`race_fail_player` on the third).
+
+**Controls** (`plr_ctrl`, 16 bytes per player): +0 buttons (1 accelerate, 2 fire, 0x300 hard
+turn), +8 stick x, +12 stick y. Computer players fill it in `ai_steer` / `ai_think`.
+
+**Weapons**: ids 1-10 from powerups (`react_powerup`: random 1-10), 13 and 14 from special
+powerups; `move_player`'s switch fires them. `ai_think` knows 1-8.
+
+**Sprites**: `tab_sprites`, 8-byte entries (pointer, then palette etc.). Read entries from the
+ROM, not by counting `.word` lines in `data/rodata.s` (entry 0 has no pointer). Notable: 99-114
+HUD course maps, 121 GO, 122 GET READY, 123 FINISH, 124 RETIRE.
+
+**Sound**: `audio_new_fx(id, ...)`; ids are the `SFX_*` names in `maps/symbols.txt`
+(e.g. 55 `SFX_MISS`, 60 `SFX_CRANKY_LOVELY`). Tunes (`tune_list`): 0 beach, 1 snow, 2 lava,
+3 menu, 4 bayou, 5 haunted, 6 castle.
+
+**Story mode** (old front-end, `title_story.s`): `krool_story_info` -> stage list
+(`krool_stage0`; 4 bytes per stage: text command, scene command; 0xFFFF starts a game);
+`krool_text_page_N` text in the small font's encoding (`tools/story_text.py`). Only K. Rool's
+Gold has story data.
+
+## Patch mechanics
+
+- Fixes go next to the code they replace, under `.ifdef FIXES` (updates: `.ifdef UPDATES`),
+  tagged `FIX "<id>"`, same size where possible (`.fill`).
+- New code goes in the `.fixes` section at the end of the ROM (`asm/fixes.s`,
+  `updates/code/*.s`). The ROM end is out of BL range, so it's reached through small
+  trampolines (`ldr rX, 1f; bx rX; .word target+1`) placed in the dead space of the 222 skipped
+  assert blocks (`fix_assert_*`); a free one is just a `b` and a `.fill`.
+- Same-size data changes (tables, pointers) go in `data/*.s` under `.ifdef FIXES`.
+- After any change: `make compare` (original byte-identical), `make patch`, and the tests.
+
+## Testing
+
+- `tools/romtest/romtest`: headless mGBA. `PROBLEMS=1` lists emulator faults, `RAM_OUT`
+  (+ `RAM_VIDEO`) dumps memory, `AUDIO_OUT` records sound, `POKE` writes memory, `--ppm`
+  screenshots. See `tools/romtest/README.md`.
+- `tools/reloc_test.py tools/romtest/romtest [--fixed|--updated]`: relocation test.
+- The patched builds boot into the logos: scripts written for the debug menu press L+R on the
+  Nintendo logo first and shift everything 100 frames (as `reloc_test.py` does). The boot-time
+  stdio writes to ROM (`std+*`, `__sinit`) are harmless.
+- `tools/tests/checks.py` holds the regular checks: every track from the debug menu with faults
+  reported; the 20 front-end race starts (5 modes x 4); the 32 Clock Race courses; races run to
+  the finish with the computer flying (`POKE` `sys_flags |= 0x40` before GO); the character
+  picks; the stories; the dogfight endings. Copy the ROM somewhere first if a rebuild might run
+  at the same time.
+
+## Plan for the updates patch
+
+1. **Course audit**: done, `COURSES.md` (`tools/course_audit.py`). 6 finished races, 12 built
+   arenas/tasks, 4 drawn but empty, 18 placeholders whose ground is stamped with their menu
+   slot (R = Racing world-course, S = story-course).
+2. **Course tools**: decode the object lists fully; a level editor (layout, objects, routes).
+3. **Computer racers on every course**: proper AI routes for the 29 stub and 3 empty networks.
+4. **Finish the unfinished courses**: layouts for the 18 placeholders (our design, from the
+   tile bank by reference), objects so every course can be completed. The owner wants the
+   placeholder course names (Lava Race 2, Desert Race 2, ...) changed in the updates patch when
+   we build them; not before.
+5. **Clock Race** (timer, best times; needs save support) and **Battles** rules.
+6. **K. Rool's Gold's later chapters**: task rules, and the task result fed back into the story.
+7. Original graphics and music as needed; credits with Rare-style humour.
+
+Open questions: the Stories crash the owner saw (not reproduced on mGBA; on hold);
+whether K. Rool's Gold's first task should be its first course (Classic Dogfight) or the
+Crackpot Keep task its text describes.
