@@ -37,7 +37,8 @@ This folder is kept separate so it's always clear what is theirs and what is our
 |---|---|
 | `text/course_names.s` | New course names: level 37 is **Temple Tangle**. |
 | `art/temple_tangle/` | Temple Tangle's course picture: `paint.py` paints it (no source images), and writes `picture.png`, `tiles.bin` and `palette.bin`. `art/pictures.s` puts it in the ROM. |
-| `courses/temple_tangle.py` | Temple Tangle's race: racing line, pylons, pickups, scenery. `tools/course_build.py` turns it into `temple_tangle.s` (the game's object-list and AI-network formats); the Makefile reruns it when the `.py` changes. |
+| `courses/temple_tangle.py` | Temple Tangle's race: racing line, hidden checkpoints, pickups, scenery, walls, HUD map, and its ground (`temple_tangle_ground.s`, made with `--ground` from your ROM: a map of Rare's metatiles, arranged by us). `tools/course_build.py` turns it into `temple_tangle.s` (the game's object-list and AI-network formats); the Makefile reruns it when the `.py` changes. |
+| `code/walls.s` | Invisible walls along a course's track (`course-walls` in `FIXES.md`). |
 | `code/dogfight.s` | Dog Fights (and K. Rool's Gold's fight): opponents that hunt the player, weapons for everyone, three lives each, the place indicator as a score, and the endings. See `dogfight-opponents` and `dogfight-scoring` in `FIXES.md`. |
 
 ## Building

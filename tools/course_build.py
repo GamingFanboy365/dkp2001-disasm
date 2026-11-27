@@ -248,6 +248,33 @@ def check(c, line, objs):
             near = min(math.dist((x, z), p[:2]) for p in line)
             if near < c.SCENERY_CLEARANCE:
                 problems.append(f"scenery at ({x:.0f}, {z:.0f}) is {near:.0f} units from the line")
+    # separate stretches of track need grass between them, or they merge into one (and the
+    # walls let you cut across): any two line points far apart round the lap must be at
+    # least two half-widths plus GRASS_GAP apart
+    if hasattr(c, "TRACK_HALF_WIDTH"):
+        need = 2 * c.TRACK_HALF_WIDTH + getattr(c, "GRASS_GAP", 40)
+        dense = []
+        for i in range(len(line)):
+            (x0, z0, _), (x1, z1, _) = line[i], line[(i + 1) % len(line)]
+            for k in range(4):
+                dense.append((x0 + (x1 - x0) * k / 4, z0 + (z1 - z0) * k / 4))
+        cum = [0.0]
+        for i in range(1, len(dense)):
+            cum.append(cum[-1] + math.dist(dense[i], dense[i - 1]))
+        lap = cum[-1] + math.dist(dense[-1], dense[0])
+        worst = {}
+        for i in range(len(dense)):
+            for j in range(i + 1, len(dense)):
+                along = min(cum[j] - cum[i], lap - (cum[j] - cum[i]))
+                if along > need * 2.2:
+                    d = math.dist(dense[i], dense[j])
+                    if d < need:
+                        key = (round(dense[i][0], -2), round(dense[i][1], -2))
+                        if key not in worst or d < worst[key][0]:
+                            worst[key] = (d, dense[i], dense[j])
+        for d, a_, b_ in sorted(worst.values())[:6]:
+            problems.append(f"track at {a_[0]:.0f},{a_[1]:.0f} is {d:.0f} units from track at "
+                            f"{b_[0]:.0f},{b_[1]:.0f} (needs {need:.0f})")
     # every racer path must pass each pylon (cross its pass ray) and never strike it while live
     paths = racer_paths(c, line)
     for order, px, pz, a, b, margin, live, spot in PYLON_INFO:
@@ -438,6 +465,86 @@ def emit(c, line, objs, path):
     open(path, "w").write("\n".join(out) + "\n")
 
 
+def ground(c, line, rom_path):
+    """A new level map (32x32 metatiles) that shows the track: paving where the race goes,
+    grass elsewhere, made only of metatiles Rare used in GROUND["source"] (with that course's
+    tile list, so they draw as they do there). Every 32-unit cell gets the metatile whose
+    4x4 tiles best match the track at 8-unit detail (paving within TRACK_HALF_WIDTH of the
+    racing line, grass outside), preferring plain paving and plain grass and avoiding
+    stonework. Needs your ROM, to see what the tiles look like. Returns (map, metatiles)."""
+    import random
+    sys.path.insert(0, os.path.join(ROOT, "tools"))
+    import course_audit as ca
+    rom = ca.Rom(rom_path)
+    g = c.GROUND
+    lst = ca.SYM[g["tiles"]]
+    bank = rom.u32(lst) + 2
+    ids = [rom.u16(lst + 6 + 2 * i) for i in range(min(rom.u16(lst + 4), 256))]
+    pal = [rom.u16(ca.SYM[g["palette"]] + 2 * i) for i in range(256)]
+    pal = [((v & 31) * 8, (v >> 5 & 31) * 8, (v >> 10 & 31) * 8) for v in pal]
+    frs = ca.SYM["__frs_dkp"]
+
+    def tile_class(i):
+        if i >= len(ids):
+            return "O"
+        px = rom.b[bank + 64 * ids[i] - 0x08000000:bank + 64 * ids[i] + 64 - 0x08000000]
+        r = sum(pal[p][0] for p in px) / 64
+        gg = sum(pal[p][1] for p in px) / 64
+        b = sum(pal[p][2] for p in px) / 64
+        if gg > 150 and r < 120:
+            return "G"                          # grass
+        if gg > r + 25 and gg > b + 25 and gg > 90:
+            return "g"                          # leafy overgrowth
+        if r > 170 and gg > 110 and b < 90 and abs(r - gg) < 40:
+            return "Y"                          # yellow stones
+        if 100 < r < 200 and 60 < gg < 160 and b < 90 and r > gg:
+            return "P"                          # paving
+        return "O"                              # stonework, border...
+    tc = [tile_class(i) for i in range(256)]
+    src = ca.SYM[g["source"]]
+    used = {rom.u16(src + 4 + 2 * k) for k in range(1024)}
+    metas = {m: [rom.b[frs + 16 * m + k - 0x08000000] for k in range(16)] for m in sorted(used)}
+    # the plainest paving: the paving tiles the source course uses most
+    from collections import Counter
+    pc = Counter(t for ts in metas.values() for t in ts if tc[t] == "P")
+    plain = {t for t, _ in pc.most_common(6)}
+    segs = [(line[i - 1][:2], line[i][:2]) for i in range(len(line))]
+
+    def dist(x, z):
+        best = 1e9
+        for (ax, az), (bx, bz) in segs:
+            dx, dz = bx - ax, bz - az
+            t = max(0, min(1, ((x - ax) * dx + (z - az) * dz) / (dx * dx + dz * dz or 1)))
+            best = min(best, math.hypot(x - ax - dx * t, z - az - dz * t))
+        return best
+    track = [[dist(8 * i + 4, 8 * j + 4) <= c.TRACK_HALF_WIDTH for i in range(128)] for j in range(128)]
+    rng = random.Random(c.LEVEL)
+    out = []
+    for r in range(32):
+        for q in range(32):
+            want = [track[r * 4 + k // 4][q * 4 + k % 4] for k in range(16)]
+            best = None
+            for m, ts in metas.items():
+                sc = 0.0
+                for k, t in enumerate(ts):
+                    ch = tc[t]
+                    if ch == "O":
+                        sc += 8
+                    elif (ch in "PY") != want[k]:
+                        sc += 4 if (k % 4 in (0, 3) or k // 4 in (0, 3)) else 2
+                    elif ch == "P" and t not in plain:
+                        sc += 0.6
+                    elif ch == "Y":
+                        sc += 0.6
+                    elif ch == "g":
+                        sc += 1.5
+                sc += rng.random() * 0.4
+                if best is None or sc < best[0]:
+                    best = (sc, m)
+            out.append(best[1])
+    return out, metas
+
+
 def preview(c, line, objs, rom_path, out):
     sys.path.insert(0, os.path.join(ROOT, "tools"))
     import course_audit as ca
@@ -478,6 +585,20 @@ def main():
     if short < c.SPACING * 0.45:
         print(f"warning: shortest route segment is {short:.0f} units")
     print(f"{c.NAME}: {len(objs)} objects, {len(line)} route points, lap {length:.0f} units")
+    if "--ground" in sys.argv:
+        rom_path = sys.argv[sys.argv.index("--ground") + 1]
+        m, _ = ground(c, line, rom_path)
+        path = src[:-3] + "_ground.s"
+        lines = [f"@ {c.NAME}'s ground: generated by tools/course_build.py --ground from {os.path.basename(src)}.",
+                 f"@ Ours (updates patch): a 32x32 level map whose entries are Rare's metatiles (from",
+                 f"@ {c.GROUND['source']}, drawn with {c.GROUND['tiles']}), arranged to show the track.",
+                 "", "\t.section .fixes, \"ax\", %progbits", "\t.balign 4", f"map_{c.NAME}:",
+                 "\t.hword\t32, 32"]
+        for r in range(32):
+            lines.append("\t.hword\t" + ", ".join(str(v) for v in m[r * 32:(r + 1) * 32]))
+        lines.append("\t.balign 4")
+        open(path, "w").write("\n".join(lines) + "\n")
+        print("wrote", path)
     if "--preview" in sys.argv:
         i = sys.argv.index("--preview")
         preview(c, line, objs, sys.argv[i + 2], sys.argv[i + 1])

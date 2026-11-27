@@ -159,4 +159,5 @@
 	.include "updates/text/course_names.s"	@ new course names
 	.include "updates/art/pictures.s"	@ new course pictures
 	.include "updates/courses/temple_tangle.s"	@ generated from temple_tangle.py
+	.include "updates/courses/temple_tangle_ground.s"	@ its ground (course_build.py --ground)
 	.endif

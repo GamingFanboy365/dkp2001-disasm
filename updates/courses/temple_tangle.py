@@ -12,34 +12,34 @@ LEVEL = 37
 
 # the racing line (x, z, y); the first point is the start hoop, flying towards the second
 LINE = [
-    (80, 640, 10),      # 0 start hoop, west side, flying north
-    (78, 470, 12),      # 1
-    (96, 330, 14),      # 2
-    (170, 196, 12),     # 3 sweep right along the top
-    (300, 150, 10),     # 4
-    (440, 124, 10),     # 5
-    (560, 210, 8),      # 6 dive into the maze
-    (520, 330, 8),      # 7
-    (390, 380, 8),      # 8 west...
-    (250, 420, 8),      # 9
-    (200, 520, 10),     # 10 ...hairpin back east
-    (300, 600, 10),     # 11
-    (480, 590, 10),     # 12
-    (640, 530, 10),     # 13 north again
-    (700, 400, 12),     # 14
-    (700, 250, 12),     # 15
-    (780, 140, 14),     # 16 round the top-right
-    (910, 190, 14),     # 17 the east side, flying south
-    (935, 380, 15),     # 18
-    (935, 580, 15),     # 19
-    (910, 780, 12),     # 20
-    (800, 900, 10),     # 21 along the bottom
-    (640, 930, 10),     # 22
-    (500, 860, 8),      # 23 up into the southern maze
-    (430, 740, 8),      # 24
-    (300, 720, 8),      # 25
-    (200, 820, 10),     # 26
-    (110, 790, 10),     # 27 and round into the start
+    (90, 660, 10),      # 0 start hoop, west side, flying north
+    (88, 490, 12),      # 1
+    (100, 330, 14),     # 2
+    (165, 195, 12),     # 3 sweep right along the top
+    (300, 128, 10),     # 4
+    (450, 128, 10),     # 5
+    (565, 215, 8),      # 6 dive into the maze
+    (548, 360, 8),      # 7
+    (455, 440, 8),      # 8 west...
+    (345, 445, 8),      # 9
+    (290, 530, 10),     # 10 ...hairpin back east
+    (368, 602, 10),     # 11
+    (520, 615, 10),     # 12
+    (650, 545, 10),     # 13 north again
+    (748, 405, 12),     # 14
+    (758, 255, 12),     # 15
+    (815, 135, 14),     # 16 round the top-right
+    (925, 195, 14),     # 17 the east side, flying south
+    (945, 400, 15),     # 18
+    (945, 610, 15),     # 19
+    (915, 800, 12),     # 20
+    (800, 920, 10),     # 21 along the bottom
+    (640, 945, 10),     # 22
+    (500, 900, 8),      # 23 up into the southern maze
+    (420, 790, 8),      # 24
+    (290, 788, 8),      # 25
+    (215, 870, 10),     # 26
+    (120, 830, 10),     # 27 and round into the start
 ]
 SPACING = 95                    # route point spacing (Rare's courses: 80-110)
 ROUTE_OFFSETS = (0, 8, -8, 16, -16)   # the five AI routes, sideways from the line
@@ -81,20 +81,23 @@ BOOSTS = [("air", 1, 0), ("ground", 19, 0), ("ground", 22, 0)]
 
 # scenery: Rare's own palm trees and stone pillars, placed (not altered); solid, so
 # kept at least SCENERY_CLEARANCE from the line
-SCENERY_CLEARANCE = 48
+SCENERY_CLEARANCE = 80                # off the track (and beyond its walls)
 SCENERY = [
-    ("pillar", 200, 240, 0), ("pillar", 360, 240, 0), ("pillar", 360, 500, 0),
-    ("pillar", 560, 430, 0), ("pillar", 820, 380, 0), ("pillar", 820, 650, 0),
-    ("pillar", 380, 820, 0), ("pillar", 600, 760, 0),
-    ("palm", 40, 120, 24), ("palm", 980, 110, 24), ("palm", 990, 980, 24),
-    ("palm", 620, 60, 24), ("palm", 520, 40, 24), ("palm", 180, 960, 24), ("palm", 860, 980, 24),
+    ("pillar", 720, 740, 0), ("pillar", 380, 280, 0), ("pillar", 800, 580, 0),
+    ("pillar", 220, 660, 0), ("pillar", 220, 400, 0), ("pillar", 540, 740, 0), ("pillar", 660, 140, 0),
+    ("palm", 40, 40, 24), ("palm", 660, 40, 24), ("palm", 340, 980, 24),
+    ("palm", 980, 40, 24), ("palm", 980, 980, 24), ("palm", 240, 40, 24),
 ]
 # invisible walls along both edges of the track (updates/code/walls.s): a plane more than
 # this far from the racing line bounces back, as at the edge of Rare's world
-TRACK_HALF_WIDTH = 72
+TRACK_HALF_WIDTH = 56
+GRASS_GAP = 56                       # grass between separate stretches of track
 # the pylons are hidden checkpoints: out of sight above the ground, at the edge of the map,
 # so each one's pass line runs across the track and can't be missed
 HIDDEN_PYLONS = {"height": 2000, "outside": 16}
 BOUNDS = (30, 30, 994, 994)          # where the checkpoints go: just outside this box
+# its ground (python3 tools/course_build.py updates/courses/temple_tangle.py --ground ROM):
+# Rare's metatiles from Classic Dogfight's overgrown temple, arranged to show the track
+GROUND = {"source": "__map_jungle_01_lvl", "tiles": "__chr_jungle_01_lvl", "palette": "__pal_jungle_lvl"}
 HUD_MAP = True                       # draw its HUD course map (tab_sprites 111 in the updates build)
 CAMERA = 3                       # the front-end fly-in takes every third route point

@@ -2317,10 +2317,18 @@ tab_levels:  @ 0816a164
 	.word obj_jungle_02
 	.word __net_jungle_02
 	.word __pal_jungle_lvl
+	.ifdef UPDATES
+	.word __chr_jungle_01_lvl	@ FIX "temple-tangle": Classic Dogfight's tiles, for our ground
+	.else
 	.word __chr_jungle_03_lvl
+	.endif
 	.word __chr_jungle_sky
 	.word __map_jungle_00_gnd
+	.ifdef UPDATES
+	.word map_temple_tangle	@ FIX "temple-tangle": our ground (updates/courses/temple_tangle_ground.s)
+	.else
 	.word __map_jungle_03_lvl
+	.endif
 	.word __map_jungle_00_sky
 	.word __pal_grad_sky_farm
 	.ifdef UPDATES
