@@ -196,6 +196,10 @@ The owner asked: no arrangement of existing DK music; every tune ours from scrat
   art: the farmer holding up a sign ("Victory" or similar), a nod to the slot's history.
   The farmer is a new animal character, not a Kong.
 - Placeholder courses get new names one at a time, only when each is built.
+- No blue pylons on any course in the updates patch: every race gets hidden checkpoints and
+  invisible walls along its track, as Temple Tangle has. For Rare's finished races the
+  racing line can come from their own AI route 0, and their grounds already show the track
+  (islands, lava, snow); each course's track width needs fitting to its ground.
 
 Open questions: the Stories crash the owner saw (not reproduced on mGBA; on hold);
 whether K. Rool's Gold's first task should be its first course (Classic Dogfight) or the
