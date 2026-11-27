@@ -5,7 +5,7 @@ OBJCOPY := $(PREFIX)objcopy
 
 BUILD   ?= build
 ASFLAGS := -mcpu=arm7tdmi -mthumb-interwork -I . -I $(BUILD)
-ASM     := $(shell find asm data -name '*.s' -o -name '*.S' 2>/dev/null)
+ASM     := $(shell find asm data updates -name '*.s' -o -name '*.S' 2>/dev/null)
 ASSETS  := $(shell find assets -type f 2>/dev/null)
 # Editable assets (PNG/PAL/WAV) are converted to the .bin files the source
 # .incbin's, under $(BUILD)/assets/; as finds them through -I $(BUILD).

@@ -60,7 +60,8 @@ behaviour** is only in the updates patch.
 ### New behaviour (updates patch only)
 
 These are **new design, not restored content**: the build has no dogfight game code, so nothing
-says how Rare meant a dogfight to play.
+says how Rare meant a dogfight to play. Their code is in `updates/` (see `updates/README.md`),
+with only tagged hooks in the game's source.
 
 | Id | What | How |
 |---|---|---|

@@ -153,3 +153,6 @@
 	.ifdef FIXES
 	.include "asm/fixes.s"
 	.endif
+	.ifdef UPDATES
+	.include "updates/code/dogfight.s"	@ our own additions (see updates/README.md)
+	.endif
