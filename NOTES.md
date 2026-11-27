@@ -159,6 +159,23 @@ Gold has story data.
 6. **K. Rool's Gold's later chapters**: task rules, and the task result fed back into the story.
 7. Original graphics and music as needed; credits with Rare-style humour.
 
+**Race flow** (researched for the cups):
+- Menu start (`menu_main` state 7, menu_main.c:248): `game_level`, `sys_flags |= 0x100`,
+  `sys_oam_start = 16`, `sys_mode = game_init`. 0x100 = the *preview*: camera fly-in and the
+  course name (`plot_big_text(buf, 120, 136)` via `__ptr_plot_big_text`, game.c:157-165;
+  big font: A-Z 0-25, digits 41-50, space 254, end 255; no `/`). A/Start: game.c:326 clears
+  0x100 and calls `game_init` again = the race. B: back to the menu.
+- Racing plays only the world's first course (`menu_mode_get_level`, menu_mode.c:503).
+- End: state 4/5, +140 = 384 frames, then `act_fader` (object 75) sets `sys_flags` bit 1,
+  `game_process` (game.c:342-357) calls `bg_done` and `init_title` (carousel, GAME_MODE 0).
+  Clock Race too; its list index is `local_level` (0-31), reset by `menu_main_init`.
+- Places: `calculate_race_positions` (laps, pylons, distance) -> monitor +106+p, +136.
+  No finishing order is kept; computer laps keep counting after the finish.
+- Lap banners: sprites 22/23 (`act_hud_position`), unused 95 "1ST", 96 "FINAL LAP",
+  98 "LAP 2". HUD digits: 117 `hud_digits`, 118 `hud_nums` (0-9 and ':'). No race clock;
+  `setup_timer` (act_haunted.c:255) draws M:SS with `hud_nums`. `sys_counter` 0x0300339c.
+- Unused award coins per course: `levels` (0x0200df50), `state_level_get_award` (stub).
+
 **Laying out a course** (`tools/course_build.py`, learned on Temple Tangle): a pylon's
 pass and strike tests are rays of unlimited length from the pylon, checked only by the
 racer's bearing. So a strike ray that points across another part of the course gives
@@ -189,8 +206,8 @@ The owner asked: no arrangement of existing DK music; every tune ours from scrat
 - A race timer that counts up, and a positions/ranking system (results).
 - Racing mode: a world is a cup of its four courses in the Clock Race list's order. After
   each race: the fanfare, the rankings, then the next course; after the fourth, the final
-  results over a background of ours. The intro shows "RACE 1 OF 4" etc. top right in the
-  course-name font, only in Racing mode. Lap icons 1/3, 2/3, 3/3 on the mini map. The
+  results over a background of ours. The intro shows "RACE 1 OF 4", "RACE 2 OF 4",
+  "RACE 3 OF 4", then "FINAL RACE" top right in the course-name font, only in Racing mode. Lap icons 1/3, 2/3, 3/3 on the mini map. The
   rankings can reuse Rare's small racer icons (the menus' *small* character pictures, or the
   in-race *_head sprites), by reference.
 - Clock Race becomes time trials: best time per course (needs saving), opponents kept;

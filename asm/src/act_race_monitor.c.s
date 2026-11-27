@@ -427,9 +427,17 @@ L_0800e1e8:
 	cmp	r2, #0
 	blt L_0800e252
 @ src/act_race_monitor.c:97
+	.ifdef FIXES
+	@ FIX "race-places": this swap of the third and fourth racers only copied the third
+	@ over the fourth (order[3] = order[2], without order[2] = order[3]), so one racer
+	@ was counted twice and another dropped: places like 4th, 2nd, 1st, 1st. Done in
+	@ full in fix_race_places (below, in a skipped assert block); same size.
+	bl	fix_race_places
+	.else
 	ldr	r4, [sp, #8]
 @ src/act_race_monitor.c:98
 	str	r4, [sp, #12]
+	.endif
 @ src/act_race_monitor.c:24
 	ldr	r5, [sp, #4]
 @ src/act_race_monitor.c:28
@@ -669,6 +677,15 @@ L_0800e330:
 	.ifdef FIXES
 fix_assert_L_0800e346:
 	b	L_0800e346	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	@ FIX "race-places": the full swap of order[2] and order[3] (on the caller's stack;
+	@ r4 = the new order[2], as the code after it expects). Uses r0.
+fix_race_places:
+	ldr	r4, [sp, #8]
+	ldr	r0, [sp, #12]
+	str	r0, [sp, #8]
+	str	r4, [sp, #12]
+	adds	r4, r0, #0
+	bx	lr
 	.fill 18 - (. - fix_assert_L_0800e346), 1, 0	@ same size as the original block
 	.else
 	ldr	r0, _0800e364	@ =D_0806ffac
