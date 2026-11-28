@@ -254,6 +254,11 @@ The owner asked: no arrangement of existing DK music; every tune ours from scrat
   The sign is only for the character select screen, not in races. He needs a racer head
   icon of ours for the rankings (Candy's head sprite, 45, stays unused, untouched). The farmer is a new
   animal character, not a Kong.
+  Decided: he is **RUSTY**, a rooster farmer (rust-red feathers, cream chest, dark sickle
+  tail, a straw hat with his comb through it, one-strap denim overalls with a patch, a wheat
+  stalk in his beak). Owner: his sprites must match the six Rare racers in detail and
+  proportion (same sizes, frame counts, angles, colour depth). Every mode's character
+  select is to show the highlighted racer's name.
 - Placeholder courses get new names one at a time, only when each is built.
 - No blue pylons on any course in the updates patch: every race gets hidden checkpoints and
   invisible walls along its track, as Temple Tangle has. For Rare's finished races the
