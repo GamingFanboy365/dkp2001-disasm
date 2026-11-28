@@ -83,14 +83,51 @@ def build(d):
         bars = list(part.get("intro", [None] * len(d.INTRO))) + list(part["loop"])
         if len(bars) != len(d.INTRO) + len(d.LOOP):
             raise ValueError(f"track on channel {ch} has {len(bars)} bars, not {len(d.INTRO) + len(d.LOOP)}")
+        notes = []
         for b, bar in enumerate(bars):
             if not bar:
                 continue
             for t, k, ln, v in bar_events(bar, part.get("velocity", 100), part.get("gate", 0.85)):
+                notes.append((b * BAR + t, k, ln, v))
                 ev.append((b * BAR + t, 5, bytes((5, ch, k, v))))
                 ev.append((b * BAR + t + ln, 4, bytes((6, ch, k, 0))))
+        ev += expression(part, ch, notes)
         tracks.append(ev)
     return tracks, loop_start, loop_end
+
+
+def bend(ch, value):
+    value = max(0, min(16383, int(value)))
+    return bytes((10, ch, value & 255, value >> 8))
+
+
+def expression(part, ch, notes):
+    """Rare's lead expression, as the race tunes use it (NOTES.md): on notes at least
+    `long` sixteenths long, vibrato (CC 1) after a short delay, and (`swell`) a pitch bend
+    up and back; a note followed by a rest (a phrase end) can `fall` away at its end.
+    Bend values: centre 8192, 0-16383."""
+    out = []
+    long = part.get("long", 6) * SIXTEENTH
+    single = sorted({(t, ln) for t, k, ln, v in notes})
+    starts = [t for t, ln in single]
+    for i, (t, ln) in enumerate(single):
+        if ln < long:
+            continue
+        if part.get("vibrato"):
+            out.append((t, 3, bytes((7, ch, 1, 0))))
+            out.append((t + ln // 3, 3, bytes((7, ch, 1, part["vibrato"]))))
+            out.append((t + ln, 3, bytes((7, ch, 1, 0))))
+        if part.get("swell"):
+            up, mid = 8192 + part["swell"], t + ln // 2
+            for k in range(5):                                  # up and back, as Rare's do
+                out.append((mid - 96 + k * 24, 3, bend(ch, 8192 + (up - 8192) * k / 4)))
+                out.append((mid + 48 + k * 24, 3, bend(ch, up - (up - 8192) * k / 4)))
+        nxt = starts[i + 1] if i + 1 < len(starts) else None
+        if part.get("fall") and (nxt is None or nxt - (t + ln) >= 2 * SIXTEENTH):
+            for k in range(1, 7):                               # a fall at the phrase end
+                out.append((t + ln - 96 + k * 16, 3, bend(ch, 8192 - part["fall"] * k / 6)))
+            out.append((t + ln + 1, 3, bend(ch, 8192)))
+    return out
 
 
 def encode(ev):

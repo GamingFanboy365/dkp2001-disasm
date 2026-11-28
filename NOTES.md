@@ -176,6 +176,20 @@ Gold has story data.
   `setup_timer` (act_haunted.c:255) draws M:SS with `hud_nums`. `sys_counter` 0x0300339c.
 - Unused award coins per course: `levels` (0x0200df50), `state_level_get_award` (stub).
 
+**Rare's music style in this build** (from the seven race tunes' note data; a guide for ours):
+- Brisk (107-165 bpm); short intros (0-4 bars, the loop starting at bar 2-4); long loops of
+  32-62 bars, built from 8-bar sections that come back varied.
+- Modal keys (dorian, mixolydian, minor); vamp harmony: the bass holds the tonic for bars at
+  a time, moving by half-step or to IV/V for colour, rather than functional chord cycles.
+- Thin harmony (1-3 notes at once) over busy staccato 16th ostinatos/arpeggios (12-18 notes a
+  bar); leads sparser (2-7 notes a bar), often long notes.
+- Harmonised doubling: a line copied in parallel 3rds/6ths on a second track of the same
+  instrument (the beach tune's pianos). Pan (CC 10) is in the data but the driver ignores it.
+- Expression: modulation (CC 1, vibrato) and pitch bends on leads: a swell up and back on a
+  long note, a fall at a phrase end (bend centre 8192, 0-16383, as low byte then high byte);
+  wide velocities (accents, ghost notes on hats); volume swells (CC 7) on pads.
+- The driver's controllers: 1, 7, 102/103 (loop), 126/127 (mono/poly); 8 voices with effects.
+
 **Laying out a course** (`tools/course_build.py`, learned on Temple Tangle): a pylon's
 pass and strike tests are rays of unlimited length from the pylon, checked only by the
 racer's bearing. So a strike ray that points across another part of the course gives
