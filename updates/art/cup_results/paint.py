@@ -275,21 +275,22 @@ def podium(img):
 
 
 def banner(img):
-    """A shaded red ribbon with gold edges across the top, for the title."""
+    """A shaded red ribbon with gold edges across the top, for the title (centred on the
+    title text, y 8-24)."""
     b = layer()
     d = ImageDraw.Draw(b)
     y0, y1 = TITLE[0] * S, TITLE[1] * S
     x0, x1 = 34 * S, 206 * S
     for sx, dirn in ((x0, -1), (x1, 1)):
-        tail = [(sx, y0 + 6 * S), (sx + dirn * 24 * S, y0 + 6 * S), (sx + dirn * 16 * S, (y0 + y1) / 2 + 4 * S),
-                (sx + dirn * 24 * S, y1 + 7 * S), (sx, y1 + 7 * S)]
+        tail = [(sx, y0 + 4 * S), (sx + dirn * 24 * S, y0 + 4 * S), (sx + dirn * 16 * S, (y0 + y1) / 2 + 2 * S),
+                (sx + dirn * 24 * S, y1 + 5 * S), (sx, y1 + 5 * S)]
         d.polygon(tail, fill=(160, 30, 44, 255), outline=OUT)
-    for y in range(int(y0 + 2 * S), int(y1 + 3 * S)):
-        t = (y - y0) / (y1 - y0 + 3 * S)
+    for y in range(int(y0), int(y1 + S)):
+        t = (y - y0) / (y1 - y0 + S)
         k = 1.35 - 0.8 * t if t < 0.4 else 1.0 - 0.45 * (t - 0.4)
         d.line([(x0, y), (x1, y)], fill=shade((220, 44, 56), k) + (255,))
-    d.rectangle([x0, y0 + 2 * S, x1, y1 + 3 * S], outline=OUT)
-    for yy, c in ((y0 + 3 * S, (255, 220, 110)), (y1 + 2 * S, (210, 150, 50))):
+    d.rectangle([x0, y0, x1, y1 + S], outline=OUT)
+    for yy, c in ((y0 + S, (255, 220, 110)), (y1, (210, 150, 50))):
         d.line([(x0 + S, yy), (x1 - S, yy)], fill=c + (255,), width=S)
     paste(img, b)
 
