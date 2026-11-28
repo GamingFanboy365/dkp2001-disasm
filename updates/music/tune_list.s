@@ -17,3 +17,7 @@ tune_list_updates:
 	.word	results_tune			@ 8 RESULTS (updates/music/results.py)
 	.word	final_results_tune		@ 9 FINAL RESULTS, cup won (final_results.py)
 	.word	final_runner_up_tune		@ 10 FINAL RESULTS, not won (final_results_runner_up.py)
+	.word	fanfare_1st_tune		@ 11 finish, 1st (fanfare_1st.py; played once)
+	.word	fanfare_2nd_tune		@ 12 finish, 2nd (fanfare_2nd.py)
+	.word	fanfare_3rd_tune		@ 13 finish, 3rd (fanfare_3rd.py)
+	.word	fanfare_4th_tune		@ 14 finish, 4th or retired (fanfare_4th.py)

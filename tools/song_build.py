@@ -8,7 +8,8 @@ writes updates/music/jungle.s (assembled into the updates build) and, with
 in for the game's samples).
 
 A description (see updates/music/jungle.py) gives NAME, TEMPO (beats per minute),
-INTRO and LOOP (lists of bars, played once / forever), and TRACKS: one per part,
+INTRO and LOOP (lists of bars, played once / forever; with ONCE = True the whole song
+plays once and stops, as for a fanfare), and TRACKS: one per part,
 each with a channel, a program (an instrument of the race tunes' set, vgroup0) and its
 bars. A bar is a string of events separated by spaces, each "NOTE:LEN" or "r:LEN"
 (rest) where NOTE is like C4, F#5, Bb3 (or a drum key number) and LEN is in
@@ -77,9 +78,10 @@ def build(d):
         ch, prog = part["channel"], part["program"]
         ev = [(0, 0, bytes((8, ch, prog))),
               (0, 1, bytes((7, ch, 7, part.get("volume", 100)))),
-              (0, 1, bytes((7, ch, 10, part.get("pan", 64)))),
-              (loop_start, 2, bytes((7, ch, 102, 0))),
-              (loop_end, 8, bytes((7, ch, 103, 0)))]
+              (0, 1, bytes((7, ch, 10, part.get("pan", 64))))]
+        if not getattr(d, "ONCE", False):           # ONCE: played through once, then the
+            ev += [(loop_start, 2, bytes((7, ch, 102, 0))),     # driver stops the tune
+                   (loop_end, 8, bytes((7, ch, 103, 0)))]
         bars = list(part.get("intro", [None] * len(d.INTRO))) + list(part["loop"])
         if len(bars) != len(d.INTRO) + len(d.LOOP):
             raise ValueError(f"track on channel {ch} has {len(bars)} bars, not {len(d.INTRO) + len(d.LOOP)}")

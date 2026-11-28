@@ -41,6 +41,7 @@
 	.equ	C_GLYPHS, 11			@ byte: the timer's glyphs are loaded this race
 	.equ	C_TB, 30			@ hword: the time glyphs' first tile
 	.equ	C_PB, 28			@ byte: and their palette bank
+	.equ	C_FANFARE, 29			@ byte: the finish fanfare has started this race
 	.equ	C_DIGITS, 100			@ 8 bytes: a time as glyph numbers
 	.equ	CUP_MAGIC, 0x31505543		@ "CUP1"
 
@@ -55,6 +56,7 @@
 	.equ	TUNE_RESULTS, 8			@ updates/music/tune_list.s
 	.equ	TUNE_FINAL_WON, 9
 	.equ	TUNE_FINAL_NOT_WON, 10
+	.equ	TUNE_FANFARE, 11		@ 11-14: the finish fanfares for 1st-4th
 	.equ	G_SPACE, 254
 	.equ	G_END, 255
 	.equ	G_DIGIT, 41			@ big font: digit d is glyph 41 + d
@@ -100,6 +102,7 @@ cup_plot_name_far:
 	strb	r0, [r4, #C_NEXT]
 	strb	r0, [r4, #C_DONE]
 	strb	r0, [r4, #C_GLYPHS]
+	strb	r0, [r4, #C_FANFARE]
 	str	r0, [r4, #C_CLOCK]
 	movs	r1, #C_FINISH
 3:	str	r0, [r4, r1]			@ the race's times and estimates
@@ -766,7 +769,8 @@ head_palettes:
 @ the player's time drawn top left: Rare's small HUD digits (hud_digits) with our own
 @ ' and " marks, 1'23"45. Every race with laps (not dogfights or the attract demo):
 @ the player's lap at the bottom left, LAP 1, LAP 2, ... FINAL LAP, in our letters
-@ and the same digits. Called every race frame (fix_df_positions_far).
+@ and the same digits; when the player finishes, a fanfare of ours for the place
+@ (tunes 11-14, played once). Called every race frame (fix_df_positions_far).
 	.equ	MON_LAPS, 85			@ laps to race
 	.equ	MON_LAPSDONE, 86		@ +p
 	.equ	MON_PASSED, 90			@ +p: checkpoints passed in the race
@@ -813,6 +817,28 @@ timer_frame:
 2:	bl	df_mode				@ a dogfight: no laps, no clock
 	cmp	r0, #0
 	bne	9f
+	@ the player's finish: its fanfare, once (1st-4th by place; retired, the 4th's)
+	ldrb	r0, [r4, #C_FANFARE]
+	cmp	r0, #0
+	bne	12f
+	cmp	r6, #4
+	blt	12f
+	movs	r0, #1
+	strb	r0, [r4, #C_FANFARE]
+	movs	r0, #TUNE_FANFARE + 3
+	cmp	r6, #5
+	beq	13f
+	adds	r0, r5, #0
+	adds	r0, #MON_PLACE
+	ldrb	r0, [r0, #0]			@ 1-4
+	subs	r0, #1
+	cmp	r0, #3
+	bls	14f
+	movs	r0, #3
+14:	adds	r0, #TUNE_FANFARE
+13:	ldr	r3, =audio_start_tune+1
+	bl	cup_bx_r3
+12:
 	ldrb	r0, [r4, #C_GLYPHS]
 	cmp	r0, #0
 	bne	8f

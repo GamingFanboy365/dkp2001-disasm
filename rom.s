@@ -166,5 +166,9 @@
 	.include "updates/music/results.s"
 	.include "updates/music/final_results.s"
 	.include "updates/music/final_results_runner_up.s"
+	.include "updates/music/fanfare_1st.s"	@ the finish fanfares (played once)
+	.include "updates/music/fanfare_2nd.s"
+	.include "updates/music/fanfare_3rd.s"
+	.include "updates/music/fanfare_4th.s"
 	.include "updates/courses/rare/rare_courses.s"	@ Rare's races without pylons (made at build time)
 	.endif

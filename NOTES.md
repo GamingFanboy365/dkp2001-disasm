@@ -216,7 +216,8 @@ on, 6 off, 7 controller (7 volume, 10 pan, 102 loop point, 103 loop back), 8 pro
 The owner asked: no arrangement of existing DK music; every tune ours from scratch.
 
 **Later, from the owner:**
-- A finishing fanfare: one for 1st, variations for 2nd and 3rd, another for 4th.
+- A finishing fanfare: one for 1st, variations for 2nd and 3rd, another for 4th (done:
+  `finish-fanfares`, tunes 11-14).
 - A race timer that counts up, and a positions/ranking system (results).
 - Racing mode: a world is a cup of its four courses in the Clock Race list's order. After
   each race: the fanfare, the rankings, then the next course; after the fourth, the final
