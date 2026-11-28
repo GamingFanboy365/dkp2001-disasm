@@ -35,3 +35,14 @@ cup_final_map:
 cup_final_palette:
 	.incbin	"updates/art/cup_results/final/palette.bin"
 	.balign	4
+@ BEST TIMES (Clock Race, updates/code/best.s): best/, a jungle clearing with our plane.
+cup_best_tiles:
+	.incbin	"updates/art/cup_results/best/tiles.bin"
+cup_best_tiles_end:
+	.balign	4
+cup_best_map:
+	.incbin	"updates/art/cup_results/best/map.bin"
+	.balign	4
+cup_best_palette:
+	.incbin	"updates/art/cup_results/best/palette.bin"
+	.balign	4

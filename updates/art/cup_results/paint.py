@@ -11,13 +11,19 @@ banner across the top for the title, a stone podium with gold, silver and bronze
 bands, and soft see-through strips where the four standings rows sit (the text and
 racer heads are sprites drawn over it).
 
+BEST TIMES (Clock Race) is a jungle clearing: green-gold light through the canopy, a
+stone ruin and a waterfall in the haze, tree trunks, vines, ferns, flowers, a parrot,
+butterflies, sun flecks, a plane of our own design parked three-quarters toward us on a
+patch of earth to the right (a supply crate and a fuel drum beside it), and a mossy
+carved stone tablet for the title.
+
 FINAL RESULTS is a trophy room instead: wood-panelled walls under spotlights, shelves of
 gleaming trophies (generic cups of our own design: gold, silver, bronze), red velvet
 curtains with gold tassels, a gold plaque for the title.
 
     python3 updates/art/cup_results/paint.py
 
-writes, in race/ and final/ next to this script:
+writes, in race/, final/ and best/ next to this script:
   picture.png   the background as the game shows it (240x160, 255 colours)
   preview.png   the same at 3x
   tiles.bin     8bpp tiles, duplicates removed
@@ -30,6 +36,8 @@ import random
 
 import numpy as np
 from PIL import Image, ImageDraw, ImageEnhance, ImageFilter
+
+import plane3d
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 S = 4
@@ -569,6 +577,342 @@ def paint_final():
     return finish(img)
 
 
+# ---------------------------------------------------------------- best times: a jungle clearing
+BEST_ROWS = (40, 61, 82, 103, 124)  # the chart's rows (updates/code/best.s), text 16 high
+BEST_X = (8, 170)               # the rows' extent; the plane sits to the right
+TEAL = (52, 168, 184)
+CREAM = (246, 232, 196)
+ORANGE = (240, 128, 40)
+SUNNY = (250, 208, 64)
+
+
+def j_backdrop(img):
+    """Green-gold light filtering down through the canopy."""
+    d = ImageDraw.Draw(img)
+    for y in range(H):
+        t = y / H
+        c = lerp((176, 222, 150), (70, 140, 86), min(1, t * 1.6)) if t < 0.62 else lerp((70, 140, 86), (34, 84, 50), (t - 0.62) / 0.38)
+        d.line([(0, y), (W, y)], fill=c + (255,))
+    g = layer()
+    gd = ImageDraw.Draw(g)
+    for r, a in ((110, 60), (80, 70), (50, 90)):
+        gd.ellipse([(120 - r) * S, (8 - r * 0.6) * S, (120 + r) * S, (8 + r * 0.6) * S], fill=(255, 244, 180, a))
+    paste(img, g, 10 * S)
+
+
+def j_canopy_layer(img, base, col, haze, seed, size):
+    r = random.Random(seed)
+    p = layer()
+    d = ImageDraw.Draw(p)
+    x = -10
+    while x < 250:
+        w = r.uniform(size * 0.7, size * 1.3)
+        top = base - r.uniform(0, size * 0.8)
+        d.ellipse([(x - w) * S, top * S, (x + w) * S, (top + w * 1.4) * S], fill=col + (255,))
+        d.ellipse([(x - w * 0.7) * S, (top + w * 0.1) * S, (x + w * 0.4) * S, (top + w * 0.6) * S],
+                  fill=shade(col, 1.18) + (255,))
+        x += w * 1.1
+    d.rectangle([0, (base + size * 0.5) * S, W, H], fill=col + (255,))
+    paste(img, p, haze * S)
+
+
+def j_ruin(img):
+    """A stepped stone ruin far off in the haze, half swallowed by the trees."""
+    p = layer()
+    d = ImageDraw.Draw(p)
+    stone, lit = (128, 150, 132), (170, 190, 166)
+    for k in range(5):
+        w = 34 - k * 6
+        y0 = 92 - k * 8
+        d.rectangle([(120 - w) * S, y0 * S, (120 + w) * S, (y0 + 8) * S], fill=stone + (255,))
+        d.rectangle([(120 - w) * S, y0 * S, (120 + w) * S, (y0 + 1.5) * S], fill=lit + (255,))
+        for bx in range(int(120 - w) + 4, int(120 + w), 7):
+            d.line([(bx * S, (y0 + 2) * S), (bx * S, (y0 + 8) * S)], fill=(100, 120, 104, 255), width=S // 2)
+    d.rectangle([114 * S, 52 * S, 126 * S, 60 * S], fill=(60, 74, 62, 255))       # the shrine's door
+    d.rectangle([116 * S, 92 * S, 124 * S, 100 * S], fill=(150, 168, 148, 255))   # the stair
+    paste(img, p, 1.2 * S)
+    m = layer()                                                                   # haze over it
+    ImageDraw.Draw(m).rectangle([0, 40 * S, W, 104 * S], fill=(150, 200, 150, 36))
+    paste(img, m, 6 * S)
+
+
+def j_trunk(img, x, w, lean, col):
+    p = layer()
+    d = ImageDraw.Draw(p)
+    pts_l, pts_r = [], []
+    for i in range(21):
+        t = i / 20
+        cx = x + lean * t
+        ww = w * (1.0 - 0.35 * t)
+        y = (160 - 170 * t)
+        pts_l.append(((cx - ww / 2) * S, y * S))
+        pts_r.append(((cx + ww / 2) * S, y * S))
+    d.polygon(pts_l + pts_r[::-1], fill=col + (255,))
+    d.polygon(pts_l + [((a + b) / 2, y) for (a, y), (b, _) in zip([q[0:1] + (q[1],) for q in pts_l], pts_r)][::-1],
+              fill=shade(col, 1.25) + (255,))
+    for i in range(3, 20, 3):                                       # bark
+        (lx, y), (rx, _) = pts_l[i], pts_r[i]
+        d.line([(lx + S, y), (rx - S, y + 2 * S)], fill=shade(col, 0.7) + (255,), width=S)
+    for sx in (-1, 1):                                              # buttress roots
+        bx = (x + sx * w * 0.5) * S
+        d.polygon([(bx, 132 * S), (bx + sx * w * 0.9 * S, 160 * S), (bx - sx * w * 0.2 * S, 160 * S)],
+                  fill=shade(col, 0.9) + (255,))
+    paste(img, p)
+
+
+def j_bushes(img):
+    """Leafy clumps along the edge of the clearing."""
+    p = layer()
+    d = ImageDraw.Draw(p)
+    r = random.Random(21)
+    for bx in range(-6, 250, 22):
+        by = r.uniform(122, 136)
+        for _ in range(6):
+            a = r.uniform(-2.9, -0.25)
+            leaf(d, bx * S, by * S, a, r.uniform(12, 20) * S, r.uniform(3.5, 5.5) * S, r.uniform(2, 6) * S,
+                 lerp((40, 116, 52), (96, 176, 70), r.random()))
+    paste(img, p)
+
+
+def j_rays(img):
+    p = layer()
+    d = ImageDraw.Draw(p)
+    for x, w, a in ((70, 14, 46), (104, 9, 40), (150, 16, 44), (196, 10, 36)):
+        d.polygon([(x * S, 0), ((x + w) * S, 0), ((x + w + 34) * S, 150 * S), ((x + 22) * S, 150 * S)],
+                  fill=(255, 246, 190, a))
+    paste(img, p, 4 * S)
+
+
+def j_vines(img, seed=7):
+    r = random.Random(seed)
+    p = layer()
+    d = ImageDraw.Draw(p)
+    for x in (6, 20, 44, 200, 216, 232, 92, 150):
+        length = r.uniform(30, 80)
+        sway = r.uniform(-6, 6)
+        pts = [((x + sway * math.sin(t * 2.2)) * S, length * t * S) for t in [k / 30 for k in range(31)]]
+        d.line(pts, fill=(54, 96, 40, 255), width=int(1.6 * S))
+        d.line([(a + S * 0.5, b) for a, b in pts], fill=(110, 160, 70, 255), width=max(1, S // 2))
+        for k in range(4, 31, 5):
+            vx, vy = pts[k]
+            side = 1 if k % 2 else -1
+            d.ellipse([vx + side * S - 2.5 * S, vy - 1.5 * S, vx + side * S + 2.5 * S, vy + 1.5 * S],
+                      fill=(70, 150, 60, 255), outline=(34, 80, 36, 255))
+    paste(img, p)
+
+
+def j_ground(img):
+    """A grassy clearing; a patch of bare earth where the plane stands."""
+    p = layer()
+    d = ImageDraw.Draw(p)
+    vgrad(d, (0, 134 * S, W, H), (88, 150, 64), (52, 110, 44))
+    d.ellipse([168 * S, 140 * S, 250 * S, 166 * S], fill=(150, 120, 76, 255))
+    d.ellipse([172 * S, 141 * S, 244 * S, 150 * S], fill=(176, 146, 96, 255))
+    r = random.Random(5)
+    for _ in range(260):
+        x, y = r.uniform(0, 240), r.uniform(136, 160)
+        if 172 < x < 244 and 142 < y < 160:
+            continue
+        h = r.uniform(2, 5)
+        d.line([(x * S, y * S), ((x + r.uniform(-1, 1)) * S, (y - h) * S)],
+               fill=lerp((60, 120, 44), (150, 210, 90), r.random()) + (255,), width=max(1, S // 2))
+    paste(img, p)
+
+
+def j_foliage(img):
+    """Big leaves and ferns framing the clearing; a few flowers."""
+    p = layer()
+    d = ImageDraw.Draw(p)
+    r = random.Random(11)
+    for x, y, angs in ((-4, 150, (-1.0, -0.6, -0.2, -1.4)), (-6, 26, (0.1, 0.5, 0.9)),
+                       (246, 20, (2.9, 2.5, 2.2)), (100, 164, (-1.9, -1.5, -1.2))):
+        for a in angs:
+            leaf(d, x * S, y * S, a, r.uniform(26, 40) * S, r.uniform(7, 10) * S, r.uniform(4, 10) * S,
+                 lerp((30, 110, 46), (70, 160, 60), r.random()))
+    for fx, fy, c in ((18, 132, (232, 60, 60)), (30, 138, (250, 140, 40)), (112, 150, (236, 70, 120))):
+        for k in range(5):
+            a = k * 2 * math.pi / 5
+            px, py = (fx + 2.6 * math.cos(a)) * S, (fy + 2.6 * math.sin(a)) * S
+            d.ellipse([px - 2 * S, py - 2 * S, px + 2 * S, py + 2 * S], fill=c + (255,), outline=shade(c, 0.6) + (255,))
+        d.ellipse([(fx - 1.2) * S, (fy - 1.2) * S, (fx + 1.2) * S, (fy + 1.2) * S], fill=(255, 230, 90, 255))
+    paste(img, p)
+
+
+def plane(img):
+    """Our plane, parked three-quarters toward us (updates/art/cup_results/plane3d.py)."""
+    sh = layer()
+    ImageDraw.Draw(sh).ellipse(P2([(164, 143), (236, 157)]), fill=(40, 60, 30, 120))
+    paste(img, sh, S)
+    pic, (ax, ay) = plane3d.render(6.4 * S)
+    p = layer()
+    p.alpha_composite(pic, (int(191 * S - ax), int(151 * S - ay)))
+    paste(img, p)
+
+
+def j_waterfall(img, x=150):
+    """A thin waterfall down a rock face beyond the trees, with mist and a pool."""
+    p = layer()
+    d = ImageDraw.Draw(p)
+    rock = [(x - 10, 48), (x - 4, 44), (x + 6, 45), (x + 13, 49), (x + 16, 62), (x + 14, 76), (x + 19, 92),
+            (x + 18, 108), (x - 18, 112), (x - 20, 94), (x - 15, 80), (x - 17, 64)]
+    d.polygon(P2(rock), fill=(112, 128, 110, 255), outline=(80, 94, 78, 255))
+    r = random.Random(13)
+    for _ in range(30):                                                   # moss and ferns on the rock
+        mx, my = x + r.uniform(-18, 18), r.uniform(48, 108)
+        if abs(mx - x) < 5:
+            continue
+        rr = r.uniform(1.2, 3)
+        d.ellipse(P2([(mx - rr, my - rr * 0.7), (mx + rr, my + rr * 0.7)]),
+                  fill=lerp((60, 120, 56), (110, 170, 80), r.random()) + (255,))
+    for k in range(6):
+        y = 54 + k * 9
+        d.line(P2([(x - 13 + k * 0.4, y), (x + 14 - k * 0.2, y - 2)]), fill=(94, 108, 92, 255), width=S)
+    r = random.Random(9)
+    for k in range(22):
+        xx = x + r.uniform(-4, 4)
+        d.line(P2([(xx, 47), (xx + r.uniform(-1, 1), 106)]), fill=lerp((190, 226, 244), (255, 255, 255), r.random()) + (255,),
+               width=max(1, int(r.uniform(0.8, 1.8) * S)))
+    d.ellipse(P2([(x - 16, 102), (x + 16, 112)]), fill=(130, 196, 214, 255))
+    paste(img, p, 0.3 * S)
+    m = layer()
+    ImageDraw.Draw(m).ellipse(P2([(x - 18, 96), (x + 18, 114)]), fill=(255, 255, 255, 130))
+    paste(img, m, 3 * S)
+
+
+def P2(pts):
+    return [(x * S, y * S) for x, y in pts]
+
+
+def j_parrot(img, x, y):
+    """A bright parrot on a branch."""
+    p = layer()
+    d = ImageDraw.Draw(p)
+    d.line(P2([(x - 12, y + 7), (x + 10, y + 5)]), fill=(96, 70, 44, 255), width=2 * S)
+    d.ellipse(P2([(x - 3, y - 6), (x + 4, y + 6)]), fill=(220, 40, 40, 255), outline=OUT)
+    d.polygon(P2([(x - 2, y + 2), (x + 3, y + 3), (x + 1, y + 13), (x - 1, y + 13)]), fill=(40, 90, 220, 255), outline=OUT)
+    d.ellipse(P2([(x - 3, y - 1), (x + 2, y + 5)]), fill=(250, 210, 50, 255))
+    d.ellipse(P2([(x - 1, y - 10), (x + 5, y - 3)]), fill=(230, 50, 44, 255), outline=OUT)
+    d.ellipse(P2([(x + 1.5, y - 8.5), (x + 3.5, y - 6.5)]), fill=(255, 255, 255, 255))
+    d.point(P2([(x + 2.6, y - 7.4)]), fill=(0, 0, 0, 255))
+    d.polygon(P2([(x + 4.5, y - 7), (x + 7.5, y - 5.5), (x + 4.5, y - 4)]), fill=(240, 230, 200, 255), outline=OUT)
+    paste(img, p)
+
+
+def j_props(img):
+    """By the plane: a supply crate and a fuel drum. Mossy rocks and mushrooms in front."""
+    p = layer()
+    d = ImageDraw.Draw(p)
+    x0, y0 = 128, 140                                                    # crate
+    d.rectangle(P2([(x0, y0), (x0 + 16, y0 + 14)]), fill=(196, 150, 90, 255), outline=OUT)
+    d.polygon(P2([(x0, y0), (x0 + 4, y0 - 3), (x0 + 20, y0 - 3), (x0 + 16, y0)]), fill=(222, 180, 116, 255), outline=OUT)
+    d.polygon(P2([(x0 + 16, y0), (x0 + 20, y0 - 3), (x0 + 20, y0 + 11), (x0 + 16, y0 + 14)]), fill=(150, 108, 60, 255), outline=OUT)
+    for k in (4, 9):
+        d.line(P2([(x0 + 1, y0 + k), (x0 + 15, y0 + k)]), fill=(130, 92, 52, 255), width=S // 2)
+    d.line(P2([(x0 + 1, y0 + 1), (x0 + 15, y0 + 13)]), fill=(150, 108, 60, 255), width=S)
+    dx, dy = 151, 137                                                    # drum
+    d.rectangle(P2([(dx, dy), (dx + 9, dy + 16)]), fill=(200, 60, 44, 255), outline=OUT)
+    d.rectangle(P2([(dx + 1, dy), (dx + 3, dy + 16)]), fill=(240, 120, 96, 255))
+    for k in (4, 11):
+        d.line(P2([(dx, dy + k), (dx + 9, dy + k)]), fill=(120, 30, 24, 255), width=S // 2)
+    d.ellipse(P2([(dx, dy - 1.5), (dx + 9, dy + 1.5)]), fill=(220, 90, 70, 255), outline=OUT)
+    for rx, ry, rw in ((40, 150, 16), (62, 154, 10), (120, 152, 12)):     # rocks
+        d.ellipse(P2([(rx - rw / 2, ry - rw / 3), (rx + rw / 2, ry + rw / 3)]), fill=(120, 124, 110, 255), outline=OUT)
+        d.ellipse(P2([(rx - rw / 2.5, ry - rw / 3), (rx + rw / 4, ry - rw / 8)]), fill=(90, 150, 70, 255))
+    for mx, my in ((52, 146), (56, 148), (130, 148)):                     # mushrooms
+        d.rectangle(P2([(mx - 0.6, my), (mx + 0.6, my + 3)]), fill=(240, 230, 210, 255))
+        d.pieslice(P2([(mx - 2.5, my - 2), (mx + 2.5, my + 2)]), 180, 360, fill=(220, 70, 50, 255), outline=OUT)
+    paste(img, p)
+
+
+def j_butterflies(img):
+    p = layer()
+    d = ImageDraw.Draw(p)
+    for x, y, c in ((112, 44, (250, 200, 60)), (158, 66, (120, 200, 250)), (90, 134, (250, 140, 200))):
+        d.ellipse(P2([(x - 3, y - 2.5), (x, y + 0.5)]), fill=c + (255,), outline=OUT)
+        d.ellipse(P2([(x, y - 2.5), (x + 3, y + 0.5)]), fill=c + (255,), outline=OUT)
+        d.line(P2([(x, y - 2), (x, y + 2)]), fill=(40, 30, 30, 255), width=max(1, S // 2))
+    paste(img, p)
+
+
+def j_dapple(img):
+    """Sun flecks through the leaves."""
+    p = layer()
+    d = ImageDraw.Draw(p)
+    r = random.Random(17)
+    for _ in range(70):
+        x, y = r.uniform(0, 240), r.uniform(40, 160)
+        w = r.uniform(1.5, 4)
+        d.ellipse(P2([(x - w, y - w * 0.5), (x + w, y + w * 0.5)]), fill=(255, 250, 200, int(r.uniform(30, 70))))
+    paste(img, p, 0.6 * S)
+
+
+def stone_tablet(img):
+    """A carved stone tablet across the top for BEST TIMES and the course name, mossy."""
+    p = layer()
+    d = ImageDraw.Draw(p)
+    x0, y0, x1, y1 = 54 * S, 1 * S, 186 * S, 35 * S
+    d.rounded_rectangle([x0, y0, x1, y1], 3 * S, fill=(150, 146, 120, 255), outline=OUT)
+    vgrad(d, (x0 + S, y0 + S, x1 - S, y1 - S), (178, 172, 142), (120, 116, 94))
+    d.rounded_rectangle([x0 + 3 * S, y0 + 3 * S, x1 - 3 * S, y1 - 3 * S], 2 * S, outline=(92, 88, 70, 255), width=S)
+    d.line([(x0 + 4 * S, y0 + 4 * S), (x1 - 4 * S, y0 + 4 * S)], fill=(206, 200, 168, 255), width=S // 2)
+    r = random.Random(3)
+    for _ in range(40):                                                   # moss
+        mx = r.choice([r.uniform(54, 70), r.uniform(170, 186), r.uniform(54, 186)])
+        my = r.choice([r.uniform(1, 6), r.uniform(28, 35)]) if 70 < mx < 170 else r.uniform(1, 35)
+        rr = r.uniform(1, 2.6)
+        d.ellipse([(mx - rr) * S, (my - rr) * S, (mx + rr) * S, (my + rr) * S],
+                  fill=lerp((60, 120, 50), (120, 170, 70), r.random()) + (230,))
+    for cx in (62, 178):                                                   # carved spirals at the ends
+        pts = []
+        for i in range(60):
+            t = i / 59 * 3.2 * math.pi
+            rr = 0.4 + 1.6 * t / math.pi
+            pts.append(((cx + rr * math.cos(t)) * S, (18 + rr * math.sin(t)) * S))
+        d.line(pts, fill=(84, 80, 62, 255), width=S)
+        d.line([(x + S // 2, y + S // 2) for x, y in pts], fill=(196, 190, 158, 255), width=max(1, S // 2))
+    for cx in range(76, 168, 8):                                           # a carved band of steps along the foot
+        d.line([(cx * S, 31 * S), ((cx + 4) * S, 31 * S), ((cx + 4) * S, 29 * S), ((cx + 8) * S, 29 * S)],
+               fill=(98, 94, 74, 255), width=max(1, S // 2))
+    paste(img, p)
+    sh = layer()
+    ImageDraw.Draw(sh).rectangle([x0 + 2 * S, y1, x1 + 2 * S, y1 + 2 * S], fill=(0, 30, 0, 90))
+    paste(img, sh, S)
+
+
+def best_plates(img):
+    p = layer()
+    d = ImageDraw.Draw(p)
+    for y in BEST_ROWS:
+        d.rounded_rectangle([BEST_X[0] * S, (y - 2) * S, BEST_X[1] * S, (y + 17) * S], 6 * S, fill=(8, 34, 16, 56))
+    paste(img, p, 0.6 * S)
+
+
+def paint_best():
+    img = Image.new("RGBA", (W, H), (0, 0, 0, 255))
+    j_backdrop(img)
+    j_canopy_layer(img, 46, (120, 172, 140), 3, 1, 18)
+    j_ruin(img)
+    j_waterfall(img)
+    j_canopy_layer(img, 98, (74, 138, 92), 1.5, 2, 13)
+    for x, w, lean, c in ((30, 11, 3, (96, 82, 62)), (60, 7, -2, (84, 76, 60)), (178, 8, 2, (90, 80, 60)),
+                          (222, 13, -4, (100, 84, 62))):
+        j_trunk(img, x, w, lean, c)
+    j_rays(img)
+    j_canopy_layer(img, 118, (52, 118, 62), 0.6, 4, 12)
+    j_bushes(img)
+    j_ground(img)
+    j_dapple(img)
+    j_vines(img)
+    j_parrot(img, 224, 66)
+    j_props(img)
+    plane(img)
+    j_foliage(img)
+    j_butterflies(img)
+    best_plates(img)
+    stone_tablet(img)
+    return finish(img)
+
+
 def finish(img):
     out = ImageEnhance.Color(img.convert("RGB")).enhance(1.1)
     small = out.resize((240, 160), Image.LANCZOS)
@@ -627,3 +971,4 @@ def save(pic, where):
 if __name__ == "__main__":
     save(paint(), os.path.join(HERE, "race"))
     save(paint_final(), os.path.join(HERE, "final"))
+    save(paint_best(), os.path.join(HERE, "best"))

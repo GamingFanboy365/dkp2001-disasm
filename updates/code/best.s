@@ -6,7 +6,7 @@
 @
 @ Each course (by game level) keeps its five best Clock Race times, each with three
 @ initials and the racer who set it. After a Clock Race the player finished (or retired),
-@ BEST TIMES shows the course's chart over the trophy room: a time good enough goes in
+@ BEST TIMES shows the course's chart over a jungle clearing: a time good enough goes in
 @ at its place, and the player enters initials (Up/Down pick a letter, A or Right the
 @ next, B or Left back); A or Start then returns to the course list. The Clock Race
 @ course list shows the highlighted course's best time under the courses, in the menu's
@@ -44,19 +44,20 @@ save_magic:
 	.equ	M_TEXT, 28			@ 24 bytes: the line
 	.equ	ROW_Y, 40			@ the first row; rows 21 apart
 	.equ	ROW_GAP, 21
-	.equ	INIT_X, 94			@ the initials' left edge (9 apart)
+	.equ	INIT_X, 76			@ the initials' left edge (9 apart)
 	.equ	KEY_B, 2
 	.equ	KEY_RIGHT, 16
 	.equ	KEY_LEFT, 32
 	.equ	KEY_UP, 64
 	.equ	KEY_DOWN, 128
+	.equ	TUNE_BEST, 15			@ updates/music/tune_list.s
 	.equ	SMALL_BANK, 14			@ the small font's palette bank
 	.equ	SF_WHITE, 247			@ small font colours (smallfont_plt)
 	.equ	SF_CREAM, 252
 	.equ	SF_GREEN, 250
-	.equ	PLACE_X, 30			@ the rows' columns
-	.equ	HEAD_X, 70
-	.equ	TIME_X, 140
+	.equ	PLACE_X, 14			@ the rows' columns (the plane is to the right)
+	.equ	HEAD_X, 52
+	.equ	TIME_X, 116
 	.equ	B_VRAM, 92			@ word: OBJVRAM_PTR after the fixed part
 	.equ	MENU_FONT_SMALL, 2		@ the menu's small font (world names, NOVICE)
 	.equ	MENU_TEXT_PAL, 15
@@ -219,7 +220,7 @@ best_screen:
 best_setup:
 	push	{r4, r5, r6, r7, lr}
 	bl	screen_setup
-	movs	r0, #1				@ the trophy room
+	movs	r0, #2				@ the jungle clearing (cup_results/paint.py)
 	bl	results_background
 	ldrb	r0, [r4, #B_LEVEL]
 	bl	best_load
@@ -356,17 +357,17 @@ best_setup:
 	adds	r6, #1
 	cmp	r6, #4
 	ble	5b
-	@ a new record: say so, and play the cup winner's anthem; else the results tune
-	movs	r0, #TUNE_RESULTS
+	@ a new record: say so. The chart's own tune (updates/music/best_times.py)
+	movs	r0, #TUNE_BEST
 	ldrb	r1, [r4, #B_RANK]
 	cmp	r1, #5
 	bhs	10f
 	ldr	r0, =text_new_record
-	movs	r1, #120
+	movs	r1, #(PLACE_X + TIME_X + 50) / 2	@ under the rows
 	movs	r2, #148
 	movs	r3, #1
 	bl	small_text
-	movs	r0, #TUNE_FINAL_WON
+	movs	r0, #TUNE_BEST
 10:	ldr	r3, =audio_start_tune+1
 	bl	best_bx_r3
 	ldr	r0, =OAM_PTR			@ the initials being entered go after this

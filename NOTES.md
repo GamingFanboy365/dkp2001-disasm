@@ -241,7 +241,9 @@ The owner asked: no arrangement of existing DK music; every tune ours from scrat
 - Clock Race becomes time trials: best time per course (needs saving), opponents kept;
   finishing a course returns to the course list where it was chosen. The owner's design:
   after a Clock Race, a chart of the course's top 5 times with three-letter initials
-  entered for a new one, and the Clock Race course list showing "BEST TIME".
+  entered for a new one, and the Clock Race course list showing "BEST TIME" (done:
+  `best-times`; the owner asked for a jungle background with a parked plane of our own,
+  diagonal-front, and a chill jungle reggae; big font for the title only).
 - Temple Tangle's HUD course map (new art) and an original jungle tune (none in the build;
   the jungle courses borrow the bayou theme). The tune list skips 007; nothing of it survives.
 - An original farmer character (a farm animal, our own design) for the unused seventh

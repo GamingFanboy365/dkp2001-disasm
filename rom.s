@@ -171,5 +171,6 @@
 	.include "updates/music/fanfare_2nd.s"
 	.include "updates/music/fanfare_3rd.s"
 	.include "updates/music/fanfare_4th.s"
+	.include "updates/music/best_times.s"	@ the Clock Race best-times chart
 	.include "updates/courses/rare/rare_courses.s"	@ Rare's races without pylons (made at build time)
 	.endif

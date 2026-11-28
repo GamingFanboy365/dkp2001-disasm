@@ -21,3 +21,4 @@ tune_list_updates:
 	.word	fanfare_2nd_tune		@ 12 finish, 2nd (fanfare_2nd.py)
 	.word	fanfare_3rd_tune		@ 13 finish, 3rd (fanfare_3rd.py)
 	.word	fanfare_4th_tune		@ 14 finish, 4th or retired (fanfare_4th.py)
+	.word	best_times_tune			@ 15 BEST TIMES, Clock Race (best_times.py)
