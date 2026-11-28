@@ -159,6 +159,24 @@ fix_banner25_far:				@ keeps r0 (game_init passes it on)
 1:	bx	lr
 	.ltorg
 
+@ In place of race_fail_player from the pylons (three wrong-side strikes) and from
+@ race_complete_lap (too many checkpoints skipped in a lap): in Racing and Clock Race
+@ the player is not retired any more, since the walls keep everyone on the course
+@ (owner's call); elsewhere (Stories, the debug menu) as before. Our dogfights retire
+@ the player themselves (updates/code/dogfight.s), unchanged.
+	.thumb_func
+fix_race_fail_far:
+	ldr	r0, =current_mode
+	ldr	r0, [r0, #0]
+	cmp	r0, #MODE_RACING
+	beq	1f
+	cmp	r0, #MODE_CLOCK
+	beq	1f
+	ldr	r3, =race_fail_player+1
+	bx	r3				@ returns to the caller
+1:	bx	lr
+	.ltorg
+
 @ r0 text, r1 centre x, r2 top y: plot_big_text through its pointer
 cup_plot:
 	ldr	r3, =__ptr_plot_big_text

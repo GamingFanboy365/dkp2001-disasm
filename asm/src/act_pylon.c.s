@@ -134,6 +134,15 @@ act_pylon:  @ 0800dc58
 	.ifdef FIXES
 fix_assert_L_0800dc7c:
 	b	L_0800dc7c	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.ifdef UPDATES
+	@ FIX "no-retire": trampoline to the end of the ROM
+	.balign 4
+fix_race_fail:
+	ldr	r3, 1f
+	bx	r3
+	.balign 4
+1:	.word	fix_race_fail_far+1
+	.endif
 	.fill 18 - (. - fix_assert_L_0800dc7c), 1, 0	@ same size as the original block
 	.else
 	ldr	r0, _0800dcc8	@ =D_0806ff54
@@ -494,7 +503,11 @@ L_0800de70:
 	cmp	r0, #2
 	bls L_0800decc
 @ src/act_pylon.c:136
+	.ifdef UPDATES
+	bl	fix_race_fail	@ FIX "no-retire": not in Racing or Clock Race (the walls keep you on course)
+	.else
 	bl race_fail_player
+	.endif
 @ src/act_pylon.c:139
 L_0800decc:
 	ldr	r3, _0800def4	@ =monitor

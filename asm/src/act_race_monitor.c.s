@@ -1269,7 +1269,11 @@ race_complete_lap:  @ 0800e65c
 	cmp	r0, #2
 	bls L_0800e6d6
 @ src/act_race_monitor.c:252
+	.ifdef UPDATES
+	bl	fix_race_fail	@ FIX "no-retire": not in Racing or Clock Race (the walls keep you on course)
+	.else
 	bl race_fail_player
+	.endif
 @ src/act_race_monitor.c:258
 L_0800e6d6:
 	cmp	r4, #0
