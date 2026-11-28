@@ -39,7 +39,7 @@ This folder is kept separate so it's always clear what is theirs and what is our
 | `art/temple_tangle/` | Temple Tangle's course picture: `paint.py` paints it (no source images), and writes `picture.png`, `tiles.bin` and `palette.bin`. `art/pictures.s` puts it in the ROM. |
 | `courses/temple_tangle.py` | Temple Tangle's race: racing line, hidden checkpoints, pickups, scenery, walls, HUD map, and its ground (`temple_tangle_ground.s`, made with `--ground` from your ROM: a map of Rare's metatiles, arranged by us). `tools/course_build.py` turns it into `temple_tangle.s` (the game's object-list and AI-network formats); the Makefile reruns it when the `.py` changes. |
 | `music/jungle.py` | The jungle theme: an original tune, built by `tools/song_build.py` into `jungle.s`. `music/tune_list.s` is the song list with it added (tune 7). |
-| `art/cup_results/` | The FINAL RESULTS background: `paint.py` paints it (no source images) and writes the tiles, map and palette. |
+| `art/cup_results/` | The results backgrounds: `paint.py` paints them (no source images) into `race/` (RESULTS: a finish-line beach) and `final/` (FINAL RESULTS: a trophy room), with tiles, map and palette. |
 | `art/time_marks.bin` | The timer's ' and " marks (ours), drawn in the style of Rare's HUD digits. |
 | `code/cup.s` | Cups for Racing (four races, standings, final results) and the Clock Race return (`cups` in `FIXES.md`). |
 | `code/walls.s` | Invisible walls along a course's track (`course-walls` in `FIXES.md`). |

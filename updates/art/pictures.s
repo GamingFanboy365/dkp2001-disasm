@@ -11,16 +11,27 @@ temple_tangle_tiles:
 	.incbin	"updates/art/temple_tangle/tiles.bin"
 	.balign	4
 
-@ The cup's FINAL RESULTS background (updates/art/cup_results/paint.py): 8bpp tiles,
-@ a 32x32 screen map and 255 colours, for background 0 (updates/code/cup.s).
+@ The cup's results backgrounds (updates/art/cup_results/paint.py): 8bpp tiles, a 32x32
+@ screen map and 255 colours each, for background 0 (updates/code/cup.s). race/ is
+@ shown after each race (RESULTS), final/ after the cup (FINAL RESULTS).
 	.balign	4
-cup_bg_tiles:
-	.incbin	"updates/art/cup_results/tiles.bin"
-cup_bg_tiles_end:
+cup_race_tiles:
+	.incbin	"updates/art/cup_results/race/tiles.bin"
+cup_race_tiles_end:
 	.balign	4
-cup_bg_map:
-	.incbin	"updates/art/cup_results/map.bin"
+cup_race_map:
+	.incbin	"updates/art/cup_results/race/map.bin"
 	.balign	4
-cup_bg_palette:
-	.incbin	"updates/art/cup_results/palette.bin"
+cup_race_palette:
+	.incbin	"updates/art/cup_results/race/palette.bin"
+	.balign	4
+cup_final_tiles:
+	.incbin	"updates/art/cup_results/final/tiles.bin"
+cup_final_tiles_end:
+	.balign	4
+cup_final_map:
+	.incbin	"updates/art/cup_results/final/map.bin"
+	.balign	4
+cup_final_palette:
+	.incbin	"updates/art/cup_results/final/palette.bin"
 	.balign	4

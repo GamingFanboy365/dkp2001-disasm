@@ -418,14 +418,17 @@ results_draw:
 	movs	r1, #5
 	movs	r2, #128
 	bl	load_glyphs
-	@ the title (and for FINAL RESULTS, our background behind everything)
+	@ our background behind everything (RESULTS: the beach; FINAL RESULTS: the trophy
+	@ room), then the title
+	ldrb	r0, [r4, #C_PHASE]
+	lsrs	r0, r0, #1			@ phase 0 -> 0, 2 -> 1
+	bl	results_background
 	ldrb	r0, [r4, #C_PHASE]
 	cmp	r0, #2
 	beq	2f
 	ldr	r0, =text_results
 	b	3f
-2:	bl	results_background
-	ldr	r0, =text_final_results
+2:	ldr	r0, =text_final_results
 3:	movs	r1, #120
 	movs	r2, #8
 	bl	cup_plot
@@ -557,21 +560,31 @@ cup_bx_r1:
 	bx	r1
 	.ltorg
 
-@ The final results' background on BG0, under the sprites: tiles to char block 0,
-@ the map to screen block 31, 255 colours to the BG palette (index 0 stays the backdrop).
+@ A results background (r0: 0 the race's, 1 the cup's) on BG0, under the sprites:
+@ tiles to char block 0, the map to screen block 31, 255 colours to the BG palette
+@ (index 0 stays the backdrop).
 results_background:
 	push	{r4, r5, lr}
-	ldr	r0, =cup_bg_tiles
+	ldr	r4, =results_backgrounds
+	lsls	r0, r0, #4
+	adds	r4, r4, r0			@ r4 = {tiles, tiles end, map, palette}
+	ldr	r0, [r4, #0]
 	ldr	r1, =0x06000000
-	ldr	r2, =cup_bg_tiles_end
+	ldr	r2, [r4, #4]
 	bl	copy_words
-	ldr	r0, =cup_bg_map
+	ldr	r0, [r4, #8]
 	ldr	r1, =0x0600f800
-	ldr	r2, =cup_bg_map + 2048
+	movs	r2, #128
+	lsls	r2, r2, #4
+	adds	r2, r0, r2			@ + 2048
 	bl	copy_words
-	ldr	r0, =cup_bg_palette + 2		@ colours 1-255
+	ldr	r0, [r4, #12]
+	adds	r0, #2				@ colours 1-255
 	ldr	r1, =0x05000002
-	ldr	r2, =cup_bg_palette + 512
+	ldr	r2, [r4, #12]
+	movs	r3, #128
+	lsls	r3, r3, #2
+	adds	r2, r2, r3			@ + 512
 	bl	copy_hwords
 	ldr	r0, =0x04000008			@ BG0CNT: priority 3, char base 0, 8bpp, map 31
 	ldr	r1, =0x1f83
@@ -718,6 +731,9 @@ draw_head:
 	.ltorg
 
 	.balign 4
+results_backgrounds:				@ updates/art/cup_results/paint.py
+	.word	cup_race_tiles, cup_race_tiles_end, cup_race_map, cup_race_palette
+	.word	cup_final_tiles, cup_final_tiles_end, cup_final_map, cup_final_palette
 @ by game character (0 Cranky, 1 Diddy, 2 Krunch, 3 K. Rool, 4 Dixie, 5 Kong), as
 @ get_player_head picks them
 head_sprites:
