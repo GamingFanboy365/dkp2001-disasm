@@ -41,6 +41,7 @@ This folder is kept separate so it's always clear what is theirs and what is our
 | `music/jungle.py` | The jungle theme: an original tune, built by `tools/song_build.py` into `jungle.s`. `music/tune_list.s` is the song list with it added (tune 7). |
 | `art/cup_results/` | The results backgrounds: `paint.py` paints them (no source images) into `race/` (RESULTS: a finish-line beach) and `final/` (FINAL RESULTS: a trophy room), with tiles, map and palette. |
 | `art/time_marks.bin` | The timer's ' and " marks (ours), drawn in the style of Rare's HUD digits. |
+| `art/lap_marks.py` (`.bin`) | The lap text's letters L A P F I N (ours), in the same style: LAP 1, LAP 2, FINAL LAP. |
 | `code/cup.s` | Cups for Racing (four races, standings, final results) and the Clock Race return (`cups` in `FIXES.md`). |
 | `music/results.py`, `final_results.py`, `final_results_runner_up.py` | The results screens' tunes: RESULTS (reggae), FINAL RESULTS won (victory anthem) and not won (a gentler tune). |
 | `code/walls.s` | Invisible walls along a course's track (`course-walls` in `FIXES.md`). |

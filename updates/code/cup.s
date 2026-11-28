@@ -764,7 +764,9 @@ head_palettes:
 @ Racing and Clock Race: a clock from GO, each racer's time when its last lap ends,
 @ an estimate for those still flying (time so far x checkpoints needed / passed), and
 @ the player's time drawn top left: Rare's small HUD digits (hud_digits) with our own
-@ ' and " marks, 1'23"45. Called every race frame (fix_df_positions_far).
+@ ' and " marks, 1'23"45. Every race with laps (not dogfights or the attract demo):
+@ the player's lap at the bottom left, LAP 1, LAP 2, ... FINAL LAP, in our letters
+@ and the same digits. Called every race frame (fix_df_positions_far).
 	.equ	MON_LAPS, 85			@ laps to race
 	.equ	MON_LAPSDONE, 86		@ +p
 	.equ	MON_PASSED, 90			@ +p: checkpoints passed in the race
@@ -773,6 +775,16 @@ head_palettes:
 	.equ	TIMER_VRAM, 0x06017800		@ free in races (the game's sprites stay below)
 	.equ	TIMER_TILE, 960			@ = (TIMER_VRAM - 0x06010000) / 32
 	.equ	TIMER_BANK, 14			@ OBJ palette bank (the race uses 0-10)
+
+	.equ	SYS_ATTRACT, 0x40		@ the attract demo
+	.equ	LAP_X, 6			@ the lap text: bottom left, above Rare's banana
+	.equ	LAP_Y, 122			@ counter (which slides up to y 140, x 44-70)
+	.equ	G_L, 12				@ load_glyphs: 0-9 digits, 10 ', 11 ", then L A P F I N
+	.equ	G_A, 13
+	.equ	G_P, 14
+	.equ	G_F, 15
+	.equ	G_I, 16
+	.equ	G_N, 17
 
 	.thumb_func
 timer_frame:
@@ -785,25 +797,66 @@ timer_frame:
 	ldrb	r0, [r4, #C_TOKEN]
 	cmp	r0, #0
 	beq	9f
-	ldrb	r0, [r4, #C_MODE]
-	cmp	r0, #MODE_RACING
-	beq	1f
-	cmp	r0, #MODE_CLOCK
-	bne	9f
-1:	ldr	r5, =monitor
-	ldr	r5, [r5, #0]
-	ldr	r6, [r5, #MON_STATE]
 	ldr	r0, =sys_flags
 	ldr	r0, [r0, #0]
+	movs	r1, #SYS_ATTRACT
+	tst	r0, r1
+	bne	9f
+	ldr	r5, =monitor
+	ldr	r5, [r5, #0]
+	ldr	r6, [r5, #MON_STATE]
 	movs	r1, #SYS_RACING
 	tst	r0, r1
 	bne	2f
 	cmp	r6, #4				@ after the player's finish, the others are still timed
 	blt	9f
-2:	ldr	r0, [r4, #C_CLOCK]
+2:	bl	df_mode				@ a dogfight: no laps, no clock
+	cmp	r0, #0
+	bne	9f
+	ldrb	r0, [r4, #C_GLYPHS]
+	cmp	r0, #0
+	bne	8f
+	ldr	r0, =TIMER_VRAM
+	movs	r1, #TIMER_BANK
+	ldr	r2, =TIMER_TILE
+	bl	load_glyphs
+	movs	r0, #1
+	strb	r0, [r4, #C_GLYPHS]
+8:	ldr	r0, =0x07000000
+	bl	draw_lap			@ every race with laps
+	adds	r7, r0, #0			@ the next OAM entry
+	ldrb	r0, [r4, #C_MODE]
+	cmp	r0, #MODE_RACING
+	beq	1f
+	cmp	r0, #MODE_CLOCK
+	bne	10f
+1:	bl	race_clock			@ Racing and Clock Race: the timer
+	ldr	r0, [r4, #C_FINISH]
+	cmp	r0, #0
+	bne	11f
+	ldr	r0, [r4, #C_CLOCK]
+11:	movs	r1, #6				@ x
+	movs	r2, #4				@ y
+	adds	r3, r7, #0
+	bl	draw_time
+	adds	r7, r0, #0
+10:	ldr	r0, =0x07000000			@ the entries below are ours
+	subs	r0, r7, r0
+	lsrs	r0, r0, #3
+	ldr	r1, =sys_oam_start
+	strh	r0, [r1, #0]
+9:	pop	{r4, r5, r6, r7}
+	pop	{r0}
+	bx	r0
+	.ltorg
+
+@ The clock (r4 = CUP, r5 = monitor): one frame more, and each racer's time when its
+@ laps are done, else an estimate.
+race_clock:
+	push	{r7, lr}
+	ldr	r0, [r4, #C_CLOCK]
 	adds	r0, #1
 	str	r0, [r4, #C_CLOCK]
-	@ each racer: its time when its laps are done, else an estimate
 	movs	r7, #0
 3:	lsls	r3, r7, #2
 	adds	r3, #C_FINISH
@@ -843,31 +896,77 @@ timer_frame:
 5:	adds	r7, #1
 	cmp	r7, #3
 	ble	3b
-	@ the player's time, top left
-	ldrb	r0, [r4, #C_GLYPHS]
-	cmp	r0, #0
-	bne	8f
-	ldr	r0, =TIMER_VRAM
-	movs	r1, #TIMER_BANK
-	ldr	r2, =TIMER_TILE
-	bl	load_glyphs
-	movs	r0, #1
-	strb	r0, [r4, #C_GLYPHS]
-8:	ldr	r1, =sys_oam_start		@ sprites 0-7 are ours
-	movs	r0, #8
-	strh	r0, [r1, #0]
-	ldr	r0, [r4, #C_FINISH]
-	cmp	r0, #0
-	bne	10f
-	ldr	r0, [r4, #C_CLOCK]
-10:	movs	r1, #6				@ x
-	movs	r2, #4				@ y
-	ldr	r3, =0x07000000
-	bl	draw_time
-9:	pop	{r4, r5, r6, r7}
+	pop	{r7}
 	pop	{r0}
 	bx	r0
+
+@ draw_lap(OAM entry r0; r4 = CUP, r5 = monitor) -> r0 = the next OAM entry.
+@ The player's lap at the bottom left, just above the banana counter's row: LAP 1,
+@ LAP 2, ... and FINAL LAP on the last, in our letters and Rare's digits. None in a
+@ one-lap race or once the player's laps are done.
+draw_lap:
+	push	{r4, r5, r6, r7, lr}
+	adds	r7, r0, #0
+	adds	r0, r5, #0
+	adds	r0, #MON_LAPS
+	ldrb	r2, [r0, #0]			@ laps
+	cmp	r2, #2
+	blt	9f
+	adds	r0, r5, #0
+	adds	r0, #MON_LAPSDONE
+	ldrb	r1, [r0, #0]			@ the player's laps done
+	cmp	r1, r2
+	bhs	9f
+	adds	r1, #1				@ the lap being flown
+	ldr	r6, =text_final_lap
+	cmp	r1, r2
+	beq	1f
+	ldr	r6, =CUP + C_DIGITS		@ LAP n
+	movs	r0, #G_L
+	strb	r0, [r6, #0]
+	movs	r0, #G_A
+	strb	r0, [r6, #1]
+	movs	r0, #G_P
+	strb	r0, [r6, #2]
+	movs	r0, #G_SPACE
+	strb	r0, [r6, #3]
+	strb	r1, [r6, #4]
+	movs	r0, #G_END
+	strb	r0, [r6, #5]
+1:	movs	r5, #LAP_X
+2:	ldrb	r0, [r6, #0]
+	adds	r6, #1
+	cmp	r0, #G_END
+	beq	9f
+	cmp	r0, #G_SPACE
+	bne	3f
+	adds	r5, #4
+	b	2b
+3:	movs	r1, #LAP_Y
+	movs	r2, #128
+	lsls	r2, r2, #8			@ 0x8000: tall shape
+	orrs	r1, r2
+	strh	r1, [r7, #0]			@ attr0: y, 8x16
+	strh	r5, [r7, #2]			@ attr1: x, size 0
+	ldrh	r1, [r4, #C_TB]
+	lsls	r0, r0, #1
+	adds	r1, r1, r0
+	ldrb	r2, [r4, #C_PB]
+	lsls	r2, r2, #12
+	orrs	r1, r2
+	strh	r1, [r7, #4]			@ attr2: tile, bank, priority 0
+	adds	r7, #8
+	adds	r5, #8
+	b	2b
+9:	adds	r0, r7, #0
+	pop	{r4, r5, r6, r7}
+	pop	{r1}
+	bx	r1
 	.ltorg
+
+text_final_lap:
+	.byte	G_F, G_I, G_N, G_A, G_L, G_SPACE, G_L, G_A, G_P, G_END
+	.balign 2
 
 @ After a cup race: every racer's time (an estimate if still flying) into its cup total.
 times_settle:
@@ -1065,12 +1164,14 @@ load_glyphs:
 6:	adds	r5, #1
 	cmp	r5, #9
 	ble	2b
-	ldr	r1, =time_marks			@ our ' and "
+	ldr	r1, =time_marks			@ our ' and ", then our letters L A P F I N
 	movs	r2, #0
+	movs	r0, #(128 + 384) >> 2
+	lsls	r0, r0, #2
 8:	ldrh	r3, [r1, r2]
 	strh	r3, [r7, r2]
 	adds	r2, #2
-	cmp	r2, #128
+	cmp	r2, r0
 	blt	8b
 	pop	{r4, r5, r6, r7}
 	pop	{r0}
@@ -1082,4 +1183,6 @@ load_glyphs:
 @ Rare's digits are drawn: yellow (13), a red top-left edge (10), black lower-right (1).
 time_marks:
 	.incbin	"updates/art/time_marks.bin"
+@ Our lap letters L A P F I N (updates/art/lap_marks.py), straight after: glyphs 12-17.
+	.incbin	"updates/art/lap_marks.bin"
 	.balign 4
