@@ -7,8 +7,7 @@ characters or trademarks). In the style of the game's menu backgrounds (bright
 daylight, soft shaded clouds, smooth rendered shading, high colour): a sunny beach at
 the end of a race. Blue sky and soft clouds, hazy green islands, a turquoise sea, sand,
 two palms framing the scene, a string of checkered finish pennants, a shaded ribbon
-banner across the top for the title, a stone podium with gold, silver and bronze
-bands, and soft see-through strips where the four standings rows sit (the text and
+banner across the top for the title, and soft see-through strips where the four standings rows sit (the text and
 racer heads are sprites drawn over it).
 
 BEST TIMES (Clock Race) is a jungle clearing: green-gold light through the canopy, a
@@ -188,7 +187,7 @@ def sand(img):
     for x, y in ((40, 150), (58, 156), (176, 152), (196, 157), (92, 158)):   # shells
         d.ellipse([(x - 2.2) * S, (y - 1.6) * S, (x + 2.2) * S, (y + 1.6) * S], fill=(250, 200, 190, 255), outline=(170, 110, 100, 255))
         d.line([(x * S, (y - 1.4) * S), (x * S, (y + 1.4) * S)], fill=(200, 140, 130, 255), width=max(1, S // 2))
-    for i in range(6):                                        # footprints to the podium
+    for i in range(6):                                        # footprints across the sand
         x, y = 150 + i * 9, 158 - i * 1.6
         d.ellipse([(x - 1.6) * S, (y - 1) * S, (x + 1.6) * S, (y + 1) * S], fill=(214, 172, 112, 255))
     paste(img, s)
@@ -265,20 +264,6 @@ def pennants(img):
                     lo, hi = max(bx, X - 5 * S + shrink), min(bx + 2.5 * S, X + 5 * S - shrink)
                     if hi > lo:
                         d.rectangle([lo, by, hi, by + 2.6 * S], fill=(30, 30, 40, 255))
-    paste(img, p)
-
-
-def podium(img):
-    p = layer()
-    d = ImageDraw.Draw(p)
-    d.ellipse([(120 - 40) * S, 152 * S, (120 + 40) * S, 162 * S], fill=(180, 140, 90, 140))
-    for x0, x1, h, band in ((-34, -12, 9, (200, 206, 222)), (-12, 12, 15, (250, 206, 60)), (12, 34, 6, (214, 140, 80))):
-        X0, X1, Y0 = (120 + x0) * S, (120 + x1) * S, (156 - h) * S
-        d.rectangle([X0, Y0, X1, 160 * S], fill=(232, 232, 236, 255), outline=OUT)
-        d.rectangle([X0 + S, Y0 + S, X0 + 3 * S, 160 * S], fill=(255, 255, 255, 255))
-        d.rectangle([X1 - 4 * S, Y0 + S, X1 - S, 160 * S], fill=(186, 190, 206, 255))
-        d.rectangle([X0, Y0 + 2 * S, X1, Y0 + 4.5 * S], fill=band + (255,))
-        d.rectangle([X0, Y0 + 2 * S, X1, Y0 + 3 * S], fill=shade(band, 1.3) + (255,))
     paste(img, p)
 
 
@@ -930,7 +915,6 @@ def paint():
     sea(img)
     sailboat(img)
     sand(img)
-    podium(img)
     palm(img, 4 * S, 16, 116, 1)
     palm(img, 236 * S, -16, 112, -1)
     pennants(img)
