@@ -387,8 +387,13 @@ char_sprites:  @ 08003ef0
 	.word clr_krool_plt
 	.word clr_dixie_frames
 	.word clr_dixie_plt
+	.ifdef UPDATES
+	.word rusty_cut_frames		@ FIX "rusty": slot 6 is Rusty (ours, updates/art/rusty)
+	.word rusty_cut_plt
+	.else
 	.word clr_red_frames
 	.word clr_red_plt
+	.endif
 	.else
 	.word clr_cranky_frames
 	.word clr_cranky_plt
@@ -418,7 +423,11 @@ char_sprites:  @ 08003ef0
 
 head_moves_left:  @ 08003f50
 	.ifdef FIXES
+	.ifdef UPDATES
+	.byte	5, 2, 6, 1, 3, 4, 0, 0, 0, 0	@ FIX "rusty": Cranky, Rusty, Kong, Diddy, Krash, K. Rool, Dixie
+	.else
 	.byte	5, 2, 0, 1, 3, 4, 1, 0, 0, 0	@ FIX "charsel": left to right: Cranky, Kong, Diddy, Krash, K. Rool, Dixie
+	.endif
 	.else
 	@ data (was decoded as instructions)
 	.hword	0x0006, 0x0101, 0x0403, 0x0005, 0x0000
@@ -427,7 +436,11 @@ head_moves_left:  @ 08003f50
 
 head_moves_right:  @ 08003f5c
 	.ifdef FIXES
+	.ifdef UPDATES
+	.byte	6, 3, 1, 4, 5, 0, 2, 0, 0, 0	@ FIX "rusty": Cranky right to Rusty, Rusty right to Kong
+	.else
 	.byte	2, 3, 1, 4, 5, 0, 1, 0, 0, 0	@ FIX "charsel": RIGHT now reaches Kong
+	.endif
 	.else
 	@ data (was decoded as instructions)
 	.hword	0x0201, 0x0404, 0x0605, 0x0000, 0x0000
@@ -436,7 +449,11 @@ head_moves_right:  @ 08003f5c
 
 head_moves_up:  @ 08003f68
 	.ifdef FIXES
+	.ifdef UPDATES
+	.byte	0, 1, 1, 3, 4, 5, 6, 0, 0, 0	@ FIX "rusty": Rusty stays
+	.else
 	.byte	0, 1, 1, 3, 4, 5, 1, 0, 0, 0	@ FIX "charsel": Kong up to Diddy
+	.endif
 	.else
 	@ data (was decoded as instructions)
 	.hword	0x0100, 0x0202, 0x0504, 0x0006, 0x0000
@@ -445,7 +462,11 @@ head_moves_up:  @ 08003f68
 
 head_moves_down:  @ 08003f74
 	.ifdef FIXES
+	.ifdef UPDATES
+	.byte	0, 2, 2, 3, 4, 5, 6, 0, 0, 0	@ FIX "rusty": Rusty stays
+	.else
 	.byte	0, 2, 2, 3, 4, 5, 1, 0, 0, 0	@ FIX "charsel": Diddy down to Kong
+	.endif
 	.else
 	@ data (was decoded as instructions)
 	.hword	0x0100, 0x0303, 0x0504, 0x0006, 0x0000
@@ -474,7 +495,11 @@ arrow_poss:  @ 08003fb0
 	.word	129, 34	@ Krash
 	.word	159, 16	@ K. Rool
 	.word	187, 52	@ Dixie
+	.ifdef UPDATES
+	.word	59, 10	@ Rusty (ours), above his sign
+	.else
 	.word	57, 16	@ Redneck (not reachable)
+	.endif
 	.else
 	@ data (was decoded as instructions)
 	.word	0x0000000f
@@ -560,7 +585,11 @@ _08004064:
 _08004068:
 	.word CHAR_SELECTED
 _0800406c:
+	.ifdef UPDATES
+	.word	sel_char_sounds2_7	@ FIX "rusty": with his cluck (updates/code/racers.s)
+	.else
 	.word sel_char_sounds2
+	.endif
 _08004070:
 	.word CHAR_SELECTED
 _08004074:
@@ -574,7 +603,11 @@ _08004080:
 _08004084:
 	.word LOCAL_MEM
 _08004088:
+	.ifdef UPDATES
+	.word	sel_char_sounds_7	@ FIX "rusty": with his crow (updates/code/racers.s)
+	.else
 	.word sel_char_sounds
+	.endif
 _0800408c:
 	.word CHAR_SELECTED
 _08004090:

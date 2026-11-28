@@ -5,10 +5,17 @@
 @ src/menu/menu_plane.c:129
 
 menu_plane_init_plane:  @ 08012fd8
+	.ifdef UPDATES
+	@ FIX "rusty": seven racers' pictures (updates/code/racers.s); the rest stays unreached
+	ldr	r1, [pc, #0]
+	bx	r1
+	.word	menu_plane_init_7+1
+	.else
 	push	{r4, r5, r6, r7, lr}
 	mov	r7, sl
 	mov	r6, r9
 	mov	r5, r8
+	.endif
 	push	{r5, r6, r7}
 	sub	sp, #28
 	str	r0, [sp, #24]

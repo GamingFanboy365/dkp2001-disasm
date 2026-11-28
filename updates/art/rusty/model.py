@@ -176,7 +176,9 @@ def add_head(m, hc, icon=False):
     icons do."""
     e, pu, bk, brim = (1.45, 1.9, 1.15, 0.75) if icon else (1.0, 1.0, 1.0, 1.0)
     ellipsoid(m, hc, (1.5, 1.48, 1.42), RUST, segs=(28, 18),
-              colour_fn=lambda u: RUST_LIGHT if u[1] > 0.45 else (CREAM if (u[0] > 0.7 and u[1] < -0.15) else RUST))
+              colour_fn=lambda u: RUST_LIGHT if u[1] > 0.45 else RUST)
+    for z in (0.62, -0.62):                              # soft cheek fluff
+        ellipsoid(m, hc + (1.05, -0.45, z), (0.42, 0.34, 0.4), RUST_LIGHT, segs=(12, 8))
     for z in (0.48, -0.48):
         ellipsoid(m, hc + (1.18, 0.28, z * 1.1 * (1.1 if icon else 1)), np.array((0.36, 0.5, 0.36)) * e, EYE, segs=(12, 10))
         ellipsoid(m, hc + (1.48 + (0.18 if icon else 0), 0.24, z * (1.1 if icon else 1)),
@@ -206,7 +208,73 @@ def build_head():
     return m
 
 
-def build(propeller_spin=True):
+def cylinder(m, p0, p1, r, col, segs=10):
+    """A capped cylinder from p0 to p1."""
+    p0, p1 = np.array(p0, float), np.array(p1, float)
+    ax = p1 - p0
+    ax /= np.linalg.norm(ax)
+    a = np.cross(ax, [1, 0, 0] if abs(ax[0]) < 0.9 else [0, 1, 0])
+    a /= np.linalg.norm(a)
+    b = np.cross(ax, a)
+    ring = [(math.cos(2 * math.pi * k / segs) * a + math.sin(2 * math.pi * k / segs) * b) for k in range(segs)]
+    for k in range(segs):
+        n0, n1 = ring[k], ring[(k + 1) % segs]
+        m.add([p0 + r * n0, p1 + r * n0, p1 + r * n1], [n0, n0, n1], col)
+        m.add([p0 + r * n0, p1 + r * n1, p0 + r * n1], [n0, n1, n1], col)
+        m.add([p1, p1 + r * n1, p1 + r * n0], [ax] * 3, col)
+        m.add([p0, p0 + r * n0, p0 + r * n1], [-ax] * 3, col)
+
+
+POLE_TOP = (0.35, 10.3, 2.1)                    # where the sign's board sits (build_cutout.py)
+
+
+def build_standing():
+    """Rusty standing, for the character select: his feet at y 0, one wing on his hip, the
+    other raised gripping a sign's pole (the board is painted on afterwards, in
+    build_cutout.py, at the pole's top)."""
+    m = Mesh()
+    leg = (250, 170, 40)
+    for z in (0.62, -0.62):                              # scaly legs and three-toed feet
+        cylinder(m, (0.15, 0.15, z), (0.15, 1.9, z), 0.2, leg)
+        for a in (-0.6, 0.0, 0.6):
+            rot = [[math.cos(a), 0, math.sin(a)], [0, 1, 0], [-math.sin(a), 0, math.cos(a)]]
+            ellipsoid(m, (0.45 + 0.35 * math.cos(a), 0.12, z + 0.35 * math.sin(a)), (0.55, 0.14, 0.16), leg,
+                      rot=rot, segs=(10, 6))
+    # overalls: plump pants and bib, rust shoulders and chest feathers, a patch
+    def body(u):
+        if u[1] > 0.6:
+            return RUST
+        if abs(u[2]) > 0.8 and u[1] > 0.0:
+            return RUST
+        return DENIM
+    ellipsoid(m, (0.2, 3.25, 0), (1.55, 1.75, 1.6), DENIM, segs=(32, 20), colour_fn=body)
+    ellipsoid(m, (1.25, 4.35, 0), (0.55, 0.65, 0.75), CREAM, segs=(14, 10))          # chest ruff
+    ellipsoid(m, (1.55, 2.55, 0.62), (0.2, 0.36, 0.36), (220, 80, 60), segs=(10, 8))  # the patch
+    for z in (0.62, -0.62):                              # strap buttons
+        ellipsoid(m, (1.55, 3.85, z), (0.16, 0.16, 0.16), SUNNY, segs=(8, 6))
+    # one wing on his hip (to the screen's right, kept close)
+    rot = [[math.cos(-1.2), -math.sin(-1.2), 0], [math.sin(-1.2), math.cos(-1.2), 0], [0, 0, 1]]
+    ellipsoid(m, (0.5, 3.3, -1.5), (1.1, 0.4, 0.32), RUST, rot=rot, segs=(14, 8),
+              colour_fn=lambda u: RUST_LIGHT if u[1] > 0.3 else RUST)
+    # the other raised to the pole (to the screen's left, away from DK)
+    shoulder, hand = np.array([0.3, 4.3, 1.45]), np.array([0.35, 6.3, 2.05])
+    mid = (shoulder + hand) / 2
+    d = hand - shoulder
+    ang = math.atan2(d[1], d[2])
+    rot = np.array([[1, 0, 0], [0, math.cos(ang), -math.sin(ang)], [0, math.sin(ang), math.cos(ang)]])
+    ellipsoid(m, mid, (0.4, 0.36, np.linalg.norm(d) / 2 + 0.25), RUST, rot=rot.T, segs=(14, 8),
+              colour_fn=lambda u: RUST_LIGHT if u[0] > 0.3 else RUST)
+    cylinder(m, (0.35, 5.6, 2.1), POLE_TOP, 0.13, (176, 124, 70))
+    add_head(m, np.array([0.45, 6.1, 0.0]))
+    # tail feathers fanning up behind
+    for k, (ang, col) in enumerate(((1.3, TAIL_BLUE), (1.05, TAIL_GREEN), (0.8, TAIL_BLUE), (0.55, TAIL_GREEN),
+                                    (0.3, RUST))):
+        rot = [[math.cos(ang), -math.sin(ang), 0], [math.sin(ang), math.cos(ang), 0], [0, 0, 1]]
+        ellipsoid(m, (-1.6 - 0.1 * k, 4.0 + 0.1 * k, (k - 2) * 0.3), (1.5, 0.3, 0.14), col, rot=rot, segs=(12, 6))
+    return m
+
+
+def build(propeller_spin=True, phase=0):
     m = Mesh()
 
     # ---------------------------------------------------------------- the plane
@@ -227,7 +295,7 @@ def build(propeller_spin=True):
     ellipsoid(m, (4.15, 0.0, 0), (0.75, 0.62, 0.62), WHITE, segs=(16, 10))
     if propeller_spin:                                 # the spinning disc, as the game draws them
         disc(m, (4.35, 0.0, 0), (1, 0, 0), 1.95, WHITE, segs=32, inner=0.55,
-             ring=lambda k: (232, 92, 72) if k % 8 in (0, 1) else (248, 244, 240), lit=False)
+             ring=lambda k: (232, 92, 72) if (k + phase) % 8 in (0, 1) else (248, 244, 240), lit=False)
     # wings, tailplane, fin with an orange rudder
     for sp in (5.4, -5.4):
         wing(m, (2.0, -0.6), (1.4, 0.3), -0.95, sp, 0.42, SUNNY, sweep=0.2)

@@ -36,12 +36,135 @@ fix_charsel_text_far:
 	bl	racers_bx_r3
 2:	ldr	r3, =plot_char+1
 	bl	racers_bx_r3
-	pop	{r4}
+	@ Rusty in sepia over Candy Kong's figure, unless he is the one highlighted
+	ldr	r0, =CHAR_SELECTED
+	ldrb	r0, [r0, #0]
+	cmp	r0, #6
+	beq	3f
+	ldr	r0, =rusty_sepia_plt		@ his sepia tones: OBJ colours 192-223
+	ldr	r1, =0x05000380
+	movs	r2, #0
+4:	ldrh	r3, [r0, r2]
+	strh	r3, [r1, r2]
+	adds	r2, #2
+	cmp	r2, #64
+	blt	4b
+	ldr	r0, =OBJ_ATTR_0
+	movs	r1, #0
+	strh	r1, [r0, #0]
+	strh	r1, [r0, #2]
+	strh	r1, [r0, #4]
+	movs	r0, #7				@ the select's plot origin for the slots
+	negs	r0, r0
+	movs	r1, #1
+	negs	r1, r1
+	ldr	r2, =rusty_sepia_frames
+	movs	r3, #0
+	ldr	r4, =sprite_plot+1
+	bl	racers_bx_r4
+3:	pop	{r4}
 	pop	{r0}
 	bx	r0
+racers_bx_r4:
+	bx	r4
 racers_bx_r3:
 	bx	r3
 	.ltorg
+
+@ ---------------------------------------------------------------- the select's voices
+@ sel_char_sounds (confirm) and sel_char_sounds2 (the cursor arriving), by slot, as Rare's
+@ six, then Rusty's crow and cluck (updates/sound/rusty).
+	.balign 4
+sel_char_sounds_7:
+	.word	0x3b, 0x10, 0x01, 0x16, 0x1c, 0x07, 105
+sel_char_sounds2_7:
+	.word	0x3c, 0x0f, 0x00, 0x15, 0x1d, 0x09, 112
+
+@ ---------------------------------------------------------------- the course menu's picture
+@ In place of menu_plane_init_plane (r0 = the character): as Rare's, with seven racers. The
+@ picture's colours (144-239) to the BG palette, its tiles to 0x06008000, and its two
+@ 22x16 layers of byte tile numbers (the two frames) into the screen blocks at 0x0600d800
+@ and 0x0600e000, 32 bytes a row.
+	.thumb_func
+menu_plane_init_7:
+	push	{r4, r5, r6, r7, lr}
+	adds	r7, r0, #0
+	cmp	r7, #6
+	bls	1f
+	movs	r7, #1
+1:	lsls	r4, r7, #2
+	ldr	r2, =0x040000d4
+	ldr	r0, =plts_7
+	ldr	r0, [r0, r4]
+	movs	r1, #144
+	lsls	r1, r1, #1
+	adds	r0, r0, r1
+	str	r0, [r2, #0]
+	ldr	r0, =0x05000120
+	str	r0, [r2, #4]
+	ldr	r0, =0x80000060
+	str	r0, [r2, #8]
+	ldr	r0, [r2, #8]
+	ldr	r0, =chars_7
+	ldr	r0, [r0, r4]
+	str	r0, [r2, #0]
+	ldr	r0, =0x06008000
+	str	r0, [r2, #4]
+	ldr	r0, =num_chars_7
+	ldr	r0, [r0, r4]
+	ldr	r0, [r0, #0]
+	lsls	r0, r0, #5
+	movs	r1, #128
+	lsls	r1, r1, #24
+	orrs	r0, r1
+	str	r0, [r2, #8]
+	ldr	r0, [r2, #8]
+	ldr	r5, =maps_7
+	ldr	r5, [r5, r4]			@ layer A's rows
+	movs	r0, #176
+	lsls	r0, r0, #1
+	adds	r6, r5, r0			@ layer B's (11 x 16 hwords later)
+	ldr	r1, =0x0600d800
+	ldr	r3, =0x0600e000
+	movs	r4, #16
+2:	movs	r2, #11
+3:	ldrh	r0, [r5, #0]
+	strh	r0, [r1, #0]
+	ldrh	r0, [r6, #0]
+	strh	r0, [r3, #0]
+	adds	r5, #2
+	adds	r6, #2
+	adds	r1, #2
+	adds	r3, #2
+	subs	r2, #1
+	bne	3b
+	adds	r1, #10
+	adds	r3, #10
+	subs	r4, #1
+	bne	2b
+	ldr	r0, =current_plane
+	str	r7, [r0, #0]
+	ldr	r1, =B_0200de88
+	movs	r0, #0
+	str	r0, [r1, #0]
+	pop	{r4, r5, r6, r7}
+	pop	{r0}
+	bx	r0
+	.ltorg
+
+	.balign 4
+maps_7:
+	.word	crankysmall_map, diddysmall1_map, krunchsmall_map, kroolsmall_map, dixieysmall_map
+	.word	kongsmall_map, rusty_small_map
+chars_7:
+	.word	crankysmall_chars, diddysmall1_chars, krunchsmall_chars, kroolsmall_chars
+	.word	dixieysmall_chars, kongsmall_chars, rusty_small_chars
+plts_7:
+	.word	crankysmall_plt, diddysmall1_plt, krunchsmall_plt, kroolsmall_plt, dixieysmall_plt
+	.word	kongsmall_plt, rusty_small_plt
+num_chars_7:
+	.word	crankysmall_num_chars, diddysmall1_num_chars, krunchsmall_num_chars, kroolsmall_num_chars
+	.word	dixieysmall_num_chars, kongsmall_num_chars, rusty_small_num_chars
 
 @ ---------------------------------------------------------------- Rusty in the race
 @ In place of setup_player_data's character loop (r1 = character, r5 = the plane): the
