@@ -728,7 +728,7 @@ draw_head:
 	str	r1, [sp, #0]
 	str	r2, [sp, #4]
 	str	r3, [sp, #8]
-	cmp	r0, #5
+	cmp	r0, #6				@ 0-5 Rare's racers, 6 Rusty (ours)
 	bls	1f
 	movs	r0, #1
 1:	lsls	r0, r0, #2
@@ -839,9 +839,11 @@ results_backgrounds:				@ updates/art/cup_results/paint.py
 head_sprites:
 	.word	__spr_cranky_head, __spr_diddy_head, __spr_krunch_head
 	.word	__spr_krool_head, __spr_dixie_head, __spr_donkey_head
+	.word	__spr_rusty_head
 head_palettes:
 	.word	__pal_cranky_head, __pal_diddy_head, __pal_krunch_head
 	.word	__pal_krool_head, __pal_dixie_head, __pal_donkey_head
+	.word	__pal_rusty_head
 	.equ	RESULTS_BACKDROP, 0x4022	@ deep blue (BGR555); the final results get art later
 
 @ ---------------------------------------------------------------- the race timer

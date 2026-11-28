@@ -353,6 +353,11 @@ D_0806f698:  @ 0806f698
 
 player_voice_fx:  @ 0806f6a4  const const int[6][16]  (src/act_player.c)
 	.incbin "assets/tables/act_player/player_voice_fx.bin"
+	.ifdef UPDATES
+	@ Rusty (ours): power-up the crow; happy the cheer, the whoop, the yee-haw; hit the brawk;
+	@ random hits two squawks (updates/sound/rusty)
+	.word	105, 106, 107, 108, 109, 110, 111, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	.endif
 
 D_0806f824:  @ 0806f824
 	.asciz "OV_PLAYER_CHARACTER(o)<6"
@@ -2663,6 +2668,12 @@ tab_sprites:  @ 0816a74c
 	.byte 0x00, 0x00, 0x5b, 0x00
 	.word __spr_hud_counter
 	.byte 0x00, 0x00, 0x26, 0x00
+	.ifdef UPDATES
+	.word __spr_rusty			@ 126: Rusty's plane (ours, updates/art/rusty)
+	.byte 0x02, 0x00, 0x5c, 0x00
+	.word __spr_rusty_head			@ 127: his racer icon (ours)
+	.byte 0x00, 0x00, 0x5d, 0x00
+	.endif
 
 tab_palettes:  @ 0816ab3c
 	.byte 0x00, 0x00, 0x00, 0x00
@@ -2757,6 +2768,10 @@ tab_palettes:  @ 0816ab3c
 	.word __pal_krool_head
 	.word __pal_krunch_head
 	.word __pal_hud_icons
+	.ifdef UPDATES
+	.word __pal_rusty			@ 92: Rusty's plane (ours)
+	.word __pal_rusty_head			@ 93: his racer icon (ours)
+	.endif
 
 tab_classes:  @ 0816acac
 	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00

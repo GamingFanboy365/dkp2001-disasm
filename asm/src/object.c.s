@@ -270,6 +270,15 @@ obj_remove_draw:  @ 080073ec
 	.ifdef FIXES
 fix_assert_L_08007406:
 	b	L_08007406	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.ifdef UPDATES
+	@ FIX "rusty": trampoline to the end of the ROM (keeps r1, r5)
+	.balign 4
+fix_racer_sprite:
+	ldr	r0, 1f
+	bx	r0
+	.balign 4
+1:	.word	fix_racer_sprite_far+1
+	.endif
 	.fill 18 - (. - fix_assert_L_08007406), 1, 0	@ same size as the original block
 	.else
 	ldr	r0, _08007444	@ =D_0806f1e0
@@ -291,6 +300,15 @@ L_08007406:
 	.ifdef FIXES
 fix_assert_L_08007424:
 	b	L_08007424	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.ifdef UPDATES
+	@ FIX "rusty": trampoline to the end of the ROM (get_player_head; keeps r0)
+	.balign 4
+fix_player_head:
+	ldr	r1, 1f
+	bx	r1
+	.balign 4
+1:	.word	fix_player_head_far+1
+	.endif
 	.fill 18 - (. - fix_assert_L_08007424), 1, 0	@ same size as the original block
 	.else
 	ldr	r0, _08007444	@ =D_0806f1e0

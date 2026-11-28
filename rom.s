@@ -159,6 +159,8 @@
 	.include "updates/code/cup.s"	@ cups and the Clock Race return
 	.include "updates/code/best.s"	@ Clock Race best times (saved)
 	.include "updates/code/racers.s"	@ racer names, and Rusty
+	.include "updates/art/rusty/rusty.s"	@ Rusty's graphics
+	.include "updates/sound/rusty/rusty_voice.s"	@ Rusty's voice
 	.include "updates/text/course_names.s"	@ new course names
 	.include "updates/art/pictures.s"	@ new course pictures
 	.include "updates/courses/temple_tangle.s"	@ generated from temple_tangle.py

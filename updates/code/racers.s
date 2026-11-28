@@ -43,6 +43,43 @@ racers_bx_r3:
 	bx	r3
 	.ltorg
 
+@ ---------------------------------------------------------------- Rusty in the race
+@ In place of setup_player_data's character loop (r1 = character, r5 = the plane): the
+@ character wrapped to 0-6, stored at o+130, and r1 = its sprite (Rare's switch, plus
+@ Rusty's plane, sprite 126).
+	.thumb_func
+fix_racer_sprite_far:
+1:	cmp	r1, #6
+	ble	2f
+	subs	r1, #7
+	b	1b
+2:	adds	r0, r5, #0
+	adds	r0, #130
+	strh	r1, [r0, #0]
+	ldr	r0, =racer_sprites
+	ldrb	r1, [r0, r1]
+	bx	lr
+	.ltorg
+@ In place of get_player_head's `cmp r0, #5; bhi` (r0 = the character): 0-5 carry on into
+@ Rare's switch; Rusty (6) is his own head, sprite 127; anything else Rare's default.
+	.thumb_func
+fix_player_head_far:
+	cmp	r0, #5
+	bhi	1f
+	bx	lr
+1:	cmp	r0, #6
+	bne	2f
+	movs	r0, #127
+	b	3f
+2:	movs	r0, #51				@ (Rare's default: K. Rool's head)
+3:	ldr	r1, =L_08008c7a+1
+	bx	r1
+	.ltorg
+
+racer_sprites:					@ by character, as setup_player_data's switch
+	.byte	5, 1, 4, 6, 2, 3, 126		@ Cranky, Diddy, Krunch, K. Rool, Dixie, DK, Rusty
+	.balign 2
+
 	.equ	R_SP, 254			@ big font: space
 	.equ	R_DOT, 39			@ .
 	.equ	R_END, 255

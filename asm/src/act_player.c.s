@@ -8,6 +8,13 @@ setup_player_data:  @ 08008714
 	push	{r4, r5, lr}
 	adds	r5, r0, #0
 @ src/act_player.c:43
+	.ifdef UPDATES
+	@ FIX "rusty": seven characters; Rusty (6) flies his own plane, sprite 126
+	bl	fix_racer_sprite	@ r1 -> its sprite; o+130 = the character (updates/code/racers.s)
+	b	L_0800876a
+	mov	r8, r8
+	mov	r8, r8			@ (same size as the fixes build's loop)
+	.else
 	.ifdef FIXES
 	@ FIX "charsel": six characters, not five, so Donkey Kong (5) flies with
 	@ his own sprites (the switch below, the head portraits and the voice and
@@ -25,6 +32,7 @@ L_0800871c:
 	subs	r1, #5
 	cmp	r1, #4
 	bgt L_0800871c
+	.endif
 	.endif
 @ src/act_player.c:45
 L_08008722:
@@ -884,8 +892,12 @@ L_08008c2e:
 get_player_head:  @ 08008c34
 	adds	r0, #130
 	ldrh	r0, [r0, #0]
+	.ifdef UPDATES
+	bl	fix_player_head		@ FIX "rusty": his head is sprite 127 (updates/code/racers.s)
+	.else
 	cmp	r0, #5
 	bhi L_08008c78
+	.endif
 	lsls	r0, r0, #2
 	ldr	r1, _08008c48	@ =L_08008c4c
 	adds	r0, r0, r1

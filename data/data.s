@@ -12821,6 +12821,16 @@ vgroup127_samplist:  @ 083e37ec  Sampinf*[105]  (src/audio/inf_inc.c)
 	.word vgroup127_p143_inf
 	.word vgroup127_p145_inf
 	.word vgroup127_p147_inf
+	.ifdef UPDATES
+	.word rusty_crow_inf		@ 105: Rusty's voice (ours, updates/sound/rusty)
+	.word rusty_cheer_inf		@ 106
+	.word rusty_whoop_inf		@ 107
+	.word rusty_yeehaw_inf		@ 108
+	.word rusty_brawk_inf		@ 109
+	.word rusty_squawk1_inf		@ 110
+	.word rusty_squawk2_inf		@ 111
+	.word rusty_cluck_inf		@ 112
+	.endif
 
 tune_list:  @ 083e3990  Songinf*[7]  (src/audio/inf_inc.c)
 	.word three_beach_tune_001
@@ -15941,9 +15951,15 @@ story_planes:  @ 084d7ed0  int[3]  (src/menu/menu_mode.c)
 
 D_084d7edc:  @ 084d7edc  short int[6]  (src/menu/menu_mode.c)
 	.byte 0x3b, 0x00, 0x10, 0x00, 0x15, 0x00, 0x1c, 0x00, 0x07, 0x00, 0x01, 0x00
+	.ifdef UPDATES
+	.hword	105			@ Rusty: his crow (ours)
+	.endif
 
 D_084d7ee8:  @ 084d7ee8  short int[6]  (src/menu/menu_mode.c)
 	.byte 0x3c, 0x00, 0x0f, 0x00, 0x15, 0x00, 0x1d, 0x00, 0x09, 0x00, 0x00, 0x00
+	.ifdef UPDATES
+	.hword	112			@ Rusty: a cluck (ours)
+	.endif
 
 D_084d7ef4:  @ 084d7ef4  func*  (src/menu/menu_spline.c)
 	.word init_big_font+1
