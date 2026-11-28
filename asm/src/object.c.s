@@ -222,6 +222,15 @@ L_080073b8:
 	.ifdef FIXES
 fix_assert_L_080073d2:
 	b	L_080073d2	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.ifdef UPDATES
+	@ FIX "no-pylon-counter": trampoline to the end of the ROM
+	.balign 4
+fix_counter_start:			@ (r3 is live at the call: the state's address)
+	ldr	r2, 1f
+	bx	r2
+	.balign 4
+1:	.word	fix_counter_start_far+1
+	.endif
 	.fill 18 - (. - fix_assert_L_080073d2), 1, 0	@ same size as the original block
 	.else
 	ldr	r0, _080073e0	@ =D_0806f1e0

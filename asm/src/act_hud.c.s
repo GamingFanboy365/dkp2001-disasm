@@ -735,9 +735,13 @@ L_0800a3d0:
 	adds	r0, r2, #0
 	adds	r0, #131
 	movs	r1, #90
+	.ifdef UPDATES
+	bl	fix_counter_start	@ FIX "no-pylon-counter": r0 = the next state; shown only in dogfights (lives)
+	.else
 	strb	r1, [r0, #0]
 @ src/act_hud.c:288
 	movs	r0, #2
+	.endif
 @ src/act_hud.c:290
 	b L_0800a44e
 @ src/act_hud.c:293

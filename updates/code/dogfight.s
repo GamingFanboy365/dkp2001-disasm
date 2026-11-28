@@ -336,6 +336,25 @@ df_win:
 	.ltorg
 
 @ In place of calculate_race_positions(r0 = the race monitor) from
+@ In place of act_hud_counter's start (`strb r1, [r0]; movs r0, #2` with r0 = the race
+@ monitor's show-counter timer, r1 = 90): the updates build has no pylons, so outside a
+@ dogfight the strike counter (the stacked pylon icons) stays hidden, state 1; in a
+@ dogfight it shows the player's lives as before, state 2.
+	.thumb_func
+fix_counter_start_far:				@ keeps r3 (the caller stores the state through it)
+	push	{r0, r1, r3, lr}
+	bl	df_mode
+	adds	r2, r0, #0
+	pop	{r0, r1, r3}
+	cmp	r2, #0
+	beq	1f
+	strb	r1, [r0, #0]
+	movs	r0, #2
+	b	2f
+1:	movs	r0, #1
+2:	pop	{r2}
+	bx	r2
+
 @ act_race_monitor: in a dogfight, while the fight is on, the place the HUD
 @ shows is 1 + the computer planes still flying (4th down to 1st), since
 @ race positions mean nothing there; once the last downed plane has
@@ -351,7 +370,13 @@ fix_df_positions_far:
 	bl	timer_frame			@ FIX "race-timer": the clock and times (updates/code/cup.s)
 	bl	df_mode
 	cmp	r0, #0
-	beq	3f
+	bne	5f
+	adds	r0, r4, #0			@ FIX "no-pylon-counter": no pylons, so the strike
+	adds	r0, #MON_SHOW_COUNTER		@ counter never slides in (dogfights keep it: lives)
+	movs	r1, #0
+	strb	r1, [r0, #0]
+	b	3f
+5:
 	ldr	r0, [r4, #MON_STATE]
 	cmp	r0, #MON_RACING
 	bne	3f
