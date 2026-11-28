@@ -234,12 +234,21 @@ def build_standing():
     build_cutout.py, at the pole's top)."""
     m = Mesh()
     leg = (250, 170, 40)
-    for z in (0.62, -0.62):                              # scaly legs and three-toed feet
-        cylinder(m, (0.15, 0.15, z), (0.15, 1.9, z), 0.2, leg)
-        for a in (-0.6, 0.0, 0.6):
-            rot = [[math.cos(a), 0, math.sin(a)], [0, 1, 0], [-math.sin(a), 0, math.cos(a)]]
-            ellipsoid(m, (0.45 + 0.35 * math.cos(a), 0.12, z + 0.35 * math.sin(a)), (0.55, 0.14, 0.16), leg,
-                      rot=rot, segs=(10, 6))
+    claw = (70, 46, 34)
+    for z in (0.62, -0.62):                              # a bird's legs and feet
+        cylinder(m, (0.15, 0.12, z), (0.15, 1.95, z), 0.17, leg)
+        for k in range(5):                               # scaly rings up the shank
+            ellipsoid(m, (0.15, 0.4 + 0.3 * k, z), (0.2, 0.05, 0.2), (226, 146, 30), segs=(10, 4))
+        side = 1 if z > 0 else -1
+        for a in (-1.05, 0.0, 1.05):                     # three long toes splayed forward
+            a2 = a + 0.12 * side
+            rot = [[math.cos(a2), 0, math.sin(a2)], [0, 1, 0], [-math.sin(a2), 0, math.cos(a2)]]
+            ln = 0.95 if a == 0 else 0.8
+            tip = np.array([0.15 + 2 * ln * math.cos(a2), 0.08, z - 2 * ln * math.sin(a2)])
+            ellipsoid(m, ((0.15 + tip[0]) / 2, 0.14, (z + tip[2]) / 2), (ln, 0.15, 0.17), leg, rot=rot, segs=(12, 6))
+            ellipsoid(m, tip, (0.2, 0.1, 0.11), claw, rot=rot, segs=(8, 4))
+        ellipsoid(m, (-0.3, 0.1, z), (0.4, 0.09, 0.1), leg, segs=(8, 4))      # the back toe
+        ellipsoid(m, (-0.68, 0.08, z), (0.12, 0.07, 0.07), claw, segs=(6, 4))
     # overalls: plump pants and bib, rust shoulders and chest feathers, a patch
     def body(u):
         if u[1] > 0.6:

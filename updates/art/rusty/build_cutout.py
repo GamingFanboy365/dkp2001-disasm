@@ -34,7 +34,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 import model  # noqa: E402
 
-VIEW = (4, 180)                              # facing straight out, as the gang does
+VIEW = (10, 180)                             # facing straight out, from a little above
 OVER = 8                                     # render at 8x the screen
 FEET = (69, 143)                             # where his feet stand on the screen
 PX_PER_UNIT = 10.4
@@ -209,7 +209,7 @@ def pieces(mask):
                     filled = blk.sum()
                     if filled == 0 or not blk[ty - y0, tx - x0]:
                         continue
-                    score = filled - 1.2 * (cw * ch - filled)
+                    score = filled - 2.5 * (cw * ch - filled)
                     if best is None or score > best[0]:
                         best = (score, x0, y0, w, h, shape, size)
         _, x0, y0, w, h, shape, size = best

@@ -12,7 +12,12 @@ char_select:  @ 08003c58
 	.else
 	bl plot_char
 	.endif
+	.ifdef UPDATES
+	mov	r8, r8			@ FIX "no-p1-cursor": no "1" cursor (the highlighted racer is in
+	mov	r8, r8			@ colour and named; the build has no second player)
+	.else
 	bl plot_arrow
+	.endif
 	movs	r0, #6
 	bl get_text
 	movs	r1, #120
