@@ -183,21 +183,23 @@ fix_racer_sprite_far:
 	ldrb	r1, [r0, r1]
 	bx	lr
 	.ltorg
-@ In place of get_player_head's `cmp r0, #5; bhi` (r0 = the character): 0-5 carry on into
-@ Rare's switch; Rusty (6) is his own head, sprite 127; anything else Rare's default.
+@ In place of get_player_head (r0 = a plane -> r0 = its racer's head sprite), from the farm
+@ eggs' and haunted souls' HUDs: Rare's heads, then Rusty's (sprite 127). (A leaf: lr is
+@ the caller's.)
 	.thumb_func
-fix_player_head_far:
-	cmp	r0, #5
-	bhi	1f
+get_player_head_7:
+	adds	r0, #130
+	ldrh	r0, [r0, #0]
+	cmp	r0, #6
+	bls	1f
+	movs	r0, #3				@ (Rare's default: K. Rool's head)
+1:	ldr	r1, =racer_heads
+	ldrb	r0, [r1, r0]
 	bx	lr
-1:	cmp	r0, #6
-	bne	2f
-	movs	r0, #127
-	b	3f
-2:	movs	r0, #51				@ (Rare's default: K. Rool's head)
-3:	ldr	r1, =L_08008c7a+1
-	bx	r1
 	.ltorg
+racer_heads:					@ by character, as get_player_head's switch, then Rusty
+	.byte	46, 47, 52, 51, 48, 49, 127
+	.balign 2
 
 racer_sprites:					@ by character, as setup_player_data's switch
 	.byte	5, 1, 4, 6, 2, 3, 126		@ Cranky, Diddy, Krunch, K. Rool, Dixie, DK, Rusty

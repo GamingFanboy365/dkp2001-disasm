@@ -892,12 +892,8 @@ L_08008c2e:
 get_player_head:  @ 08008c34
 	adds	r0, #130
 	ldrh	r0, [r0, #0]
-	.ifdef UPDATES
-	bl	fix_player_head		@ FIX "rusty": his head is sprite 127 (updates/code/racers.s)
-	.else
 	cmp	r0, #5
 	bhi L_08008c78
-	.endif
 	lsls	r0, r0, #2
 	ldr	r1, _08008c48	@ =L_08008c4c
 	adds	r0, r0, r1

@@ -301,13 +301,13 @@ L_08007406:
 fix_assert_L_08007424:
 	b	L_08007424	@ FIX "asserts": skip the failed-assert print and trap, carry on
 	.ifdef UPDATES
-	@ FIX "rusty": trampoline to the end of the ROM (get_player_head; keeps r0)
+	@ FIX "rusty": trampoline to the end of the ROM (in place of get_player_head; keeps r0, lr)
 	.balign 4
-fix_player_head:
+fix_get_player_head:
 	ldr	r1, 1f
 	bx	r1
 	.balign 4
-1:	.word	fix_player_head_far+1
+1:	.word	get_player_head_7+1
 	.endif
 	.fill 18 - (. - fix_assert_L_08007424), 1, 0	@ same size as the original block
 	.else

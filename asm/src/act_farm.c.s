@@ -799,7 +799,11 @@ L_0800b1cc:
 @ src/act_farm.c:351
 	ldr	r6, _0800b394	@ =players
 	ldr	r0, [r6, #0]
+	.ifdef UPDATES
+	bl	fix_get_player_head	@ FIX "rusty": seven racers' heads (updates/code/racers.s)
+	.else
 	bl get_player_head
+	.endif
 	strh	r0, [r4, #10]
 @ src/act_farm.c:352
 	ldr	r0, _0800b398	@ =tab_sprites
@@ -825,7 +829,11 @@ L_0800b1cc:
 	strh	r0, [r4, #2]
 @ src/act_farm.c:359
 	ldr	r0, [r6, #4]
+	.ifdef UPDATES
+	bl	fix_get_player_head	@ FIX "rusty": seven racers' heads (updates/code/racers.s)
+	.else
 	bl get_player_head
+	.endif
 	strh	r0, [r4, #10]
 @ src/act_farm.c:360
 	ldrh	r0, [r4, #10]
@@ -849,7 +857,11 @@ L_0800b1cc:
 	strh	r0, [r4, #2]
 @ src/act_farm.c:367
 	ldr	r0, [r6, #8]
+	.ifdef UPDATES
+	bl	fix_get_player_head	@ FIX "rusty": seven racers' heads (updates/code/racers.s)
+	.else
 	bl get_player_head
+	.endif
 	strh	r0, [r4, #10]
 @ src/act_farm.c:368
 	ldrh	r0, [r4, #10]
@@ -873,7 +885,11 @@ L_0800b1cc:
 	strh	r0, [r4, #2]
 @ src/act_farm.c:375
 	ldr	r0, [r6, #12]
+	.ifdef UPDATES
+	bl	fix_get_player_head	@ FIX "rusty": seven racers' heads (updates/code/racers.s)
+	.else
 	bl get_player_head
+	.endif
 	strh	r0, [r4, #10]
 @ src/act_farm.c:376
 	ldrh	r0, [r4, #10]

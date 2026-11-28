@@ -37,7 +37,7 @@ ROOT = os.path.normpath(os.path.join(HERE, "..", ".."))
 ROMTEST = os.path.join(ROOT, "tools", "romtest", "romtest")
 ORIGINAL_SHA1 = "6a76def610829ac1502afb58740e38b5e6926b3d"
 OFFSET = 100                    # patched builds: frames added after L+R on the logo
-CHARS = ["Cranky", "Diddy", "Krunch", "K. Rool", "Dixie", "Kong"]
+CHARS = ["Cranky", "Diddy", "Krunch", "K. Rool", "Dixie", "Kong", "Rusty"]   # Rusty: updates build
 EWRAM, IWRAM = 0x02000000, 0x03000000
 
 # RAM addresses (maps/symbols.txt)
@@ -69,9 +69,16 @@ def func_name(pc):
 def course_names(rom):
     """Course names by level, from select_strings (char*, level - 1) in the ROM."""
     b = open(rom, "rb").read()
+    table = SYMS["select_strings"] - 0x08000000
+    base = os.path.join(ROOT, "baserom.gba")
+    if os.path.exists(base):                 # the table may have moved in a patched build:
+        key = open(base, "rb").read()[table + 4:table + 16]   # find it by entries 2-4
+        i = b.find(key)
+        if i >= 0:
+            table = i - 4
     out = {}
     for lv in range(1, 42):
-        p = struct.unpack_from("<I", b, SYMS["select_strings"] - 0x08000000 + 4 * (lv - 1))[0] - 0x08000000
+        p = struct.unpack_from("<I", b, table + 4 * (lv - 1))[0] - 0x08000000
         out[lv] = b[p:b.index(b"\0", p)].decode("latin-1").title()
     return out
 
@@ -206,11 +213,10 @@ def check_finish(rom):
 
 
 def check_picks(rom):
-    order = ["Diddy", "Krash", "K. Rool", "Dixie", "Cranky", "Kong"]   # RIGHT presses from the start
-    jobs = {}
-    for n in range(6):
+    jobs = {}                                # RIGHT presses from the start (Diddy): Krash, K. Rool,
+    for n in range(7):                       # Dixie, Cranky, then Kong (or Rusty, then Kong, in
         t = FRONTEND + ["1800:A"] + [f"{2100 + k * 100}:RIGHT" for k in range(n)] + ["2900:A", "3300:A", "3700:A", "4100:A"]
-        jobs[f"picked {order[n]}"] = (5200, t)
+        jobs[f"RIGHT x{n}"] = (5200, t)      # the updates build, where his slot sits between)
     return run_jobs(rom, jobs, lambda r: f"flies as {CHARS[rd(r, rd(r, PLAYERS) + 130, '<H')]}")
 
 

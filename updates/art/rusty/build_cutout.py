@@ -36,9 +36,9 @@ import model  # noqa: E402
 
 VIEW = (4, 180)                              # facing straight out, as the gang does
 OVER = 8                                     # render at 8x the screen
-FEET = (77, 143)                             # where his feet stand on the screen
+FEET = (69, 143)                             # where his feet stand on the screen
 PX_PER_UNIT = 10.4
-BOARD = (74, 45, 46, 21)                     # sign centre x, y, width, height (screen px)
+BOARD = (68, 45, 46, 21)                     # sign centre x, y, width, height (screen px)
 ORIGIN = (-7, -1)                            # the select's plot origin for this slot (fix_char_offset)
 SEPIA = [(96, 48, 16), (112, 64, 24), (120, 72, 24), (128, 80, 32), (136, 88, 40), (144, 96, 48),
          (152, 104, 48), (160, 112, 56), (160, 120, 64), (168, 128, 72), (176, 136, 80), (184, 144, 88),
@@ -142,7 +142,30 @@ def to_screen(layer):
     edge = mask & ~(np.roll(mask, 1, 0) & np.roll(mask, -1, 0) & np.roll(mask, 1, 1) & np.roll(mask, -1, 1))
     rgb[edge] *= 0.5
     mask &= ~gang_mask()                                    # behind DK, Diddy and Cranky
-    return rgb, mask
+    return rgb, without_slivers(mask)
+
+
+def without_slivers(mask, least=25):
+    """Drop bits of him the racers in front cut off from the rest (under `least` pixels)."""
+    seen = np.zeros(mask.shape, bool)
+    keep = np.zeros(mask.shape, bool)
+    for y0, x0 in np.argwhere(mask):
+        if seen[y0, x0]:
+            continue
+        stack, part = [(y0, x0)], []
+        seen[y0, x0] = True
+        while stack:
+            y, x = stack.pop()
+            part.append((y, x))
+            for dy, dx in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+                v, u = y + dy, x + dx
+                if 0 <= v < mask.shape[0] and 0 <= u < mask.shape[1] and mask[v, u] and not seen[v, u]:
+                    seen[v, u] = True
+                    stack.append((v, u))
+        if len(part) >= least:
+            for y, x in part:
+                keep[y, x] = True
+    return keep
 
 
 def quantize(rgb, mask, n):

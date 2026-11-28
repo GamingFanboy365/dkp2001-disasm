@@ -584,7 +584,11 @@ L_0800bbc0:
 	ldr	r0, _0800bcbc	@ =players
 	ldr	r0, [r0, #0]
 	str	r1, [sp, #0]
+	.ifdef UPDATES
+	bl	fix_get_player_head	@ FIX "rusty": seven racers' heads (updates/code/racers.s)
+	.else
 	bl get_player_head
+	.endif
 	strh	r0, [r4, #10]
 @ src/act_haunted.c:238
 	ldr	r2, _0800bcc0	@ =tab_sprites
