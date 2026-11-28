@@ -419,12 +419,152 @@ def plaque(img):
     paste(img, p)
 
 
+VP = (120, 74)                  # the room's vanishing point
+BACK = (72, 38, 168, 104)       # the back wall (x0, y0, x1, y1)
+
+
+def room(img):
+    """The room in one-point perspective: ceiling, side walls, back wall, marble floor."""
+    d = ImageDraw.Draw(img)
+    bx0, by0, bx1, by1 = (v * S for v in BACK)
+    # ceiling: dark wood, lighter towards the back
+    vgrad(d, (0, 0, W, by0), (56, 26, 22), (120, 66, 44))
+    d.polygon([(0, by0), (bx0, by0), (0, 0)], fill=(70, 34, 26, 255))
+    # side walls: warm panelling, darker near the viewer
+    for side in (-1, 1):
+        xa, xb = (0, bx0) if side < 0 else (W, bx1)
+        for k in range(60):
+            t = k / 60
+            x = xa + (xb - xa) * t
+            yt = 0 + (by0 - 0) * t
+            yb = H + (by1 - H) * t
+            col = lerp((70, 30, 24), (150, 80, 50), t)
+            d.line([(x, yt), (x, yb)], fill=col + (255,), width=int(abs(xb - xa) / 60) + 2)
+    # back wall
+    vgrad(d, (bx0, by0, bx1, by1), (170, 96, 60), (120, 62, 40))
+    for k in range(1, 8):                                     # its panels
+        x = bx0 + (bx1 - bx0) * k / 8
+        d.line([(x, by0 + 4 * S), (x, by1 - 2 * S)], fill=(100, 52, 34, 255), width=max(1, S // 2))
+    # the floor: a marble checkerboard in perspective, shinier at the back
+    fl = np.zeros((H, W, 4), np.uint8)
+    vy = VP[1] * S
+    for y in range(int(by1), H):
+        z = 1.0 / ((y - vy) / (H - vy))                       # depth: 1 at the front edge
+        for x in range(0, W, 2):
+            xw = (x - VP[0] * S) * z / (S * 22)
+            zw = z * 3.2
+            chk = (int(math.floor(xw)) + int(math.floor(zw))) & 1
+            base = (236, 226, 208) if chk else (120, 34, 40)
+            shine = max(0.0, 1 - abs(x - VP[0] * S) / (W * 0.45)) * (1 / z) * 0.35
+            c = lerp(base, (255, 250, 236), min(1, shine))
+            fl[y, x:x + 2, :3] = lerp(c, (60, 30, 30), min(0.45, (z - 1) * 0.08))
+            fl[y, x:x + 2, 3] = 255
+    paste(img, Image.fromarray(fl, "RGBA"))
+    d = ImageDraw.Draw(img)
+    for side in (-1, 1):                                      # skirting along the walls
+        xa, xb = (0, bx0) if side < 0 else (W, bx1)
+        d.line([(xa, H), (xb, by1)], fill=(60, 26, 20, 255), width=2 * S)
+
+
+def alcove(img):
+    """An arched alcove in the back wall: red velvet, a pedestal, the champion's cup."""
+    a = layer()
+    d = ImageDraw.Draw(a)
+    cx = VP[0] * S
+    x0, x1, y0, y1 = cx - 22 * S, cx + 22 * S, (BACK[1] + 4) * S, BACK[3] * S
+    d.rectangle([x0, y0 + 20 * S, x1, y1], fill=(110, 14, 30, 255))
+    d.pieslice([x0, y0, x1, y0 + 44 * S], 180, 360, fill=(110, 14, 30, 255))
+    for k in range(7):                                        # velvet folds
+        x = x0 + (k + 0.5) * (x1 - x0) / 7
+        d.line([(x, y0 + 12 * S), (x, y1)], fill=(150, 30, 46, 255), width=S)
+    d.arc([x0, y0, x1, y0 + 44 * S], 180, 360, fill=(230, 180, 70, 255), width=2 * S)
+    d.line([(x0, y0 + 22 * S), (x0, y1)], fill=(230, 180, 70, 255), width=2 * S)
+    d.line([(x1, y0 + 22 * S), (x1, y1)], fill=(230, 180, 70, 255), width=2 * S)
+    # pedestal
+    d.rectangle([cx - 10 * S, y1 - 14 * S, cx + 10 * S, y1], fill=(232, 228, 220, 255), outline=OUT)
+    d.rectangle([cx - 12 * S, y1 - 16 * S, cx + 12 * S, y1 - 13 * S], fill=(250, 248, 240, 255), outline=OUT)
+    d.rectangle([cx + 5 * S, y1 - 13 * S, cx + 10 * S, y1], fill=(190, 186, 180, 255))
+    trophy(d, cx, y1 - 16 * S, 34 * S, GOLD, "cup")
+    paste(img, a)
+    li = layer()
+    dl = ImageDraw.Draw(li)
+    dl.polygon([(cx - 6 * S, 0), (cx + 6 * S, 0), (cx + 30 * S, y1), (cx - 30 * S, y1)], fill=(255, 236, 180, 50))
+    paste(img, li, 3 * S)
+
+
+def cabinets(img):
+    """Glass display cabinets along both side walls, trophies shrinking with distance."""
+    c = layer()
+    d = ImageDraw.Draw(c)
+    bx0, by0, bx1, by1 = BACK
+    metals = [GOLD, SILVER, BRONZE]
+    for side in (-1, 1):
+        x_near, x_far = (2, bx0 - 4) if side < 0 else (238, bx1 + 4)
+        def at(t, y_front, y_back):                           # a point on the wall at depth t
+            x = x_near + (x_far - x_near) * t
+            y = y_front + (y_back - y_front) * t
+            return x * S, y * S
+        # cabinet body
+        d.polygon([at(0, 14, by0 + 6), at(1, by0 + 6, by0 + 6)[0:1] + (at(1, 14, by0 + 6)[1],),
+                   at(1, 150, by1 - 4), at(0, 150, by1 - 4)], fill=(40, 20, 22, 255))
+        # shelves and trophies, back to front so the near ones overlap
+        for ys_front, ys_back in ((52, 58), (92, 80), (132, 100)):
+            p0, p1 = at(0, ys_front, ys_back), at(1, ys_front, ys_back)
+            d.line([p0, p1], fill=(220, 190, 140, 255), width=max(1, int(1.5 * S)))
+            for k in range(6, 0, -1):
+                t = (k - 0.5) / 6
+                x, y = at(t, ys_front, ys_back)
+                scale = 1 - 0.6 * t
+                trophy(d, x, y, 22 * S * scale, metals[(k + int(ys_front)) % 3], "star" if k % 3 == 0 else "cup")
+        # glass: a pane tint and glints
+        pane = layer()
+        dp = ImageDraw.Draw(pane)
+        dp.polygon([at(0, 14, by0 + 6), at(1, by0 + 6, by0 + 6), at(1, 150, by1 - 4), at(0, 150, by1 - 4)],
+                   fill=(170, 210, 240, 34))
+        for k in range(3):
+            t = 0.15 + k * 0.28
+            xa, ya = at(t, 20, by0 + 8)
+            xb, yb = at(t + 0.12, 140, by1 - 6)
+            dp.line([(xa, ya), (xb, yb)], fill=(255, 255, 255, 90), width=2 * S)
+        c.alpha_composite(pane)
+        # the cabinet's frame
+        d = ImageDraw.Draw(c)
+        d.line([at(0, 14, by0 + 6), at(1, by0 + 6, by0 + 6)], fill=(200, 150, 80, 255), width=S)
+        d.line([at(0, 150, by1 - 4), at(1, by1 - 4, by1 - 4)], fill=(200, 150, 80, 255), width=S)
+    paste(img, c)
+
+
+def ceiling_lights(img):
+    l = layer()
+    d = ImageDraw.Draw(l)
+    for x, y, r in ((60, 10, 7), (120, 18, 6), (180, 10, 7)):
+        d.ellipse([(x - r) * S, (y - r * 0.4) * S, (x + r) * S, (y + r * 0.4) * S], fill=(255, 250, 220, 255))
+        d.polygon([((x - r) * S, y * S), ((x + r) * S, y * S), ((x + r * 4) * S, 160 * S), ((x - r * 4) * S, 160 * S)],
+                  fill=(255, 230, 170, 28))
+    paste(img, l, 2 * S)
+
+
+def side_curtains(img):
+    c = layer()
+    d = ImageDraw.Draw(c)
+    for side in (-1, 1):
+        x0 = 0 if side < 0 else W
+        for k in range(5):
+            xx = x0 - side * k * 3.5 * S
+            col = lerp((180, 22, 40), (120, 10, 26), k % 2)
+            d.rectangle([min(xx, xx - side * 3.5 * S), 0, max(xx, xx - side * 3.5 * S), (70 - k * 9) * S], fill=col + (255,))
+        d.ellipse([(x0 - side * 16 * S) - 3 * S, 64 * S, (x0 - side * 16 * S) + 3 * S, 70 * S], fill=(240, 196, 70, 255), outline=OUT)
+    paste(img, c)
+
+
 def paint_final():
     img = Image.new("RGBA", (W, H), (0, 0, 0, 255))
-    wall(img)
-    shelves(img)
-    curtains(img)
-    plates(img)
+    room(img)
+    alcove(img)
+    cabinets(img)
+    ceiling_lights(img)
+    side_curtains(img)
+    plates(img, (20, 8, 16, 95))
     plaque(img)
     return finish(img)
 
