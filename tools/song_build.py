@@ -13,7 +13,9 @@ plays once and stops, as for a fanfare), and TRACKS: one per part,
 each with a channel, a program (an instrument of the race tunes' set, vgroup0) and its
 bars. A bar is a string of events separated by spaces, each "NOTE:LEN" or "r:LEN"
 (rest) where NOTE is like C4, F#5, Bb3 (or a drum key number) and LEN is in
-sixteenths; several notes joined by "+" sound together. A drum bar can also be a
+sixteenths (NOTE:LEN:VEL gives a note its own velocity); several notes joined by "+"
+sound together. A track's "accent" shapes velocities by position in the bar, as
+Rare's parts do (strong on the beat, lighter off it). A drum bar can also be a
 16-step pattern per key, e.g. {36: "x...x...", 42: "xxxxxxxx..."}.
 
 The song format (see midi_commands in asm/src/audio/code/audio.S): per track, a stream
@@ -45,8 +47,17 @@ def key(s):
     return n + 12 * (int(s[i:]) + 1)
 
 
-def bar_events(bar, vel, gate):
-    """(tick, key, length, velocity) for one bar."""
+def accented(vel, step, amount, salt):
+    """Rare's parts breathe: strong on the beat, lighter off it, a little variation."""
+    if not amount:
+        return vel
+    v = vel + (amount if step % 4 == 0 else amount // 3 if step % 2 == 0 else -amount)
+    v += ((step * 7 + salt * 13) % 5 - 2) * max(1, amount // 4)
+    return max(30, min(127, v))
+
+
+def bar_events(bar, vel, gate, amount=0, salt=0):
+    """(tick, key, length, velocity) for one bar. A note is NOTE:LEN or NOTE:LEN:VELOCITY."""
     out = []
     if isinstance(bar, dict):                       # drum steps: x loud, o soft, . rest
         for k, steps in bar.items():
@@ -56,11 +67,12 @@ def bar_events(bar, vel, gate):
         return out
     t = 0
     for tok in bar.split():
-        name, ln = tok.split(":")
-        ln = int(ln) * SIXTEENTH
+        parts = tok.split(":")
+        name, ln = parts[0], int(parts[1]) * SIXTEENTH
+        v = int(parts[2]) if len(parts) > 2 else accented(vel, t // SIXTEENTH, amount, salt)
         if name != "r":
             for nm in name.split("+"):
-                out.append((t, key(nm), max(SIXTEENTH // 2, int(ln * gate)), vel))
+                out.append((t, key(nm), max(SIXTEENTH // 2, int(ln * gate)), v))
         t += ln
     if t not in (0, BAR):
         raise ValueError(f"bar is {t / SIXTEENTH:g} sixteenths, not 16: {bar}")
@@ -89,7 +101,8 @@ def build(d):
         for b, bar in enumerate(bars):
             if not bar:
                 continue
-            for t, k, ln, v in bar_events(bar, part.get("velocity", 100), part.get("gate", 0.85)):
+            for t, k, ln, v in bar_events(bar, part.get("velocity", 100), part.get("gate", 0.85),
+                                          part.get("accent", 0), b):
                 notes.append((b * BAR + t, k, ln, v))
                 ev.append((b * BAR + t, 5, bytes((5, ch, k, v))))
                 ev.append((b * BAR + t + ln, 4, bytes((6, ch, k, 0))))

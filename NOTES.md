@@ -190,6 +190,19 @@ Gold has story data.
   wide velocities (accents, ghost notes on hats); volume swells (CC 7) on pads.
 - The driver's controllers: 1, 7, 102/103 (loop), 126/127 (mono/poly); 8 voices with effects.
 
+**Rare's idiom, measured (tools/rare_idiom.py).** The owner heard our first tunes as "too
+Windows 95 chiptune-y": long held notes with vibrato and legato strings over busy
+sixteenth arpeggios. Rare's parts are the opposite: notes of 1-2 sixteenths in syncopated
+3+3+2 rhythms, each with its own velocity; chords as stabs (three-note program 30 hits,
+two-note program 18 jabs, on steps 0 2 6 7 9 10 12 in the menu tune); melodies doubled a
+third below on a second track of the same instrument (the beach tune's two pianos,
+program 1); little sustain (a short program 19 counter-line; the castle tune's quiet
+program 41 sixteenths); the kick on every beat at full velocity, a soft snare on the
+off-beats. Every tune of ours except the jungle theme was rewritten this way, each in the
+palette of the Rare tune nearest its mood: fanfares and the cup-won anthem in the menu
+tune's (18, 30, 19), RESULTS in the beach tune's pianos (1, 3), the runner-up in the castle
+tune's (7, 41, 27, 40), BEST TIMES in the bayou tune's, played softly (28, 30, 24).
+
 **Laying out a course** (`tools/course_build.py`, learned on Temple Tangle): a pylon's
 pass and strike tests are rays of unlimited length from the pylon, checked only by the
 racer's bearing. So a strike ray that points across another part of the course gives

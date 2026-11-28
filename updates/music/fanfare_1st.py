@@ -1,48 +1,31 @@
-"""Finish fanfare for 1st place (updates patch): an original fanfare, played once.
+"""Finish fanfare for 1st place (updates patch): an original fanfare.
 
-Written for this project from scratch, not an arrangement of any existing tune. C
-mixolydian at 160 bpm, four bars: a rising call on C, an answer over F, the climb
-over Bb (the bVII-I cadence of the build's race tunes) and a held C chord with a crash.
-Viola lead with a violin a third below, an organ chord pad, contrabass, march drums.
-Its motif is shared by the 2nd and 3rd place fanfares (fanfare_2nd.py, fanfare_3rd.py).
+Written for this project from scratch, not an arrangement of any existing tune, and played
+the way Rare's own tunes are (tools/rare_idiom.py, NOTES.md): here the menu tune's idiom,
+an organ lead (program 18) in short accented notes, three-note stabs (program 30) on the
+syncopated steps, a bass on the 3+3+2, the kit pumping. C major, 150 bpm, four bars inside the 6 s before the race hands over: a quick pickup into a proud call, an answer over F, the climb over Bb (the bVII-I of the build's race tunes) to C hit three times with a crash. Played once.
 
-Build: python3 tools/song_build.py updates/music/fanfare_1st.py [--midi f1.mid]
+Build: python3 tools/song_build.py updates/music/fanfare_1st.py [--midi fanfare_1st.mid]
 """
-import importlib.util
 import os
+import sys
 
-_spec = importlib.util.spec_from_file_location("_results", os.path.join(os.path.dirname(__file__), "results.py"))
-_r = importlib.util.module_from_spec(_spec)
-_spec.loader.exec_module(_r)
-MIXO = [0, 2, 4, 5, 7, 9, 10]                         # C mixolydian
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "tools"))
+from rare_idiom import MENU_STABS, RARE_KIT, RARE_KIT_FILL, hits, hits_bar  # noqa: E402
 
 NAME = "fanfare_1st"
-TEMPO = 160
+TEMPO = 150
 ONCE = True
 INTRO = []
-LOOP = ["C", "F", "Bb", "C"]
-
-LEAD = [
-    "G4:2 C5:2 E5:2 G5:2 C6:4 G5:2 C6:2",
-    "D6:2 C6:2 A5:2 C6:2 F6:4 C6:2 A5:2",
-    "Bb5:2 A5:2 Bb5:2 D6:2 F6:4 E6:2 D6:2",
-    "E6:12 r:4",
-]
-PAD = ["E4+G4:4 r:4 E4+G4:4 r:4", "F4+A4:4 r:4 F4+A4:4 r:4", "F4+Bb4:4 r:4 F4+D5:4 r:4", "E4+G4:12 r:4"]
-BASS = ["C2:4 G1:2 C2:2 C2:4 G2:4", "F1:4 C2:2 F1:2 F1:4 A1:4", "Bb1:4 F1:2 Bb1:2 Bb1:4 D2:4", "C2:12 r:4"]
-DRUMS = [
-    {36: "x.......x.......", 38: "....x..o....x.o.", 42: "o.o.o.o.o.o.o.o.", 57: "x..............."},
-    {36: "x.......x.......", 38: "....x..o....x.o.", 42: "o.o.o.o.o.o.o.o."},
-    {36: "x.......x.......", 38: "....x...xoxoxxxx", 43: "..........x.x..."},
-    {36: "x...............", 57: "x...............", 51: "....x..........."},
-]
+LOOP = ["C"] * 4
 
 TRACKS = [
-    {"channel": 0, "program": 41, "volume": 120, "velocity": 116, "gate": 0.9, "long": 6,
-     "vibrato": 52, "swell": 1400, "loop": LEAD},
-    {"channel": 5, "program": 40, "volume": 92, "velocity": 100, "gate": 0.9, "long": 6, "vibrato": 40,
-     "loop": [_r.third_below(b, MIXO) for b in LEAD]},
-    {"channel": 1, "program": 19, "volume": 70, "velocity": 92, "gate": 0.8, "loop": PAD},
-    {"channel": 3, "program": 43, "volume": 122, "velocity": 118, "gate": 0.8, "loop": BASS},
-    {"channel": 2, "program": 127, "volume": 104, "velocity": 106, "gate": 1.0, "loop": DRUMS},
+    {"channel": 0, "program": 18, "volume": 118, "velocity": 108, "gate": 0.8, "accent": 12,
+     "loop": ['G4:1 A4:1 B4:1 D5:1 C5:2 G4:1 C5:1 r:1 E5:2 G5:4 r:1', 'F5:2 E5:1 D5:1 r:1 F5:2 A5:1 r:1 A5:2 G5:1 F5:1 G5:3', 'Bb5:2 A5:1 G5:1 r:1 F5:2 G5:1 r:1 A5:2 B5:1 r:1 B5:2 D6:1', 'C6:3 r:3 C6:1 C6:1 C6:4 r:4']},
+    {"channel": 1, "program": 30, "volume": 96, "velocity": 110, "gate": 0.9,
+     "loop": [hits("E4+G4+C5", "....x.xx.xx.x..."), hits("F4+A4+C5", MENU_STABS), hits_bar(("F4+Bb4+D5", "x.x...xx"), ("G4+B4+D5", ".xx.x...")), hits("E4+G4+C5", "x.....xx........")]},
+    {"channel": 3, "program": 43, "volume": 120, "velocity": 116, "gate": 0.8,
+     "loop": ['r:4 C2:2:120 r:1 C2:1:100 G1:2:110 r:2 C2:2:118 r:2', 'F1:2:122 r:1 F1:2:100 r:1 C2:2:110 F1:2:118 r:2 C2:2:100 r:2', 'Bb1:2 r:1 Bb1:2 r:1 F1:2 G1:2 r:1 G1:2 r:1 D2:2', 'C2:3:124 r:3 C2:1:110 C2:1:116 C2:4:127 r:4']},
+    {"channel": 2, "program": 127, "volume": 100, "velocity": 104, "gate": 1.0,
+     "loop": [{36: "....x...x...x...", 38: "......o...o...o.", 42: "....xoooxoooxooo", 57: "....x..........."}, RARE_KIT, RARE_KIT_FILL, {36: "x.....xx........", 38: "......xx........", 57: "x..............."}]},
 ]

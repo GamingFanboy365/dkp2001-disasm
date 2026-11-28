@@ -1,30 +1,27 @@
-"""Finish jingle for 4th place (or retiring) (updates patch): an original, wry tune.
+"""Finish jingle for 4th place (updates patch): an original, good-natured "good try".
 
-Written for this project from scratch, not an arrangement of any existing tune, and not
-a variation of the podium fanfares: a good-natured "better luck next time". An
-accordion sighs down chromatically over a walking-down bass (C, B, Bb, A, Ab, G), its
-last note drooping with a pitch fall, then a cheeky two-note "ba-dum" on C. 132 bpm,
-three bars. Played once.
+Written for this project from scratch, not an arrangement of any existing tune, and not a
+variation of the podium fanfares. Played the way Rare's tunes are (tools/rare_idiom.py):
+here the castle tune's idiom, a clavinet (program 7) tumbling down in short notes over
+low strings (program 40) stepping down chromatically, then a cheeky two-note "ba-dum"
+on C. C major, 120 bpm, three bars. Played once.
 
-Build: python3 tools/song_build.py updates/music/fanfare_4th.py [--midi f4.mid]
+Build: python3 tools/song_build.py updates/music/fanfare_4th.py [--midi fanfare_4th.mid]
 """
 NAME = "fanfare_4th"
-TEMPO = 132
+TEMPO = 120
 ONCE = True
 INTRO = []
-LOOP = ["C", "Ab", "C"]
+LOOP = ["C", "G", "C"]
 
 TRACKS = [
-    {"channel": 0, "program": 23, "volume": 116, "velocity": 108, "gate": 0.9, "long": 6, "fall": 1800,
-     "loop": ["G5:4 F#5:4 F5:4 E5:4", "Eb5:4 D5:4 Db5:2 C5:6", "r:4 G4:1 r:1 C5:2 r:8"]},
-    {"channel": 1, "program": 24, "volume": 74, "velocity": 90, "gate": 0.5,
-     "loop": ["r:2 E4+G4:2 r:2 E4+G4:2 r:2 E4+G4:2 r:2 E4+G4:2",
-              "r:2 Eb4+Ab4:2 r:2 Eb4+Ab4:2 r:2 D4+G4:2 r:2 D4+G4:2",
-              "r:4 r:1 r:1 E4+G4:2 r:8"]},
-    {"channel": 3, "program": 32, "volume": 120, "velocity": 112, "gate": 0.8,
-     "loop": ["C2:4 B1:4 Bb1:4 A1:4", "Ab1:8 G1:8", "r:4 G1:1 r:1 C2:2 r:8"]},
+    {"channel": 0, "program": 7, "volume": 118, "velocity": 108, "gate": 0.7, "accent": 12,
+     "loop": ["E5:1 r:1 D5:1 r:1 C5:1 r:1 A4:1 r:1 G4:2 r:2 F#4:2 r:2", "F4:1 r:1 F4:1 E4:1 r:2 Eb4:1 r:1 D4:3 r:5",
+              "r:4 G4:1:100 r:1 C5:1:127 r:9"]},
+    {"channel": 1, "program": 40, "volume": 110, "velocity": 116, "gate": 0.8, "accent": 10,
+     "loop": ["C3:1 r:1 C3:1 r:1 B2:1 r:1 Bb2:1 r:1 A2:2 r:2 Ab2:2 r:2", "G2:1 r:1 G2:1 G2:1 r:2 G2:1 r:1 G2:3 r:5",
+              "r:4 G2:1:110 r:1 C3:1:127 r:9"]},
     {"channel": 2, "program": 127, "volume": 92, "velocity": 96, "gate": 1.0,
-     "loop": [{36: "x.......x.......", 42: "..o...o...o...o."},
-              {36: "x.......x.......", 42: "..o...o...o...o.", 38: "............o..."},
+     "loop": [{36: "x.......x.......", 42: "x.o.x.o.x.o.x.o."}, {36: "x.......x.......", 42: "x.o.x.o.x.o....."},
               {36: "....x...........", 38: "......x........."}]},
 ]
