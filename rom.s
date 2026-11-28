@@ -163,5 +163,8 @@
 	.include "updates/courses/temple_tangle_ground.s"	@ its ground (course_build.py --ground)
 	.include "updates/music/tune_list.s"	@ the song list with our tunes
 	.include "updates/music/jungle.s"	@ generated from jungle.py
+	.include "updates/music/results.s"
+	.include "updates/music/final_results.s"
+	.include "updates/music/final_results_runner_up.s"
 	.include "updates/courses/rare/rare_courses.s"	@ Rare's races without pylons (made at build time)
 	.endif

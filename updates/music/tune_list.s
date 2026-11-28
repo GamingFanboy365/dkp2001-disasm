@@ -14,3 +14,6 @@ tune_list_updates:
 	.word	three_haunted_tune_006		@ 5 haunted
 	.word	three_castle_tune_008		@ 6 castle
 	.word	jungle_tune			@ 7 jungle (updates/music/jungle.py)
+	.word	results_tune			@ 8 RESULTS (updates/music/results.py)
+	.word	final_results_tune		@ 9 FINAL RESULTS, cup won (final_results.py)
+	.word	final_runner_up_tune		@ 10 FINAL RESULTS, not won (final_results_runner_up.py)

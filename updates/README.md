@@ -42,6 +42,7 @@ This folder is kept separate so it's always clear what is theirs and what is our
 | `art/cup_results/` | The results backgrounds: `paint.py` paints them (no source images) into `race/` (RESULTS: a finish-line beach) and `final/` (FINAL RESULTS: a trophy room), with tiles, map and palette. |
 | `art/time_marks.bin` | The timer's ' and " marks (ours), drawn in the style of Rare's HUD digits. |
 | `code/cup.s` | Cups for Racing (four races, standings, final results) and the Clock Race return (`cups` in `FIXES.md`). |
+| `music/results.py`, `final_results.py`, `final_results_runner_up.py` | The results screens' tunes: RESULTS (reggae), FINAL RESULTS won (victory anthem) and not won (a gentler tune). |
 | `code/walls.s` | Invisible walls along a course's track (`course-walls` in `FIXES.md`). |
 | `code/dogfight.s` | Dog Fights (and K. Rool's Gold's fight): opponents that hunt the player, weapons for everyone, three lives each, the place indicator as a score, and the endings. See `dogfight-opponents` and `dogfight-scoring` in `FIXES.md`. |
 

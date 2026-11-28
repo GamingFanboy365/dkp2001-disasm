@@ -52,6 +52,9 @@
 	.equ	KEY_A, 1
 	.equ	KEY_START, 8
 	.equ	TUNE_MENU, 3
+	.equ	TUNE_RESULTS, 8			@ updates/music/tune_list.s
+	.equ	TUNE_FINAL_WON, 9
+	.equ	TUNE_FINAL_NOT_WON, 10
 	.equ	G_SPACE, 254
 	.equ	G_END, 255
 	.equ	G_DIGIT, 41			@ big font: digit d is glyph 41 + d
@@ -553,6 +556,19 @@ results_draw:
 	adds	r6, #1
 	cmp	r6, #3
 	ble	8b
+	@ the screen's music: RESULTS its own; FINAL RESULTS a victory anthem if the player
+	@ won the cup, else a gentler tune
+	movs	r0, #TUNE_RESULTS
+	ldrb	r1, [r4, #C_PHASE]
+	cmp	r1, #2
+	bne	21f
+	movs	r0, #TUNE_FINAL_WON
+	ldrb	r1, [r5, #0]			@ the cup's winner
+	cmp	r1, #0
+	beq	21f
+	movs	r0, #TUNE_FINAL_NOT_WON
+21:	ldr	r3, =audio_start_tune+1
+	bl	cup_bx_r3
 	pop	{r4, r5, r6, r7}
 	pop	{r0}
 	bx	r0
