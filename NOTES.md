@@ -223,7 +223,8 @@ The owner asked: no arrangement of existing DK music; every tune ours from scrat
   each race: the fanfare, the rankings, then the next course; after the fourth, the final
   results over a background of ours. The intro shows "RACE 1 OF 4", "RACE 2 OF 4",
   "RACE 3 OF 4", then "FINAL RACE" centred at the top in the course-name font, only in Racing mode. The lap on screen (done:
-  LAP 1, LAP 2, FINAL LAP at the bottom left, as the owner chose over 1/3 marks on the map). The
+  LAP 1, LAP 2, FINAL LAP; the owner chose text over 1/3 marks on the map; top left under the
+  timer, since the item box and banana counter use the bottom left). The
   rankings can reuse Rare's small racer icons (the menus' *small* character pictures, or the
   in-race *_head sprites), by reference.
 - **Cups (done, `updates/code/cup.s`)**: RESULTS after every race (that race's order, head, time,

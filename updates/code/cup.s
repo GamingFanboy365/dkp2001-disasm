@@ -798,7 +798,7 @@ head_palettes:
 @ an estimate for those still flying (time so far x checkpoints needed / passed), and
 @ the player's time drawn top left: Rare's small HUD digits (hud_digits) with our own
 @ ' and " marks, 1'23"45. Every race with laps (not dogfights or the attract demo):
-@ the player's lap at the bottom left, LAP 1, LAP 2, ... FINAL LAP, in our letters
+@ the player's lap at the top left under the timer, LAP 1, LAP 2, ... FINAL LAP, in our letters
 @ and the same digits; when the player finishes, a fanfare of ours for the place
 @ (tunes 11-14, played once). Called every race frame (fix_df_positions_far).
 	.equ	MON_LAPS, 85			@ laps to race
@@ -811,8 +811,8 @@ head_palettes:
 	.equ	TIMER_BANK, 14			@ OBJ palette bank (the race uses 0-10)
 
 	.equ	SYS_ATTRACT, 0x40		@ the attract demo
-	.equ	LAP_X, 6			@ the lap text: bottom left, above Rare's banana
-	.equ	LAP_Y, 122			@ counter (which slides up to y 140, x 44-70)
+	.equ	LAP_X, 6			@ the lap text: top left, under the timer (the bottom
+	.equ	LAP_Y, 22			@ left has Rare's item box and banana counter)
 	.equ	G_L, 12				@ load_glyphs: 0-9 digits, 10 ', 11 ", then L A P F I N
 	.equ	G_A, 13
 	.equ	G_P, 14
@@ -957,7 +957,7 @@ race_clock:
 	bx	r0
 
 @ draw_lap(OAM entry r0; r4 = CUP, r5 = monitor) -> r0 = the next OAM entry.
-@ The player's lap at the bottom left, just above the banana counter's row: LAP 1,
+@ The player's lap at the top left, under the timer: LAP 1,
 @ LAP 2, ... and FINAL LAP on the last, in our letters and Rare's digits. None in a
 @ one-lap race or once the player's laps are done.
 draw_lap:
