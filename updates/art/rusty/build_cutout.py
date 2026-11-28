@@ -15,8 +15,8 @@ writes, next to this script:
                                 its colours are indices 192-223 (sepia_pal.bin, 32 colours)
   cutout.png                    a look at both on the screen
 
-Where DK, Diddy (on his shoulders) and Cranky stand in front of that spot in the backdrop,
-Rusty is cut away (from their own cut-outs' shapes), so he stands behind them.
+Where DK's arm reaches in front of that spot in the backdrop, Rusty is cut away (from DK's
+own cut-out's shape), so his feet stand behind it; the rest of him shows whole.
 
 A piece record (12 bytes): position step y, x (signed, the first from the plot origin),
 attr0 high byte (shape, 256 colours), attr1 high byte (size), tile step (32-byte units),
@@ -101,9 +101,10 @@ def sign(layer, pole_x, pole_y):
 
 
 def gang_mask():
-    """Where the racers in front of Candy's spot stand (DK, Diddy on his shoulders, Cranky),
-    from their own select cut-outs (which match their figures in the backdrop exactly) at
-    their slots' plot origins: Rusty is cut away there, so he stands behind them."""
+    """Where DK's arm (his figure below y 118) reaches in front of Candy's spot, from his own
+    select cut-out (which matches his figure in the backdrop exactly) at his slot's plot
+    origin: Rusty is cut away there, so his feet stand behind it; the rest of him is whole
+    (owner's call)."""
     syms = {}
     for line in open(os.path.join(HERE, "..", "..", "..", "maps", "symbols.txt")):
         p = line.split()
@@ -111,7 +112,7 @@ def gang_mask():
             syms.setdefault(p[-1], int(p[0], 16))
     rom = open(os.path.join(HERE, "..", "..", "..", "baserom.gba"), "rb").read()
     mask = np.zeros((160, 240), bool)
-    for name, origin in (("clr_kong", (-7, -1)), ("clr_diddy", (-7, -1)), ("clr_cranky", (12, -4))):
+    for name, origin, below in (("clr_kong", (-7, -1), 118),):
         fr = syms[name + "_frames"] - 0x08000000
         ch, size, n, info = struct.unpack_from("<IHHI", rom, fr + 4)
         ch -= 0x08000000
@@ -128,7 +129,7 @@ def gang_mask():
                         for xx in range(8):
                             if rom[t + yy * 8 + xx]:
                                 sx, sy = x + tx * 8 + xx, y + ty * 8 + yy
-                                if 0 <= sx < 240 and 0 <= sy < 160:
+                                if 0 <= sx < 240 and below <= sy < 160:
                                     mask[sy, sx] = True
             tile += adv
     return mask
@@ -141,7 +142,7 @@ def to_screen(layer):
     rgb = np.clip(a[..., :3] / np.maximum(a[..., 3:4] / 255.0, 1e-3), 0, 255)
     edge = mask & ~(np.roll(mask, 1, 0) & np.roll(mask, -1, 0) & np.roll(mask, 1, 1) & np.roll(mask, -1, 1))
     rgb[edge] *= 0.5
-    mask &= ~gang_mask()                                    # behind DK, Diddy and Cranky
+    mask &= ~gang_mask()                                    # his feet behind DK's arm
     return rgb, without_slivers(mask)
 
 
