@@ -160,6 +160,15 @@ L_0800736a:
 	.ifdef FIXES
 fix_assert_L_08007386:
 	b	L_08007386	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.ifdef UPDATES
+	@ FIX "racer-names": trampoline to the end of the ROM (the character select's name)
+	.balign 4
+fix_charsel_text:
+	ldr	r3, 1f
+	bx	r3
+	.balign 4
+1:	.word	fix_charsel_text_far+1
+	.endif
 	.fill 18 - (. - fix_assert_L_08007386), 1, 0	@ same size as the original block
 	.else
 	ldr	r0, _080073a4	@ =D_0806f1e0

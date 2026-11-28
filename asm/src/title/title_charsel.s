@@ -7,7 +7,11 @@ char_select:  @ 08003c58
 	push	{lr}
 	bl animate_char
 	bl animate_arrow
+	.ifdef UPDATES
+	bl	fix_charsel_text	@ FIX "racer-names": the racer's name first (in front), then the cut-out (updates/code/racers.s)
+	.else
 	bl plot_char
+	.endif
 	bl plot_arrow
 	movs	r0, #6
 	bl get_text

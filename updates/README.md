@@ -44,6 +44,7 @@ This folder is kept separate so it's always clear what is theirs and what is our
 | `art/lap_marks.py` (`.bin`) | The lap text's letters L A P F I N (ours), in the same style: LAP 1, LAP 2, FINAL LAP. |
 | `code/cup.s` | Cups for Racing (four races, standings, final results) and the Clock Race return (`cups` in `FIXES.md`). |
 | `code/best.s` | Clock Race best times: the save, the BEST TIMES chart, the course list's BEST TIME line (`best-times` in `FIXES.md`). |
+| `code/racers.s` | Racer names on the character select, and Rusty, the seventh racer (`racer-names` in `FIXES.md`). |
 | `music/results.py`, `final_results.py`, `final_results_runner_up.py` | The results screens' tunes: RESULTS (reggae), FINAL RESULTS won (victory anthem) and not won (a gentler tune). |
 | `music/fanfare_1st.py` ... `fanfare_4th.py` | The finish fanfares (played once): 1st; 2nd and 3rd, variations of it; 4th (or retiring), a different tune. |
 | `music/best_times.py` | The BEST TIMES chart's tune: a chill jungle reggae. |
