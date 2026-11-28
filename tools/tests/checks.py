@@ -71,11 +71,17 @@ def course_names(rom):
     b = open(rom, "rb").read()
     table = SYMS["select_strings"] - 0x08000000
     base = os.path.join(ROOT, "baserom.gba")
-    if os.path.exists(base):                 # the table may have moved in a patched build:
-        key = open(base, "rb").read()[table + 4:table + 16]   # find it by entries 2-4
-        i = b.find(key)
-        if i >= 0:
-            table = i - 4
+    if os.path.exists(base):                 # the table and its strings may have moved in a
+        bb = open(base, "rb").read()         # patched build: find level 2's name, then the
+        p = struct.unpack_from("<I", bb, table + 4)[0] - 0x08000000     # entry pointing to it
+        name = bb[p:bb.index(b"\0", p) + 1]
+        at = b.find(name)
+        while at >= 0:
+            i = b.find(struct.pack("<I", 0x08000000 + at))
+            if i >= 4 and i % 4 == 0:
+                table = i - 4
+                break
+            at = b.find(name, at + 1)
     out = {}
     for lv in range(1, 42):
         p = struct.unpack_from("<I", b, table + 4 * (lv - 1))[0] - 0x08000000

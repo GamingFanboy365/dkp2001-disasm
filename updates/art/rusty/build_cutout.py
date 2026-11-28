@@ -36,9 +36,9 @@ import model  # noqa: E402
 
 VIEW = (10, 180)                             # facing straight out, from a little above
 OVER = 8                                     # render at 8x the screen
-FEET = (69, 143)                             # where his feet stand on the screen
+FEET = (66, 143)                             # where his feet stand on the screen
 PX_PER_UNIT = 10.4
-BOARD = (68, 45, 46, 21)                     # sign centre x, y, width, height (screen px)
+BOARD = (65, 45, 46, 21)                     # sign centre x, y, width, height (screen px)
 ORIGIN = (-7, -1)                            # the select's plot origin for this slot (fix_char_offset)
 SEPIA = [(96, 48, 16), (112, 64, 24), (120, 72, 24), (128, 80, 32), (136, 88, 40), (144, 96, 48),
          (152, 104, 48), (160, 112, 56), (160, 120, 64), (168, 128, 72), (176, 136, 80), (184, 144, 88),
