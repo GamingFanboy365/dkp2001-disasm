@@ -152,6 +152,7 @@ text_places:	.byte	G_DIGIT + 1, 18, 19, G_END				@ 1ST
 		.byte	G_DIGIT + 2, 13, 3, G_END				@ 2ND
 		.byte	G_DIGIT + 3, 17, 3, G_END				@ 3RD
 		.byte	G_DIGIT + 4, 19, 7, G_END				@ 4TH
+		.byte	G_DIGIT + 5, 19, 7, G_END				@ 5TH (best times)
 race_points:	.byte	10, 6, 3, 1						@ points for 1st-4th (ours)
 	.balign 2
 
@@ -278,9 +279,33 @@ cup_race_over_far:
 	ldr	r1, =sys_mode
 	str	r0, [r1, #0]
 	b	9f
-5:	@ Clock Race: back to the course list where the course was picked
+5:	@ Clock Race: the player finished (or retired): the course's best times
+	@ (updates/code/best.s); quit: straight back to the course list
+	ldrb	r0, [r4, #C_FANFARE]
+	cmp	r0, #0
+	beq	6f
+	bl	best_start
+	b	9f
+6:	bl	clock_return
+	b	9f
+7:	movs	r0, #0
+	str	r0, [r4, #C_MAGIC]
+8:	ldr	r3, =init_title+1
+	bl	cup_bx_r3
+9:	pop	{r4}
+	pop	{r0}
+	bx	r0
+	.ltorg
+
+@ Clock Race: back to the course list where the course was picked.
+clock_return:
+	push	{r4, lr}
+	ldr	r4, =CUP
 	movs	r0, #0xff
 	strb	r0, [r4, #C_MODE]
+	ldr	r1, =sys_oam_start
+	movs	r0, #0
+	strh	r0, [r1, #0]
 	ldr	r3, =menu_main_init+1
 	bl	cup_bx_r3
 	ldrh	r1, [r4, #C_LEVEL]
@@ -292,12 +317,7 @@ cup_race_over_far:
 	movs	r0, #TUNE_MENU
 	ldr	r3, =audio_start_tune+1
 	bl	cup_bx_r3
-	b	9f
-7:	movs	r0, #0
-	str	r0, [r4, #C_MAGIC]
-8:	ldr	r3, =init_title+1
-	bl	cup_bx_r3
-9:	pop	{r4}
+	pop	{r4}
 	pop	{r0}
 	bx	r0
 	.ltorg
@@ -388,42 +408,7 @@ cup_results:
 @ Set up the screen and draw the standings (r4 = CUP).
 results_draw:
 	push	{r4, r5, r6, r7, lr}
-	@ sprites only, no fade, a plain backdrop; the game's sprites kept off the OAM
-	ldr	r0, =0x04000000
-	ldr	r1, =0x1040			@ mode 0, OBJ on, 1D tiles
-	strh	r1, [r0, #0]
-	ldr	r0, =0x04000050
-	movs	r1, #0
-	strh	r1, [r0, #0]			@ BLDCNT
-	strh	r1, [r0, #4]			@ BLDY
-	ldr	r0, =0x05000000
-	ldr	r1, =RESULTS_BACKDROP
-	strh	r1, [r0, #0]
-	ldr	r0, =sys_oam_start
-	movs	r1, #128
-	strh	r1, [r0, #0]
-	ldr	r0, =0x07000000			@ every sprite hidden
-	movs	r1, #2
-	lsls	r1, r1, #8			@ attr0 0x200
-	movs	r2, #128
-1:	strh	r1, [r0, #0]
-	adds	r0, #8
-	subs	r2, #1
-	bne	1b
-	ldr	r1, =OAM_PTR
-	ldr	r0, =0x07000000
-	str	r0, [r1, #0]
-	ldr	r1, =OBJVRAM_PTR
-	ldr	r0, =0x06016000
-	str	r0, [r1, #0]
-	ldr	r0, =__ptr_init_big_font
-	ldr	r1, [r0, #0]
-	movs	r0, #15
-	bl	cup_bx_r1
-	ldr	r0, =0x06011000			@ the time glyphs (the heads are below)
-	movs	r1, #5
-	movs	r2, #128
-	bl	load_glyphs
+	bl	screen_setup
 	@ our background behind everything (RESULTS: the beach; FINAL RESULTS: the trophy
 	@ room), then the title
 	ldrb	r0, [r4, #C_PHASE]
@@ -577,6 +562,51 @@ results_draw:
 	bx	r0
 cup_bx_r1:
 	bx	r1
+	.ltorg
+
+@ Our screens (results, best times): sprites only, no fade, a plain backdrop, every
+@ sprite hidden, Rare's big font (bank 15) and the time glyphs (tile 128, bank 5).
+screen_setup:
+	push	{r4, lr}
+	@ sprites only, no fade, a plain backdrop; the game's sprites kept off the OAM
+	ldr	r0, =0x04000000
+	ldr	r1, =0x1040			@ mode 0, OBJ on, 1D tiles
+	strh	r1, [r0, #0]
+	ldr	r0, =0x04000050
+	movs	r1, #0
+	strh	r1, [r0, #0]			@ BLDCNT
+	strh	r1, [r0, #4]			@ BLDY
+	ldr	r0, =0x05000000
+	ldr	r1, =RESULTS_BACKDROP
+	strh	r1, [r0, #0]
+	ldr	r0, =sys_oam_start
+	movs	r1, #128
+	strh	r1, [r0, #0]
+	ldr	r0, =0x07000000			@ every sprite hidden
+	movs	r1, #2
+	lsls	r1, r1, #8			@ attr0 0x200
+	movs	r2, #128
+1:	strh	r1, [r0, #0]
+	adds	r0, #8
+	subs	r2, #1
+	bne	1b
+	ldr	r1, =OAM_PTR
+	ldr	r0, =0x07000000
+	str	r0, [r1, #0]
+	ldr	r1, =OBJVRAM_PTR
+	ldr	r0, =0x06016000
+	str	r0, [r1, #0]
+	ldr	r0, =__ptr_init_big_font
+	ldr	r1, [r0, #0]
+	movs	r0, #15
+	bl	cup_bx_r1
+	ldr	r0, =0x06011000			@ the time glyphs (the heads are below)
+	movs	r1, #5
+	movs	r2, #128
+	bl	load_glyphs
+	pop	{r4}
+	pop	{r0}
+	bx	r0
 	.ltorg
 
 @ A results background (r0: 0 the race's, 1 the cup's) on BG0, under the sprites:
@@ -1098,8 +1128,20 @@ draw_time:
 	adds	r5, r1, #0
 	adds	r6, r2, #0
 	adds	r7, r3, #0
-	bl	time_glyphs
-	ldr	r4, =CUP
+	ldr	r1, =EMPTY_TIME
+	cmp	r0, r1
+	bne	4f
+	ldr	r0, =CUP + C_DIGITS		@ none: -'--"--
+	adr	r1, empty_time_glyphs
+	movs	r2, #0
+5:	ldrb	r3, [r1, r2]
+	strb	r3, [r0, r2]
+	adds	r2, #1
+	cmp	r2, #7
+	blt	5b
+	b	6f
+4:	bl	time_glyphs
+6:	ldr	r4, =CUP
 	movs	r3, #0
 1:	adds	r0, r4, #0
 	adds	r0, #C_DIGITS
@@ -1124,6 +1166,8 @@ draw_time:
 	adds	r5, #8				@ digits 8 apart, the marks 5
 	cmp	r0, #20
 	blt	2f
+	cmp	r0, #22
+	bgt	2f
 	subs	r5, #3
 2:	adds	r3, #1
 	cmp	r3, #6
@@ -1133,6 +1177,12 @@ draw_time:
 	pop	{r1}
 	bx	r1
 	.ltorg
+
+	.balign 4
+empty_time_glyphs:
+	.byte	G_DASH, 10, G_DASH, G_DASH, 11, G_DASH, G_DASH, 0
+	.equ	EMPTY_TIME, 0xffffff		@ no time (a best-times slot not yet set)
+	.equ	G_DASH, 18			@ load_glyphs: our dash
 
 @ load_glyphs(VRAM r0, palette bank r1, first tile r2): Rare's hud_digits 0-9 (decoded
 @ from the sprite, as spr_update_vram) then our ' and ", 2 tiles each; the HUD
@@ -1190,9 +1240,9 @@ load_glyphs:
 6:	adds	r5, #1
 	cmp	r5, #9
 	ble	2b
-	ldr	r1, =time_marks			@ our ' and ", then our letters L A P F I N
+	ldr	r1, =time_marks			@ our ' and ", then our letters L A P F I N and -
 	movs	r2, #0
-	movs	r0, #(128 + 384) >> 2
+	movs	r0, #(128 + 448) >> 2		@ ' " L A P F I N -
 	lsls	r0, r0, #2
 8:	ldrh	r3, [r1, r2]
 	strh	r3, [r7, r2]
@@ -1209,6 +1259,7 @@ load_glyphs:
 @ Rare's digits are drawn: yellow (13), a red top-left edge (10), black lower-right (1).
 time_marks:
 	.incbin	"updates/art/time_marks.bin"
-@ Our lap letters L A P F I N (updates/art/lap_marks.py), straight after: glyphs 12-17.
+@ Our lap letters L A P F I N and a dash (updates/art/lap_marks.py), straight after:
+@ glyphs 12-18.
 	.incbin	"updates/art/lap_marks.bin"
 	.balign 4

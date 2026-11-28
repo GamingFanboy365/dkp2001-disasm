@@ -8,7 +8,8 @@
  * KEY is one of A B SELECT START RIGHT LEFT UP DOWN R L. HOLD defaults to 6
  * frames. With --ppm, each checkpoint is also written to PREFIX_<frame>.ppm.
  * With RAM_OUT=path in the environment, EWRAM (256 KiB) then IWRAM (32 KiB)
- * (and with RAM_VIDEO set, then palette RAM, VRAM and OAM)
+ * (and with RAM_VIDEO set, then palette RAM, VRAM and OAM; with RAM_SRAM, then the
+ * first 64 KB of save RAM)
  * are written there after the last frame. With AUDIO_OUT=path.wav the sound
  * output is recorded (from frame AUDIO_FROM, default 1) as a stereo WAV.
  * POKE="FRAME:ADDR=VALUE,FRAME:ADDR|VALUE,..." writes (=) or ORs (|) a 32-bit
@@ -237,6 +238,9 @@ int main(int argc, char** argv) {
 				for (uint32_t a = 0x05000000; a < 0x05000400; a += 4) { uint32_t v = core->busRead32(core, a); fwrite(&v, 4, 1, f); }
 				for (uint32_t a = 0x06000000; a < 0x06018000; a += 4) { uint32_t v = core->busRead32(core, a); fwrite(&v, 4, 1, f); }
 				for (uint32_t a = 0x07000000; a < 0x07000400; a += 4) { uint32_t v = core->busRead32(core, a); fwrite(&v, 4, 1, f); }
+			}
+			if (getenv("RAM_SRAM")) { /* then the first 64 KB of save RAM, a byte at a time */
+				for (uint32_t a = 0x0e000000; a < 0x0e010000; a++) { uint8_t v = core->busRead8(core, a); fwrite(&v, 1, 1, f); }
 			}
 			fclose(f);
 		}

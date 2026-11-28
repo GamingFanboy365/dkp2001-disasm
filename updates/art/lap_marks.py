@@ -1,12 +1,13 @@
-"""Our lap letters (updates patch): L A P F I N, drawn for this project.
+"""Our lap letters (updates patch): L A P F I N and a dash, drawn for this project.
 
 With Rare's HUD digits (__spr_hud_digits, used by reference) they make the lap text
-shown at the bottom left in a race: LAP 1, LAP 2, ... and FINAL LAP on the last lap.
+shown at the bottom left in a race: LAP 1, LAP 2, ... and FINAL LAP on the last lap;
+the dash fills an empty time on the Clock Race best-times chart (-'--"--).
 8x16 each, 4bpp, in the HUD palette (__pal_hud_icons) and drawn the way Rare's digits
 are: yellow (13) strokes two pixels wide, a red top-left edge (10) and a black
 lower-right shadow (1).
 
-    python3 updates/art/lap_marks.py [--png OUT]  -> updates/art/lap_marks.bin (6 glyphs)
+    python3 updates/art/lap_marks.py [--png OUT]  -> updates/art/lap_marks.bin (7 glyphs)
 """
 import os
 import sys
@@ -120,8 +121,26 @@ GLYPHS = {
         ".11..11.",
         "........",
     ],
+    "-": [
+        "........",
+        "........",
+        "........",
+        "........",
+        "........",
+        "........",
+        ".aaaaa..",
+        "addddd1.",
+        "addddd1.",
+        ".11111..",
+        "........",
+        "........",
+        "........",
+        "........",
+        "........",
+        "........",
+    ],
 }
-ORDER = "LAPFIN"                      # glyphs 12-17 after the timer's digits and marks
+ORDER = "LAPFIN-"                     # glyphs 12-18 after the timer's digits and marks
 
 
 def tiles(rows):

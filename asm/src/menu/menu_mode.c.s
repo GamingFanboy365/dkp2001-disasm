@@ -1065,7 +1065,11 @@ L_0801410e:
 @ src/menu/menu_mode.c:321
 	bl menu_image_draw
 @ src/menu/menu_mode.c:322
+	.ifdef UPDATES
+	bl	fix_best_menu	@ FIX "best-times": the coin, then the BEST TIME line (updates/code/best.s)
+	.else
 	bl menu_coin_draw
+	.endif
 @ src/menu/menu_mode.c:323
 	pop	{r4}
 	pop	{r0}
@@ -1092,7 +1096,11 @@ menu_mode_kill:  @ 08014134
 @ src/menu/menu_mode.c:330
 	bl menu_image_kill
 @ src/menu/menu_mode.c:331
+	.ifdef UPDATES
+	bl	fix_best_menu_kill	@ FIX "best-times": the coin, then the BEST TIME line goes
+	.else
 	bl menu_coin_kill
+	.endif
 @ src/menu/menu_mode.c:332
 	pop	{r0}
 	bx	r0

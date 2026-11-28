@@ -643,6 +643,15 @@ L_080126de:
 	.ifdef FIXES
 fix_assert_L_080126f4:
 	b	L_080126f4	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.ifdef UPDATES
+	@ FIX "best-times": trampoline to the end of the ROM (the Clock Race list's BEST TIME line)
+	.balign 4
+fix_best_menu:
+	ldr	r3, 1f
+	bx	r3
+	.balign 4
+1:	.word	best_menu_far+1
+	.endif
 	.fill 18 - (. - fix_assert_L_080126f4), 1, 0	@ same size as the original block
 	.else
 	ldr	r0, _0801276c	@ =D_080704e0
@@ -685,6 +694,15 @@ L_08012712:
 	.ifdef FIXES
 fix_assert_L_08012730:
 	b	L_08012730	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.ifdef UPDATES
+	@ FIX "best-times": trampoline to the end of the ROM (and its removal)
+	.balign 4
+fix_best_menu_kill:
+	ldr	r3, 1f
+	bx	r3
+	.balign 4
+1:	.word	best_menu_kill_far+1
+	.endif
 	.fill 18 - (. - fix_assert_L_08012730), 1, 0	@ same size as the original block
 	.else
 	ldr	r0, _0801276c	@ =D_080704e0
