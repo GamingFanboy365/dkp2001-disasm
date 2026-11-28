@@ -75,7 +75,8 @@ def course_names(rom):
         bb = open(base, "rb").read()         # patched build: find level 2's name, then the
         p = struct.unpack_from("<I", bb, table + 4)[0] - 0x08000000     # entry pointing to it
         name = bb[p:bb.index(b"\0", p) + 1]
-        at = b.find(name)
+        q = struct.unpack_from("<I", b, table + 4)[0] - 0x08000000
+        at = -1 if 0 <= q < len(b) and b[q:q + len(name)] == name else b.find(name)
         while at >= 0:
             i = b.find(struct.pack("<I", 0x08000000 + at))
             if i >= 4 and i % 4 == 0:
