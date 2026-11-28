@@ -292,8 +292,12 @@ L_0800666e:
 	cmp	r0, #0
 	beq L_08006700
 	ldr	r0, [r5, #0]
+	.ifdef UPDATES
+	bl	fix_banner25	@ FIX "cups": Farm Attract gets its name banner too, but not in the attract demo
+	.else
 	cmp	r0, #25
 	beq L_08006700
+	.endif
 @ src/game.c:160
 	add	r4, sp, #4
 	adds	r1, r4, #0

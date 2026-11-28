@@ -72,7 +72,19 @@ cup_plot_name_far:
 	ldr	r4, =CUP
 	ldrb	r0, [r4, #C_NEXT]
 	cmp	r0, #0
-	bne	2f
+	beq	4f
+	ldr	r0, [r4, #C_MAGIC]		@ continuing a cup: only a live one, in Racing
+	ldr	r1, =CUP_MAGIC
+	cmp	r0, r1
+	bne	4f
+	ldrb	r0, [r4, #C_MODE]
+	cmp	r0, #MODE_RACING
+	bne	4f
+	ldr	r0, =current_mode
+	ldr	r0, [r0, #0]
+	cmp	r0, #MODE_RACING
+	beq	2f
+4:
 	@ a race picked from the menus: start afresh
 	ldr	r0, =CUP_MAGIC
 	str	r0, [r4, #C_MAGIC]
@@ -128,6 +140,24 @@ cup_plot_name_far:
 9:	pop	{r4, r5}
 	pop	{r0}
 	bx	r0
+
+@ In place of game_init's `cmp r0, #25; beq L_08006700` (r0 = game_level): Rare skips
+@ the course-name banner for level 25 (Farm Attract, also the attract demo's course), so
+@ a cup reaching it never saw its race. Updates: the banner (and the cup's hook) for
+@ Farm Attract too, except in the attract demo.
+	.thumb_func
+fix_banner25_far:				@ keeps r0 (game_init passes it on)
+	cmp	r0, #25
+	bne	1f
+	ldr	r1, =sys_flags
+	ldr	r1, [r1, #0]
+	movs	r2, #0x40			@ the attract demo: no banner, as before
+	tst	r1, r2
+	beq	1f
+	ldr	r1, =L_08006700+1
+	bx	r1
+1:	bx	lr
+	.ltorg
 
 @ r0 text, r1 centre x, r2 top y: plot_big_text through its pointer
 cup_plot:
@@ -290,7 +320,9 @@ cup_race_over_far:
 	b	9f
 7:	movs	r0, #0
 	str	r0, [r4, #C_MAGIC]
-8:	ldr	r3, =init_title+1
+8:	movs	r0, #0				@ no cup carries on from here
+	strb	r0, [r4, #C_NEXT]
+	ldr	r3, =init_title+1
 	bl	cup_bx_r3
 9:	pop	{r4}
 	pop	{r0}
@@ -783,6 +815,7 @@ draw_head:
 results_backgrounds:				@ updates/art/cup_results/paint.py
 	.word	cup_race_tiles, cup_race_tiles_end, cup_race_map, cup_race_palette
 	.word	cup_final_tiles, cup_final_tiles_end, cup_final_map, cup_final_palette
+	.word	cup_best_tiles, cup_best_tiles_end, cup_best_map, cup_best_palette	@ 2: BEST TIMES
 @ by game character (0 Cranky, 1 Diddy, 2 Krunch, 3 K. Rool, 4 Dixie, 5 Kong), as
 @ get_player_head picks them
 head_sprites:

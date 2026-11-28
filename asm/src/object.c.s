@@ -131,6 +131,15 @@ obj_remove_process:  @ 08007350
 	.ifdef FIXES
 fix_assert_L_0800736a:
 	b	L_0800736a	@ FIX "asserts": skip the failed-assert print and trap, carry on
+	.ifdef UPDATES
+	@ FIX "cups": trampoline to the end of the ROM (game_init's Farm Attract banner)
+	.balign 4
+fix_banner25:
+	ldr	r3, 1f
+	bx	r3
+	.balign 4
+1:	.word	fix_banner25_far+1
+	.endif
 	.fill 18 - (. - fix_assert_L_0800736a), 1, 0	@ same size as the original block
 	.else
 	ldr	r0, _080073a4	@ =D_0806f1e0
